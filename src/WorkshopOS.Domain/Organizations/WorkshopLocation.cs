@@ -2,7 +2,7 @@ using WorkshopOS.Domain.Common;
 
 namespace WorkshopOS.Domain.Organizations;
 
-public class WorkshopLocation : OrganizationOwnedEntity
+public class WorkshopLocation : OrganizationOwnedEntity, IHasTimestamps
 {
     public string Name { get; private set; } = string.Empty;
 

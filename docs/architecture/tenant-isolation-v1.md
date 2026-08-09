@@ -54,28 +54,34 @@ Rationale:
 
 Implicit tenant inheritance through parent foreign keys alone is **not** sufficient.
 
-## Cross-tenant relationship prevention (planned)
+## Cross-tenant relationship prevention
 
-Persistence will evaluate composite integrity so that, for example:
+The `InitialCreate` migration generated in STEP 03 models composite foreign keys so that, for example:
 
 ```text
 RepairOrder.OrganizationId = Organization A
 RepairOrder.VehicleId      = vehicle belonging to Organization B
 ```
 
-cannot be persisted.
+cannot be represented in the generated schema.
 
-Target constraint pattern:
+Constraint pattern:
 
 ```text
 OrganizationId + EntityId
 ```
 
-Composite foreign keys and indexes will be designed in the persistence step. They are **not** implemented in v1 domain code.
+Composite foreign keys and alternate keys `(OrganizationId, Id)` are **implemented in the EF model** and **generated in the InitialCreate migration**.
 
-## Global query filters (planned)
+Integration tests in `tests/WorkshopOS.Infrastructure.IntegrationTests/` are prepared to verify `OrganizationFilter` behavior and composite cross-tenant FK rejection against isolated local PostgreSQL (`workshopos_test`). **PostgreSQL proof is pending** until isolated databases are provisioned with local admin access.
 
-EF Core global query filters scoped by `OrganizationId` will be applied in a future persistence layer. They supplement — but do not replace — authorization and service-level checks.
+## Global query filters
+
+EF Core named global query filter `OrganizationFilter` is **implemented** on all organization-owned operational entities in `AppDbContext`.
+
+Filters supplement — but do not replace — authorization and service-level checks.
+
+Access to the `Organization` root entity is **not** filtered at the EF layer in v1; tenant-facing organization access will be constrained by application authorization in a future step.
 
 ## Platform data boundary
 

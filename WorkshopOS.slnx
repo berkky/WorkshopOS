@@ -1,6 +1,10 @@
 <Solution>
   <Folder Name="/src/">
     <Project Path="src/WorkshopOS.Domain/WorkshopOS.Domain.csproj" />
+    <Project Path="src/WorkshopOS.Infrastructure/WorkshopOS.Infrastructure.csproj" />
     <Project Path="src/WorkshopOS.Web/WorkshopOS.Web.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/WorkshopOS.Infrastructure.IntegrationTests/WorkshopOS.Infrastructure.IntegrationTests.csproj" />
   </Folder>
 </Solution>

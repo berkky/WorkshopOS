@@ -2,7 +2,7 @@ using WorkshopOS.Domain.Common;
 
 namespace WorkshopOS.Domain.RepairOrders;
 
-public class RepairOrder : OrganizationOwnedEntity
+public class RepairOrder : OrganizationOwnedEntity, IHasTimestamps
 {
     public Guid WorkshopLocationId { get; private set; }
 

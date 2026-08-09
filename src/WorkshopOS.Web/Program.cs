@@ -1,6 +1,22 @@
+using Microsoft.EntityFrameworkCore;
+using WorkshopOS.Infrastructure.Persistence;
+using WorkshopOS.Infrastructure.Tenancy;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+var workshopOsConnectionString = builder.Configuration.GetConnectionString("WorkshopOS");
+if (string.IsNullOrWhiteSpace(workshopOsConnectionString))
+{
+    throw new InvalidOperationException(
+        "Connection string 'WorkshopOS' is not configured. Set ConnectionStrings:WorkshopOS via User Secrets for local development.");
+}
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(workshopOsConnectionString));
+
+builder.Services.AddScoped<IOrganizationContext, UnresolvedOrganizationContext>();
+builder.Services.AddSingleton(TimeProvider.System);
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

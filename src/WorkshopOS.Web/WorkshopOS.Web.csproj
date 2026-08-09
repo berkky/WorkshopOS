@@ -8,15 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.10">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.3" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\WorkshopOS.Domain\WorkshopOS.Domain.csproj" />
+    <ProjectReference Include="..\WorkshopOS.Infrastructure\WorkshopOS.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

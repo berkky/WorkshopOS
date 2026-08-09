@@ -2,7 +2,7 @@ using WorkshopOS.Domain.Common;
 
 namespace WorkshopOS.Domain.Vehicles;
 
-public class Vehicle : OrganizationOwnedEntity
+public class Vehicle : OrganizationOwnedEntity, IHasTimestamps
 {
     public Guid? CurrentCustomerId { get; private set; }
 

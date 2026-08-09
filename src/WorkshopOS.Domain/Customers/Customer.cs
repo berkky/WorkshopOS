@@ -2,7 +2,7 @@ using WorkshopOS.Domain.Common;
 
 namespace WorkshopOS.Domain.Customers;
 
-public class Customer : OrganizationOwnedEntity
+public class Customer : OrganizationOwnedEntity, IHasTimestamps
 {
     public string DisplayName { get; private set; } = string.Empty;
 

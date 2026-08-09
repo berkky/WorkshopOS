@@ -2,7 +2,7 @@ using WorkshopOS.Domain.Common;
 
 namespace WorkshopOS.Domain.Appointments;
 
-public class Appointment : OrganizationOwnedEntity
+public class Appointment : OrganizationOwnedEntity, IHasTimestamps
 {
     public Guid WorkshopLocationId { get; private set; }
 

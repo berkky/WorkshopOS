@@ -2,7 +2,7 @@ using WorkshopOS.Domain.Common;
 
 namespace WorkshopOS.Domain.Inspections;
 
-public class Inspection : OrganizationOwnedEntity
+public class Inspection : OrganizationOwnedEntity, IHasTimestamps
 {
     public Guid RepairOrderId { get; private set; }
 

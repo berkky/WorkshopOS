@@ -2,7 +2,7 @@ using WorkshopOS.Domain.Common;
 
 namespace WorkshopOS.Domain.Estimates;
 
-public class EstimateItem : OrganizationOwnedEntity
+public class EstimateItem : OrganizationOwnedEntity, IHasTimestamps
 {
     public Guid EstimateId { get; private set; }
 
