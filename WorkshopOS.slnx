@@ -1,0 +1,6 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/WorkshopOS.Domain/WorkshopOS.Domain.csproj" />
+    <Project Path="src/WorkshopOS.Web/WorkshopOS.Web.csproj" />
+  </Folder>
+</Solution>
