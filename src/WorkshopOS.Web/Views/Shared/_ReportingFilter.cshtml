@@ -1,0 +1,60 @@
+@model WorkshopOS.Web.Models.Reporting.ReportingFilterViewModel
+@{
+    var routeValues = new Dictionary<string, string?>();
+    if (Model.From.HasValue)
+    {
+        routeValues["from"] = Model.From.Value.ToString("yyyy-MM-dd");
+    }
+
+    if (Model.To.HasValue)
+    {
+        routeValues["to"] = Model.To.Value.ToString("yyyy-MM-dd");
+    }
+
+    if (Model.WorkshopLocationId.HasValue)
+    {
+        routeValues["workshopLocationId"] = Model.WorkshopLocationId.Value.ToString();
+    }
+}
+
+<form method="get" class="wos-card wos-card-body wos-report-bar row g-3 align-items-end">
+    <div class="col-md-3">
+        <label class="form-label" for="from">From</label>
+        <input type="date" class="form-control" id="from" name="from"
+               value="@(Model.From?.ToString("yyyy-MM-dd"))" />
+    </div>
+    <div class="col-md-3">
+        <label class="form-label" for="to">To</label>
+        <input type="date" class="form-control" id="to" name="to"
+               value="@(Model.To?.ToString("yyyy-MM-dd"))" />
+    </div>
+    <div class="col-md-3">
+        <label class="form-label" for="workshopLocationId">Location</label>
+        <select class="form-select" id="workshopLocationId" name="workshopLocationId">
+            <option value="">All locations</option>
+            @foreach (var location in Model.LocationOptions)
+            {
+                <option value="@location.WorkshopLocationId"
+                        selected="@(Model.WorkshopLocationId == location.WorkshopLocationId)">
+                    @location.Name
+                </option>
+            }
+        </select>
+    </div>
+    <div class="col-md-3">
+        <button type="submit" class="btn btn-wos-primary w-100">Apply filters</button>
+    </div>
+    <div class="col-12">
+        <div class="d-flex flex-wrap gap-2 small">
+            <span class="text-muted">Presets:</span>
+            @if (Model.To.HasValue)
+            {
+                var to = Model.To.Value;
+                <a class="btn btn-sm btn-outline-secondary" href="?from=@to.AddDays(-6).ToString("yyyy-MM-dd")&to=@to.ToString("yyyy-MM-dd")@(Model.WorkshopLocationId.HasValue ? $"&workshopLocationId={Model.WorkshopLocationId}" : "")">7D</a>
+                <a class="btn btn-sm btn-outline-secondary" href="?from=@to.AddDays(-29).ToString("yyyy-MM-dd")&to=@to.ToString("yyyy-MM-dd")@(Model.WorkshopLocationId.HasValue ? $"&workshopLocationId={Model.WorkshopLocationId}" : "")">30D</a>
+                <a class="btn btn-sm btn-outline-secondary" href="?from=@to.AddDays(-89).ToString("yyyy-MM-dd")&to=@to.ToString("yyyy-MM-dd")@(Model.WorkshopLocationId.HasValue ? $"&workshopLocationId={Model.WorkshopLocationId}" : "")">90D</a>
+                <a class="btn btn-sm btn-outline-secondary" href="?from=@to.AddDays(-364).ToString("yyyy-MM-dd")&to=@to.ToString("yyyy-MM-dd")@(Model.WorkshopLocationId.HasValue ? $"&workshopLocationId={Model.WorkshopLocationId}" : "")">1Y</a>
+            }
+        </div>
+    </div>
+</form>

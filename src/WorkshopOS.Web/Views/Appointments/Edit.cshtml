@@ -1,0 +1,13 @@
+@model WorkshopOS.Web.Models.Appointments.AppointmentFormViewModel
+@{
+    ViewData["Title"] = "Edit appointment";
+}
+
+<h1 class="display-6">Edit appointment</h1>
+
+<form asp-action="Edit" asp-route-appointmentId="@Model.AppointmentId" method="post">
+    @Html.AntiForgeryToken()
+    <partial name="_AppointmentFormFields" model="Model" />
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-action="Details" asp-route-appointmentId="@Model.AppointmentId" class="btn btn-link">Cancel</a>
+</form>

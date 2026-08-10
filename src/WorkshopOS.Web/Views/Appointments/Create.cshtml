@@ -1,0 +1,22 @@
+@model WorkshopOS.Web.Models.Appointments.AppointmentFormViewModel
+@{
+    ViewData["Title"] = Model.AppointmentId.HasValue ? "Edit appointment" : "Create appointment";
+}
+
+<h1 class="display-6">@ViewData["Title"]</h1>
+
+<form asp-action="@(Model.AppointmentId.HasValue ? "Edit" : "Create")"
+      asp-route-appointmentId="@Model.AppointmentId"
+      method="post">
+    @Html.AntiForgeryToken()
+    <partial name="_AppointmentFormFields" model="Model" />
+    <button type="submit" class="btn btn-primary">Save</button>
+    @if (Model.AppointmentId.HasValue)
+    {
+        <a asp-action="Details" asp-route-appointmentId="@Model.AppointmentId" class="btn btn-link">Cancel</a>
+    }
+    else
+    {
+        <a asp-action="Index" class="btn btn-link">Cancel</a>
+    }
+</form>

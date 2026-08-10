@@ -1,0 +1,80 @@
+@model WorkshopOS.Web.Models.Inspections.InspectionListViewModel
+@{
+    ViewData["Title"] = "Inspections";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h1 class="display-6">Digital vehicle inspections</h1>
+        <p class="text-muted mb-0">@Model.TotalCount inspection(s) in current view</p>
+    </div>
+    <a asp-controller="RepairOrders" asp-action="Index" class="btn btn-outline-secondary">Repair orders</a>
+</div>
+
+<form asp-action="Index" method="get" class="row g-2 mb-3">
+    <div class="col-md-3">
+        <input name="search" value="@Model.Search" class="form-control" placeholder="Search repair order, customer, vehicle" />
+    </div>
+    <div class="col-md-2">
+        <select name="status" class="form-select" asp-for="Status" asp-items="Html.GetEnumSelectList<WorkshopOS.Domain.Inspections.InspectionStatus>()">
+            <option value="">All statuses</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <select name="workshopLocationId" class="form-select">
+            <option value="">All locations</option>
+            @foreach (var location in Model.LocationOptions)
+            {
+                <option value="@location.WorkshopLocationId" selected="@(Model.WorkshopLocationId == location.WorkshopLocationId)">@location.Name</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-outline-secondary w-100">Filter</button>
+    </div>
+</form>
+
+@if (Model.Inspections.Count == 0)
+{
+    <div class="alert alert-light border">No inspections match the current filters.</div>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Repair order</th>
+                <th>Customer</th>
+                <th>Vehicle</th>
+                <th>Location</th>
+                <th>Status</th>
+                <th>Progress</th>
+                <th>Created</th>
+                <th>Completed</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var inspection in Model.Inspections)
+        {
+            <tr>
+                <td>
+                    <a asp-controller="RepairOrders" asp-action="Details" asp-route-repairOrderId="@inspection.RepairOrderId">@inspection.RepairOrderNumber</a>
+                </td>
+                <td>@inspection.CustomerDisplayName</td>
+                <td>@inspection.VehicleSummary</td>
+                <td>@inspection.WorkshopLocationName</td>
+                <td>@inspection.Status</td>
+                <td>@inspection.InspectedItems / @inspection.TotalItems</td>
+                <td>@inspection.CreatedAtUtc.ToString("u")</td>
+                <td>
+                    @(inspection.CompletedAtUtc.HasValue ? inspection.CompletedAtUtc.Value.ToString("u") : "—")
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-inspectionId="@inspection.InspectionId" class="btn btn-sm btn-outline-primary">View</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

@@ -2,10 +2,12 @@
 
 WorkshopOS uses an isolated local PostgreSQL instance for development and integration testing.
 
+Local PostgreSQL development verified on macOS using PostgreSQL 18.4.
+
 ## Requirements
 
-- PostgreSQL (discovered locally: version 18.x via EnterpriseDB installer)
-- `psql` and `pg_isready` available on your PATH (or use the full path to your PostgreSQL `bin` directory)
+- PostgreSQL 18.x (or compatible)
+- `psql` and `pg_isready` available on your PATH
 - .NET 10 SDK
 - `dotnet-ef` local tool (`dotnet tool restore`)
 
@@ -15,6 +17,14 @@ WorkshopOS uses an isolated local PostgreSQL instance for development and integr
 |---|---|
 | Development | `workshopos_dev` |
 | Integration tests | `workshopos_test` |
+
+## Application role
+
+| Role | Purpose |
+|---|---|
+| `workshopos_app` | Dedicated low-privilege WorkshopOS application login |
+
+Credentials are stored in User Secrets only — never in source control.
 
 ## Connection string keys
 
@@ -47,7 +57,7 @@ Integration tests fail fast unless the database name is exactly `workshopos_test
 
 ## Apply migrations (development)
 
-After provisioning isolated databases and configuring User Secrets:
+Set `WORKSHOPOS_DESIGNTIME_CONNECTION` from your development User Secret (process-local only — do not commit or print the value), then run:
 
 ```bash
 dotnet ef database update \
@@ -56,13 +66,7 @@ dotnet ef database update \
   --context AppDbContext
 ```
 
-The `dotnet ef` command reads the development connection from User Secrets when using the Web or Infrastructure startup project with configured secrets.
-
-Alternatively, set a process-level variable for design-time operations only:
-
-```bash
-export WORKSHOPOS_DESIGNTIME_CONNECTION="Host=127.0.0.1;Database=workshopos_dev;Username=workshopos_app;Password=<your-local-secret>"
-```
+Do not use `dotnet user-secrets list` in shared logs — it prints secret values.
 
 ## Run integration tests
 
@@ -74,9 +78,9 @@ Tests use transaction rollback for isolation. The test database must already exi
 
 ## Windows note
 
-WorkshopOS code does not depend on macOS-specific PostgreSQL paths. On Windows, provide an equivalent local PostgreSQL connection through User Secrets using the same configuration keys.
+WorkshopOS code does not depend on macOS-specific PostgreSQL paths. Windows development should use an equivalent local PostgreSQL instance and the same configuration key contracts.
 
-Windows verification status: not yet verified in this repository step.
+Windows verification status: not yet verified in this repository.
 
 ## Safety rules
 

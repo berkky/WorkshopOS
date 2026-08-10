@@ -1,0 +1,14 @@
+@model WorkshopOS.Web.Models.Shared.EmptyStateViewModel
+
+<div class="wos-card wos-empty" role="status">
+    <div class="wos-empty-icon" aria-hidden="true">○</div>
+    <div class="wos-empty-title">@Model.Title</div>
+    @if (!string.IsNullOrWhiteSpace(Model.Description))
+    {
+        <p class="mb-3">@Model.Description</p>
+    }
+    @if (Model.Action is not null)
+    {
+        @Model.Action
+    }
+</div>

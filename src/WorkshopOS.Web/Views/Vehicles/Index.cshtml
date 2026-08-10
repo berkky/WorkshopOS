@@ -1,0 +1,94 @@
+@model WorkshopOS.Web.Models.Vehicles.VehicleListViewModel
+@{
+    ViewData["Title"] = "Vehicles";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h1 class="display-6">Vehicles</h1>
+        @if (Model.CurrentCustomerId.HasValue && !string.IsNullOrWhiteSpace(Model.CurrentCustomerDisplayName))
+        {
+            <p class="text-muted mb-0">
+                Showing vehicles for
+                <a asp-controller="Customers" asp-action="Details" asp-route-customerId="@Model.CurrentCustomerId">@Model.CurrentCustomerDisplayName</a>
+                <text> — @Model.TotalCount vehicle(s)</text>
+            </p>
+        }
+        else
+        {
+            <p class="text-muted mb-0">@Model.TotalCount vehicle(s) in current view</p>
+        }
+    </div>
+    @if (Model.CanManageVehicles)
+    {
+        <a class="btn btn-primary"
+           asp-action="Create"
+           asp-route-currentCustomerId="@Model.CurrentCustomerId">Create vehicle</a>
+    }
+</div>
+
+<form asp-action="Index" method="get" class="row g-2 mb-3">
+    @if (Model.CurrentCustomerId.HasValue)
+    {
+        <input type="hidden" name="currentCustomerId" value="@Model.CurrentCustomerId" />
+    }
+    <div class="col-md-6">
+        <input name="search" value="@Model.Search" class="form-control" placeholder="Search make, model, plate, VIN, or customer" />
+    </div>
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-outline-secondary w-100">Search</button>
+    </div>
+</form>
+
+@if (Model.Vehicles.Count == 0)
+{
+    <div class="alert alert-light border">No vehicles match the current filters.</div>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Vehicle</th>
+                <th>Plate</th>
+                <th>VIN</th>
+                <th>Customer</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var vehicle in Model.Vehicles)
+        {
+            <tr>
+                <td>@vehicle.Make @vehicle.Model@(vehicle.ModelYear.HasValue ? $" ({vehicle.ModelYear})" : "")</td>
+                <td>@(vehicle.RegistrationPlate ?? "—")</td>
+                <td>@(vehicle.Vin ?? "—")</td>
+                <td>@(vehicle.CurrentCustomerDisplayName ?? "Unassigned")</td>
+                <td class="text-end">
+                    <a asp-action="Details" asp-route-vehicleId="@vehicle.VehicleId" class="btn btn-sm btn-outline-primary">View</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+    @if ((int)Math.Ceiling(Model.TotalCount / (double)Model.PageSize) > 1)
+    {
+        var totalPages = (int)Math.Ceiling(Model.TotalCount / (double)Model.PageSize);
+        <nav>
+            <ul class="pagination">
+                @for (var pageNumber = 1; pageNumber <= totalPages; pageNumber++)
+                {
+                    <li class="page-item @(pageNumber == Model.Page ? "active" : null)">
+                        <a class="page-link"
+                           asp-action="Index"
+                           asp-route-search="@Model.Search"
+                           asp-route-currentCustomerId="@Model.CurrentCustomerId"
+                           asp-route-page="@pageNumber"
+                           asp-route-pageSize="@Model.PageSize">@pageNumber</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
+}

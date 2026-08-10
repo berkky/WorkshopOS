@@ -37,6 +37,39 @@ public class EstimateItem : OrganizationOwnedEntity, IHasTimestamps
         bool? isCustomerApproved = null)
         : base(organizationId)
     {
+        ValidateItemInputs(estimateId, description, quantity, unitPrice);
+
+        EstimateId = estimateId;
+        Type = type;
+        Description = description.Trim();
+        Quantity = quantity;
+        UnitPrice = unitPrice;
+        SortOrder = sortOrder;
+        IsCustomerApproved = isCustomerApproved;
+    }
+
+    public void Update(
+        EstimateItemType type,
+        string description,
+        decimal quantity,
+        decimal unitPrice,
+        int sortOrder)
+    {
+        ValidateItemInputs(EstimateId, description, quantity, unitPrice);
+
+        Type = type;
+        Description = description.Trim();
+        Quantity = quantity;
+        UnitPrice = unitPrice;
+        SortOrder = sortOrder;
+    }
+
+    private static void ValidateItemInputs(
+        Guid estimateId,
+        string description,
+        decimal quantity,
+        decimal unitPrice)
+    {
         if (estimateId == Guid.Empty)
         {
             throw new ArgumentException("Estimate identifier is required.", nameof(estimateId));
@@ -56,13 +89,5 @@ public class EstimateItem : OrganizationOwnedEntity, IHasTimestamps
         {
             throw new ArgumentOutOfRangeException(nameof(unitPrice), "Unit price cannot be negative.");
         }
-
-        EstimateId = estimateId;
-        Type = type;
-        Description = description.Trim();
-        Quantity = quantity;
-        UnitPrice = unitPrice;
-        SortOrder = sortOrder;
-        IsCustomerApproved = isCustomerApproved;
     }
 }

@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WorkshopOS.Application\WorkshopOS.Application.csproj" />
     <ProjectReference Include="..\WorkshopOS.Domain\WorkshopOS.Domain.csproj" />
     <ProjectReference Include="..\WorkshopOS.Infrastructure\WorkshopOS.Infrastructure.csproj" />
   </ItemGroup>

@@ -1,0 +1,73 @@
+@model WorkshopOS.Web.Models.Appointments.AppointmentFormViewModel
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+<div class="mb-3">
+    <label asp-for="WorkshopLocationId" class="form-label"></label>
+    <select asp-for="WorkshopLocationId" class="form-select">
+        <option value="">Select location</option>
+        @foreach (var location in Model.LocationOptions)
+        {
+            <option value="@location.WorkshopLocationId">@location.Name</option>
+        }
+    </select>
+    <span asp-validation-for="WorkshopLocationId" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="CustomerId" class="form-label"></label>
+    <select asp-for="CustomerId" class="form-select">
+        <option value="">Select customer</option>
+        @foreach (var customer in Model.CustomerOptions)
+        {
+            <option value="@customer.CustomerId">@customer.DisplayName</option>
+        }
+    </select>
+    <span asp-validation-for="CustomerId" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="VehicleId" class="form-label"></label>
+    <select asp-for="VehicleId" class="form-select">
+        <option value="">Select vehicle</option>
+        @foreach (var vehicle in Model.VehicleOptions)
+        {
+            <option value="@vehicle.VehicleId">@vehicle.Summary</option>
+        }
+    </select>
+    <span asp-validation-for="VehicleId" class="text-danger"></span>
+</div>
+
+@if (!Model.AppointmentId.HasValue)
+{
+    <div class="mb-3">
+        <label asp-for="LocalDate" class="form-label"></label>
+        <input asp-for="LocalDate" class="form-control" type="date" />
+        <span asp-validation-for="LocalDate" class="text-danger"></span>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label asp-for="StartTime" class="form-label"></label>
+            <input asp-for="StartTime" class="form-control" type="time" />
+            <span asp-validation-for="StartTime" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="EndTime" class="form-label"></label>
+            <input asp-for="EndTime" class="form-control" type="time" />
+            <span asp-validation-for="EndTime" class="text-danger"></span>
+        </div>
+    </div>
+}
+
+<div class="mb-3">
+    <label asp-for="CustomerConcern" class="form-label"></label>
+    <textarea asp-for="CustomerConcern" class="form-control" rows="3"></textarea>
+    <span asp-validation-for="CustomerConcern" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="InternalNotes" class="form-label"></label>
+    <textarea asp-for="InternalNotes" class="form-control" rows="3"></textarea>
+    <span asp-validation-for="InternalNotes" class="text-danger"></span>
+</div>

@@ -42,4 +42,27 @@ public class Customer : OrganizationOwnedEntity, IHasTimestamps
         Notes = string.IsNullOrWhiteSpace(notes) ? null : notes.Trim();
         IsActive = isActive;
     }
+
+    public void UpdateProfile(
+        string displayName,
+        string? email,
+        string? phone,
+        string? notes,
+        bool isActive)
+    {
+        if (string.IsNullOrWhiteSpace(displayName))
+        {
+            throw new ArgumentException("Customer display name is required.", nameof(displayName));
+        }
+
+        DisplayName = displayName.Trim();
+        Email = string.IsNullOrWhiteSpace(email) ? null : email.Trim();
+        Phone = string.IsNullOrWhiteSpace(phone) ? null : phone.Trim();
+        Notes = string.IsNullOrWhiteSpace(notes) ? null : notes.Trim();
+        IsActive = isActive;
+    }
+
+    public void Deactivate() => IsActive = false;
+
+    public void Activate() => IsActive = true;
 }

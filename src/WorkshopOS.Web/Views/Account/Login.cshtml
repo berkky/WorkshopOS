@@ -1,0 +1,45 @@
+@model WorkshopOS.Web.Models.Account.LoginViewModel
+@{
+    ViewData["Title"] = "Sign in";
+}
+
+<div class="wos-auth-shell">
+    <div class="wos-auth-card">
+        <div class="wos-auth-brand-strip">
+            <div class="wos-public-brand-mark" aria-hidden="true">W</div>
+        </div>
+        <h1 class="wos-page-title text-center mb-2">Welcome back</h1>
+        <p class="wos-page-description text-center mb-4">Sign in to access your workshop workspace.</p>
+
+        <form asp-action="Login" asp-controller="Account" method="post">
+            <input type="hidden" asp-for="ReturnUrl" />
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" class="form-control" autocomplete="username" placeholder="you@workshop.com" />
+                <span asp-validation-for="Email" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Password" class="form-label"></label>
+                <input asp-for="Password" class="form-control" autocomplete="current-password" placeholder="••••••••" />
+                <span asp-validation-for="Password" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-4 form-check">
+                <input asp-for="RememberMe" class="form-check-input" />
+                <label asp-for="RememberMe" class="form-check-label"></label>
+            </div>
+
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-wos-primary btn-lg">Sign in</button>
+                <a class="btn btn-wos-secondary" asp-controller="Onboarding" asp-action="Index">Create a new workshop</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

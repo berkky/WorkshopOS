@@ -1,0 +1,118 @@
+@model WorkshopOS.Web.Models.Billing.InvoiceDetailsViewModel
+@{
+    ViewData["Title"] = $"Edit {Model.Number}";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h1 class="display-6">Edit invoice</h1>
+        <p class="text-muted mb-0">@Model.Number — draft editing</p>
+    </div>
+    <a asp-action="Details" asp-route-invoiceId="@Model.InvoiceId" class="btn btn-link">View details</a>
+</div>
+
+@if (TempData["InvoiceError"] is string invoiceError)
+{
+    <div class="alert alert-warning">@invoiceError</div>
+}
+
+<h2 class="h5">Commercial notes</h2>
+<form asp-action="UpdateCommercialNotes" asp-route-invoiceId="@Model.InvoiceId" method="post" class="mb-4">
+    @Html.AntiForgeryToken()
+    <div class="mb-2">
+        <textarea name="CommercialNotes" class="form-control" rows="3" maxlength="2000">@Model.CommercialNotes</textarea>
+    </div>
+    <button type="submit" class="btn btn-outline-secondary btn-sm">Save notes</button>
+</form>
+
+<h2 class="h5">Line items</h2>
+<table class="table table-sm align-middle mb-4">
+    <thead>
+        <tr>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Qty</th>
+            <th>Unit price</th>
+            <th>Line total</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.Items)
+    {
+        <tr>
+            <td>
+                <form asp-action="EditItem" asp-route-invoiceId="@Model.InvoiceId" asp-route-itemId="@item.InvoiceItemId" method="post" id="edit-item-@item.InvoiceItemId">
+                    @Html.AntiForgeryToken()
+                </form>
+                <select name="Type" class="form-select form-select-sm" form="edit-item-@item.InvoiceItemId">
+                    @foreach (var type in Enum.GetValues<WorkshopOS.Domain.Billing.InvoiceItemType>())
+                    {
+                        <option value="@type" selected="@(item.Type == type)">@type</option>
+                    }
+                </select>
+            </td>
+            <td>
+                <input name="Description" class="form-control form-control-sm" value="@item.Description" required maxlength="500" form="edit-item-@item.InvoiceItemId" />
+            </td>
+            <td>
+                <input name="Quantity" type="number" step="0.001" min="0.001" class="form-control form-control-sm" value="@item.Quantity" required form="edit-item-@item.InvoiceItemId" />
+            </td>
+            <td>
+                <input name="UnitPrice" type="number" step="0.01" min="0" class="form-control form-control-sm" value="@item.UnitPrice" required form="edit-item-@item.InvoiceItemId" />
+            </td>
+            <td>@item.LineTotal</td>
+            <td class="text-end">
+                <button type="submit" class="btn btn-sm btn-outline-primary" form="edit-item-@item.InvoiceItemId">Update</button>
+                <form asp-action="RemoveItem" asp-route-invoiceId="@Model.InvoiceId" asp-route-itemId="@item.InvoiceItemId" method="post" class="d-inline">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-sm btn-outline-danger">Remove</button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+    <tfoot>
+        <tr>
+            <th colspan="4" class="text-end">Invoice total</th>
+            <th colspan="2">@Model.Total @Model.CurrencyCode</th>
+        </tr>
+    </tfoot>
+</table>
+
+<h2 class="h5">Add line item</h2>
+<form asp-action="AddItem" asp-route-invoiceId="@Model.InvoiceId" method="post" class="row g-2 mb-4">
+    @Html.AntiForgeryToken()
+    <div class="col-md-2">
+        <select name="Type" class="form-select" asp-items="Html.GetEnumSelectList<WorkshopOS.Domain.Billing.InvoiceItemType>()"></select>
+    </div>
+    <div class="col-md-3">
+        <input name="Description" class="form-control" placeholder="Description" required maxlength="500" />
+    </div>
+    <div class="col-md-2">
+        <input name="Quantity" type="number" step="0.001" min="0.001" class="form-control" value="1" required />
+    </div>
+    <div class="col-md-2">
+        <input name="UnitPrice" type="number" step="0.01" min="0" class="form-control" value="0" required />
+    </div>
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-primary w-100">Add item</button>
+    </div>
+</form>
+
+<div class="d-flex flex-wrap gap-2">
+    @if (Model.CanIssue)
+    {
+        <form asp-action="Issue" asp-route-invoiceId="@Model.InvoiceId" method="post">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-success">Issue invoice</button>
+        </form>
+    }
+    @if (Model.CanVoid)
+    {
+        <form asp-action="Void" asp-route-invoiceId="@Model.InvoiceId" method="post">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-outline-warning">Void invoice</button>
+        </form>
+    }
+</div>

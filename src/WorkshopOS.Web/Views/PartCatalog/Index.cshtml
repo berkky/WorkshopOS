@@ -1,0 +1,60 @@
+@model WorkshopOS.Web.Models.Catalog.PartCatalogListViewModel
+@{
+    ViewData["Title"] = "Parts catalog";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h1 class="display-6">Parts catalog</h1>
+        <p class="text-muted mb-0">@Model.TotalCount part(s)</p>
+    </div>
+    @if (Model.CanManageCatalog)
+    {
+        <a class="btn btn-primary" asp-action="Create">Add part</a>
+    }
+</div>
+
+<form method="get" class="row g-2 mb-3">
+    <div class="col-md-5">
+        <input name="search" value="@Model.Search" class="form-control" placeholder="Search SKU, name, or description" />
+    </div>
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-outline-secondary w-100">Search</button>
+    </div>
+</form>
+
+@if (Model.Parts.Count == 0)
+{
+    <div class="alert alert-light border">No parts match the current filters.</div>
+}
+else
+{
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr>
+                <th>SKU</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var part in Model.Parts)
+        {
+            <tr>
+                <td><code>@part.Sku</code></td>
+                <td>@part.Name</td>
+                <td>@part.DefaultUnitPrice @part.CurrencyCode</td>
+                <td>@(part.IsActive ? "Active" : "Inactive")</td>
+                <td class="text-end">
+                    @if (Model.CanManageCatalog)
+                    {
+                        <a asp-action="Edit" asp-route-partCatalogItemId="@part.PartCatalogItemId" class="btn btn-sm btn-outline-primary">Edit</a>
+                    }
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

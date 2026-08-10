@@ -1,0 +1,192 @@
+@model WorkshopOS.Web.Models.Estimates.EstimateDetailsViewModel
+@{
+    ViewData["Title"] = $"Edit {Model.Number}";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h1 class="display-6">Edit estimate</h1>
+        <p class="text-muted mb-0">@Model.Number — draft editing</p>
+    </div>
+    <a asp-action="Details" asp-route-estimateId="@Model.EstimateId" class="btn btn-link">View details</a>
+</div>
+
+@if (TempData["EstimateError"] is string estimateError)
+{
+    <div class="alert alert-warning">@estimateError</div>
+}
+
+@if (Model.InspectionFindings.Count > 0 && Model.LatestInspectionId.HasValue)
+{
+    <div class="alert alert-light border mb-3">
+        <strong>Inspection findings (read-only context)</strong>
+        <a asp-controller="Inspections" asp-action="Details" asp-route-inspectionId="@Model.LatestInspectionId" class="ms-2">View DVI</a>
+        <ul class="mb-0 mt-2 small">
+            @foreach (var finding in Model.InspectionFindings)
+            {
+                <li>@finding.Section — @finding.Name: @finding.Condition</li>
+            }
+        </ul>
+    </div>
+}
+
+<h2 class="h5">Customer message</h2>
+<form asp-action="UpdateCustomerMessage" asp-route-estimateId="@Model.EstimateId" method="post" class="mb-4">
+    @Html.AntiForgeryToken()
+    <div class="mb-2">
+        <textarea name="CustomerMessage" class="form-control" rows="3" maxlength="2000">@Model.CustomerMessage</textarea>
+    </div>
+    <button type="submit" class="btn btn-outline-secondary btn-sm">Save message</button>
+</form>
+
+<h2 class="h5">Line items</h2>
+<table class="table table-sm align-middle mb-4">
+    <thead>
+        <tr>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Qty</th>
+            <th>Unit price</th>
+            <th>Line total</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.Items)
+    {
+        <tr>
+            <td>
+                <form asp-action="EditItem" asp-route-estimateId="@Model.EstimateId" asp-route-itemId="@item.EstimateItemId" method="post" id="edit-item-@item.EstimateItemId">
+                    @Html.AntiForgeryToken()
+                </form>
+                <select name="Type" class="form-select form-select-sm" form="edit-item-@item.EstimateItemId">
+                    @foreach (var type in Enum.GetValues<WorkshopOS.Domain.Estimates.EstimateItemType>())
+                    {
+                        <option value="@type" selected="@(item.Type == type)">@type</option>
+                    }
+                </select>
+            </td>
+            <td>
+                <input name="Description" class="form-control form-control-sm" value="@item.Description" required maxlength="500" form="edit-item-@item.EstimateItemId" />
+            </td>
+            <td>
+                <input name="Quantity" type="number" step="0.001" min="0.001" class="form-control form-control-sm" value="@item.Quantity" required form="edit-item-@item.EstimateItemId" />
+            </td>
+            <td>
+                <input name="UnitPrice" type="number" step="0.01" min="0" class="form-control form-control-sm" value="@item.UnitPrice" required form="edit-item-@item.EstimateItemId" />
+            </td>
+            <td>@item.LineTotal</td>
+            <td class="text-end">
+                <button type="submit" class="btn btn-sm btn-outline-primary" form="edit-item-@item.EstimateItemId">Update</button>
+                <form asp-action="RemoveItem" asp-route-estimateId="@Model.EstimateId" asp-route-itemId="@item.EstimateItemId" method="post" class="d-inline">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-sm btn-outline-danger">Remove</button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+    <tfoot>
+        <tr>
+            <th colspan="4" class="text-end">Estimate total</th>
+            <th colspan="2">@Model.Total @Model.CurrencyCode</th>
+        </tr>
+    </tfoot>
+</table>
+
+<h2 class="h5">Add line item</h2>
+<form asp-action="AddItem" asp-route-estimateId="@Model.EstimateId" method="post" class="row g-2 mb-4">
+    @Html.AntiForgeryToken()
+    <div class="col-md-2">
+        <select name="Type" class="form-select" asp-items="Html.GetEnumSelectList<WorkshopOS.Domain.Estimates.EstimateItemType>()"></select>
+    </div>
+    <div class="col-md-3">
+        <input name="Description" class="form-control" placeholder="Description" required maxlength="500" />
+    </div>
+    <div class="col-md-2">
+        <input name="Quantity" type="number" step="0.001" min="0.001" class="form-control" value="1" required />
+    </div>
+    <div class="col-md-2">
+        <input name="UnitPrice" type="number" step="0.01" min="0" class="form-control" value="0" required />
+    </div>
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-primary w-100">Add item</button>
+    </div>
+</form>
+
+<h2 class="h5 mt-4">Add from catalog</h2>
+<div class="row g-3 mb-4">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="h6">Service from catalog</h3>
+                @if (Model.ServiceCatalogOptions.Count == 0)
+                {
+                    <p class="text-muted small mb-0">No active services match this estimate currency.</p>
+                }
+                else
+                {
+                    <form asp-action="AddServiceFromCatalog" asp-route-estimateId="@Model.EstimateId" method="post" class="row g-2">
+                        @Html.AntiForgeryToken()
+                        <div class="col-md-7">
+                            <select name="serviceCatalogItemId" class="form-select" required>
+                                <option value="">Select service</option>
+                                @foreach (var option in Model.ServiceCatalogOptions)
+                                {
+                                    <option value="@option.Id">@option.Label (@option.DefaultUnitPrice @option.CurrencyCode)</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <input name="quantity" type="number" step="0.001" min="0.001" class="form-control" value="1" required />
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-outline-primary w-100">Add</button>
+                        </div>
+                    </form>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="h6">Part from catalog</h3>
+                @if (Model.PartCatalogOptions.Count == 0)
+                {
+                    <p class="text-muted small mb-0">No active parts match this estimate currency.</p>
+                }
+                else
+                {
+                    <form asp-action="AddPartFromCatalog" asp-route-estimateId="@Model.EstimateId" method="post" class="row g-2">
+                        @Html.AntiForgeryToken()
+                        <div class="col-md-7">
+                            <select name="partCatalogItemId" class="form-select" required>
+                                <option value="">Select part</option>
+                                @foreach (var option in Model.PartCatalogOptions)
+                                {
+                                    <option value="@option.Id">@option.Label (@option.DefaultUnitPrice @option.CurrencyCode, stock: @option.StockOnHand)</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <input name="quantity" type="number" step="0.001" min="0.001" class="form-control" value="1" required />
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-outline-primary w-100">Add</button>
+                        </div>
+                    </form>
+                    <p class="text-muted small mb-0 mt-2">Stock shown for @Model.WorkshopLocationName is informational only.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (Model.CanPresent)
+{
+    <form asp-action="Present" asp-route-estimateId="@Model.EstimateId" method="post">
+        @Html.AntiForgeryToken()
+        <button type="submit" class="btn btn-success">Present for approval</button>
+    </form>
+}

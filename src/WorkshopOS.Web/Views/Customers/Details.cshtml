@@ -1,0 +1,94 @@
+@model WorkshopOS.Web.Models.Customers.CustomerDetailsViewModel
+@{
+    ViewData["Title"] = Model.DisplayName;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="display-6">@Model.DisplayName</h1>
+    <div>
+        @if (Model.CanManageCustomers)
+        {
+            <a asp-action="Edit" asp-route-customerId="@Model.CustomerId" class="btn btn-outline-secondary">Edit</a>
+            @if (Model.IsActive)
+            {
+                <form asp-action="Deactivate" asp-route-customerId="@Model.CustomerId" method="post" class="d-inline">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-outline-warning">Deactivate</button>
+                </form>
+            }
+            else
+            {
+                <form asp-action="Activate" asp-route-customerId="@Model.CustomerId" method="post" class="d-inline">
+                    @Html.AntiForgeryToken()
+                    <button type="submit" class="btn btn-outline-success">Activate</button>
+                </form>
+            }
+        }
+        <a asp-action="Index" class="btn btn-link">Back to list</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <h2 class="h5">Customer information</h2>
+        <dl class="row">
+            <dt class="col-sm-4">Status</dt>
+            <dd class="col-sm-8">@(Model.IsActive ? "Active" : "Inactive")</dd>
+            <dt class="col-sm-4">Created</dt>
+            <dd class="col-sm-8">@Model.CreatedAtUtc.ToString("u")</dd>
+            <dt class="col-sm-4">Updated</dt>
+            <dd class="col-sm-8">@Model.UpdatedAtUtc.ToString("u")</dd>
+        </dl>
+    </div>
+    <div class="col-md-6">
+        <h2 class="h5">Contact information</h2>
+        <dl class="row">
+            <dt class="col-sm-4">Email</dt>
+            <dd class="col-sm-8">@(Model.Email ?? "—")</dd>
+            <dt class="col-sm-4">Phone</dt>
+            <dd class="col-sm-8">@(Model.Phone ?? "—")</dd>
+        </dl>
+    </div>
+</div>
+
+@if (!string.IsNullOrWhiteSpace(Model.Notes))
+{
+    <h2 class="h5 mt-3">Notes</h2>
+    <p class="border rounded p-3 bg-light">@Model.Notes</p>
+}
+
+<h2 class="h5 mt-4">Vehicles</h2>
+<p>
+    <text>@Model.VehicleCount vehicle(s) currently linked.</text>
+    <a asp-controller="Vehicles" asp-action="Index" asp-route-currentCustomerId="@Model.CustomerId">View vehicles</a>
+    @if (Model.CanManageCustomers)
+    {
+        <span> · <a asp-controller="Vehicles" asp-action="Create" asp-route-currentCustomerId="@Model.CustomerId">Add vehicle</a></span>
+    }
+</p>
+
+<h2 class="h5 mt-4">Appointments</h2>
+<p>
+    <text>@Model.UpcomingAppointmentCount upcoming appointment(s).</text>
+    <a asp-controller="Appointments" asp-action="Index" asp-route-customerId="@Model.CustomerId">View appointments</a>
+</p>
+
+<h2 class="h5 mt-4">Repair orders</h2>
+<p>
+    <text>@Model.RepairOrderCount repair order(s).</text>
+    <a asp-controller="RepairOrders" asp-action="Index" asp-route-customerId="@Model.CustomerId">View repair orders</a>
+</p>
+@if (Model.RecentRepairOrders.Count > 0)
+{
+    <ul class="list-unstyled">
+        @foreach (var repairOrder in Model.RecentRepairOrders)
+        {
+            <li>
+                <a asp-controller="RepairOrders" asp-action="Details" asp-route-repairOrderId="@repairOrder.RepairOrderId">
+                    @repairOrder.Number
+                </a>
+                — @repairOrder.VehicleSummary (@repairOrder.Status, @repairOrder.OpenedAtUtc.ToString("u"))
+            </li>
+        }
+    </ul>
+}

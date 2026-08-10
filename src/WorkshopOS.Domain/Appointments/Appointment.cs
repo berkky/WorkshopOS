@@ -69,4 +69,55 @@ public class Appointment : OrganizationOwnedEntity, IHasTimestamps
         CustomerConcern = string.IsNullOrWhiteSpace(customerConcern) ? null : customerConcern.Trim();
         InternalNotes = string.IsNullOrWhiteSpace(internalNotes) ? null : internalNotes.Trim();
     }
+
+    public void UpdateBooking(
+        Guid workshopLocationId,
+        Guid customerId,
+        Guid vehicleId,
+        string? customerConcern,
+        string? internalNotes)
+    {
+        if (workshopLocationId == Guid.Empty)
+        {
+            throw new ArgumentException("Workshop location identifier is required.", nameof(workshopLocationId));
+        }
+
+        if (customerId == Guid.Empty)
+        {
+            throw new ArgumentException("Customer identifier is required.", nameof(customerId));
+        }
+
+        if (vehicleId == Guid.Empty)
+        {
+            throw new ArgumentException("Vehicle identifier is required.", nameof(vehicleId));
+        }
+
+        WorkshopLocationId = workshopLocationId;
+        CustomerId = customerId;
+        VehicleId = vehicleId;
+        CustomerConcern = string.IsNullOrWhiteSpace(customerConcern) ? null : customerConcern.Trim();
+        InternalNotes = string.IsNullOrWhiteSpace(internalNotes) ? null : internalNotes.Trim();
+    }
+
+    public void Reschedule(
+        Guid workshopLocationId,
+        DateTimeOffset scheduledStartUtc,
+        DateTimeOffset scheduledEndUtc)
+    {
+        if (workshopLocationId == Guid.Empty)
+        {
+            throw new ArgumentException("Workshop location identifier is required.", nameof(workshopLocationId));
+        }
+
+        if (scheduledEndUtc < scheduledStartUtc)
+        {
+            throw new ArgumentException("Scheduled end must be on or after scheduled start.");
+        }
+
+        WorkshopLocationId = workshopLocationId;
+        ScheduledStartUtc = scheduledStartUtc;
+        ScheduledEndUtc = scheduledEndUtc;
+    }
+
+    public void Cancel() => Status = AppointmentStatus.Cancelled;
 }

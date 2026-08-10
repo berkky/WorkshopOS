@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 280" fill="none" aria-hidden="true">
+  <defs>
+    <linearGradient id="success-ring" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b6cf5"/>
+      <stop offset="50%" stop-color="#14b8a6"/>
+      <stop offset="100%" stop-color="#3b6cf5"/>
+    </linearGradient>
+    <linearGradient id="success-bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1a1f2e"/>
+      <stop offset="100%" stop-color="#0f1117"/>
+    </linearGradient>
+    <filter id="success-glow">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <ellipse cx="160" cy="140" rx="100" ry="100" fill="#3b6cf5" opacity="0.08" filter="url(#success-glow)"/>
+  <circle cx="160" cy="120" r="72" fill="url(#success-bg)" stroke="url(#success-ring)" stroke-width="3"/>
+  <path d="M130 120 L152 142 L192 98" stroke="url(#success-ring)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <rect x="80" y="200" width="160" height="48" rx="12" fill="rgba(59,108,245,0.12)" stroke="rgba(59,108,245,0.25)"/>
+  <rect x="100" y="216" width="60" height="8" rx="2" fill="rgba(255,255,255,0.3)"/>
+  <rect x="100" y="230" width="120" height="6" rx="2" fill="rgba(255,255,255,0.15)"/>
+</svg>

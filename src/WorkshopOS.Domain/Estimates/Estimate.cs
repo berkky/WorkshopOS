@@ -16,6 +16,12 @@ public class Estimate : OrganizationOwnedEntity, IHasTimestamps
 
     public string? CustomerMessage { get; private set; }
 
+    public DateTimeOffset? SentAtUtc { get; private set; }
+
+    public DateTimeOffset? ApprovedAtUtc { get; private set; }
+
+    public DateTimeOffset? DeclinedAtUtc { get; private set; }
+
     public DateTimeOffset CreatedAtUtc { get; private set; }
 
     public DateTimeOffset UpdatedAtUtc { get; private set; }
@@ -55,5 +61,48 @@ public class Estimate : OrganizationOwnedEntity, IHasTimestamps
         Status = status;
         ExpiresAtUtc = expiresAtUtc;
         CustomerMessage = string.IsNullOrWhiteSpace(customerMessage) ? null : customerMessage.Trim();
+    }
+
+    public void UpdateCustomerMessage(string? customerMessage)
+    {
+        if (Status != EstimateStatus.Draft)
+        {
+            throw new InvalidOperationException("Customer message can only be edited on draft estimates.");
+        }
+
+        CustomerMessage = string.IsNullOrWhiteSpace(customerMessage) ? null : customerMessage.Trim();
+    }
+
+    public void PresentForApproval(DateTimeOffset presentedAtUtc)
+    {
+        if (Status != EstimateStatus.Draft)
+        {
+            throw new InvalidOperationException("Only draft estimates can be presented for approval.");
+        }
+
+        Status = EstimateStatus.Sent;
+        SentAtUtc = presentedAtUtc;
+    }
+
+    public void RecordCustomerApproval(DateTimeOffset approvedAtUtc)
+    {
+        if (Status != EstimateStatus.Sent)
+        {
+            throw new InvalidOperationException("Only sent estimates can record customer approval.");
+        }
+
+        Status = EstimateStatus.Approved;
+        ApprovedAtUtc = approvedAtUtc;
+    }
+
+    public void RecordCustomerDecline(DateTimeOffset declinedAtUtc)
+    {
+        if (Status != EstimateStatus.Sent)
+        {
+            throw new InvalidOperationException("Only sent estimates can record customer decline.");
+        }
+
+        Status = EstimateStatus.Declined;
+        DeclinedAtUtc = declinedAtUtc;
     }
 }

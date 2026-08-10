@@ -1,0 +1,30 @@
+@model WorkshopOS.Web.Models.Onboarding.OnboardingCompleteViewModel
+@{
+    ViewData["Title"] = "Workspace ready";
+}
+
+<div class="wos-complete-shell">
+    <div class="wos-complete-card">
+        <img class="wos-complete-visual" src="~/images/workshopos/onboarding-success.svg" alt="" width="160" height="140" />
+        <h1>Your workspace is ready</h1>
+        <p class="wos-complete-subtitle">Welcome to WorkshopOS. Your premium automotive operations platform is configured and waiting.</p>
+
+        <dl class="wos-complete-summary">
+            <dt>Organization</dt>
+            <dd>@Model.OrganizationName</dd>
+
+            <dt>First location</dt>
+            <dd>@Model.WorkshopLocationName</dd>
+
+            <dt>Your role</dt>
+            <dd>@Model.MembershipRole</dd>
+        </dl>
+
+        <p class="text-muted small mb-4">All operational modules are available from your dashboard. Start by exploring the operations board or inviting your team.</p>
+
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+            <a class="btn btn-wos-primary btn-lg" asp-controller="Dashboard" asp-action="Index">Enter your dashboard</a>
+            <a class="btn btn-wos-secondary" asp-controller="Operations" asp-action="Index">View operations board</a>
+        </div>
+    </div>
+</div>

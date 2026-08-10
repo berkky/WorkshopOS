@@ -1,0 +1,259 @@
+@model WorkshopOS.Web.Models.Estimates.EstimateDetailsViewModel
+@{
+    ViewData["Title"] = Model.Number;
+    var isDraft = Model.Status == WorkshopOS.Domain.Estimates.EstimateStatus.Draft;
+    var isSent = Model.Status == WorkshopOS.Domain.Estimates.EstimateStatus.Sent;
+    var isTerminal = Model.Status is WorkshopOS.Domain.Estimates.EstimateStatus.Approved
+        or WorkshopOS.Domain.Estimates.EstimateStatus.Declined;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h1 class="display-6">@Model.Number</h1>
+        <p class="text-muted mb-0">
+            Repair order
+            <a asp-controller="RepairOrders" asp-action="Details" asp-route-repairOrderId="@Model.RepairOrderId">@Model.RepairOrderNumber</a>
+        </p>
+    </div>
+    <div>
+        @if (Model.CanEditItems)
+        {
+            <a asp-action="Edit" asp-route-estimateId="@Model.EstimateId" class="btn btn-outline-secondary">Edit draft</a>
+        }
+        <a asp-action="Index" class="btn btn-link">All estimates</a>
+    </div>
+</div>
+
+@if (TempData["EstimateError"] is string estimateError)
+{
+    <div class="alert alert-warning">@estimateError</div>
+}
+
+@if (isSent)
+{
+    <div class="alert alert-info">
+        This estimate is awaiting customer decision. You may create a secure customer link below, or record a phone/in-person decision as workshop staff.
+    </div>
+}
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <h2 class="h5">Job context</h2>
+        <dl class="row">
+            <dt class="col-sm-4">Status</dt>
+            <dd class="col-sm-8">@Model.Status</dd>
+            <dt class="col-sm-4">Customer</dt>
+            <dd class="col-sm-8">@Model.CustomerDisplayName</dd>
+            <dt class="col-sm-4">Vehicle</dt>
+            <dd class="col-sm-8">@Model.VehicleSummary</dd>
+            <dt class="col-sm-4">Location</dt>
+            <dd class="col-sm-8">@Model.WorkshopLocationName</dd>
+            <dt class="col-sm-4">Currency</dt>
+            <dd class="col-sm-8">@Model.CurrencyCode</dd>
+            <dt class="col-sm-4">Total</dt>
+            <dd class="col-sm-8">@Model.Total @Model.CurrencyCode</dd>
+            @if (Model.SentAtUtc.HasValue)
+            {
+                <dt class="col-sm-4">Presented</dt>
+                <dd class="col-sm-8">@Model.SentAtUtc.Value.ToString("u")</dd>
+            }
+            @if (Model.ApprovedAtUtc.HasValue)
+            {
+                <dt class="col-sm-4">Approval recorded</dt>
+                <dd class="col-sm-8">
+                    @Model.ApprovedAtUtc.Value.ToString("u")
+                    @if (Model.Share?.PortalDecision == WorkshopOS.Domain.Estimates.EstimateShareDecision.Approved)
+                    {
+                        <span class="text-muted">(customer portal approval)</span>
+                    }
+                    else
+                    {
+                        <span class="text-muted">(approval recorded by workshop staff)</span>
+                    }
+                </dd>
+            }
+            @if (Model.DeclinedAtUtc.HasValue)
+            {
+                <dt class="col-sm-4">Decline recorded</dt>
+                <dd class="col-sm-8">
+                    @Model.DeclinedAtUtc.Value.ToString("u")
+                    @if (Model.Share?.PortalDecision == WorkshopOS.Domain.Estimates.EstimateShareDecision.Declined)
+                    {
+                        <span class="text-muted">(customer portal decline)</span>
+                    }
+                    else
+                    {
+                        <span class="text-muted">(decline recorded by workshop staff)</span>
+                    }
+                </dd>
+            }
+        </dl>
+    </div>
+    <div class="col-md-6">
+        @if (Model.InspectionFindings.Count > 0 && Model.LatestInspectionId.HasValue)
+        {
+            <h2 class="h5">Inspection findings (context)</h2>
+            <p class="small text-muted">
+                Latest inspection
+                <a asp-controller="Inspections" asp-action="Details" asp-route-inspectionId="@Model.LatestInspectionId">view DVI</a>
+            </p>
+            <ul class="list-unstyled small">
+                @foreach (var finding in Model.InspectionFindings)
+                {
+                    <li class="mb-1">
+                        <strong>@finding.Section</strong> — @finding.Name:
+                        @finding.Condition
+                        @if (!string.IsNullOrWhiteSpace(finding.Notes))
+                        {
+                            <span class="text-muted">(@finding.Notes)</span>
+                        }
+                    </li>
+                }
+            </ul>
+        }
+        @if (!string.IsNullOrWhiteSpace(Model.CustomerMessage))
+        {
+            <h2 class="h5 mt-3">Customer message</h2>
+            <p class="border rounded p-3 bg-light">@Model.CustomerMessage</p>
+        }
+    </div>
+</div>
+
+@if (TempData["InvoiceError"] is string invoiceError)
+{
+    <div class="alert alert-warning">@invoiceError</div>
+}
+
+@if (Model.LinkedInvoiceId.HasValue)
+{
+    <div class="alert alert-light border">
+        Invoice
+        <a asp-controller="Invoices" asp-action="Details" asp-route-invoiceId="@Model.LinkedInvoiceId">@Model.LinkedInvoiceNumber</a>
+        was created from this estimate.
+    </div>
+}
+
+@if (Model.CanCreateInvoice)
+{
+    <form asp-controller="Invoices" asp-action="CreateFromEstimate" asp-route-estimateId="@Model.EstimateId" method="post" class="mb-4">
+        @Html.AntiForgeryToken()
+        <button type="submit" class="btn btn-outline-primary">Create invoice from estimate</button>
+    </form>
+}
+
+@if (Model.CanManageShares && Model.Share is not null)
+{
+    <h2 class="h5 mt-2">Share with customer</h2>
+    <dl class="row">
+        <dt class="col-sm-3">Share status</dt>
+        <dd class="col-sm-9">@Model.Share.Status</dd>
+        @if (Model.Share.CreatedAtUtc.HasValue)
+        {
+            <dt class="col-sm-3">Created</dt>
+            <dd class="col-sm-9">@Model.Share.CreatedAtUtc.Value.ToString("u")</dd>
+        }
+        @if (Model.Share.ExpiresAtUtc.HasValue)
+        {
+            <dt class="col-sm-3">Expires</dt>
+            <dd class="col-sm-9">@Model.Share.ExpiresAtUtc.Value.ToString("u")</dd>
+        }
+        @if (Model.Share.LastAccessedAtUtc.HasValue)
+        {
+            <dt class="col-sm-3">Last accessed</dt>
+            <dd class="col-sm-9">@Model.Share.LastAccessedAtUtc.Value.ToString("u")</dd>
+        }
+        @if (Model.Share.PortalDecision.HasValue)
+        {
+            <dt class="col-sm-3">Customer portal decision</dt>
+            <dd class="col-sm-9">
+                @Model.Share.PortalDecision
+                @if (Model.Share.PortalDecisionAtUtc.HasValue)
+                {
+                    <span>— @Model.Share.PortalDecisionAtUtc.Value.ToString("u")</span>
+                }
+            </dd>
+        }
+    </dl>
+
+    <div class="d-flex flex-wrap gap-2 mb-4">
+        @if (Model.Share.CanCreate)
+        {
+            <form asp-action="CreateShare" asp-route-estimateId="@Model.EstimateId" method="post">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-outline-primary">Create secure link</button>
+            </form>
+        }
+        @if (Model.Share.CanRotate)
+        {
+            <form asp-action="RotateShare" asp-route-estimateId="@Model.EstimateId" method="post">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-outline-secondary">Rotate link</button>
+            </form>
+        }
+        @if (Model.Share.CanRevoke)
+        {
+            <form asp-action="RevokeShare" asp-route-estimateId="@Model.EstimateId" method="post">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-outline-warning">Revoke link</button>
+            </form>
+        }
+    </div>
+}
+
+<h2 class="h5">Line items</h2>
+@if (Model.Items.Count == 0)
+{
+    <p class="text-muted">No line items.</p>
+}
+else
+{
+    <table class="table table-sm table-striped">
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Qty</th>
+                <th>Unit price</th>
+                <th>Line total</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>@item.Type</td>
+                <td>@item.Description</td>
+                <td>@item.Quantity</td>
+                <td>@item.UnitPrice</td>
+                <td>@item.LineTotal</td>
+            </tr>
+        }
+        </tbody>
+        <tfoot>
+            <tr>
+                <th colspan="4" class="text-end">Estimate total</th>
+                <th>@Model.Total @Model.CurrencyCode</th>
+            </tr>
+        </tfoot>
+    </table>
+}
+
+@if (Model.CanRecordApproval || Model.CanRecordDecline)
+{
+    <div class="d-flex gap-2 mt-3">
+        @if (Model.CanRecordApproval)
+        {
+            <form asp-action="RecordApproval" asp-route-estimateId="@Model.EstimateId" method="post">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-success">Record customer approval</button>
+            </form>
+        }
+        @if (Model.CanRecordDecline)
+        {
+            <form asp-action="RecordDecline" asp-route-estimateId="@Model.EstimateId" method="post">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-outline-warning">Record customer decline</button>
+            </form>
+        }
+    </div>
+}

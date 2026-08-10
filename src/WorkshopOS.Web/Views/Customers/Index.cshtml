@@ -1,0 +1,76 @@
+@model WorkshopOS.Web.Models.Customers.CustomerListViewModel
+@{
+    ViewData["Title"] = "Customers";
+}
+
+<header class="wos-page-header">
+    <div>
+        <h1 class="wos-page-title">Customers</h1>
+        <p class="wos-page-description">@Model.TotalCount customer(s) in current view</p>
+    </div>
+    @if (Model.CanManageCustomers)
+    {
+        <div class="wos-page-actions">
+            <a class="btn btn-wos-primary" asp-action="Create">Create customer</a>
+        </div>
+    }
+</header>
+
+<form asp-action="Index" method="get" class="row g-2 mb-4">
+    <div class="col-md-6">
+        <input name="search" value="@Model.Search" class="form-control" placeholder="Search name, email, or phone" />
+    </div>
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-outline-secondary w-100">Search</button>
+    </div>
+</form>
+
+@if (Model.Customers.Count == 0)
+{
+    @await Html.PartialAsync("_EmptyState", new EmptyStateViewModel { Title = "No customers yet", Description = "No customers match the current filters." })
+}
+else
+{
+    <div class="wos-table-wrap">
+    <table class="table table-hover mb-0">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var customer in Model.Customers)
+        {
+            <tr>
+                <td>@customer.DisplayName</td>
+                <td>@customer.Email</td>
+                <td>@customer.Phone</td>
+                <td><partial name="_StatusBadge" model="StatusPresentation.ForActive(customer.IsActive)" /></td>
+                <td class="text-end">
+                    <a asp-action="Details" asp-route-customerId="@customer.CustomerId" class="btn btn-sm btn-outline-primary">View</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    </div>
+
+    @if ((int)Math.Ceiling(Model.TotalCount / (double)Model.PageSize) > 1)
+    {
+        var totalPages = (int)Math.Ceiling(Model.TotalCount / (double)Model.PageSize);
+        <nav>
+            <ul class="pagination">
+                @for (var pageNumber = 1; pageNumber <= totalPages; pageNumber++)
+                {
+                    <li class="page-item @(pageNumber == Model.Page ? "active" : null)">
+                        <a class="page-link" asp-action="Index" asp-route-search="@Model.Search" asp-route-page="@pageNumber" asp-route-pageSize="@Model.PageSize">@pageNumber</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
+}

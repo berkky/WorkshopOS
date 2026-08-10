@@ -56,4 +56,12 @@ public class InspectionItem : OrganizationOwnedEntity, IHasTimestamps
         SortOrder = sortOrder;
         Notes = string.IsNullOrWhiteSpace(notes) ? null : notes.Trim();
     }
+
+    public void UpdateResult(InspectionCondition condition, string? notes)
+    {
+        Condition = condition;
+        Notes = string.IsNullOrWhiteSpace(notes) ? null : notes.Trim();
+    }
+
+    public bool IsInspected => Condition != InspectionCondition.NotChecked;
 }

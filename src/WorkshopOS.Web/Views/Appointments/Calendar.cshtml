@@ -1,0 +1,76 @@
+@model WorkshopOS.Web.Models.Appointments.AppointmentCalendarViewModel
+@{
+    ViewData["Title"] = "Appointment calendar";
+    var previousWeek = Model.WeekStartLocal.AddDays(-7);
+    var nextWeek = Model.WeekStartLocal.AddDays(7);
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h1 class="display-6">Appointment calendar</h1>
+        <p class="text-muted mb-0">
+            Week of @Model.WeekStartLocal.ToString("d") – @Model.WeekEndLocal.ToString("d")
+            (@Model.TimeZoneId)
+        </p>
+    </div>
+    <div>
+        <a asp-action="Index" class="btn btn-outline-secondary">List</a>
+        @if (Model.CanManageAppointments)
+        {
+            <a asp-action="Create" class="btn btn-primary">Create appointment</a>
+        }
+    </div>
+</div>
+
+<div class="d-flex justify-content-between mb-3">
+    <a asp-action="Calendar" asp-route-weekStart="@previousWeek" asp-route-workshopLocationId="@Model.WorkshopLocationId" asp-route-status="@Model.Status" class="btn btn-outline-secondary">Previous week</a>
+    <a asp-action="Calendar" asp-route-weekStart="@DateOnly.FromDateTime(DateTime.Today)" asp-route-workshopLocationId="@Model.WorkshopLocationId" asp-route-status="@Model.Status" class="btn btn-outline-secondary">This week</a>
+    <a asp-action="Calendar" asp-route-weekStart="@nextWeek" asp-route-workshopLocationId="@Model.WorkshopLocationId" asp-route-status="@Model.Status" class="btn btn-outline-secondary">Next week</a>
+</div>
+
+<form asp-action="Calendar" method="get" class="row g-2 mb-3">
+    <input type="hidden" name="weekStart" value="@Model.WeekStartLocal" />
+    <div class="col-md-4">
+        <select name="workshopLocationId" class="form-select">
+            <option value="">All locations</option>
+            @foreach (var location in Model.LocationOptions)
+            {
+                <option value="@location.WorkshopLocationId" selected="@(Model.WorkshopLocationId == location.WorkshopLocationId)">@location.Name</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-outline-secondary w-100">Filter</button>
+    </div>
+</form>
+
+<div class="row">
+@foreach (var day in Model.Days)
+{
+    <div class="col-md-6 col-lg-4 mb-3">
+        <div class="card h-100">
+            <div class="card-header fw-semibold">@day.Date.ToString("dddd, d MMM")</div>
+            <div class="card-body">
+                @if (day.Appointments.Count == 0)
+                {
+                    <p class="text-muted mb-0">No appointments</p>
+                }
+                else
+                {
+                    <ul class="list-unstyled mb-0">
+                    @foreach (var appointment in day.Appointments)
+                    {
+                        <li class="mb-2">
+                            <div class="fw-semibold">@appointment.ScheduledStartLocal.ToString("t") – @appointment.ScheduledEndLocal.ToString("t")</div>
+                            <div>@appointment.CustomerDisplayName</div>
+                            <div class="text-muted small">@appointment.VehicleSummary · @appointment.WorkshopLocationName</div>
+                            <a asp-action="Details" asp-route-appointmentId="@appointment.AppointmentId">View</a>
+                        </li>
+                    }
+                    </ul>
+                }
+            </div>
+        </div>
+    </div>
+}
+</div>

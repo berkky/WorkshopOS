@@ -55,4 +55,33 @@ public class Vehicle : OrganizationOwnedEntity, IHasTimestamps
         ModelYear = modelYear;
         Color = string.IsNullOrWhiteSpace(color) ? null : color.Trim();
     }
+
+    public void UpdateProfile(
+        string make,
+        string model,
+        int? modelYear,
+        string? vin,
+        string? registrationPlate,
+        string? color)
+    {
+        if (string.IsNullOrWhiteSpace(make))
+        {
+            throw new ArgumentException("Vehicle make is required.", nameof(make));
+        }
+
+        if (string.IsNullOrWhiteSpace(model))
+        {
+            throw new ArgumentException("Vehicle model is required.", nameof(model));
+        }
+
+        Make = make.Trim();
+        Model = model.Trim();
+        ModelYear = modelYear;
+        Vin = string.IsNullOrWhiteSpace(vin) ? null : vin.Trim();
+        RegistrationPlate = string.IsNullOrWhiteSpace(registrationPlate) ? null : registrationPlate.Trim();
+        Color = string.IsNullOrWhiteSpace(color) ? null : color.Trim();
+    }
+
+    public void ReassignCurrentCustomer(Guid? currentCustomerId) =>
+        CurrentCustomerId = currentCustomerId;
 }

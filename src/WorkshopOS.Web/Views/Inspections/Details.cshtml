@@ -1,0 +1,210 @@
+@model WorkshopOS.Web.Models.Inspections.InspectionDetailsViewModel
+@{
+    ViewData["Title"] = $"Inspection — {Model.RepairOrderNumber}";
+    var isCompleted = Model.Status == WorkshopOS.Domain.Inspections.InspectionStatus.Completed;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h1 class="display-6">Digital vehicle inspection</h1>
+        <p class="text-muted mb-0">
+            Repair order
+            <a asp-controller="RepairOrders" asp-action="Details" asp-route-repairOrderId="@Model.RepairOrderId">@Model.RepairOrderNumber</a>
+        </p>
+    </div>
+    <div>
+        @if (Model.CanStart && Model.Status == WorkshopOS.Domain.Inspections.InspectionStatus.Draft)
+        {
+            <form asp-action="Start" asp-route-inspectionId="@Model.InspectionId" method="post" class="d-inline">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-primary">Start inspection</button>
+            </form>
+        }
+        <a asp-controller="Estimates" asp-action="Index" asp-route-repairOrderId="@Model.RepairOrderId" class="btn btn-link ms-2">Estimates</a>
+        <a asp-action="Index" class="btn btn-link">All inspections</a>
+    </div>
+</div>
+
+@if (TempData["InspectionError"] is string inspectionError)
+{
+    <div class="alert alert-warning">@inspectionError</div>
+}
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <h2 class="h5">Job context</h2>
+        <dl class="row">
+            <dt class="col-sm-4">Status</dt>
+            <dd class="col-sm-8">@Model.Status</dd>
+            <dt class="col-sm-4">Customer</dt>
+            <dd class="col-sm-8">@Model.CustomerDisplayName</dd>
+            <dt class="col-sm-4">Vehicle</dt>
+            <dd class="col-sm-8">@Model.VehicleSummary</dd>
+            <dt class="col-sm-4">Location</dt>
+            <dd class="col-sm-8">@Model.WorkshopLocationName</dd>
+            @if (Model.StartedAtUtc.HasValue)
+            {
+                <dt class="col-sm-4">Started</dt>
+                <dd class="col-sm-8">@Model.StartedAtUtc.Value.ToString("u")</dd>
+            }
+            @if (Model.CompletedAtUtc.HasValue)
+            {
+                <dt class="col-sm-4">Completed</dt>
+                <dd class="col-sm-8">@Model.CompletedAtUtc.Value.ToString("u")</dd>
+            }
+        </dl>
+    </div>
+    <div class="col-md-6">
+        <h2 class="h5">Result summary</h2>
+        <dl class="row">
+            <dt class="col-sm-4">Total items</dt>
+            <dd class="col-sm-8">@Model.Summary.Total</dd>
+            <dt class="col-sm-4">Inspected</dt>
+            <dd class="col-sm-8">@Model.Summary.Inspected</dd>
+            <dt class="col-sm-4">Good</dt>
+            <dd class="col-sm-8">@Model.Summary.Good</dd>
+            <dt class="col-sm-4">Monitor</dt>
+            <dd class="col-sm-8">@Model.Summary.Monitor</dd>
+            <dt class="col-sm-4">Attention</dt>
+            <dd class="col-sm-8">@Model.Summary.Attention</dd>
+            <dt class="col-sm-4">Critical</dt>
+            <dd class="col-sm-8">@Model.Summary.Critical</dd>
+            <dt class="col-sm-4">Photo evidence</dt>
+            <dd class="col-sm-8">@Model.ActivePhotoCount active photo(s)</dd>
+        </dl>
+    </div>
+</div>
+
+@if (Model.CanUpdateItems)
+{
+    <form asp-action="UpdateItems" asp-route-inspectionId="@Model.InspectionId" method="post">
+        @Html.AntiForgeryToken()
+        @{
+            var itemIndex = 0;
+        }
+        @foreach (var sectionGroup in Model.Sections)
+        {
+            <h2 class="h5 mt-4">@sectionGroup.Section</h2>
+            <div class="table-responsive">
+                <table class="table table-bordered align-middle">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Condition</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var item in sectionGroup.Items.OrderBy(candidate => candidate.SortOrder))
+                    {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>
+                                <input type="hidden" name="editableItems[@itemIndex].InspectionItemId" value="@item.InspectionItemId" />
+                                <select name="editableItems[@itemIndex].Condition" class="form-select">
+                                    @foreach (var condition in Enum.GetValues<WorkshopOS.Domain.Inspections.InspectionCondition>())
+                                    {
+                                        <option value="@condition" selected="@(item.Condition == condition)">@condition</option>
+                                    }
+                                </select>
+                            </td>
+                            <td>
+                                <input name="editableItems[@itemIndex].Notes" value="@item.Notes" class="form-control" maxlength="2000" />
+                            </td>
+                        </tr>
+                        itemIndex++;
+                    }
+                    </tbody>
+                </table>
+            </div>
+        }
+        <div class="mb-4">
+            <button type="submit" class="btn btn-primary">Save inspection</button>
+        </div>
+    </form>
+    @if (Model.CanComplete)
+    {
+        <form asp-action="Complete" asp-route-inspectionId="@Model.InspectionId" method="post" class="mb-4">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-success">Complete inspection</button>
+        </form>
+    }
+}
+else
+{
+    @foreach (var sectionGroup in Model.Sections)
+    {
+        <h2 class="h5 mt-4">@sectionGroup.Section</h2>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Condition</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in sectionGroup.Items.OrderBy(candidate => candidate.SortOrder))
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>
+                            <span class="badge bg-light text-dark border">@item.Condition</span>
+                        </td>
+                        <td>@(string.IsNullOrWhiteSpace(item.Notes) ? "—" : item.Notes)</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+
+    @if (isCompleted)
+    {
+        <p class="text-muted">This inspection is completed and cannot be modified.</p>
+    }
+}
+
+@if (Model.Sections.Any(section => section.Items.Any(item => item.Media.Count > 0)) || Model.CanUploadMedia)
+{
+    ViewData["InspectionId"] = Model.InspectionId;
+    ViewData["CanRemoveMedia"] = Model.CanRemoveMedia;
+    <h2 class="h5 mt-4">Photo evidence</h2>
+    @foreach (var sectionGroup in Model.Sections)
+    {
+        @foreach (var item in sectionGroup.Items.OrderBy(candidate => candidate.SortOrder))
+        {
+            <div class="border rounded p-3 mb-3">
+                <div class="fw-semibold">@sectionGroup.Section — @item.Name</div>
+                <div class="small text-muted mb-2">@item.Media.Count photo(s)</div>
+                @if (item.Media.Count > 0)
+                {
+                    @await Html.PartialAsync("_InspectionItemMedia", item)
+                }
+                @if (Model.CanUploadMedia)
+                {
+                    <form asp-action="UploadPhoto"
+                          asp-route-inspectionId="@Model.InspectionId"
+                          asp-route-inspectionItemId="@item.InspectionItemId"
+                          method="post"
+                          enctype="multipart/form-data"
+                          class="row g-2 align-items-end mt-2">
+                        @Html.AntiForgeryToken()
+                        <div class="col-md-5">
+                            <label class="form-label">Photo (JPEG, PNG, WebP, max 8 MB)</label>
+                            <input type="file" name="photo" accept="image/jpeg,image/png,image/webp" class="form-control" required />
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Caption (optional)</label>
+                            <input type="text" name="caption" class="form-control" maxlength="500" />
+                        </div>
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-outline-primary">Upload photo</button>
+                        </div>
+                    </form>
+                }
+            </div>
+        }
+    }
+}

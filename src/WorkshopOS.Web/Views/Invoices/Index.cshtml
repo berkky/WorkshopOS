@@ -1,0 +1,83 @@
+@model WorkshopOS.Web.Models.Billing.InvoiceListViewModel
+@{
+    ViewData["Title"] = "Invoices";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h1 class="display-6">Invoices</h1>
+        <p class="text-muted mb-0">@Model.TotalCount invoice(s) in current view</p>
+    </div>
+    <a asp-controller="RepairOrders" asp-action="Index" class="btn btn-outline-secondary">Repair orders</a>
+</div>
+
+<form asp-action="Index" method="get" class="row g-2 mb-3">
+    <div class="col-md-3">
+        <input name="search" value="@Model.Search" class="form-control" placeholder="Search invoice, repair order, customer" />
+    </div>
+    <div class="col-md-2">
+        <select name="status" class="form-select" asp-for="Status" asp-items="Html.GetEnumSelectList<WorkshopOS.Domain.Billing.InvoiceStatus>()">
+            <option value="">All statuses</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <select name="paymentState" class="form-select" asp-for="PaymentState" asp-items="Html.GetEnumSelectList<WorkshopOS.Application.Billing.InvoicePaymentState>()">
+            <option value="">All payment states</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <select name="workshopLocationId" class="form-select">
+            <option value="">All locations</option>
+            @foreach (var location in Model.LocationOptions)
+            {
+                <option value="@location.WorkshopLocationId" selected="@(Model.WorkshopLocationId == location.WorkshopLocationId)">@location.Name</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-outline-secondary w-100">Filter</button>
+    </div>
+</form>
+
+@if (Model.Invoices.Count == 0)
+{
+    <div class="alert alert-light border">No invoices match the current filters.</div>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Invoice</th>
+                <th>Repair order</th>
+                <th>Customer</th>
+                <th>Vehicle</th>
+                <th>Location</th>
+                <th>Status</th>
+                <th>Payment</th>
+                <th>Total</th>
+                <th>Created</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var invoice in Model.Invoices)
+        {
+            <tr>
+                <td>@invoice.Number</td>
+                <td>@invoice.RepairOrderNumber</td>
+                <td>@invoice.CustomerDisplayName</td>
+                <td>@invoice.VehicleSummary</td>
+                <td>@invoice.WorkshopLocationName</td>
+                <td>@invoice.Status</td>
+                <td>@invoice.PaymentState</td>
+                <td>@invoice.Total @invoice.CurrencyCode</td>
+                <td>@invoice.CreatedAtUtc.ToString("u")</td>
+                <td>
+                    <a asp-action="Details" asp-route-invoiceId="@invoice.InvoiceId" class="btn btn-sm btn-outline-secondary">View</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

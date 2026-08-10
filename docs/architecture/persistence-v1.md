@@ -43,6 +43,11 @@ Applied to all organization-owned operational entities:
 - `InspectionItem`
 - `Estimate`
 - `EstimateItem`
+- `EstimateShare`
+- `ServiceCatalogItem`
+- `PartCatalogItem`
+- `PartInventoryBalance`
+- `PartInventoryMovement`
 
 Behavior (fail-closed):
 
@@ -106,12 +111,33 @@ Domain enums are stored as PostgreSQL `integer`. No PostgreSQL native enum types
 | `AppDbContext` | Implemented |
 | Entity configurations | Implemented |
 | `InitialCreate` migration | Generated |
-| Migration applied to database | **Not yet** (STEP 04 blocked: local PostgreSQL admin access unavailable) |
+| Migration applied to database | **Applied** to isolated local `workshopos_dev` and `workshopos_test` |
+| Identity schema | **Applied** via `AddIdentityAndOrganizationMemberships` |
 | Runtime `AddDbContext` in Web | **Implemented** |
-| Integration test project | **Implemented** (requires `workshopos_test`) |
+| Integration test project | **Implemented** — verified against real PostgreSQL |
 | Connection strings in source | **Not present** |
+| Automatic migration on startup | **Not implemented** |
+| Automatic seed | **Not implemented** |
+
+`InitialCreate` is applied to isolated local WorkshopOS development and test PostgreSQL databases. No production database has been provisioned or migrated. Application startup does not automatically migrate or seed.
 
 Design-time factory reads `WORKSHOPOS_DESIGNTIME_CONNECTION` from the environment. No credentials are stored in source control.
+
+## Migration history
+
+| Migration | Purpose |
+|---|---|
+| `20260809131115_InitialCreate` | Operational tenant schema |
+| `20260809190429_AddIdentityAndOrganizationMemberships` | ASP.NET Identity + `OrganizationMemberships` |
+| `20260810093254_AddWorkshopTeamManagement` | `StaffMembers` + `StaffLocationAssignments` |
+| `20260810105310_AddWorkshopOperationsFoundation` | `RepairOrder.Priority`, `RepairOrderTechnicianAssignments` |
+| `20260810113926_AddInspectionMediaFoundation` | `InspectionMediaAssets`, inspection item alternate key |
+| `20260810120537_EnhanceEstimateApprovalFoundation` | `Estimate.SentAtUtc`, `ApprovedAtUtc`, `DeclinedAtUtc` |
+| `20260810123853_AddSecureEstimateCustomerSharing` | `EstimateShares` — secure customer portal sharing |
+| `20260810131936_AddCatalogAndInventoryFoundation` | Service/parts catalog + inventory balances/movements |
+| `20260810140103_AddInvoiceAndPaymentFoundation` | `Invoices`, `InvoiceItems`, `InvoicePaymentRecords`, `RepairOrders.CommerciallyClosedAtUtc` |
+
+No seed data. No production database has been provisioned or migrated.
 
 ## Migration
 

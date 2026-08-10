@@ -1,0 +1,13 @@
+@model WorkshopOS.Web.Models.Vehicles.VehicleFormViewModel
+@{
+    ViewData["Title"] = "Edit vehicle";
+}
+
+<h1 class="display-6">Edit vehicle</h1>
+
+<form asp-action="Edit" asp-route-vehicleId="@Model.VehicleId" method="post">
+    @Html.AntiForgeryToken()
+    <partial name="_VehicleFormFields" model="Model" />
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-action="Details" asp-route-vehicleId="@Model.VehicleId" class="btn btn-link">Cancel</a>
+</form>

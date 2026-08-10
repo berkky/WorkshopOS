@@ -1,0 +1,16 @@
+@model WorkshopOS.Web.Models.Team.StaffMemberFormViewModel
+@{
+    ViewData["Title"] = "Add staff profile";
+}
+
+<h1 class="display-6">Add staff profile</h1>
+
+<form asp-action="Create" method="post">
+    <partial name="_StaffMemberFormFields" model="Model" />
+    <button type="submit" class="btn btn-primary">Create staff profile</button>
+    <a asp-action="Index" class="btn btn-link">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

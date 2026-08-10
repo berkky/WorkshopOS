@@ -1,9 +1,280 @@
 ﻿@{
-    ViewData["Title"] = "WorkshopOS";
+    ViewData["Title"] = "Workshop management for modern automotive workshops";
 }
 
-<div class="text-center">
-    <h1 class="display-4">WORKSHOPOS</h1>
-    <p class="lead">Automotive Service Intelligence Platform</p>
-    <p class="text-muted">Foundation initialized successfully.</p>
+<section class="wos-hero" id="wos-hero">
+    <div class="wos-hero-inner">
+        <div class="wos-hero-copy">
+            <p class="wos-page-eyebrow">Automotive workshop intelligence</p>
+            <h1>Command your <span class="wos-hero-accent">workshop floor</span> with precision and confidence.</h1>
+            <p class="wos-hero-lead">
+                WorkshopOS unifies appointments, repair orders, digital inspections, estimates,
+                inventory, invoicing, and executive reporting — built for multi-location automotive operations
+                that demand operational control and commercial clarity.
+            </p>
+            <div class="wos-hero-actions">
+                <a class="btn btn-wos-primary btn-lg wos-hero-cta" asp-controller="Onboarding" asp-action="Index">Start your workshop</a>
+                <a class="btn btn-outline-light btn-lg wos-hero-cta" asp-controller="Account" asp-action="Login">Sign in</a>
+            </div>
+            <div class="wos-hero-stats">
+                <div class="wos-hero-stat">
+                    <strong>Operations</strong>
+                    Real-time board &amp; technician workflow
+                </div>
+                <div class="wos-hero-stat">
+                    <strong>Commercial</strong>
+                    Estimates, invoices &amp; customer portal
+                </div>
+                <div class="wos-hero-stat">
+                    <strong>Intelligence</strong>
+                    Executive dashboard &amp; KPI reports
+                </div>
+            </div>
+        </div>
+
+        <div class="wos-hero-scene" aria-hidden="true">
+            <div class="wos-hero-visual-stage">
+                <!-- Atmospheric glow -->
+                <div class="wos-hero-layer wos-hero-layer--glow" data-depth="0.2" data-z="-120"></div>
+
+                <!-- Light rings / platform -->
+                <div class="wos-hero-layer wos-hero-layer--rings" data-depth="0.4" data-z="-60">
+                    <div class="wos-hero-ring wos-hero-ring--outer"></div>
+                    <div class="wos-hero-ring wos-hero-ring--inner"></div>
+                    <div class="wos-hero-platform"></div>
+                </div>
+
+                <!-- Automotive wireframe -->
+                <div class="wos-hero-layer wos-hero-layer--vehicle" data-depth="0.3" data-z="-40">
+                    <img class="wos-hero-vehicle" src="~/images/workshopos/hero-vehicle-wireframe.svg" alt="" width="800" height="320" />
+                </div>
+
+                <!-- Main dashboard glass panel -->
+                <div class="wos-hero-layer wos-hero-layer--dashboard" data-depth="1.2" data-z="40">
+                    <div class="wos-hero-glass wos-hero-dashboard">
+                        <div class="wos-hero-glass-header">
+                            <span class="wos-hero-glass-dot"></span>
+                            <span class="wos-hero-glass-dot"></span>
+                            <span class="wos-hero-glass-dot"></span>
+                            <span class="wos-hero-glass-title">Operations intelligence</span>
+                        </div>
+                        <div class="wos-hero-kpi-row">
+                            <div class="wos-hero-kpi">
+                                <span class="wos-hero-kpi-label">Active ROs</span>
+                                <span class="wos-hero-kpi-value">12</span>
+                            </div>
+                            <div class="wos-hero-kpi">
+                                <span class="wos-hero-kpi-label">Unassigned</span>
+                                <span class="wos-hero-kpi-value wos-hero-kpi-value--warn">3</span>
+                            </div>
+                            <div class="wos-hero-kpi">
+                                <span class="wos-hero-kpi-label">Urgent</span>
+                                <span class="wos-hero-kpi-value wos-hero-kpi-value--urgent">2</span>
+                            </div>
+                        </div>
+                        <div class="wos-hero-dash-bar">
+                            <span style="width:72%"></span>
+                        </div>
+                        <p class="wos-hero-preview-note">Product preview artwork</p>
+                    </div>
+                </div>
+
+                <!-- Chart panel -->
+                <div class="wos-hero-layer wos-hero-layer--chart" data-depth="1.6" data-z="70">
+                    <div class="wos-hero-glass wos-hero-chart-panel">
+                        <span class="wos-hero-chart-label">Throughput · Preview</span>
+                        <svg class="wos-hero-chart-svg" viewBox="0 0 200 60" preserveAspectRatio="none">
+                            <defs>
+                                <linearGradient id="chart-fill" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="#3b6cf5" stop-opacity="0.35"/>
+                                    <stop offset="100%" stop-color="#3b6cf5" stop-opacity="0"/>
+                                </linearGradient>
+                            </defs>
+                            <path class="wos-hero-chart-area" d="M0 50 L30 42 L60 45 L90 28 L120 32 L150 18 L180 24 L200 12 L200 60 L0 60 Z" fill="url(#chart-fill)"/>
+                            <path class="wos-hero-chart-line" d="M0 50 L30 42 L60 45 L90 28 L120 32 L150 18 L180 24 L200 12" fill="none" stroke="#22d3ee" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Status ring panel -->
+                <div class="wos-hero-layer wos-hero-layer--status" data-depth="1.4" data-z="55">
+                    <div class="wos-hero-glass wos-hero-status-ring">
+                        <svg viewBox="0 0 80 80" class="wos-hero-ring-svg">
+                            <circle cx="40" cy="40" r="32" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="4"/>
+                            <circle cx="40" cy="40" r="32" fill="none" stroke="url(#status-gradient)" stroke-width="4" stroke-dasharray="160 60" stroke-linecap="round" class="wos-hero-ring-progress"/>
+                            <defs>
+                                <linearGradient id="status-gradient" x1="0" y1="0" x2="1" y2="1">
+                                    <stop offset="0%" stop-color="#3b6cf5"/>
+                                    <stop offset="100%" stop-color="#22d3ee"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <span class="wos-hero-status-label">DVI open</span>
+                    </div>
+                </div>
+
+                <!-- Floating appointment card -->
+                <div class="wos-hero-layer wos-hero-layer--float wos-hero-float--appointment" data-depth="2" data-z="90">
+                    <div class="wos-hero-float-card">
+                        <span class="wos-hero-float-icon">📅</span>
+                        <div>
+                            <span class="wos-hero-float-title">Appointment</span>
+                            <span class="wos-hero-float-meta">09:30 · Brake service</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Floating inspection card -->
+                <div class="wos-hero-layer wos-hero-layer--float wos-hero-float--inspection" data-depth="2.2" data-z="100">
+                    <div class="wos-hero-float-card wos-hero-float-card--alert">
+                        <span class="wos-hero-float-icon">🔍</span>
+                        <div>
+                            <span class="wos-hero-float-title">DVI finding</span>
+                            <span class="wos-hero-float-meta">Brake wear · Attention</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Floating parts card -->
+                <div class="wos-hero-layer wos-hero-layer--float wos-hero-float--parts" data-depth="1.8" data-z="80">
+                    <div class="wos-hero-float-card">
+                        <span class="wos-hero-float-icon">📦</span>
+                        <div>
+                            <span class="wos-hero-float-title">Parts inventory</span>
+                            <span class="wos-hero-float-meta">Brake pads · Low stock</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Particles -->
+                <div class="wos-hero-layer wos-hero-layer--particles" data-depth="0.5" data-z="-20">
+                    <span class="wos-hero-particle"></span>
+                    <span class="wos-hero-particle"></span>
+                    <span class="wos-hero-particle"></span>
+                    <span class="wos-hero-particle"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="wos-hero-feature-strip" aria-hidden="true">
+    <div class="wos-hero-feature-strip-inner">
+        <span>Repair orders</span>
+        <span>Digital inspections</span>
+        <span>Estimates &amp; portal</span>
+        <span>Inventory</span>
+        <span>Invoicing</span>
+        <span>Executive reporting</span>
+    </div>
 </div>
+
+<section class="wos-section" aria-labelledby="features-heading">
+    <div class="wos-section-inner">
+        <div class="wos-section-header">
+            <p class="wos-section-eyebrow">Platform capabilities</p>
+            <h2 id="features-heading">Everything your workshop needs to operate at scale</h2>
+            <p>From intake to invoice — a unified system designed for automotive professionals who run serious operations.</p>
+        </div>
+        <div class="wos-feature-grid">
+            <article class="wos-card wos-feature-card">
+                <div class="wos-feature-icon" aria-hidden="true">⚙</div>
+                <h3>Workshop operations</h3>
+                <p>Repair order lifecycle, technician assignments, priority queue, and dedicated My Work views for technicians.</p>
+            </article>
+            <article class="wos-card wos-feature-card">
+                <div class="wos-feature-icon" aria-hidden="true">🔍</div>
+                <h3>Digital vehicle inspection</h3>
+                <p>Structured checklists, condition tracking, and authenticated inspection media delivery with evidence integrity.</p>
+            </article>
+            <article class="wos-card wos-feature-card">
+                <div class="wos-feature-icon" aria-hidden="true">✓</div>
+                <h3>Estimate &amp; customer approval</h3>
+                <p>Present estimates, share secure portal links, and capture customer decisions with full audit trail.</p>
+            </article>
+            <article class="wos-card wos-feature-card">
+                <div class="wos-feature-icon" aria-hidden="true">📦</div>
+                <h3>Catalog &amp; inventory</h3>
+                <p>Service and parts catalog with location inventory balances and a complete movement ledger.</p>
+            </article>
+            <article class="wos-card wos-feature-card">
+                <div class="wos-feature-icon" aria-hidden="true">💳</div>
+                <h3>Billing &amp; payments</h3>
+                <p>Issue invoices, record workshop-entered payments, and commercially close completed jobs.</p>
+            </article>
+            <article class="wos-card wos-feature-card">
+                <div class="wos-feature-icon" aria-hidden="true">📊</div>
+                <h3>Management reporting</h3>
+                <p>Executive dashboard plus operational and commercial KPI reports from live workshop data.</p>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section class="wos-section wos-flow-section" aria-labelledby="flow-heading">
+    <div class="wos-section-inner">
+        <div class="wos-section-header">
+            <p class="wos-section-eyebrow">Operational flow</p>
+            <h2 id="flow-heading">From appointment to closed job</h2>
+            <p>A coherent workflow that keeps every team member aligned and every customer informed.</p>
+        </div>
+        <div class="wos-flow-steps">
+            <div class="wos-flow-step">
+                <h3>Schedule &amp; intake</h3>
+                <p>Book appointments, create repair orders, and assign technicians from a unified operations board.</p>
+            </div>
+            <div class="wos-flow-step">
+                <h3>Inspect &amp; diagnose</h3>
+                <p>Run digital vehicle inspections with structured findings and photo evidence attached to each job.</p>
+            </div>
+            <div class="wos-flow-step">
+                <h3>Estimate &amp; approve</h3>
+                <p>Build estimates from your catalog, present to customers via secure portal, and capture decisions.</p>
+            </div>
+            <div class="wos-flow-step">
+                <h3>Invoice &amp; close</h3>
+                <p>Issue invoices, record payments, and commercially close jobs with full financial visibility.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="wos-section wos-trust-section" aria-labelledby="trust-heading">
+    <div class="wos-section-inner">
+        <div class="wos-section-header">
+            <p class="wos-section-eyebrow" style="color: var(--wos-accent-teal);">Architecture &amp; security</p>
+            <h2 id="trust-heading" style="color: #fff;">Built for serious workshop operations</h2>
+            <p style="color: var(--wos-text-muted-on-dark);">Enterprise-grade foundations without enterprise complexity.</p>
+        </div>
+        <div class="wos-trust-grid">
+            <div class="wos-trust-card">
+                <div class="wos-trust-icon" aria-hidden="true">🔒</div>
+                <h3>Multi-tenant isolation</h3>
+                <p>Every organization's data is strictly isolated. Role-based access controls govern what each team member can see and do.</p>
+            </div>
+            <div class="wos-trust-card">
+                <div class="wos-trust-icon" aria-hidden="true">🏢</div>
+                <h3>Multi-location ready</h3>
+                <p>Manage multiple workshop locations under one organization with location-scoped inventory, reporting, and operations.</p>
+            </div>
+            <div class="wos-trust-card">
+                <div class="wos-trust-icon" aria-hidden="true">🔗</div>
+                <h3>Secure customer portal</h3>
+                <p>Token-based estimate review links give customers a trusted, branded experience without exposing your internal systems.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="wos-cta-band" aria-labelledby="cta-heading">
+    <h2 id="cta-heading">Ready to elevate your workshop operations?</h2>
+    <p>Create your workspace in minutes and start running your floor with operational intelligence.</p>
+    <div class="d-flex flex-wrap gap-3 justify-content-center">
+        <a class="btn btn-wos-primary btn-lg" asp-controller="Onboarding" asp-action="Index">Create your workshop</a>
+        <a class="btn btn-wos-secondary btn-lg" asp-controller="Account" asp-action="Login">Sign in to existing workspace</a>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="~/js/workshopos-hero.js" asp-append-version="true"></script>
+}

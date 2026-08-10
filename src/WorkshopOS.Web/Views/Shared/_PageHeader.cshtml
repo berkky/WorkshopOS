@@ -1,0 +1,21 @@
+@model WorkshopOS.Web.Models.Shared.PageHeaderViewModel
+
+<header class="wos-page-header">
+    <div>
+        @if (!string.IsNullOrWhiteSpace(Model.Eyebrow))
+        {
+            <div class="wos-page-eyebrow">@Model.Eyebrow</div>
+        }
+        <h1 class="wos-page-title">@Model.Title</h1>
+        @if (!string.IsNullOrWhiteSpace(Model.Description))
+        {
+            <p class="wos-page-description">@Model.Description</p>
+        }
+    </div>
+    @if (Model.Actions is not null)
+    {
+        <div class="wos-page-actions">
+            @Model.Actions
+        </div>
+    }
+</header>

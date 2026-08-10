@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 320" fill="none" aria-hidden="true">
+  <defs>
+    <linearGradient id="wf-stroke" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3b6cf5" stop-opacity="0.15"/>
+      <stop offset="50%" stop-color="#22d3ee" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#3b6cf5" stop-opacity="0.1"/>
+    </linearGradient>
+    <linearGradient id="wf-glow" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#3b6cf5" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#14b8a6" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="400" cy="280" rx="340" ry="30" fill="url(#wf-glow)"/>
+  <!-- Body silhouette -->
+  <path d="M120 220 C140 180 200 155 280 148 L320 130 C360 118 440 118 480 130 L520 148 C600 155 660 180 680 220 L680 235 L120 235 Z"
+        stroke="url(#wf-stroke)" stroke-width="1.2" fill="none" stroke-linejoin="round"/>
+  <!-- Roof line -->
+  <path d="M280 148 L340 108 L460 108 L520 148" stroke="url(#wf-stroke)" stroke-width="1" fill="none" stroke-linecap="round"/>
+  <!-- Belt line -->
+  <path d="M155 195 L645 195" stroke="url(#wf-stroke)" stroke-width="0.6" fill="none" opacity="0.5"/>
+  <!-- Front wheel arc -->
+  <ellipse cx="230" cy="235" rx="52" ry="52" stroke="#22d3ee" stroke-width="0.8" fill="none" opacity="0.25"/>
+  <ellipse cx="230" cy="235" rx="32" ry="32" stroke="#3b6cf5" stroke-width="0.6" fill="none" opacity="0.2"/>
+  <!-- Rear wheel arc -->
+  <ellipse cx="570" cy="235" rx="52" ry="52" stroke="#22d3ee" stroke-width="0.8" fill="none" opacity="0.25"/>
+  <ellipse cx="570" cy="235" rx="32" ry="32" stroke="#3b6cf5" stroke-width="0.6" fill="none" opacity="0.2"/>
+  <!-- Headlight contour -->
+  <path d="M655 200 C670 190 678 205 680 220" stroke="#22d3ee" stroke-width="1" fill="none" opacity="0.4" stroke-linecap="round"/>
+  <!-- Taillight contour -->
+  <path d="M125 205 C110 195 118 218 120 228" stroke="#3b6cf5" stroke-width="1" fill="none" opacity="0.35" stroke-linecap="round"/>
+  <!-- Motion light sweep -->
+  <path d="M200 175 Q400 160 600 175" stroke="#22d3ee" stroke-width="0.5" fill="none" opacity="0.15" stroke-dasharray="4 12"/>
+  <!-- Technical grid dots -->
+  <circle cx="400" cy="175" r="1.5" fill="#3b6cf5" opacity="0.3"/>
+  <circle cx="340" cy="165" r="1" fill="#22d3ee" opacity="0.25"/>
+  <circle cx="460" cy="165" r="1" fill="#22d3ee" opacity="0.25"/>
+</svg>

@@ -1,0 +1,90 @@
+@model WorkshopOS.Web.Models.Vehicles.VehicleDetailsViewModel
+@{
+    ViewData["Title"] = $"{Model.Make} {Model.Model}";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="display-6">@Model.Make @Model.Model@(Model.ModelYear.HasValue ? $" ({Model.ModelYear})" : "")</h1>
+    <div>
+        @if (Model.CanManageVehicles)
+        {
+            <a asp-action="Edit" asp-route-vehicleId="@Model.VehicleId" class="btn btn-outline-secondary">Edit</a>
+            <a asp-action="ReassignCustomer" asp-route-vehicleId="@Model.VehicleId" class="btn btn-outline-secondary">Reassign customer</a>
+        }
+        <a asp-action="Index" class="btn btn-link">Back to list</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <h2 class="h5">Vehicle identity</h2>
+        <dl class="row">
+            <dt class="col-sm-4">Make</dt>
+            <dd class="col-sm-8">@Model.Make</dd>
+            <dt class="col-sm-4">Model</dt>
+            <dd class="col-sm-8">@Model.Model</dd>
+            <dt class="col-sm-4">Model year</dt>
+            <dd class="col-sm-8">@(Model.ModelYear?.ToString() ?? "—")</dd>
+            <dt class="col-sm-4">License plate</dt>
+            <dd class="col-sm-8">@(Model.RegistrationPlate ?? "—")</dd>
+            <dt class="col-sm-4">VIN / chassis</dt>
+            <dd class="col-sm-8">@(Model.Vin ?? "—")</dd>
+            <dt class="col-sm-4">Color</dt>
+            <dd class="col-sm-8">@(Model.Color ?? "—")</dd>
+        </dl>
+    </div>
+    <div class="col-md-6">
+        <h2 class="h5">Current customer</h2>
+        <dl class="row">
+            <dt class="col-sm-4">Customer</dt>
+            <dd class="col-sm-8">
+                @if (Model.CurrentCustomerId.HasValue)
+                {
+                    <a asp-controller="Customers" asp-action="Details" asp-route-customerId="@Model.CurrentCustomerId">@(Model.CurrentCustomerDisplayName ?? "Customer")</a>
+                }
+                else
+                {
+                    <span class="text-muted">Unassigned</span>
+                }
+            </dd>
+            <dt class="col-sm-4">Created</dt>
+            <dd class="col-sm-8">@Model.CreatedAtUtc.ToString("u")</dd>
+            <dt class="col-sm-4">Updated</dt>
+            <dd class="col-sm-8">@Model.UpdatedAtUtc.ToString("u")</dd>
+        </dl>
+    </div>
+</div>
+
+<h2 class="h5 mt-4">Service history summary</h2>
+<p class="mb-0">
+@{
+    var repairOrderSummary = $"{Model.RepairOrderCount} repair order(s)";
+    if (Model.LastRepairOrderOpenedAtUtc.HasValue)
+    {
+        repairOrderSummary += $" — last opened {Model.LastRepairOrderOpenedAtUtc.Value:u}";
+        if (Model.LastRepairOrderStatus.HasValue)
+        {
+            repairOrderSummary += $" ({Model.LastRepairOrderStatus})";
+        }
+    }
+}
+    @repairOrderSummary.
+    <a asp-controller="RepairOrders" asp-action="Index" asp-route-vehicleId="@Model.VehicleId">View repair orders</a>
+    @if (Model.LastRepairOrderId.HasValue)
+    {
+        <span> · <a asp-controller="RepairOrders" asp-action="Details" asp-route-repairOrderId="@Model.LastRepairOrderId">Latest: @Model.LastRepairOrderNumber</a></span>
+    }
+</p>
+
+<h2 class="h5 mt-4">Appointments</h2>
+<p>
+@{
+    var appointmentSummary = $"{Model.UpcomingAppointmentCount} upcoming appointment(s)";
+    if (Model.NextAppointmentStartUtc.HasValue)
+    {
+        appointmentSummary += $" — next {Model.NextAppointmentStartUtc.Value:u} UTC";
+    }
+}
+    @appointmentSummary.
+    <a asp-controller="Appointments" asp-action="Index" asp-route-vehicleId="@Model.VehicleId">View appointments</a>
+</p>

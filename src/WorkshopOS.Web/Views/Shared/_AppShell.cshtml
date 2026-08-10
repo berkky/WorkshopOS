@@ -1,0 +1,140 @@
+@using WorkshopOS.Infrastructure.Authorization
+@inject Microsoft.AspNetCore.Authorization.IAuthorizationService AuthorizationService
+@{
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
+    var action = ViewContext.RouteData.Values["action"]?.ToString() ?? "";
+    bool IsActive(string targetController, string? targetAction = null) =>
+        string.Equals(controller, targetController, StringComparison.OrdinalIgnoreCase)
+        && (targetAction is null || string.Equals(action, targetAction, StringComparison.OrdinalIgnoreCase));
+
+    var canViewReporting = (await AuthorizationService.AuthorizeAsync(User, null, PolicyNames.ReportingViewer)).Succeeded;
+    var canManageCatalog = (await AuthorizationService.AuthorizeAsync(User, null, PolicyNames.CatalogManager)).Succeeded;
+    var canManageTeam = (await AuthorizationService.AuthorizeAsync(User, null, PolicyNames.OrganizationManager)).Succeeded;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WorkshopOS</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/workshopos-tokens.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/workshopos-components.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/workshopos-shell.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WorkshopOS.Web.styles.css" asp-append-version="true" />
+</head>
+<body class="wos-app-body">
+<a class="wos-skip-link" href="#main-content">Skip to main content</a>
+<div class="wos-app">
+    <aside class="wos-sidebar" aria-label="Primary navigation">
+        <div class="wos-sidebar-brand">
+            <a asp-controller="Dashboard" asp-action="Index">
+                <span class="wos-sidebar-brand-mark" aria-hidden="true">W</span>
+                <span>
+                    WorkshopOS
+                    <small>Workshop intelligence</small>
+                </span>
+            </a>
+        </div>
+        <nav class="wos-sidebar-nav">
+            @if (canViewReporting)
+            {
+                <div class="wos-nav-section">
+                    <div class="wos-nav-section-label">Overview</div>
+                    <a class="wos-nav-link @(IsActive("Dashboard") ? "is-active" : "")" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
+                    <a class="wos-nav-link @(IsActive("Reports", "Operations") ? "is-active" : "")" asp-controller="Reports" asp-action="Operations">Operations report</a>
+                    <a class="wos-nav-link @(IsActive("Reports", "Commercial") ? "is-active" : "")" asp-controller="Reports" asp-action="Commercial">Commercial report</a>
+                </div>
+            }
+            <div class="wos-nav-section">
+                <div class="wos-nav-section-label">Workshop floor</div>
+                <a class="wos-nav-link @(IsActive("Operations") ? "is-active" : "")" asp-controller="Operations" asp-action="Index">Operations board</a>
+                <a class="wos-nav-link @(IsActive("Work") ? "is-active" : "")" asp-controller="Work" asp-action="MyJobs">My work</a>
+                <a class="wos-nav-link @(IsActive("Appointments") ? "is-active" : "")" asp-controller="Appointments" asp-action="Index">Appointments</a>
+                <a class="wos-nav-link @(IsActive("RepairOrders") ? "is-active" : "")" asp-controller="RepairOrders" asp-action="Index">Repair orders</a>
+                <a class="wos-nav-link @(IsActive("Inspections") ? "is-active" : "")" asp-controller="Inspections" asp-action="Index">Inspections</a>
+            </div>
+            <div class="wos-nav-section">
+                <div class="wos-nav-section-label">Customers</div>
+                <a class="wos-nav-link @(IsActive("Customers") ? "is-active" : "")" asp-controller="Customers" asp-action="Index">Customers</a>
+                <a class="wos-nav-link @(IsActive("Vehicles") ? "is-active" : "")" asp-controller="Vehicles" asp-action="Index">Vehicles</a>
+            </div>
+            <div class="wos-nav-section">
+                <div class="wos-nav-section-label">Commercial</div>
+                <a class="wos-nav-link @(IsActive("Estimates") ? "is-active" : "")" asp-controller="Estimates" asp-action="Index">Estimates</a>
+                @if (canManageCatalog)
+                {
+                    <a class="wos-nav-link @(IsActive("ServiceCatalog") ? "is-active" : "")" asp-controller="ServiceCatalog" asp-action="Index">Service catalog</a>
+                    <a class="wos-nav-link @(IsActive("PartCatalog") ? "is-active" : "")" asp-controller="PartCatalog" asp-action="Index">Parts catalog</a>
+                }
+                <a class="wos-nav-link @(IsActive("Inventory") ? "is-active" : "")" asp-controller="Inventory" asp-action="Index">Inventory</a>
+                <a class="wos-nav-link @(IsActive("Invoices") ? "is-active" : "")" asp-controller="Invoices" asp-action="Index">Invoices</a>
+            </div>
+            @if (canManageTeam)
+            {
+                <div class="wos-nav-section">
+                    <div class="wos-nav-section-label">Organization</div>
+                    <a class="wos-nav-link @(IsActive("Team") ? "is-active" : "")" asp-controller="Team" asp-action="Index">Team</a>
+                </div>
+            }
+        </nav>
+        <div class="wos-sidebar-footer">
+            <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-sm btn-wos-quiet px-0">Sign out</button>
+            </form>
+        </div>
+    </aside>
+
+    <div class="wos-app-main">
+        <header class="wos-topbar">
+            <a class="wos-topbar-brand" asp-controller="Dashboard" asp-action="Index">
+                <span class="wos-sidebar-brand-mark" aria-hidden="true">W</span>
+                WorkshopOS
+            </a>
+            <button class="btn btn-outline-secondary btn-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#wosMobileNav" aria-controls="wosMobileNav" aria-label="Open navigation menu">
+                Menu
+            </button>
+        </header>
+
+        <main id="main-content" class="wos-content" role="main">
+            <partial name="_AlertMessages" />
+            @RenderBody()
+        </main>
+    </div>
+</div>
+
+<div class="offcanvas offcanvas-start wos-offcanvas-nav" tabindex="-1" id="wosMobileNav" aria-labelledby="wosMobileNavLabel">
+    <div class="offcanvas-header">
+        <h2 class="offcanvas-title h5" id="wosMobileNavLabel">Navigation</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close navigation"></button>
+    </div>
+    <div class="offcanvas-body">
+        <nav aria-label="Mobile navigation">
+            @if (canViewReporting)
+            {
+                <a class="wos-nav-link @(IsActive("Dashboard") ? "is-active" : "")" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
+                <a class="wos-nav-link" asp-controller="Reports" asp-action="Operations">Operations report</a>
+                <a class="wos-nav-link" asp-controller="Reports" asp-action="Commercial">Commercial report</a>
+            }
+            <a class="wos-nav-link" asp-controller="Operations" asp-action="Index">Operations board</a>
+            <a class="wos-nav-link" asp-controller="Work" asp-action="MyJobs">My work</a>
+            <a class="wos-nav-link" asp-controller="Appointments" asp-action="Index">Appointments</a>
+            <a class="wos-nav-link" asp-controller="RepairOrders" asp-action="Index">Repair orders</a>
+            <a class="wos-nav-link" asp-controller="Inspections" asp-action="Index">Inspections</a>
+            <a class="wos-nav-link" asp-controller="Customers" asp-action="Index">Customers</a>
+            <a class="wos-nav-link" asp-controller="Vehicles" asp-action="Index">Vehicles</a>
+            <a class="wos-nav-link" asp-controller="Estimates" asp-action="Index">Estimates</a>
+            <a class="wos-nav-link" asp-controller="Inventory" asp-action="Index">Inventory</a>
+            <a class="wos-nav-link" asp-controller="Invoices" asp-action="Index">Invoices</a>
+        </nav>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

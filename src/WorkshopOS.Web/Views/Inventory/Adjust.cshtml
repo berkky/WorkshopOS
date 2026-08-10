@@ -1,0 +1,54 @@
+@model WorkshopOS.Web.Models.Inventory.InventoryAdjustFormViewModel
+@using WorkshopOS.Application.Catalog
+@using WorkshopOS.Application.Team
+@{
+    ViewData["Title"] = "Adjust inventory";
+    var partOptions = (IReadOnlyList<PartCatalogListItem>)ViewBag.PartOptions;
+    var locationOptions = (IReadOnlyList<WorkshopLocationOption>)ViewBag.LocationOptions;
+}
+
+<h1 class="display-6">Adjust inventory</h1>
+
+<form method="post">
+    @Html.AntiForgeryToken()
+    <div class="mb-3">
+        <label asp-for="PartCatalogItemId" class="form-label"></label>
+        <select asp-for="PartCatalogItemId" class="form-select" required>
+            <option value="">Select part</option>
+            @foreach (var part in partOptions)
+            {
+                <option value="@part.PartCatalogItemId">@part.Sku — @part.Name</option>
+            }
+        </select>
+    </div>
+    <div class="mb-3">
+        <label asp-for="WorkshopLocationId" class="form-label"></label>
+        <select asp-for="WorkshopLocationId" class="form-select" required>
+            <option value="">Select location</option>
+            @foreach (var location in locationOptions)
+            {
+                <option value="@location.WorkshopLocationId">@location.Name</option>
+            }
+        </select>
+    </div>
+    <div class="mb-3">
+        <label asp-for="MovementType" class="form-label"></label>
+        <select asp-for="MovementType" class="form-select" asp-items="Html.GetEnumSelectList<WorkshopOS.Domain.Inventory.PartInventoryMovementType>()"></select>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Quantity" class="form-label"></label>
+        <input asp-for="Quantity" class="form-control" type="number" step="0.001" min="0.001" />
+        <div class="form-text">Enter a positive quantity. Decreases are applied based on movement type.</div>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Reason" class="form-label"></label>
+        <input asp-for="Reason" class="form-control" maxlength="500" />
+    </div>
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+    <button type="submit" class="btn btn-primary">Record adjustment</button>
+    <a asp-action="Index" class="btn btn-link">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

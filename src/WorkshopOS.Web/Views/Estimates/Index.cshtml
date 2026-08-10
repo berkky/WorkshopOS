@@ -1,0 +1,76 @@
+@model WorkshopOS.Web.Models.Estimates.EstimateListViewModel
+@{
+    ViewData["Title"] = "Estimates";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h1 class="display-6">Estimates</h1>
+        <p class="text-muted mb-0">@Model.TotalCount estimate(s) in current view</p>
+    </div>
+    <a asp-controller="RepairOrders" asp-action="Index" class="btn btn-outline-secondary">Repair orders</a>
+</div>
+
+<form asp-action="Index" method="get" class="row g-2 mb-3">
+    <div class="col-md-3">
+        <input name="search" value="@Model.Search" class="form-control" placeholder="Search estimate, repair order, customer" />
+    </div>
+    <div class="col-md-2">
+        <select name="status" class="form-select" asp-for="Status" asp-items="Html.GetEnumSelectList<WorkshopOS.Domain.Estimates.EstimateStatus>()">
+            <option value="">All statuses</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <select name="workshopLocationId" class="form-select">
+            <option value="">All locations</option>
+            @foreach (var location in Model.LocationOptions)
+            {
+                <option value="@location.WorkshopLocationId" selected="@(Model.WorkshopLocationId == location.WorkshopLocationId)">@location.Name</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-outline-secondary w-100">Filter</button>
+    </div>
+</form>
+
+@if (Model.Estimates.Count == 0)
+{
+    <div class="alert alert-light border">No estimates match the current filters.</div>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Estimate</th>
+                <th>Repair order</th>
+                <th>Customer</th>
+                <th>Vehicle</th>
+                <th>Location</th>
+                <th>Status</th>
+                <th>Total</th>
+                <th>Created</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var estimate in Model.Estimates)
+        {
+            <tr>
+                <td>@estimate.Number</td>
+                <td>@estimate.RepairOrderNumber</td>
+                <td>@estimate.CustomerDisplayName</td>
+                <td>@estimate.VehicleSummary</td>
+                <td>@estimate.WorkshopLocationName</td>
+                <td>@estimate.Status</td>
+                <td>@estimate.Total @estimate.CurrencyCode</td>
+                <td>@estimate.CreatedAtUtc.ToString("u")</td>
+                <td>
+                    <a asp-action="Details" asp-route-estimateId="@estimate.EstimateId" class="btn btn-sm btn-outline-secondary">View</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

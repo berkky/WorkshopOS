@@ -28,6 +28,18 @@ public class Organization : Entity, IHasTimestamps
         string defaultCurrencyCode,
         string timeZoneId,
         OrganizationStatus status = OrganizationStatus.Active)
+        : this(Guid.CreateVersion7(), name, slug, defaultCurrencyCode, timeZoneId, status)
+    {
+    }
+
+    public Organization(
+        Guid id,
+        string name,
+        string slug,
+        string defaultCurrencyCode,
+        string timeZoneId,
+        OrganizationStatus status = OrganizationStatus.Active)
+        : base(id)
     {
         if (string.IsNullOrWhiteSpace(name))
         {

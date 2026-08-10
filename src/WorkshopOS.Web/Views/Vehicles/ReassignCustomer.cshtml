@@ -1,0 +1,32 @@
+@model WorkshopOS.Web.Models.Vehicles.VehicleReassignViewModel
+@{
+    ViewData["Title"] = "Reassign customer";
+}
+
+<h1 class="display-6">Reassign customer</h1>
+<p class="text-muted">@Model.VehicleSummary</p>
+
+<dl class="row mb-3">
+    <dt class="col-sm-3">Current customer</dt>
+    <dd class="col-sm-9">@(Model.CurrentCustomerDisplayName ?? "Unassigned")</dd>
+</dl>
+
+<form asp-action="ReassignCustomer" asp-route-vehicleId="@Model.VehicleId" method="post">
+    @Html.AntiForgeryToken()
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="NewCurrentCustomerId" class="form-label"></label>
+        <select asp-for="NewCurrentCustomerId" class="form-select">
+            <option value="">Unassigned</option>
+            @foreach (var customer in Model.CustomerOptions)
+            {
+                <option value="@customer.CustomerId">@customer.DisplayName</option>
+            }
+        </select>
+        <span asp-validation-for="NewCurrentCustomerId" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Reassign</button>
+    <a asp-action="Details" asp-route-vehicleId="@Model.VehicleId" class="btn btn-link">Cancel</a>
+</form>

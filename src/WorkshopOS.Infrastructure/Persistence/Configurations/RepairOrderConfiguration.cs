@@ -18,9 +18,13 @@ internal sealed class RepairOrderConfiguration : IEntityTypeConfiguration<Repair
 
         builder.Property(entity => entity.Number).HasMaxLength(50).IsRequired();
         builder.Property(entity => entity.Status).IsRequired();
+        builder.Property(entity => entity.Priority)
+            .IsRequired()
+            .HasDefaultValue(RepairOrderPriority.Normal);
         builder.Property(entity => entity.CustomerConcern).HasMaxLength(2000);
         builder.Property(entity => entity.InternalNotes).HasMaxLength(4000);
         builder.Property(entity => entity.OpenedAtUtc).IsRequired();
+        builder.Property(entity => entity.CommerciallyClosedAtUtc);
         builder.ConfigureTimestamps();
 
         builder.HasIndex(entity => new { entity.OrganizationId, entity.Number }).IsUnique();

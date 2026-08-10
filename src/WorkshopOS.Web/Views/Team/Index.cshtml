@@ -1,0 +1,105 @@
+@model WorkshopOS.Web.Models.Team.TeamIndexViewModel
+@{
+    ViewData["Title"] = "Team";
+}
+
+<h1 class="display-6">Workshop team</h1>
+<p class="text-muted">Staff profiles, login access, and workshop location assignments.</p>
+
+@if (Model.CanManageTeam)
+{
+    <a class="btn btn-primary mb-3" asp-action="Create">Add staff profile</a>
+}
+
+<h2 class="h5 mt-4">Staff profiles</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Status</th>
+            <th>Login access</th>
+            <th>Locations</th>
+            @if (Model.CanManageTeam)
+            {
+                <th></th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var member in Model.StaffMembers)
+    {
+        <tr>
+            <td>@member.DisplayName</td>
+            <td>@member.Position</td>
+            <td>@member.Status</td>
+            <td>@member.LoginAccess</td>
+            <td>@string.Join(", ", member.WorkshopLocations)</td>
+            @if (Model.CanManageTeam)
+            {
+                <td class="text-end">
+                    <a asp-action="Edit" asp-route-staffId="@member.StaffMemberId" class="btn btn-sm btn-outline-secondary">Edit</a>
+                    @if (member.Status == "Active")
+                    {
+                        <form asp-action="Deactivate" asp-route-staffId="@member.StaffMemberId" method="post" class="d-inline">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-sm btn-outline-warning">Deactivate</button>
+                        </form>
+                    }
+                </td>
+            }
+        </tr>
+    }
+    </tbody>
+</table>
+
+<h2 class="h5 mt-4">Organization access</h2>
+<p class="text-muted">Membership roles control authorization. Staff position does not grant access.</p>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>User</th>
+            <th>Role</th>
+            <th>Status</th>
+            @if (Model.CanManageTeam)
+            {
+                <th>Actions</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var membership in Model.Memberships)
+    {
+        <tr>
+            <td>@membership.DisplayName</td>
+            <td>@membership.Role</td>
+            <td>@membership.Status</td>
+            @if (Model.CanManageTeam)
+            {
+                <td>
+                    <form asp-action="ChangeRole" asp-route-membershipId="@membership.MembershipId" method="post" class="d-inline-flex gap-1">
+                        @Html.AntiForgeryToken()
+                        <select name="NewRole" class="form-select form-select-sm">
+                            @foreach (var role in Enum.GetNames(typeof(WorkshopOS.Domain.Organizations.OrganizationMembershipRole)))
+                            {
+                                <option value="@role" selected="@(membership.Role == role)">@role</option>
+                            }
+                        </select>
+                        <button type="submit" class="btn btn-sm btn-outline-primary">Set role</button>
+                    </form>
+                    <form asp-action="ChangeStatus" asp-route-membershipId="@membership.MembershipId" method="post" class="d-inline-flex gap-1 mt-1">
+                        @Html.AntiForgeryToken()
+                        <select name="NewStatus" class="form-select form-select-sm">
+                            @foreach (var status in Enum.GetNames(typeof(WorkshopOS.Domain.Organizations.OrganizationMembershipStatus)))
+                            {
+                                <option value="@status" selected="@(membership.Status == status)">@status</option>
+                            }
+                        </select>
+                        <button type="submit" class="btn btn-sm btn-outline-secondary">Set status</button>
+                    </form>
+                </td>
+            }
+        </tr>
+    }
+    </tbody>
+</table>

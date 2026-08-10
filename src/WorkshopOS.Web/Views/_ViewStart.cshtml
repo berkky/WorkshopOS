@@ -1,3 +1,7 @@
 ﻿@{
-    Layout = "_Layout";
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString();
+    var usePublicLayout = controller is "Home" or "Account" or "Onboarding";
+    Layout = User.Identity?.IsAuthenticated == true && !usePublicLayout
+        ? "_AppShell"
+        : "_Layout";
 }

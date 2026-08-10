@@ -17,6 +17,9 @@ internal sealed class EstimateConfiguration : IEntityTypeConfiguration<Estimate>
         builder.Property(entity => entity.Status).IsRequired();
         builder.Property(entity => entity.CurrencyCode).HasMaxLength(3).IsRequired();
         builder.Property(entity => entity.CustomerMessage).HasMaxLength(2000);
+        builder.Property(entity => entity.SentAtUtc);
+        builder.Property(entity => entity.ApprovedAtUtc);
+        builder.Property(entity => entity.DeclinedAtUtc);
         builder.ConfigureTimestamps();
 
         builder.HasIndex(entity => new { entity.OrganizationId, entity.Number }).IsUnique();

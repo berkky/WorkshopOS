@@ -1,0 +1,42 @@
+@model WorkshopOS.Web.Models.Inventory.InventoryHistoryViewModel
+@{
+    ViewData["Title"] = "Inventory history";
+}
+
+<div class="mb-3">
+    <h1 class="display-6">Inventory history</h1>
+    <p class="text-muted mb-0">@Model.PartSku — @Model.PartName at @Model.WorkshopLocationName</p>
+</div>
+
+@if (Model.Movements.Count == 0)
+{
+    <div class="alert alert-light border">No movements recorded for this part and location.</div>
+}
+else
+{
+    <table class="table table-sm table-striped">
+        <thead>
+            <tr>
+                <th>When (UTC)</th>
+                <th>Type</th>
+                <th>Delta</th>
+                <th>Balance after</th>
+                <th>Reason</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var movement in Model.Movements)
+        {
+            <tr>
+                <td>@movement.OccurredAtUtc.ToString("u")</td>
+                <td>@movement.MovementType</td>
+                <td>@movement.QuantityDelta</td>
+                <td>@movement.BalanceAfter</td>
+                <td>@movement.Reason</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+<a asp-action="Index" class="btn btn-link">Back to inventory</a>

@@ -1,0 +1,151 @@
+@model WorkshopOS.Web.Models.Reporting.CommercialReportViewModel
+@using WorkshopOS.Web.Models.Reporting
+@{
+    ViewData["Title"] = "Commercial report";
+    var header = Model.Report.Header;
+    var periodLabel = ReportingDisplayFormatter.FormatPeriodLabel(header);
+    var locationLabel = ReportingDisplayFormatter.FormatLocationLabel(header);
+}
+
+<header class="wos-page-header">
+    <div>
+        <p class="wos-page-eyebrow">Reporting</p>
+        <h1 class="wos-page-title">Commercial report</h1>
+        <p class="wos-page-description">
+            @locationLabel · Time zone: @header.TimeZoneId · Generated @header.GeneratedAtUtc.ToString("u")
+        </p>
+    </div>
+    <div class="wos-page-actions">
+        <a class="btn btn-outline-secondary btn-sm" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
+    </div>
+</header>
+
+@await Html.PartialAsync("_ReportingFilter", Model.Filter)
+
+<h2 class="h5 mt-4">Estimate decision funnel · @periodLabel</h2>
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="border rounded p-3">
+            <div class="text-muted small">Presented</div>
+            <div class="fs-4">@Model.Report.SelectedPeriod.EstimatesPresented</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="border rounded p-3">
+            <div class="text-muted small">Approved</div>
+            <div class="fs-4">@Model.Report.SelectedPeriod.EstimatesApproved</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="border rounded p-3">
+            <div class="text-muted small">Declined</div>
+            <div class="fs-4">@Model.Report.SelectedPeriod.EstimatesDeclined</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="border rounded p-3">
+            <div class="text-muted small">Decision approval rate</div>
+            <div class="fs-4">@ReportingDisplayFormatter.FormatApprovalRate(Model.Report.SelectedPeriod.DecisionApprovalRate)</div>
+        </div>
+    </div>
+</div>
+
+@if (Model.Report.DecisionSourceBreakdown is not null)
+{
+    <h3 class="h6">Decision source · @periodLabel</h3>
+    <table class="table table-sm table-bordered mb-4">
+        <tbody>
+        <tr><td>Portal approvals</td><td>@Model.Report.DecisionSourceBreakdown.PortalApprovalsInPeriod</td></tr>
+        <tr><td>Portal declines</td><td>@Model.Report.DecisionSourceBreakdown.PortalDeclinesInPeriod</td></tr>
+        <tr><td>Staff-recorded approvals</td><td>@Model.Report.DecisionSourceBreakdown.StaffApprovalsInPeriod</td></tr>
+        <tr><td>Staff-recorded declines</td><td>@Model.Report.DecisionSourceBreakdown.StaffDeclinesInPeriod</td></tr>
+        </tbody>
+    </table>
+}
+
+<h2 class="h5">Invoice state · Current</h2>
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="border rounded p-3 bg-light">
+            <div class="text-muted small">Outstanding invoices</div>
+            <div class="fs-4">@Model.Report.CurrentSnapshot.OutstandingInvoices</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="border rounded p-3 bg-light">
+            <div class="text-muted small">Unpaid</div>
+            <div class="fs-4">@Model.Report.CurrentInvoicePaymentStateBreakdown.Unpaid</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="border rounded p-3 bg-light">
+            <div class="text-muted small">Partially paid</div>
+            <div class="fs-4">@Model.Report.CurrentInvoicePaymentStateBreakdown.PartiallyPaid</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="border rounded p-3 bg-light">
+            <div class="text-muted small">Paid</div>
+            <div class="fs-4">@Model.Report.CurrentInvoicePaymentStateBreakdown.Paid</div>
+        </div>
+    </div>
+</div>
+
+<h3 class="h6">Current outstanding amounts</h3>
+@if (Model.Report.CurrentSnapshot.CurrentOutstandingAmounts.Count == 0)
+{
+    <p class="text-muted">No outstanding invoices</p>
+}
+else
+{
+    foreach (var amount in Model.Report.CurrentSnapshot.CurrentOutstandingAmounts)
+    {
+        <div>@ReportingDisplayFormatter.FormatMoney(amount)</div>
+    }
+}
+
+<h2 class="h5 mt-4">Selected period · @periodLabel</h2>
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="border rounded p-3">
+            <div class="text-muted small">Invoices issued</div>
+            <div class="fs-4">@Model.Report.SelectedPeriod.InvoicesIssued</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="border rounded p-3">
+            <div class="text-muted small">Commercially closed jobs</div>
+            <div class="fs-4">@Model.Report.SelectedPeriod.CommerciallyClosedJobs</div>
+        </div>
+    </div>
+</div>
+
+<h3 class="h6">Recorded payments · @periodLabel</h3>
+@if (Model.Report.SelectedPeriod.RecordedPayments.Count == 0)
+{
+    <p class="text-muted">No activity in this period</p>
+}
+else
+{
+    foreach (var payment in Model.Report.SelectedPeriod.RecordedPayments)
+    {
+        <div class="fs-5">@ReportingDisplayFormatter.FormatMoney(payment)</div>
+    }
+}
+
+<h3 class="h6">Invoiced amounts · @periodLabel</h3>
+@if (Model.Report.SelectedPeriod.InvoicedAmounts.Count == 0)
+{
+    <p class="text-muted">No activity in this period</p>
+}
+else
+{
+    foreach (var amount in Model.Report.SelectedPeriod.InvoicedAmounts)
+    {
+        <div class="fs-5">@ReportingDisplayFormatter.FormatMoney(amount)</div>
+    }
+}
+
+<p class="mt-4 text-muted small">
+    Recorded payments reflect workshop-entered payment ledger entries, not accounting revenue recognition.
+</p>

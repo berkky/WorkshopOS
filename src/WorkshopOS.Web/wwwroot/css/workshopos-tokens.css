@@ -1,0 +1,84 @@
+:root {
+  /* Surfaces */
+  --wos-bg: #eef0f4;
+  --wos-bg-ambient: radial-gradient(ellipse 120% 80% at 50% -20%, rgba(59, 108, 245, 0.08), transparent 60%),
+    radial-gradient(ellipse 80% 50% at 100% 0%, rgba(20, 184, 166, 0.05), transparent 50%),
+    #eef0f4;
+  --wos-surface: #ffffff;
+  --wos-surface-muted: #f4f5f7;
+  --wos-surface-elevated: #ffffff;
+  --wos-surface-glass: rgba(255, 255, 255, 0.72);
+  --wos-surface-dark: #0f1117;
+  --wos-surface-dark-elevated: #161922;
+
+  /* Text */
+  --wos-text: #0c0e14;
+  --wos-text-muted: #5c6370;
+  --wos-text-subtle: #8b929e;
+  --wos-text-on-dark: #f0f2f5;
+  --wos-text-muted-on-dark: #9aa3b2;
+
+  /* Borders */
+  --wos-border: rgba(12, 14, 20, 0.08);
+  --wos-border-strong: rgba(12, 14, 20, 0.14);
+  --wos-border-dark: rgba(255, 255, 255, 0.08);
+
+  /* Brand */
+  --wos-primary: #3b6cf5;
+  --wos-primary-hover: #2d5ae0;
+  --wos-primary-soft: rgba(59, 108, 245, 0.1);
+  --wos-primary-glow: rgba(59, 108, 245, 0.35);
+  --wos-accent-teal: #14b8a6;
+  --wos-accent-teal-soft: rgba(20, 184, 166, 0.12);
+  --wos-accent-amber: #d4a012;
+  --wos-accent-amber-soft: rgba(212, 160, 18, 0.1);
+
+  /* Semantic */
+  --wos-success: #0d9f4f;
+  --wos-success-soft: rgba(13, 159, 79, 0.1);
+  --wos-warning: #c47d0e;
+  --wos-warning-soft: rgba(196, 125, 14, 0.1);
+  --wos-danger: #dc2626;
+  --wos-danger-soft: rgba(220, 38, 38, 0.08);
+  --wos-info: #0284c7;
+  --wos-info-soft: rgba(2, 132, 199, 0.1);
+
+  /* Radii */
+  --wos-radius-sm: 0.5rem;
+  --wos-radius-md: 0.75rem;
+  --wos-radius-lg: 1rem;
+  --wos-radius-xl: 1.25rem;
+  --wos-radius-2xl: 1.5rem;
+
+  /* Shadows */
+  --wos-shadow-xs: 0 1px 2px rgba(12, 14, 20, 0.04);
+  --wos-shadow-sm: 0 2px 8px rgba(12, 14, 20, 0.06), 0 1px 2px rgba(12, 14, 20, 0.04);
+  --wos-shadow-md: 0 8px 24px rgba(12, 14, 20, 0.08), 0 2px 6px rgba(12, 14, 20, 0.04);
+  --wos-shadow-lg: 0 20px 48px rgba(12, 14, 20, 0.12), 0 8px 16px rgba(12, 14, 20, 0.06);
+  --wos-shadow-xl: 0 32px 64px rgba(12, 14, 20, 0.16), 0 12px 24px rgba(12, 14, 20, 0.08);
+  --wos-shadow-glow: 0 0 40px rgba(59, 108, 245, 0.15);
+  --wos-shadow-card-hover: 0 16px 40px rgba(12, 14, 20, 0.1), 0 0 0 1px rgba(59, 108, 245, 0.08);
+
+  /* Spacing */
+  --wos-space-1: 0.25rem;
+  --wos-space-2: 0.5rem;
+  --wos-space-3: 0.75rem;
+  --wos-space-4: 1rem;
+  --wos-space-5: 1.5rem;
+  --wos-space-6: 2rem;
+  --wos-space-7: 2.5rem;
+  --wos-space-8: 3.5rem;
+
+  /* Layout */
+  --wos-content-max: 1320px;
+  --wos-sidebar-width: 272px;
+  --wos-font-sans: 'DM Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --wos-font-display: 'DM Sans', system-ui, sans-serif;
+
+  /* Focus */
+  --wos-focus-ring: 0 0 0 3px rgba(59, 108, 245, 0.4);
+
+  /* Transitions */
+  --wos-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --wos-duration: 0.2s;
+}

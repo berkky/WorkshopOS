@@ -23,6 +23,16 @@ The following entities carry an explicit `OrganizationId`:
 - `InspectionItem`
 - `Estimate`
 - `EstimateItem`
+- `EstimateShare`
+- `ServiceCatalogItem`
+- `PartCatalogItem`
+- `PartInventoryBalance`
+- `PartInventoryMovement`
+- `Invoice`
+- `InvoiceItem`
+- `InvoicePaymentRecord`
+- `StaffMember`
+- `StaffLocationAssignment`
 
 `Organization` itself does **not** carry `OrganizationId` because it is the tenant root.
 
@@ -71,13 +81,79 @@ Constraint pattern:
 OrganizationId + EntityId
 ```
 
-Composite foreign keys and alternate keys `(OrganizationId, Id)` are **implemented in the EF model** and **generated in the InitialCreate migration**.
+Composite foreign keys and alternate keys `(OrganizationId, Id)` are **implemented in the EF model**, **generated in the InitialCreate migration**, and **verified against isolated local PostgreSQL**.
 
-Integration tests in `tests/WorkshopOS.Infrastructure.IntegrationTests/` are prepared to verify `OrganizationFilter` behavior and composite cross-tenant FK rejection against isolated local PostgreSQL (`workshopos_test`). **PostgreSQL proof is pending** until isolated databases are provisioned with local admin access.
+`OrganizationFilter` tenant isolation verified against isolated local PostgreSQL.
+
+Composite cross-tenant foreign-key rejection verified against isolated local PostgreSQL.
+
+Tenant write guard fail-closed behavior verified through the integration test suite.
+
+## Authenticated tenant resolution (STEP 05)
+
+```text
+Authentication
+→ OrganizationMembership lookup
+→ Organization resolution
+→ Authorization
+→ tenant-filtered operational queries
+```
+
+Authentication is not the only isolation layer. Existing defenses remain required:
+
+```text
+OrganizationFilter
+composite FK
+write guard
+```
+
+`OrganizationMembership` is intentionally not tenant-filtered because it is required to establish tenant context. Membership access must remain authorization-controlled.
+
+## Owner onboarding tenant bootstrap (STEP 06)
+
+During owner onboarding, tenant context for the first `WorkshopLocation` write is resolved only after trusted membership validation confirms an active owner membership for the newly created organization. Controllers do not expose raw `SetOrganizationId(Guid)` helpers.
+
+## Multi-organization selection hint (STEP 06)
+
+Authenticated users with multiple active memberships may select an organization at `/organization/select`. The resulting `WorkshopOS.SelectedOrganization` claim is revalidated from the database during resolution; stale or invalid hints fail closed.
+
+## Customer CRM (STEP 08)
+
+`Customer` remains tenant-filtered operational CRM data. `CustomerManager` authorization uses membership roles (Owner, Administrator, ServiceAdvisor). Customer email/phone are contact data, not authentication identity.
+
+See [customer-crm-v1.md](customer-crm-v1.md).
+
+## Vehicle management (STEP 09)
+
+`Vehicle` remains tenant-filtered operational data. `VehicleManager` authorization uses membership roles (Owner, Administrator, ServiceAdvisor). `Vehicle.CurrentCustomerId` represents current customer association; `RepairOrder.CustomerId` remains historical and is not rewritten by ownership reassignment.
+
+See [vehicle-management-v1.md](vehicle-management-v1.md).
+
+## Appointment scheduling (STEP 10)
+
+`Appointment` remains separate from `RepairOrder`. `AppointmentManager` authorization uses membership roles (Owner, Administrator, ServiceAdvisor). Vehicle overlap protection uses active appointment statuses and serializable transactions for create/reschedule.
+
+See [appointment-scheduling-v1.md](appointment-scheduling-v1.md).
+
+## Repair order core workflow (STEP 11)
+
+`RepairOrder` is tenant-filtered operational data with composite FK protection to customer, vehicle, location, and optional appointment. `RepairOrderManager` authorization uses membership roles (Owner, Administrator, ServiceAdvisor). Historical `RepairOrder.CustomerId` is preserved when `Vehicle.CurrentCustomerId` changes. Duplicate appointment conversion is prevented via serializable service boundary.
+
+See [repair-order-core-v1.md](repair-order-core-v1.md).
+
+## Workshop operations (STEP 12)
+
+`RepairOrderTechnicianAssignment` is tenant-filtered with composite FKs to repair orders and staff members. One active technician per repair order is enforced by a partial unique index. Technician eligibility uses `StaffPosition` and location assignments; authorization uses membership roles separately.
+
+See [workshop-operations-v1.md](workshop-operations-v1.md).
+
+## Reporting (STEP 19)
+
+Management reporting is read-only and derived from the same tenant-filtered operational and billing tables. `ReportingViewer` authorization uses membership roles (Owner, Administrator, ServiceAdvisor). Customer portal has no reporting access.
+
+See [reporting-and-analytics-v1.md](reporting-and-analytics-v1.md).
 
 ## Global query filters
-
-EF Core named global query filter `OrganizationFilter` is **implemented** on all organization-owned operational entities in `AppDbContext`.
 
 Filters supplement — but do not replace — authorization and service-level checks.
 

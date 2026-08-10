@@ -1,0 +1,174 @@
+@model WorkshopOS.Web.Models.Reporting.OperationalReportViewModel
+@using WorkshopOS.Domain.RepairOrders
+@using WorkshopOS.Web.Models.Reporting
+@{
+    ViewData["Title"] = "Operations report";
+    var header = Model.Report.Header;
+    var periodLabel = ReportingDisplayFormatter.FormatPeriodLabel(header);
+    var locationLabel = ReportingDisplayFormatter.FormatLocationLabel(header);
+}
+
+<header class="wos-page-header">
+    <div>
+        <p class="wos-page-eyebrow">Reporting</p>
+        <h1 class="wos-page-title">Operations report</h1>
+        <p class="wos-page-description">
+            @locationLabel · Time zone: @header.TimeZoneId · Generated @header.GeneratedAtUtc.ToString("u")
+        </p>
+    </div>
+    <div class="wos-page-actions">
+        <a class="btn btn-outline-secondary btn-sm" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
+    </div>
+</header>
+
+@await Html.PartialAsync("_ReportingFilter", Model.Filter)
+
+<h2 class="h5 mt-4">Repair order status (active)</h2>
+@if (Model.Report.RepairOrderStatusBreakdown.Count == 0)
+{
+    <p class="text-muted">No active repair orders.</p>
+}
+else
+{
+    <table class="table table-sm table-bordered">
+        <thead><tr><th>Status</th><th>Count</th></tr></thead>
+        <tbody>
+        @foreach (var entry in Model.Report.RepairOrderStatusBreakdown.OrderBy(pair => pair.Key))
+        {
+            <tr><td>@entry.Key</td><td>@entry.Value</td></tr>
+        }
+        </tbody>
+    </table>
+}
+
+<h2 class="h5">Repair order priority (active)</h2>
+<table class="table table-sm table-bordered">
+    <thead><tr><th>Priority</th><th>Count</th></tr></thead>
+    <tbody>
+    @foreach (var entry in Model.Report.RepairOrderPriorityBreakdown.OrderBy(pair => pair.Key))
+    {
+        <tr><td>@entry.Key</td><td>@entry.Value</td></tr>
+    }
+    </tbody>
+</table>
+
+<h2 class="h5">Assignment (active jobs)</h2>
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="border rounded p-3 bg-light">
+            <div class="text-muted small">Assigned · Current</div>
+            <div class="fs-4">@Model.Report.ActiveAssignedRepairOrders</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="border rounded p-3 bg-light">
+            <div class="text-muted small">Unassigned · Current</div>
+            <div class="fs-4">@Model.Report.ActiveUnassignedRepairOrders</div>
+        </div>
+    </div>
+</div>
+
+<h2 class="h5">Appointments · @periodLabel</h2>
+<p class="text-muted small">Scheduled start within selected period.</p>
+<div class="mb-2">Total scheduled: @Model.Report.SelectedPeriod.AppointmentsScheduled</div>
+<table class="table table-sm table-bordered">
+    <thead><tr><th>Status</th><th>Count</th></tr></thead>
+    <tbody>
+        <tr><td>Scheduled</td><td>@Model.Report.SelectedPeriod.AppointmentStatusBreakdown.Scheduled</td></tr>
+        <tr><td>Confirmed</td><td>@Model.Report.SelectedPeriod.AppointmentStatusBreakdown.Confirmed</td></tr>
+        <tr><td>Checked in</td><td>@Model.Report.SelectedPeriod.AppointmentStatusBreakdown.CheckedIn</td></tr>
+        <tr><td>Completed</td><td>@Model.Report.SelectedPeriod.AppointmentStatusBreakdown.Completed</td></tr>
+        <tr><td>Cancelled</td><td>@Model.Report.SelectedPeriod.AppointmentStatusBreakdown.Cancelled</td></tr>
+        <tr><td>No show</td><td>@Model.Report.SelectedPeriod.AppointmentStatusBreakdown.NoShow</td></tr>
+    </tbody>
+</table>
+
+<h2 class="h5">DVI · @periodLabel</h2>
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="border rounded p-3">
+            <div class="text-muted small">Inspections completed</div>
+            <div class="fs-4">@Model.Report.SelectedPeriod.InspectionsCompleted</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="border rounded p-3">
+            <div class="text-muted small">Critical findings (completed inspections)</div>
+            <div class="fs-4">@Model.Report.SelectedPeriod.CriticalInspectionFindings</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="border rounded p-3 bg-light">
+            <div class="text-muted small">Open DVI · Current</div>
+            <div class="fs-4">@Model.Report.CurrentSnapshot.OpenDviInspections</div>
+        </div>
+    </div>
+</div>
+
+<h2 class="h5">Technician workload</h2>
+@if (Model.Report.TechnicianWorkload.Count == 0)
+{
+    <p class="text-muted">No active technicians.</p>
+}
+else
+{
+    <table class="table table-bordered table-sm">
+        <thead>
+        <tr>
+            <th>Technician</th>
+            <th>Location</th>
+            <th>Active assigned</th>
+            <th>In progress</th>
+            <th>Work completed · @periodLabel</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var row in Model.Report.TechnicianWorkload)
+        {
+            <tr>
+                <td>@row.DisplayName</td>
+                <td>@(row.WorkshopLocationName ?? "—")</td>
+                <td>@row.ActiveAssignedJobs</td>
+                <td>@row.InProgressJobs</td>
+                <td>@row.WorkCompletedAssignmentsInPeriod</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@if (Model.Report.LocationBreakdown.Count > 0)
+{
+    <h2 class="h5 mt-4">Location breakdown</h2>
+    <table class="table table-bordered table-sm">
+        <thead>
+        <tr>
+            <th>Location</th>
+            <th>Active RO</th>
+            <th>Unassigned</th>
+            <th>Urgent</th>
+            <th>Appointments · period</th>
+            <th>Completed · period</th>
+            <th>Open DVI</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var row in Model.Report.LocationBreakdown)
+        {
+            <tr>
+                <td>@row.Name</td>
+                <td>@row.ActiveRepairOrders</td>
+                <td>@row.UnassignedRepairOrders</td>
+                <td>@row.UrgentRepairOrders</td>
+                <td>@row.AppointmentsInPeriod</td>
+                <td>@row.CompletedJobsInPeriod</td>
+                <td>@row.OpenDviInspections</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+<p class="mt-4">
+    <a asp-controller="Reports" asp-action="Commercial">Commercial report</a> for financial metrics.
+</p>

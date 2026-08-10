@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WorkshopOS</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/workshopos-fonts.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/workshopos-tokens.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/workshopos-components.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/workshopos-public.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="wos-public-body portal-body">
+<a class="wos-skip-link" href="#main-content">Skip to main content</a>
+<header class="wos-public-header">
+    <div class="wos-public-header-inner" style="max-width: 960px;">
+        <a class="wos-public-brand" href="#">
+            <span class="wos-public-brand-mark" aria-hidden="true">W</span>
+            WorkshopOS
+        </a>
+        <span class="text-muted small fw-semibold">Customer portal</span>
+    </div>
+</header>
+<main id="main-content" class="container portal-shell py-4 py-md-5" role="main">
+    @RenderBody()
+</main>
+<footer class="wos-public-footer">
+    <div class="wos-public-footer-inner" style="max-width: 960px;">
+        <div class="wos-public-footer-copy">Secure estimate review · Powered by WorkshopOS</div>
+    </div>
+</footer>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

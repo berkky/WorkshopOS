@@ -478,5 +478,6 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# Vim temporary swap files
-*.swp
+# Private inspection media storage (never commit uploaded evidence)
+**/App_Data/inspection-media/
+

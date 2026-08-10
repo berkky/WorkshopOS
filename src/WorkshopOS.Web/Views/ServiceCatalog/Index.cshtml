@@ -1,0 +1,60 @@
+@model WorkshopOS.Web.Models.Catalog.ServiceCatalogListViewModel
+@{
+    ViewData["Title"] = "Service catalog";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h1 class="display-6">Service catalog</h1>
+        <p class="text-muted mb-0">@Model.TotalCount service(s)</p>
+    </div>
+    @if (Model.CanManageCatalog)
+    {
+        <a class="btn btn-primary" asp-action="Create">Add service</a>
+    }
+</div>
+
+<form method="get" class="row g-2 mb-3">
+    <div class="col-md-5">
+        <input name="search" value="@Model.Search" class="form-control" placeholder="Search code, name, or description" />
+    </div>
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-outline-secondary w-100">Search</button>
+    </div>
+</form>
+
+@if (Model.Services.Count == 0)
+{
+    <div class="alert alert-light border">No services match the current filters.</div>
+}
+else
+{
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var service in Model.Services)
+        {
+            <tr>
+                <td><code>@service.Code</code></td>
+                <td>@service.Name</td>
+                <td>@service.DefaultUnitPrice @service.CurrencyCode</td>
+                <td>@(service.IsActive ? "Active" : "Inactive")</td>
+                <td class="text-end">
+                    @if (Model.CanManageCatalog)
+                    {
+                        <a asp-action="Edit" asp-route-serviceCatalogItemId="@service.ServiceCatalogItemId" class="btn btn-sm btn-outline-primary">Edit</a>
+                    }
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

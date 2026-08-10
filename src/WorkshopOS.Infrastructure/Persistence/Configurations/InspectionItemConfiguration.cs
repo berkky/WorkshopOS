@@ -31,5 +31,12 @@ internal sealed class InspectionItemConfiguration : IEntityTypeConfiguration<Ins
             entity.InspectionId,
             entity.SortOrder,
         });
+
+        builder.HasAlternateKey(entity => new
+        {
+            entity.OrganizationId,
+            entity.InspectionId,
+            entity.Id,
+        });
     }
 }

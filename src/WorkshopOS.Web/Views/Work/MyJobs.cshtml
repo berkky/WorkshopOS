@@ -1,0 +1,73 @@
+@model WorkshopOS.Web.Models.Work.MyWorkViewModel
+@{
+    ViewData["Title"] = "My work";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="display-6">My work</h1>
+    <a asp-controller="Operations" asp-action="Index" class="btn btn-outline-secondary">Operations board</a>
+</div>
+
+@if (!Model.HasLinkedTechnicianProfile)
+{
+    <div class="alert alert-light border">
+        Your account is not linked to an active technician staff profile. Contact a workshop manager to link your login to a technician profile.
+    </div>
+}
+else if (Model.Items.Count == 0)
+{
+    <div class="alert alert-light border">No active assignments.</div>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Repair order</th>
+                <th>Priority</th>
+                <th>Customer</th>
+                <th>Vehicle</th>
+                <th>Location</th>
+                <th>Job status</th>
+                <th>Your work</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var job in Model.Items)
+        {
+            <tr>
+                <td><a asp-controller="RepairOrders" asp-action="Details" asp-route-repairOrderId="@job.RepairOrderId">@job.Number</a></td>
+                <td>@job.Priority</td>
+                <td>@job.CustomerDisplayName</td>
+                <td>@job.VehicleSummary</td>
+                <td>@job.WorkshopLocationName</td>
+                <td>@job.RepairOrderStatus</td>
+                <td>@job.TechnicianWorkStatus</td>
+                <td>
+                    @if (job.CanStartWork)
+                    {
+                        <form asp-action="Start" asp-route-repairOrderId="@job.RepairOrderId" method="post" class="d-inline">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-sm btn-primary">Start work</button>
+                        </form>
+                    }
+                    @if (job.CanCompleteWork)
+                    {
+                        <form asp-action="Complete" asp-route-repairOrderId="@job.RepairOrderId" method="post" class="d-inline">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-sm btn-success">Mark work complete</button>
+                        </form>
+                    }
+                    @if (job.LatestInspectionId.HasValue)
+                    {
+                        <a asp-controller="Inspections" asp-action="Details" asp-route-inspectionId="@job.LatestInspectionId" class="btn btn-sm btn-outline-secondary">
+                            @(job.LatestInspectionStatus == WorkshopOS.Domain.Inspections.InspectionStatus.Draft ? "Start inspection" : "Continue inspection")
+                        </a>
+                    }
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

@@ -1,20 +1,27 @@
 using System.Linq.Expressions;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore.Metadata;
 using WorkshopOS.Domain.Appointments;
+using WorkshopOS.Domain.Billing;
+using WorkshopOS.Domain.Catalog;
 using WorkshopOS.Domain.Common;
 using WorkshopOS.Domain.Customers;
 using WorkshopOS.Domain.Estimates;
 using WorkshopOS.Domain.Inspections;
+using WorkshopOS.Domain.Inventory;
 using WorkshopOS.Domain.Organizations;
 using WorkshopOS.Domain.RepairOrders;
+using WorkshopOS.Domain.Staff;
 using WorkshopOS.Domain.Vehicles;
+using WorkshopOS.Infrastructure.Identity;
 using WorkshopOS.Infrastructure.Tenancy;
 
 namespace WorkshopOS.Infrastructure.Persistence;
 
-public sealed class AppDbContext : DbContext
+public sealed class AppDbContext
+    : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
 {
     public const string OrganizationFilterName = "OrganizationFilter";
 
@@ -33,6 +40,8 @@ public sealed class AppDbContext : DbContext
 
     public DbSet<Organization> Organizations => Set<Organization>();
 
+    public DbSet<OrganizationMembership> OrganizationMemberships => Set<OrganizationMembership>();
+
     public DbSet<WorkshopLocation> WorkshopLocations => Set<WorkshopLocation>();
 
     public DbSet<Customer> Customers => Set<Customer>();
@@ -43,16 +52,43 @@ public sealed class AppDbContext : DbContext
 
     public DbSet<RepairOrder> RepairOrders => Set<RepairOrder>();
 
+    public DbSet<RepairOrderTechnicianAssignment> RepairOrderTechnicianAssignments =>
+        Set<RepairOrderTechnicianAssignment>();
+
     public DbSet<Inspection> Inspections => Set<Inspection>();
 
     public DbSet<InspectionItem> InspectionItems => Set<InspectionItem>();
+
+    public DbSet<InspectionMediaAsset> InspectionMediaAssets => Set<InspectionMediaAsset>();
 
     public DbSet<Estimate> Estimates => Set<Estimate>();
 
     public DbSet<EstimateItem> EstimateItems => Set<EstimateItem>();
 
+    public DbSet<EstimateShare> EstimateShares => Set<EstimateShare>();
+
+    public DbSet<ServiceCatalogItem> ServiceCatalogItems => Set<ServiceCatalogItem>();
+
+    public DbSet<PartCatalogItem> PartCatalogItems => Set<PartCatalogItem>();
+
+    public DbSet<PartInventoryBalance> PartInventoryBalances => Set<PartInventoryBalance>();
+
+    public DbSet<PartInventoryMovement> PartInventoryMovements => Set<PartInventoryMovement>();
+
+    public DbSet<Invoice> Invoices => Set<Invoice>();
+
+    public DbSet<InvoiceItem> InvoiceItems => Set<InvoiceItem>();
+
+    public DbSet<InvoicePaymentRecord> InvoicePaymentRecords => Set<InvoicePaymentRecord>();
+
+    public DbSet<StaffMember> StaffMembers => Set<StaffMember>();
+
+    public DbSet<StaffLocationAssignment> StaffLocationAssignments => Set<StaffLocationAssignment>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
         ApplyOrganizationQueryFilters(modelBuilder);
     }
@@ -88,25 +124,59 @@ public sealed class AppDbContext : DbContext
         modelBuilder.Entity<RepairOrder>()
             .HasQueryFilter(OrganizationFilterName, ApplyOrganizationFilter<RepairOrder>());
 
+        modelBuilder.Entity<RepairOrderTechnicianAssignment>()
+            .HasQueryFilter(OrganizationFilterName, ApplyOrganizationFilter<RepairOrderTechnicianAssignment>());
+
         modelBuilder.Entity<Inspection>()
             .HasQueryFilter(OrganizationFilterName, ApplyOrganizationFilter<Inspection>());
 
         modelBuilder.Entity<InspectionItem>()
             .HasQueryFilter(OrganizationFilterName, ApplyOrganizationFilter<InspectionItem>());
 
+        modelBuilder.Entity<InspectionMediaAsset>()
+            .HasQueryFilter(OrganizationFilterName, ApplyOrganizationFilter<InspectionMediaAsset>());
+
         modelBuilder.Entity<Estimate>()
             .HasQueryFilter(OrganizationFilterName, ApplyOrganizationFilter<Estimate>());
 
         modelBuilder.Entity<EstimateItem>()
             .HasQueryFilter(OrganizationFilterName, ApplyOrganizationFilter<EstimateItem>());
+
+        modelBuilder.Entity<EstimateShare>()
+            .HasQueryFilter(OrganizationFilterName, ApplyOrganizationFilter<EstimateShare>());
+
+        modelBuilder.Entity<ServiceCatalogItem>()
+            .HasQueryFilter(OrganizationFilterName, ApplyOrganizationFilter<ServiceCatalogItem>());
+
+        modelBuilder.Entity<PartCatalogItem>()
+            .HasQueryFilter(OrganizationFilterName, ApplyOrganizationFilter<PartCatalogItem>());
+
+        modelBuilder.Entity<PartInventoryBalance>()
+            .HasQueryFilter(OrganizationFilterName, ApplyOrganizationFilter<PartInventoryBalance>());
+
+        modelBuilder.Entity<PartInventoryMovement>()
+            .HasQueryFilter(OrganizationFilterName, ApplyOrganizationFilter<PartInventoryMovement>());
+
+        modelBuilder.Entity<Invoice>()
+            .HasQueryFilter(OrganizationFilterName, ApplyOrganizationFilter<Invoice>());
+
+        modelBuilder.Entity<InvoiceItem>()
+            .HasQueryFilter(OrganizationFilterName, ApplyOrganizationFilter<InvoiceItem>());
+
+        modelBuilder.Entity<InvoicePaymentRecord>()
+            .HasQueryFilter(OrganizationFilterName, ApplyOrganizationFilter<InvoicePaymentRecord>());
+
+        modelBuilder.Entity<StaffMember>()
+            .HasQueryFilter(OrganizationFilterName, ApplyOrganizationFilter<StaffMember>());
+
+        modelBuilder.Entity<StaffLocationAssignment>()
+            .HasQueryFilter(OrganizationFilterName, ApplyOrganizationFilter<StaffLocationAssignment>());
     }
 
     private Expression<Func<TEntity, bool>> ApplyOrganizationFilter<TEntity>()
         where TEntity : OrganizationOwnedEntity
     {
-        return entity =>
-            _organizationContext.OrganizationId.HasValue
-            && entity.OrganizationId == _organizationContext.OrganizationId.Value;
+        return entity => entity.OrganizationId == _organizationContext.OrganizationId;
     }
 
     private void ApplyPersistenceGuards()
@@ -114,6 +184,20 @@ public sealed class AppDbContext : DbContext
         ValidateUtcOffsets();
         ApplyTimestampGuards();
         ApplyTenantWriteGuards();
+        ApplyIdentityTimestampGuards();
+    }
+
+    private void ApplyIdentityTimestampGuards()
+    {
+        var utcNow = _timeProvider.GetUtcNow();
+
+        foreach (var entry in ChangeTracker.Entries<ApplicationUser>())
+        {
+            if (entry.State == EntityState.Added && entry.Entity.CreatedAtUtc == default)
+            {
+                entry.Entity.CreatedAtUtc = utcNow;
+            }
+        }
     }
 
     private void ValidateUtcOffsets()

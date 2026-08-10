@@ -1,0 +1,166 @@
+@model WorkshopOS.Web.Models.Reporting.DashboardViewModel
+@using WorkshopOS.Web.Models.Reporting
+@{
+    ViewData["Title"] = "Executive dashboard";
+    var periodLabel = ReportingDisplayFormatter.FormatPeriodLabel(Model.Header);
+    var locationLabel = ReportingDisplayFormatter.FormatLocationLabel(Model.Header);
+}
+
+<div class="wos-dash-hero">
+    <div class="wos-dash-hero-inner">
+        <div>
+            <p class="wos-page-eyebrow" style="color: var(--wos-accent-teal);">Operations intelligence</p>
+            <h1>Executive dashboard</h1>
+            <p class="wos-dash-hero-meta">
+                @locationLabel · @Model.Header.TimeZoneId · Generated @Model.Header.GeneratedAtUtc.ToString("u")
+            </p>
+        </div>
+        <div class="wos-dash-hero-actions">
+            <a class="btn btn-outline-light btn-sm" asp-controller="Reports" asp-action="Operations">Operations report</a>
+            <a class="btn btn-outline-light btn-sm" asp-controller="Reports" asp-action="Commercial">Commercial report</a>
+        </div>
+    </div>
+</div>
+
+@await Html.PartialAsync("_ReportingFilter", Model.Filter)
+
+<div class="wos-report-section">
+    <div class="wos-report-section-header">
+        <h2>Current workshop snapshot</h2>
+        <p>Point-in-time operational state — not limited to the selected period.</p>
+    </div>
+    <div class="wos-kpi-grid">
+        <div class="wos-card wos-kpi-card is-snapshot">
+            <div class="wos-metric-label">Active repair orders · Current</div>
+            <div class="wos-metric-value">@Model.CurrentSnapshot.ActiveRepairOrders</div>
+            <a asp-controller="RepairOrders" asp-action="Index" class="wos-kpi-link">View repair orders →</a>
+        </div>
+        <div class="wos-card wos-kpi-card is-snapshot">
+            <div class="wos-metric-label">Unassigned jobs · Current</div>
+            <div class="wos-metric-value">@Model.CurrentSnapshot.UnassignedRepairOrders</div>
+            <a asp-controller="Operations" asp-action="Index" asp-route-unassignedOnly="true" class="wos-kpi-link">Operations board →</a>
+        </div>
+        <div class="wos-card wos-kpi-card is-snapshot">
+            <div class="wos-metric-label">Urgent jobs · Current</div>
+            <div class="wos-metric-value">@Model.CurrentSnapshot.UrgentRepairOrders</div>
+        </div>
+        <div class="wos-card wos-kpi-card is-snapshot">
+            <div class="wos-metric-label">Technicians in progress · Current</div>
+            <div class="wos-metric-value">@Model.CurrentSnapshot.TechniciansCurrentlyWorking</div>
+        </div>
+        <div class="wos-card wos-kpi-card is-snapshot">
+            <div class="wos-metric-label">Open DVI · Current</div>
+            <div class="wos-metric-value">@Model.CurrentSnapshot.OpenDviInspections</div>
+            <a asp-controller="Inspections" asp-action="Index" class="wos-kpi-link">View inspections →</a>
+        </div>
+        <div class="wos-card wos-kpi-card is-snapshot">
+            <div class="wos-metric-label">Estimates awaiting decision · Current</div>
+            <div class="wos-metric-value">@Model.CurrentSnapshot.EstimatesAwaitingDecision</div>
+            <a asp-controller="Estimates" asp-action="Index" class="wos-kpi-link">View estimates →</a>
+        </div>
+        <div class="wos-card wos-kpi-card is-snapshot">
+            <div class="wos-metric-label">Outstanding invoices · Current</div>
+            <div class="wos-metric-value">@Model.CurrentSnapshot.OutstandingInvoices</div>
+            @if (Model.CurrentSnapshot.CurrentOutstandingAmounts.Count == 0)
+            {
+                <div class="small text-muted mt-1">No outstanding invoices</div>
+            }
+            else
+            {
+                foreach (var amount in Model.CurrentSnapshot.CurrentOutstandingAmounts)
+                {
+                    <div class="small wos-money-line mt-1">@ReportingDisplayFormatter.FormatMoney(amount)</div>
+                }
+            }
+            <a asp-controller="Invoices" asp-action="Index" class="wos-kpi-link">View invoices →</a>
+        </div>
+        <div class="wos-card wos-kpi-card is-snapshot">
+            <div class="wos-metric-label">Commercially closable jobs · Current</div>
+            <div class="wos-metric-value">@Model.CurrentSnapshot.CommerciallyClosableJobs</div>
+            <a asp-controller="RepairOrders" asp-action="Index" class="wos-kpi-link">Review jobs →</a>
+        </div>
+    </div>
+</div>
+
+<div class="wos-report-section">
+    <div class="wos-report-section-header">
+        <h2>Selected period performance</h2>
+        <p>@periodLabel (business-local dates)</p>
+    </div>
+    <div class="wos-kpi-grid">
+        <div class="wos-card wos-kpi-card is-period">
+            <div class="wos-metric-label">Appointments scheduled · @periodLabel</div>
+            <div class="wos-metric-value">@Model.SelectedPeriod.AppointmentsScheduled</div>
+            <a asp-controller="Appointments" asp-action="Index" class="wos-kpi-link">Appointments →</a>
+        </div>
+        <div class="wos-card wos-kpi-card is-period">
+            <div class="wos-metric-label">Repair orders opened · @periodLabel</div>
+            <div class="wos-metric-value">@Model.SelectedPeriod.RepairOrdersOpened</div>
+        </div>
+        <div class="wos-card wos-kpi-card is-period">
+            <div class="wos-metric-label">Repair orders completed · @periodLabel</div>
+            <div class="wos-metric-value">@Model.SelectedPeriod.RepairOrdersCompleted</div>
+        </div>
+        <div class="wos-card wos-kpi-card is-period">
+            <div class="wos-metric-label">Inspections completed · @periodLabel</div>
+            <div class="wos-metric-value">@Model.SelectedPeriod.InspectionsCompleted</div>
+        </div>
+        <div class="wos-card wos-kpi-card is-period">
+            <div class="wos-metric-label">Critical findings · @periodLabel</div>
+            <div class="wos-metric-value">@Model.SelectedPeriod.CriticalInspectionFindings</div>
+        </div>
+        <div class="wos-card wos-kpi-card is-period">
+            <div class="wos-metric-label">Estimates presented · @periodLabel</div>
+            <div class="wos-metric-value">@Model.SelectedPeriod.EstimatesPresented</div>
+        </div>
+        <div class="wos-card wos-kpi-card is-period">
+            <div class="wos-metric-label">Decision approval rate · Selected period</div>
+            <div class="wos-metric-value">@ReportingDisplayFormatter.FormatApprovalRate(Model.SelectedPeriod.DecisionApprovalRate)</div>
+        </div>
+        <div class="wos-card wos-kpi-card is-period">
+            <div class="wos-metric-label">Commercially closed · @periodLabel</div>
+            <div class="wos-metric-value">@Model.SelectedPeriod.CommerciallyClosedJobs</div>
+        </div>
+    </div>
+</div>
+
+<div class="wos-report-section">
+    <div class="wos-report-section-header">
+        <h2>Commercial health</h2>
+        <p>Financial activity for the selected reporting period.</p>
+    </div>
+    <div class="wos-kpi-grid">
+        <div class="wos-card wos-kpi-card is-commercial">
+            <div class="wos-metric-label">Invoices issued · @periodLabel</div>
+            <div class="wos-metric-value">@Model.SelectedPeriod.InvoicesIssued</div>
+        </div>
+        <div class="wos-card wos-kpi-card is-commercial">
+            <div class="wos-metric-label">Recorded payments · @periodLabel</div>
+            @if (Model.SelectedPeriod.RecordedPayments.Count == 0)
+            {
+                <div class="text-muted mt-2">No activity in this period</div>
+            }
+            else
+            {
+                foreach (var payment in Model.SelectedPeriod.RecordedPayments)
+                {
+                    <div class="wos-metric-value fs-5 mt-1">@ReportingDisplayFormatter.FormatMoney(payment)</div>
+                }
+            }
+        </div>
+        <div class="wos-card wos-kpi-card is-commercial">
+            <div class="wos-metric-label">Invoiced amounts · @periodLabel</div>
+            @if (Model.SelectedPeriod.InvoicedAmounts.Count == 0)
+            {
+                <div class="text-muted mt-2">No activity in this period</div>
+            }
+            else
+            {
+                foreach (var amount in Model.SelectedPeriod.InvoicedAmounts)
+                {
+                    <div class="wos-metric-value fs-5 mt-1">@ReportingDisplayFormatter.FormatMoney(amount)</div>
+                }
+            }
+        </div>
+    </div>
+</div>

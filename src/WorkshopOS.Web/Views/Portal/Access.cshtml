@@ -1,0 +1,54 @@
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Secure estimate access - WorkshopOS</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/workshopos-fonts.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/workshopos-tokens.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/workshopos-public.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="wos-public-body">
+<main class="wos-auth-shell">
+    <div class="wos-auth-card" style="max-width: 560px;">
+        <div id="access-status" class="text-center">
+            <div class="spinner-border text-secondary" role="status" aria-hidden="true"></div>
+            <p class="mt-3 text-muted">Opening your secure estimate link…</p>
+        </div>
+        <noscript>
+            <div class="alert alert-warning mb-0">
+                JavaScript is required to open this secure estimate link safely.
+                Please enable JavaScript and open the link again.
+            </div>
+        </noscript>
+        <form id="access-form" method="post" action="/portal/access/@Model.PublicId" class="d-none">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="token" id="access-token" value="" />
+        </form>
+    </div>
+</main>
+<script>
+(function () {
+    var hash = window.location.hash || '';
+    if (!hash.startsWith('#token=')) {
+        document.getElementById('access-status').innerHTML =
+            '<div class="alert alert-light border mb-0">This secure link is invalid or no longer available.</div>';
+        return;
+    }
+
+    var token = decodeURIComponent(hash.substring('#token='.length));
+    if (window.history && window.history.replaceState) {
+        window.history.replaceState(null, document.title, window.location.pathname + window.location.search);
+    }
+
+    document.getElementById('access-token').value = token;
+    document.getElementById('access-form').submit();
+})();
+</script>
+</body>
+</html>

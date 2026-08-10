@@ -1,0 +1,16 @@
+@model WorkshopOS.Web.Models.Customers.CustomerFormViewModel
+@{
+    ViewData["Title"] = "Create customer";
+}
+
+<h1 class="display-6">Create customer</h1>
+
+<form asp-action="Create" method="post">
+    <partial name="_CustomerFormFields" model="Model" />
+    <button type="submit" class="btn btn-primary">Create customer</button>
+    <a asp-action="Index" class="btn btn-link">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
