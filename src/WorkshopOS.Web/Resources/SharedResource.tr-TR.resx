@@ -1628,127 +1628,127 @@
     <value>Giriş yap</value>
   </data>
   <data xml:space="preserve" name="Landing_FeatureStrip_Estimates">
-    <value>Featurestrip Estimates</value>
+    <value>Teklifler</value>
   </data>
   <data xml:space="preserve" name="Landing_FeatureStrip_Inspections">
-    <value>Featurestrip Inspections</value>
+    <value>Dijital kontroller</value>
   </data>
   <data xml:space="preserve" name="Landing_FeatureStrip_Inventory">
-    <value>Featurestrip Inventory</value>
+    <value>Stok</value>
   </data>
   <data xml:space="preserve" name="Landing_FeatureStrip_Invoicing">
-    <value>Featurestrip Invoicing</value>
+    <value>Faturalama</value>
   </data>
   <data xml:space="preserve" name="Landing_FeatureStrip_RepairOrders">
-    <value>Featurestrip Repairorders</value>
+    <value>İş emirleri</value>
   </data>
   <data xml:space="preserve" name="Landing_FeatureStrip_Reporting">
-    <value>Featurestrip Reporting</value>
+    <value>Raporlama</value>
   </data>
   <data xml:space="preserve" name="Landing_Feature_Billing_Desc">
-    <value>Feature Billing Desc</value>
+    <value>Onaylanan işleri faturalara taşıyın; kart veya çevrimiçi ödeme işliyormuş gibi göstermeden net bir ödeme kaydı tutun.</value>
   </data>
   <data xml:space="preserve" name="Landing_Feature_Billing_Title">
-    <value>Feature Billing Title</value>
+    <value>Ticari kontrol</value>
   </data>
   <data xml:space="preserve" name="Landing_Feature_Catalog_Desc">
-    <value>Feature Catalog Desc</value>
+    <value>Servis, parça ve stok kayıtlarını bunları kullanan işlerle bağlantılı tutun.</value>
   </data>
   <data xml:space="preserve" name="Landing_Feature_Catalog_Title">
-    <value>Feature Catalog Title</value>
+    <value>Parça ve stok</value>
   </data>
   <data xml:space="preserve" name="Landing_Feature_Dvi_Desc">
-    <value>Feature Dvi Desc</value>
+    <value>Atölye kararlarının görünür ve incelenebilir kalması için yapılandırılmış bulguları ve medyayı kaydedin.</value>
   </data>
   <data xml:space="preserve" name="Landing_Feature_Dvi_Title">
-    <value>Feature Dvi Title</value>
+    <value>Dijital araç kontrolleri</value>
   </data>
   <data xml:space="preserve" name="Landing_Feature_Estimate_Desc">
-    <value>Feature Estimate Desc</value>
+    <value>Onarım kapsamını açıkça sunun ve kontrollü paylaşım üzerinden müşteri kararlarını kaydedin.</value>
   </data>
   <data xml:space="preserve" name="Landing_Feature_Estimate_Title">
-    <value>Feature Estimate Title</value>
+    <value>Teklif onayları</value>
   </data>
   <data xml:space="preserve" name="Landing_Feature_Operations_Desc">
-    <value>Feature Operations Desc</value>
+    <value>Randevuları, atamaları ve aktif iş emirlerini tek bir operasyon görünümünden koordine edin.</value>
   </data>
   <data xml:space="preserve" name="Landing_Feature_Operations_Title">
-    <value>Feature Operations Title</value>
+    <value>Canlı atölye operasyonları</value>
   </data>
   <data xml:space="preserve" name="Landing_Feature_Reporting_Desc">
-    <value>Feature Reporting Desc</value>
+    <value>Operasyonel ve ticari performansı lokasyon odaklı raporlarla değerlendirin.</value>
   </data>
   <data xml:space="preserve" name="Landing_Feature_Reporting_Title">
-    <value>Feature Reporting Title</value>
+    <value>Yönetici raporlaması</value>
   </data>
   <data xml:space="preserve" name="Landing_Features_Eyebrow">
-    <value>Features Eyebrow</value>
+    <value>Tek ve bağlantılı operasyon sistemi</value>
   </data>
   <data xml:space="preserve" name="Landing_Features_Heading">
-    <value>Features Heading</value>
+    <value>Atölyedeki her iş akışı kontrol altında.</value>
   </data>
   <data xml:space="preserve" name="Landing_Features_Lead">
-    <value>Features Lead</value>
+    <value>Planlama ve kontrolden onay, stok, faturalama ve yönetim değerlendirmesine kadar tüm servis yolculuğunu birbirine bağlayın.</value>
   </data>
   <data xml:space="preserve" name="Landing_Flow_Eyebrow">
-    <value>Flow Eyebrow</value>
+    <value>Kabulden kapanışa</value>
   </data>
   <data xml:space="preserve" name="Landing_Flow_Heading">
-    <value>Flow Heading</value>
+    <value>Her iş için hassas ve izlenebilir bir yol.</value>
   </data>
   <data xml:space="preserve" name="Landing_Flow_Lead">
-    <value>Flow Lead</value>
+    <value>Operasyonel veya ticari sürekliliği kaybetmeden işi ilerletmek için her role ihtiyaç duyduğu bağlamı sağlayın.</value>
   </data>
   <data xml:space="preserve" name="Landing_Flow_Step1_Desc">
-    <value>Flow Step1 Desc</value>
+    <value>Müşteri ve araç işlerini net lokasyon ve zaman bilgisiyle planlayın.</value>
   </data>
   <data xml:space="preserve" name="Landing_Flow_Step1_Title">
-    <value>Flow Step1 Title</value>
+    <value>Ziyareti planlayın</value>
   </data>
   <data xml:space="preserve" name="Landing_Flow_Step2_Desc">
-    <value>Flow Step2 Desc</value>
+    <value>İş emrini açın, öncelikleri belirleyin ve atölye sorumluluğunu koordine edin.</value>
   </data>
   <data xml:space="preserve" name="Landing_Flow_Step2_Title">
-    <value>Flow Step2 Title</value>
+    <value>İşi açın ve atayın</value>
   </data>
   <data xml:space="preserve" name="Landing_Flow_Step3_Desc">
-    <value>Flow Step3 Desc</value>
+    <value>Bulguları belgeleyin, teklifi sunun ve kayıtlı müşteri kararını koruyun.</value>
   </data>
   <data xml:space="preserve" name="Landing_Flow_Step3_Title">
-    <value>Flow Step3 Title</value>
+    <value>Kontrol edin ve onaylayın</value>
   </data>
   <data xml:space="preserve" name="Landing_Flow_Step4_Desc">
-    <value>Flow Step4 Desc</value>
+    <value>Ticari kaydı tamamlayın ve performansı tutarlı raporlarla değerlendirin.</value>
   </data>
   <data xml:space="preserve" name="Landing_Flow_Step4_Title">
-    <value>Flow Step4 Title</value>
+    <value>Faturalayın ve değerlendirin</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_ChartLabel">
-    <value>Hero Chartlabel</value>
+    <value>Ticari görünüm</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_Eyebrow">
     <value>Otomotiv atölye zekâsı</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_Float_Appointment_Meta">
-    <value>Hero Float Appointment Meta</value>
+    <value>Plan koordine edildi</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_Float_Appointment_Title">
-    <value>Hero Float Appointment Title</value>
+    <value>Randevular</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_Float_Inspection_Meta">
-    <value>Hero Float Inspection Meta</value>
+    <value>Bulgular görünür</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_Float_Inspection_Title">
-    <value>Hero Float Inspection Title</value>
+    <value>Kontrol incelemesi</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_Float_Parts_Meta">
-    <value>Hero Float Parts Meta</value>
+    <value>Stok izlenebilir</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_Float_Parts_Title">
-    <value>Hero Float Parts Title</value>
+    <value>Parça kontrolü</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_GlassTitle">
-    <value>Hero Glasstitle</value>
+    <value>Operasyon özeti</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_HeadingAccent">
     <value>sahanızı</value>
@@ -1760,19 +1760,19 @@
     <value> hassasiyet ve güvenle yönetin.</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_Kpi_ActiveRos">
-    <value>Hero Kpi Activeros</value>
+    <value>Aktif işler</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_Kpi_Unassigned">
-    <value>Hero Kpi Unassigned</value>
+    <value>Atanmamış</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_Kpi_Urgent">
-    <value>Hero Kpi Urgent</value>
+    <value>Acil</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_Lead">
     <value>WorkshopOS; randevular, iş emirleri, dijital araç kontrolleri, teklifler, stok, faturalama ve yönetim raporlamasını tek platformda birleştirir — operasyonel kontrol ve ticari netlik isteyen çok lokasyonlu otomotiv işletmeleri için tasarlandı.</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_PreviewNote">
-    <value>Hero Previewnote</value>
+    <value>Temsili ürün önizlemesi</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_SignIn">
     <value>Giriş yap</value>
@@ -1781,55 +1781,55 @@
     <value>Atölyenizi başlatın</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_Stat_Commercial_Desc">
-    <value>Hero Stat Commercial Desc</value>
+    <value>Tekliften ödeme kaydına</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_Stat_Commercial_Title">
-    <value>Hero Stat Commercial Title</value>
+    <value>Ticari kontrol</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_Stat_Intelligence_Desc">
-    <value>Hero Stat Intelligence Desc</value>
+    <value>Lokasyon odaklı raporlama</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_Stat_Intelligence_Title">
-    <value>Hero Stat Intelligence Title</value>
+    <value>Yönetim içgörüsü</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_Stat_Operations_Desc">
-    <value>Hero Stat Operations Desc</value>
+    <value>Tek bir ortak görünüm</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_Stat_Operations_Title">
-    <value>Hero Stat Operations Title</value>
+    <value>Operasyon akışı</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_StatusDviOpen">
-    <value>Hero Statusdviopen</value>
+    <value>Kontrol ilerlemesi</value>
   </data>
   <data xml:space="preserve" name="Landing_PageTitle">
     <value>Modern otomotiv atölyeleri için atölye yönetimi</value>
   </data>
   <data xml:space="preserve" name="Landing_Trust_Eyebrow">
-    <value>Trust Eyebrow</value>
+    <value>Hesap verebilir operasyonlar için</value>
   </data>
   <data xml:space="preserve" name="Landing_Trust_Heading">
-    <value>Trust Heading</value>
+    <value>Tasarımın merkezinde kontrol, ayrım ve güven.</value>
   </data>
   <data xml:space="preserve" name="Landing_Trust_Lead">
-    <value>Trust Lead</value>
+    <value>Atölye erişimini, organizasyon bağlamını ve müşteriye açık kararları net sınırlar içinde tutun.</value>
   </data>
   <data xml:space="preserve" name="Landing_Trust_MultiLocation_Desc">
-    <value>Trust Multilocation Desc</value>
+    <value>Organizasyon genelindeki bakışı kaybetmeden yetkili lokasyonlara göre operasyonel bağlamı değerlendirin.</value>
   </data>
   <data xml:space="preserve" name="Landing_Trust_MultiLocation_Title">
-    <value>Trust Multilocation Title</value>
+    <value>Çok lokasyonlu kontrol</value>
   </data>
   <data xml:space="preserve" name="Landing_Trust_MultiTenant_Desc">
-    <value>Trust Multitenant Desc</value>
+    <value>Organizasyon bağlamı ve üyelik sınırları her atölye çalışma alanını birbirinden ayrı tutar.</value>
   </data>
   <data xml:space="preserve" name="Landing_Trust_MultiTenant_Title">
-    <value>Trust Multitenant Title</value>
+    <value>Organizasyon ayrımı</value>
   </data>
   <data xml:space="preserve" name="Landing_Trust_Portal_Desc">
-    <value>Trust Portal Desc</value>
+    <value>İç çalışma alanını açmadan teklif kararlarını kontrollü müşteri erişimiyle paylaşın.</value>
   </data>
   <data xml:space="preserve" name="Landing_Trust_Portal_Title">
-    <value>Trust Portal Title</value>
+    <value>Kontrollü müşteri paylaşımı</value>
   </data>
   <data xml:space="preserve" name="Language_SwitcherLabel">
     <value>Dil</value>

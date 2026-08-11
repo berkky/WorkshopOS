@@ -190,7 +190,7 @@ body.wos-app-body {
     0 4px 16px rgba(59, 108, 245, 0.12);
 }
 
-.wos-nav-link.is-active::before {
+.wos-nav-link::before {
   content: "";
   width: 3px;
   height: 18px;
@@ -198,6 +198,17 @@ body.wos-app-body {
   background: linear-gradient(180deg, var(--wos-cyan) 0%, var(--wos-accent-cobalt) 100%);
   margin-right: var(--wos-space-1);
   margin-left: -4px;
+  opacity: 0;
+  transform: scaleY(0.35);
+  transition:
+    opacity var(--wos-motion-fast) var(--wos-ease-standard),
+    transform var(--wos-motion-fast) var(--wos-ease-emphasized),
+    box-shadow var(--wos-motion-fast) var(--wos-ease-standard);
+}
+
+.wos-nav-link.is-active::before {
+  opacity: 1;
+  transform: scaleY(1);
   box-shadow: 0 0 12px rgba(59, 108, 245, 0.5);
 }
 
@@ -357,7 +368,8 @@ body.wos-app-body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .wos-nav-link {
+  .wos-nav-link,
+  .wos-nav-link::before {
     transition: none !important;
   }
 }

@@ -1628,127 +1628,127 @@
     <value>Sign in</value>
   </data>
   <data xml:space="preserve" name="Landing_FeatureStrip_Estimates">
-    <value>Featurestrip Estimates</value>
+    <value>Estimates</value>
   </data>
   <data xml:space="preserve" name="Landing_FeatureStrip_Inspections">
-    <value>Featurestrip Inspections</value>
+    <value>Digital inspections</value>
   </data>
   <data xml:space="preserve" name="Landing_FeatureStrip_Inventory">
-    <value>Featurestrip Inventory</value>
+    <value>Inventory</value>
   </data>
   <data xml:space="preserve" name="Landing_FeatureStrip_Invoicing">
-    <value>Featurestrip Invoicing</value>
+    <value>Invoicing</value>
   </data>
   <data xml:space="preserve" name="Landing_FeatureStrip_RepairOrders">
-    <value>Featurestrip Repairorders</value>
+    <value>Repair orders</value>
   </data>
   <data xml:space="preserve" name="Landing_FeatureStrip_Reporting">
-    <value>Featurestrip Reporting</value>
+    <value>Reporting</value>
   </data>
   <data xml:space="preserve" name="Landing_Feature_Billing_Desc">
-    <value>Feature Billing Desc</value>
+    <value>Move approved work into invoices and maintain a clear payment ledger without pretending to process payments.</value>
   </data>
   <data xml:space="preserve" name="Landing_Feature_Billing_Title">
-    <value>Feature Billing Title</value>
+    <value>Commercial control</value>
   </data>
   <data xml:space="preserve" name="Landing_Feature_Catalog_Desc">
-    <value>Feature Catalog Desc</value>
+    <value>Keep service, parts, and inventory records connected to the work that consumes them.</value>
   </data>
   <data xml:space="preserve" name="Landing_Feature_Catalog_Title">
-    <value>Feature Catalog Title</value>
+    <value>Parts and inventory</value>
   </data>
   <data xml:space="preserve" name="Landing_Feature_Dvi_Desc">
-    <value>Feature Dvi Desc</value>
+    <value>Capture structured findings and media so workshop decisions remain visible and reviewable.</value>
   </data>
   <data xml:space="preserve" name="Landing_Feature_Dvi_Title">
-    <value>Feature Dvi Title</value>
+    <value>Digital vehicle inspections</value>
   </data>
   <data xml:space="preserve" name="Landing_Feature_Estimate_Desc">
-    <value>Feature Estimate Desc</value>
+    <value>Present repair scope clearly and record customer decisions through controlled sharing.</value>
   </data>
   <data xml:space="preserve" name="Landing_Feature_Estimate_Title">
-    <value>Feature Estimate Title</value>
+    <value>Estimate approvals</value>
   </data>
   <data xml:space="preserve" name="Landing_Feature_Operations_Desc">
-    <value>Feature Operations Desc</value>
+    <value>Coordinate appointments, assignments, and active repair orders from one operational view.</value>
   </data>
   <data xml:space="preserve" name="Landing_Feature_Operations_Title">
-    <value>Feature Operations Title</value>
+    <value>Live workshop operations</value>
   </data>
   <data xml:space="preserve" name="Landing_Feature_Reporting_Desc">
-    <value>Feature Reporting Desc</value>
+    <value>Review operational and commercial performance with location-aware reporting.</value>
   </data>
   <data xml:space="preserve" name="Landing_Feature_Reporting_Title">
-    <value>Feature Reporting Title</value>
+    <value>Executive reporting</value>
   </data>
   <data xml:space="preserve" name="Landing_Features_Eyebrow">
-    <value>Features Eyebrow</value>
+    <value>One connected operating system</value>
   </data>
   <data xml:space="preserve" name="Landing_Features_Heading">
-    <value>Features Heading</value>
+    <value>Every workshop workflow, under control.</value>
   </data>
   <data xml:space="preserve" name="Landing_Features_Lead">
-    <value>Features Lead</value>
+    <value>Connect the service journey from scheduling and inspection through approval, inventory, invoicing, and management review.</value>
   </data>
   <data xml:space="preserve" name="Landing_Flow_Eyebrow">
-    <value>Flow Eyebrow</value>
+    <value>From arrival to closeout</value>
   </data>
   <data xml:space="preserve" name="Landing_Flow_Heading">
-    <value>Flow Heading</value>
+    <value>A precise path through every job.</value>
   </data>
   <data xml:space="preserve" name="Landing_Flow_Lead">
-    <value>Flow Lead</value>
+    <value>Give every role the context needed to move work forward without losing operational or commercial continuity.</value>
   </data>
   <data xml:space="preserve" name="Landing_Flow_Step1_Desc">
-    <value>Flow Step1 Desc</value>
+    <value>Schedule customer and vehicle work with clear location and timing context.</value>
   </data>
   <data xml:space="preserve" name="Landing_Flow_Step1_Title">
-    <value>Flow Step1 Title</value>
+    <value>Plan the visit</value>
   </data>
   <data xml:space="preserve" name="Landing_Flow_Step2_Desc">
-    <value>Flow Step2 Desc</value>
+    <value>Open the repair order, define priorities, and coordinate workshop responsibility.</value>
   </data>
   <data xml:space="preserve" name="Landing_Flow_Step2_Title">
-    <value>Flow Step2 Title</value>
+    <value>Open and assign work</value>
   </data>
   <data xml:space="preserve" name="Landing_Flow_Step3_Desc">
-    <value>Flow Step3 Desc</value>
+    <value>Document findings, present the estimate, and retain the recorded customer decision.</value>
   </data>
   <data xml:space="preserve" name="Landing_Flow_Step3_Title">
-    <value>Flow Step3 Title</value>
+    <value>Inspect and approve</value>
   </data>
   <data xml:space="preserve" name="Landing_Flow_Step4_Desc">
-    <value>Flow Step4 Desc</value>
+    <value>Complete the commercial record and review performance with consistent reporting.</value>
   </data>
   <data xml:space="preserve" name="Landing_Flow_Step4_Title">
-    <value>Flow Step4 Title</value>
+    <value>Invoice and review</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_ChartLabel">
-    <value>Hero Chartlabel</value>
+    <value>Commercial outlook</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_Eyebrow">
     <value>Automotive workshop intelligence</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_Float_Appointment_Meta">
-    <value>Hero Float Appointment Meta</value>
+    <value>Schedule coordinated</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_Float_Appointment_Title">
-    <value>Hero Float Appointment Title</value>
+    <value>Appointments</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_Float_Inspection_Meta">
-    <value>Hero Float Inspection Meta</value>
+    <value>Findings visible</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_Float_Inspection_Title">
-    <value>Hero Float Inspection Title</value>
+    <value>Inspection review</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_Float_Parts_Meta">
-    <value>Hero Float Parts Meta</value>
+    <value>Stock traceable</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_Float_Parts_Title">
-    <value>Hero Float Parts Title</value>
+    <value>Parts control</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_GlassTitle">
-    <value>Hero Glasstitle</value>
+    <value>Operations overview</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_HeadingAccent">
     <value>workshop floor</value>
@@ -1760,19 +1760,19 @@
     <value> with precision and confidence.</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_Kpi_ActiveRos">
-    <value>Hero Kpi Activeros</value>
+    <value>Active jobs</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_Kpi_Unassigned">
-    <value>Hero Kpi Unassigned</value>
+    <value>Unassigned</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_Kpi_Urgent">
-    <value>Hero Kpi Urgent</value>
+    <value>Urgent</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_Lead">
     <value>WorkshopOS unifies appointments, repair orders, digital inspections, estimates, inventory, invoicing, and executive reporting — built for multi-location automotive operations that demand operational control and commercial clarity.</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_PreviewNote">
-    <value>Hero Previewnote</value>
+    <value>Illustrative product preview</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_SignIn">
     <value>Sign in</value>
@@ -1781,55 +1781,55 @@
     <value>Start your workshop</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_Stat_Commercial_Desc">
-    <value>Hero Stat Commercial Desc</value>
+    <value>Estimate to payment record</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_Stat_Commercial_Title">
-    <value>Hero Stat Commercial Title</value>
+    <value>Commercial control</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_Stat_Intelligence_Desc">
-    <value>Hero Stat Intelligence Desc</value>
+    <value>Location-aware reporting</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_Stat_Intelligence_Title">
-    <value>Hero Stat Intelligence Title</value>
+    <value>Management insight</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_Stat_Operations_Desc">
-    <value>Hero Stat Operations Desc</value>
+    <value>One shared view</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_Stat_Operations_Title">
-    <value>Hero Stat Operations Title</value>
+    <value>Operational flow</value>
   </data>
   <data xml:space="preserve" name="Landing_Hero_StatusDviOpen">
-    <value>Hero Statusdviopen</value>
+    <value>Inspection progress</value>
   </data>
   <data xml:space="preserve" name="Landing_PageTitle">
     <value>Workshop management for modern automotive workshops</value>
   </data>
   <data xml:space="preserve" name="Landing_Trust_Eyebrow">
-    <value>Trust Eyebrow</value>
+    <value>Built for accountable operations</value>
   </data>
   <data xml:space="preserve" name="Landing_Trust_Heading">
-    <value>Trust Heading</value>
+    <value>Control, separation, and confidence by design.</value>
   </data>
   <data xml:space="preserve" name="Landing_Trust_Lead">
-    <value>Trust Lead</value>
+    <value>Keep workshop access, organization context, and customer-facing decisions within clearly defined boundaries.</value>
   </data>
   <data xml:space="preserve" name="Landing_Trust_MultiLocation_Desc">
-    <value>Trust Multilocation Desc</value>
+    <value>Review operational context by authorized location without losing the organization-wide perspective.</value>
   </data>
   <data xml:space="preserve" name="Landing_Trust_MultiLocation_Title">
-    <value>Trust Multilocation Title</value>
+    <value>Multi-location control</value>
   </data>
   <data xml:space="preserve" name="Landing_Trust_MultiTenant_Desc">
-    <value>Trust Multitenant Desc</value>
+    <value>Organization context and membership boundaries keep each workshop workspace separated.</value>
   </data>
   <data xml:space="preserve" name="Landing_Trust_MultiTenant_Title">
-    <value>Trust Multitenant Title</value>
+    <value>Organization isolation</value>
   </data>
   <data xml:space="preserve" name="Landing_Trust_Portal_Desc">
-    <value>Trust Portal Desc</value>
+    <value>Share estimate decisions through controlled customer access without exposing the internal workspace.</value>
   </data>
   <data xml:space="preserve" name="Landing_Trust_Portal_Title">
-    <value>Trust Portal Title</value>
+    <value>Controlled customer sharing</value>
   </data>
   <data xml:space="preserve" name="Language_SwitcherLabel">
     <value>Language</value>

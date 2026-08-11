@@ -2331,3 +2331,304 @@ body.portal-body .wos-lang-switcher-btn:focus-visible {
     transition: none !important;
   }
 }
+
+/* STEP 41 — Shared premium motion language */
+html.wos-motion-enabled .wos-reveal {
+  opacity: 0;
+  transform: translate3d(0, var(--wos-reveal-distance), 0);
+  transition:
+    opacity var(--wos-motion-base) var(--wos-ease-emphasized),
+    transform var(--wos-motion-base) var(--wos-ease-emphasized);
+}
+
+html.wos-motion-enabled .wos-reveal-left {
+  transform: translate3d(calc(var(--wos-reveal-distance) * -1), 0, 0);
+}
+
+html.wos-motion-enabled .wos-reveal-right {
+  transform: translate3d(var(--wos-reveal-distance), 0, 0);
+}
+
+html.wos-motion-enabled .wos-reveal-scale {
+  transform: translate3d(0, 14px, 0) scale(0.985);
+}
+
+html.wos-motion-enabled .wos-reveal.is-revealed {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+html.wos-motion-enabled [data-wos-reveal-stagger] > * {
+  opacity: 0;
+  transform: translate3d(0, 18px, 0);
+  transition:
+    opacity var(--wos-motion-base) var(--wos-ease-emphasized),
+    transform var(--wos-motion-base) var(--wos-ease-emphasized),
+    border-color var(--wos-motion-fast) var(--wos-ease-standard),
+    box-shadow var(--wos-motion-fast) var(--wos-ease-standard);
+  transition-delay: calc(var(--wos-stagger-index, 0) * 60ms);
+}
+
+html.wos-motion-enabled .wos-reveal.is-revealed[data-wos-reveal-stagger] > *,
+html.wos-motion-enabled .wos-report-section.is-revealed [data-wos-reveal-stagger] > * {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+html.wos-motion-enabled [data-wos-page-entry] > * {
+  opacity: 0;
+  transform: translate3d(0, 10px, 0);
+  transition:
+    opacity 340ms var(--wos-ease-emphasized),
+    transform 340ms var(--wos-ease-emphasized);
+}
+
+html.wos-motion-enabled [data-wos-page-entry].is-entered > * {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+html.wos-motion-enabled [data-wos-page-entry].is-entered > :nth-child(2) { transition-delay: 45ms; }
+html.wos-motion-enabled [data-wos-page-entry].is-entered > :nth-child(n + 3) { transition-delay: 80ms; }
+
+/* Authenticated executive dashboard V3 */
+.wos-dashboard-v3 {
+  position: relative;
+  isolation: isolate;
+}
+
+.wos-dashboard-v3::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: -7rem;
+  left: -5rem;
+  width: min(74vw, 920px);
+  height: 32rem;
+  pointer-events: none;
+  opacity: 0.75;
+  background:
+    radial-gradient(ellipse 55% 48% at 36% 34%, rgba(59, 108, 245, 0.15), transparent 72%),
+    radial-gradient(ellipse 38% 36% at 76% 22%, rgba(34, 211, 238, 0.055), transparent 72%);
+}
+
+.wos-dashboard-v3 .wos-dash-hero {
+  padding: clamp(1.75rem, 4vw, 3rem);
+  border: 1px solid rgba(134, 163, 247, 0.14);
+  background:
+    linear-gradient(112deg, rgba(255, 255, 255, 0.035), transparent 30%),
+    radial-gradient(ellipse 52% 130% at 82% 10%, rgba(59, 108, 245, 0.22), transparent 70%),
+    linear-gradient(145deg, #0a0e17 0%, #111827 56%, #0b111d 100%);
+  box-shadow:
+    0 28px 68px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.wos-dashboard-v3 .wos-dash-hero::before {
+  top: -65%;
+  right: -10%;
+  width: 58%;
+  background: radial-gradient(ellipse, rgba(59, 108, 245, 0.25), transparent 68%);
+}
+
+.wos-dashboard-v3 .wos-dash-hero::after {
+  bottom: -55%;
+  left: 5%;
+  width: 46%;
+  background: radial-gradient(ellipse, rgba(34, 211, 238, 0.11), transparent 70%);
+}
+
+.wos-dashboard-v3 .wos-dash-hero-inner::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: min(34vw, 360px);
+  height: 130px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  opacity: 0.2;
+  background-image:
+    linear-gradient(rgba(125, 160, 255, 0.16) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(125, 160, 255, 0.16) 1px, transparent 1px);
+  background-size: 24px 24px;
+  mask-image: linear-gradient(90deg, transparent, black 45%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 45%, transparent);
+}
+
+.wos-dashboard-v3 .wos-dash-hero h1 {
+  font-size: clamp(1.9rem, 4vw, 2.8rem);
+  text-shadow: 0 16px 38px rgba(0, 0, 0, 0.32);
+}
+
+html.wos-motion-enabled [data-wos-page-entry].is-entered .wos-dashboard-entrance .wos-dash-hero-inner > * {
+  animation: wos-dashboard-header-in 480ms var(--wos-ease-emphasized) both;
+}
+
+html.wos-motion-enabled [data-wos-page-entry].is-entered .wos-dashboard-entrance .wos-dash-hero-actions {
+  animation-delay: 90ms;
+}
+
+@keyframes wos-dashboard-header-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.wos-dashboard-v3 .wos-report-section {
+  position: relative;
+  padding: var(--wos-space-5);
+  border: 1px solid rgba(255, 255, 255, 0.055);
+  border-radius: var(--wos-radius-xl);
+  background: linear-gradient(145deg, rgba(15, 21, 33, 0.48), rgba(10, 15, 25, 0.3));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025);
+}
+
+.wos-dashboard-v3 .wos-report-section-header {
+  border-bottom-color: rgba(255, 255, 255, 0.07);
+}
+
+.wos-dashboard-v3 .wos-kpi-card {
+  min-height: 8.25rem;
+  background:
+    linear-gradient(145deg, rgba(22, 29, 44, 0.88), rgba(13, 19, 31, 0.9));
+  transition:
+    transform var(--wos-motion-fast) var(--wos-ease-emphasized),
+    border-color var(--wos-motion-fast) var(--wos-ease-standard),
+    box-shadow var(--wos-motion-fast) var(--wos-ease-standard);
+}
+
+.wos-dashboard-v3 .wos-kpi-card .wos-metric-value {
+  color: #f4f7fc;
+  text-shadow: 0 8px 24px rgba(59, 108, 245, 0.12);
+}
+
+html.wos-motion-enabled .wos-dashboard-v3 .wos-report-section.is-revealed .wos-kpi-card .wos-metric-value {
+  animation: wos-kpi-value-in 460ms var(--wos-ease-emphasized) both;
+  animation-delay: calc(80ms + var(--wos-stagger-index, 0) * 60ms);
+}
+
+@keyframes wos-kpi-value-in {
+  from {
+    opacity: 0.35;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.wos-dashboard-v3 .wos-kpi-card.is-snapshot {
+  border-left-color: #35d4c5;
+}
+
+.wos-dashboard-v3 .wos-kpi-card.is-period {
+  border-left-color: #5b83f7;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .wos-dashboard-v3 .wos-kpi-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(95, 132, 242, 0.28);
+    box-shadow: 0 22px 48px rgba(0, 0, 0, 0.34), 0 0 0 1px rgba(59, 108, 245, 0.07);
+  }
+
+  html.wos-motion-enabled .wos-dashboard-v3 .wos-report-section.is-revealed [data-wos-reveal-stagger] > .wos-kpi-card:hover {
+    transform: translateY(-3px);
+  }
+}
+
+/* Global premium micro-interactions */
+.wos-app-body .btn:not(:disabled):not(.disabled) {
+  transition:
+    transform var(--wos-motion-fast) var(--wos-ease-emphasized),
+    border-color var(--wos-motion-fast) var(--wos-ease-standard),
+    background-color var(--wos-motion-fast) var(--wos-ease-standard),
+    box-shadow var(--wos-motion-fast) var(--wos-ease-standard),
+    color var(--wos-motion-fast) var(--wos-ease-standard);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .wos-app-body .btn:not(:disabled):not(.disabled):hover {
+    transform: translateY(-1px);
+  }
+}
+
+.wos-app-body .btn:not(:disabled):not(.disabled):active {
+  transform: translateY(0) scale(0.985);
+}
+
+.wos-app-body .btn-outline-danger:hover,
+.wos-app-body .btn-danger:hover {
+  transform: none;
+}
+
+.wos-app-body .form-control,
+.wos-app-body .form-select {
+  transition:
+    border-color var(--wos-motion-fast) var(--wos-ease-standard),
+    box-shadow var(--wos-motion-fast) var(--wos-ease-standard),
+    background-color var(--wos-motion-fast) var(--wos-ease-standard);
+}
+
+.wos-app-body .form-control:focus,
+.wos-app-body .form-select:focus {
+  background-color: rgba(13, 19, 31, 0.92);
+}
+
+/* Account Center retains behavior; only motion is refined. */
+.wos-account-panel {
+  transform: translate3d(0, 7px, 0) scale(0.985);
+  transform-origin: bottom left;
+  transition:
+    opacity var(--wos-motion-fast) var(--wos-ease-emphasized),
+    transform var(--wos-motion-fast) var(--wos-ease-emphasized),
+    visibility var(--wos-motion-fast) var(--wos-ease-standard);
+}
+
+.wos-account-center.is-open .wos-account-panel {
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+.wos-topbar .wos-account-panel {
+  transform-origin: top right;
+}
+
+@media (max-width: 575.98px) {
+  :root {
+    --wos-reveal-distance: 14px;
+  }
+
+  .wos-dashboard-v3 .wos-report-section {
+    padding: var(--wos-space-4);
+  }
+
+  .wos-dashboard-v3::before,
+  .wos-dashboard-v3 .wos-dash-hero-inner::after {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wos-reveal,
+  [data-wos-reveal-stagger] > *,
+  [data-wos-page-entry] > *,
+  .wos-dashboard-entrance,
+  .wos-dashboard-v3 .wos-kpi-card,
+  .wos-app-body .btn,
+  .wos-app-body .form-control,
+  .wos-app-body .form-select,
+  .wos-account-panel {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+}

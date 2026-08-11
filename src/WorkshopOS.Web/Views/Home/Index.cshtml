@@ -1,20 +1,21 @@
 ﻿@{
     ViewData["Title"] = Localizer["Landing_PageTitle"];
+    ViewData["BodyClass"] = "wos-landing-v3";
 }
 
-<section class="wos-hero" id="wos-hero">
+<section class="wos-hero" id="wos-hero" data-wos-hero-motion>
     <div class="wos-hero-inner">
         <div class="wos-hero-copy">
-            <p class="wos-page-eyebrow">@Localizer["Landing_Hero_Eyebrow"]</p>
-            <h1>@Localizer["Landing_Hero_HeadingPrefix"]<span class="wos-hero-accent">@Localizer["Landing_Hero_HeadingAccent"]</span>@Localizer["Landing_Hero_HeadingSuffix"]</h1>
-            <p class="wos-hero-lead">
+            <p class="wos-page-eyebrow wos-hero-sequence wos-hero-sequence--1">@Localizer["Landing_Hero_Eyebrow"]</p>
+            <h1 class="wos-hero-sequence wos-hero-sequence--2">@Localizer["Landing_Hero_HeadingPrefix"]<span class="wos-hero-accent">@Localizer["Landing_Hero_HeadingAccent"]</span>@Localizer["Landing_Hero_HeadingSuffix"]</h1>
+            <p class="wos-hero-lead wos-hero-sequence wos-hero-sequence--3">
                 @Localizer["Landing_Hero_Lead"]
             </p>
-            <div class="wos-hero-actions">
+            <div class="wos-hero-actions wos-hero-sequence wos-hero-sequence--4">
                 <a class="btn btn-wos-primary btn-lg wos-hero-cta" asp-controller="Onboarding" asp-action="Index">@Localizer["Landing_Hero_StartWorkshop"]</a>
                 <a class="btn btn-outline-light btn-lg wos-hero-cta" asp-controller="Account" asp-action="Login">@Localizer["Landing_Hero_SignIn"]</a>
             </div>
-            <div class="wos-hero-stats">
+            <div class="wos-hero-stats wos-hero-sequence wos-hero-sequence--5">
                 <div class="wos-hero-stat">
                     <strong>@Localizer["Landing_Hero_Stat_Operations_Title"]</strong>
                     @Localizer["Landing_Hero_Stat_Operations_Desc"]
@@ -146,7 +147,7 @@
     </div>
 </section>
 
-<div class="wos-hero-feature-strip" aria-hidden="true">
+<div class="wos-hero-feature-strip wos-reveal wos-reveal-up" aria-hidden="true">
     <div class="wos-hero-feature-strip-inner">
         <span>@Localizer["Landing_FeatureStrip_RepairOrders"]</span>
         <span>@Localizer["Landing_FeatureStrip_Inspections"]</span>
@@ -157,14 +158,14 @@
     </div>
 </div>
 
-<section class="wos-section" aria-labelledby="features-heading">
+<section class="wos-section wos-section--capabilities" aria-labelledby="features-heading">
     <div class="wos-section-inner">
-        <div class="wos-section-header">
+        <div class="wos-section-header wos-reveal wos-reveal-up">
             <p class="wos-section-eyebrow">@Localizer["Landing_Features_Eyebrow"]</p>
             <h2 id="features-heading">@Localizer["Landing_Features_Heading"]</h2>
             <p>@Localizer["Landing_Features_Lead"]</p>
         </div>
-        <div class="wos-feature-grid">
+        <div class="wos-feature-grid wos-reveal wos-reveal-up" data-wos-reveal-stagger>
             <article class="wos-card wos-feature-card">
                 <div class="wos-feature-icon" aria-hidden="true">⚙</div>
                 <h3>@Localizer["Landing_Feature_Operations_Title"]</h3>
@@ -201,12 +202,12 @@
 
 <section class="wos-section wos-flow-section" aria-labelledby="flow-heading">
     <div class="wos-section-inner">
-        <div class="wos-section-header">
+        <div class="wos-section-header wos-reveal wos-reveal-left">
             <p class="wos-section-eyebrow">@Localizer["Landing_Flow_Eyebrow"]</p>
             <h2 id="flow-heading">@Localizer["Landing_Flow_Heading"]</h2>
             <p>@Localizer["Landing_Flow_Lead"]</p>
         </div>
-        <div class="wos-flow-steps">
+        <div class="wos-flow-steps wos-reveal wos-reveal-up" data-wos-reveal-stagger>
             <div class="wos-flow-step">
                 <h3>@Localizer["Landing_Flow_Step1_Title"]</h3>
                 <p>@Localizer["Landing_Flow_Step1_Desc"]</p>
@@ -229,12 +230,12 @@
 
 <section class="wos-section wos-trust-section" aria-labelledby="trust-heading">
     <div class="wos-section-inner">
-        <div class="wos-section-header">
+        <div class="wos-section-header wos-reveal wos-reveal-up">
             <p class="wos-section-eyebrow" style="color: var(--wos-accent-teal);">@Localizer["Landing_Trust_Eyebrow"]</p>
             <h2 id="trust-heading" style="color: #fff;">@Localizer["Landing_Trust_Heading"]</h2>
             <p style="color: var(--wos-text-muted-on-dark);">@Localizer["Landing_Trust_Lead"]</p>
         </div>
-        <div class="wos-trust-grid">
+        <div class="wos-trust-grid wos-reveal wos-reveal-scale" data-wos-reveal-stagger>
             <div class="wos-trust-card">
                 <div class="wos-trust-icon" aria-hidden="true">🔒</div>
                 <h3>@Localizer["Landing_Trust_MultiTenant_Title"]</h3>
@@ -254,7 +255,7 @@
     </div>
 </section>
 
-<section class="wos-cta-band" aria-labelledby="cta-heading">
+<section class="wos-cta-band wos-reveal wos-reveal-scale" aria-labelledby="cta-heading">
     <h2 id="cta-heading">@Localizer["Landing_Cta_Heading"]</h2>
     <p>@Localizer["Landing_Cta_Lead"]</p>
     <div class="d-flex flex-wrap gap-3 justify-content-center">

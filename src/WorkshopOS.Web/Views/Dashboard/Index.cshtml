@@ -6,7 +6,8 @@
     var locationLabel = UiFormatting.FormatLocationScope(Model.Header.WorkshopLocationName);
 }
 
-<div class="wos-dash-hero">
+<div class="wos-dashboard-v3" data-wos-dashboard-motion>
+<div class="wos-dash-hero wos-dashboard-entrance">
     <div class="wos-dash-hero-inner">
         <div>
             <p class="wos-page-eyebrow" style="color: var(--wos-accent-teal);">@Localizer["Dashboard_Eyebrow"]</p>
@@ -22,14 +23,16 @@
     </div>
 </div>
 
-@await Html.PartialAsync("_ReportingFilter", Model.Filter)
+<div class="wos-reveal wos-reveal-up">
+    @await Html.PartialAsync("_ReportingFilter", Model.Filter)
+</div>
 
-<div class="wos-report-section">
+<div class="wos-report-section wos-reveal wos-reveal-up">
     <div class="wos-report-section-header">
         <h2>@Localizer["Dashboard_Section_CurrentSnapshot"]</h2>
         <p>@Localizer["Dashboard_Section_CurrentSnapshot_Description"]</p>
     </div>
-    <div class="wos-kpi-grid">
+    <div class="wos-kpi-grid" data-wos-reveal-stagger>
         <div class="wos-card wos-kpi-card is-snapshot">
             <div class="wos-metric-label">@Localizer["Dashboard_Kpi_ActiveRepairOrders"]</div>
             <div class="wos-metric-value">@Model.CurrentSnapshot.ActiveRepairOrders</div>
@@ -82,12 +85,12 @@
     </div>
 </div>
 
-<div class="wos-report-section">
+<div class="wos-report-section wos-reveal wos-reveal-up">
     <div class="wos-report-section-header">
         <h2>@Localizer["Dashboard_Section_PeriodPerformance"]</h2>
         <p>@Localizer["Dashboard_Section_PeriodPerformance_Description", periodLabel]</p>
     </div>
-    <div class="wos-kpi-grid">
+    <div class="wos-kpi-grid" data-wos-reveal-stagger>
         <div class="wos-card wos-kpi-card is-period">
             <div class="wos-metric-label">@Localizer["Dashboard_Kpi_AppointmentsScheduled", periodLabel]</div>
             <div class="wos-metric-value">@Model.SelectedPeriod.AppointmentsScheduled</div>
@@ -124,12 +127,12 @@
     </div>
 </div>
 
-<div class="wos-report-section">
+<div class="wos-report-section wos-reveal wos-reveal-up">
     <div class="wos-report-section-header">
         <h2>@Localizer["Dashboard_Section_CommercialHealth"]</h2>
         <p>@Localizer["Dashboard_Section_CommercialHealth_Description"]</p>
     </div>
-    <div class="wos-kpi-grid">
+    <div class="wos-kpi-grid" data-wos-reveal-stagger>
         <div class="wos-card wos-kpi-card is-commercial">
             <div class="wos-metric-label">@Localizer["Dashboard_Kpi_InvoicesIssued", periodLabel]</div>
             <div class="wos-metric-value">@Model.SelectedPeriod.InvoicesIssued</div>
@@ -163,4 +166,5 @@
             }
         </div>
     </div>
+</div>
 </div>

@@ -204,4 +204,82 @@ public sealed class DesignSystemUxTests
         Assert.DoesNotContain("display-6", appointmentDetails);
         Assert.DoesNotContain("display-6", appointmentCalendar);
     }
+
+    [Fact]
+    public void MotionSystem_UsesCentralizedTokensAndReducedMotionContract()
+    {
+        var tokens = File.ReadAllText(Path.Combine(WebRoot, "wwwroot/css/workshopos-tokens.css"));
+        var components = File.ReadAllText(Path.Combine(WebRoot, "wwwroot/css/workshopos-components.css"));
+        var publicCss = File.ReadAllText(Path.Combine(WebRoot, "wwwroot/css/workshopos-public.css"));
+
+        Assert.Contains("--wos-motion-fast", tokens);
+        Assert.Contains("--wos-motion-base", tokens);
+        Assert.Contains("--wos-motion-slow", tokens);
+        Assert.Contains("--wos-ease-emphasized", tokens);
+        Assert.Contains("--wos-reveal-distance", tokens);
+        Assert.Contains("@media (prefers-reduced-motion: reduce)", components);
+        Assert.Contains("@media (prefers-reduced-motion: reduce)", publicCss);
+    }
+
+    [Fact]
+    public void SharedMotionScript_UsesOneShotIntersectionObserver()
+    {
+        var siteScript = File.ReadAllText(Path.Combine(WebRoot, "wwwroot/js/site.js"));
+        var heroScript = File.ReadAllText(Path.Combine(WebRoot, "wwwroot/js/workshopos-hero.js"));
+
+        Assert.Contains("function initScrollReveal()", siteScript);
+        Assert.Contains("IntersectionObserver", siteScript);
+        Assert.Contains("observer.unobserve(entry.target)", siteScript);
+        Assert.Contains("prefers-reduced-motion: reduce", siteScript);
+        Assert.Contains("function initPageEntry()", siteScript);
+        Assert.DoesNotContain("setInterval(", siteScript + heroScript);
+        Assert.DoesNotContain("requestAnimationFrame(tick)", heroScript);
+    }
+
+    [Fact]
+    public void LandingAndDashboard_ExposeSharedMotionHooks()
+    {
+        var landing = ReadView("Views/Home/Index.cshtml");
+        var dashboard = ReadView("Views/Dashboard/Index.cshtml");
+        var appShell = ReadView("Views/Shared/_AppShell.cshtml");
+
+        Assert.Contains("data-wos-hero-motion", landing);
+        Assert.Contains("wos-hero-sequence", landing);
+        Assert.Contains("data-wos-reveal-stagger", landing);
+        Assert.Contains("data-wos-dashboard-motion", dashboard);
+        Assert.Contains("wos-dashboard-entrance", dashboard);
+        Assert.Contains("data-wos-reveal-stagger", dashboard);
+        Assert.Contains("data-wos-page-entry", appShell);
+    }
+
+    [Fact]
+    public void MotionAssets_DoNotReferenceExternalAnimationLibraries()
+    {
+        var siteScript = File.ReadAllText(Path.Combine(WebRoot, "wwwroot/js/site.js"));
+        var heroScript = File.ReadAllText(Path.Combine(WebRoot, "wwwroot/js/workshopos-hero.js"));
+        var assets = siteScript + heroScript;
+
+        Assert.DoesNotContain("gsap", assets, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("framer", assets, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("three.js", assets, StringComparison.OrdinalIgnoreCase);
+        Assert.DoesNotContain("cdn.", assets, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public void LandingResources_DoNotExposePlaceholderCopy()
+    {
+        var resources = new[]
+        {
+            File.ReadAllText(Path.Combine(WebRoot, "Resources/SharedResource.resx")),
+            File.ReadAllText(Path.Combine(WebRoot, "Resources/SharedResource.en-US.resx")),
+            File.ReadAllText(Path.Combine(WebRoot, "Resources/SharedResource.tr-TR.resx"))
+        };
+
+        foreach (var resource in resources)
+        {
+            Assert.DoesNotContain("<value>Features Heading</value>", resource);
+            Assert.DoesNotContain("<value>Trust Lead</value>", resource);
+            Assert.DoesNotContain("<value>Hero Previewnote</value>", resource);
+        }
+    }
 }

@@ -95,6 +95,12 @@
   /* Transitions */
   --wos-ease: cubic-bezier(0.4, 0, 0.2, 1);
   --wos-duration: 0.18s;
+  --wos-motion-fast: 180ms;
+  --wos-motion-base: 420ms;
+  --wos-motion-slow: 760ms;
+  --wos-ease-standard: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --wos-ease-emphasized: cubic-bezier(0.16, 1, 0.3, 1);
+  --wos-reveal-distance: 28px;
 }
 
 /* STEP 35 — Authenticated dark-first semantic tokens */
