@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using WorkshopOS.Web;
 using WorkshopOS.Domain.Staff;
 
 namespace WorkshopOS.Web.Models.Team;
@@ -46,30 +47,30 @@ public sealed class StaffMemberFormViewModel
 
     [Required]
     [MaxLength(160)]
-    [Display(Name = "Display name")]
+    [Display(Name = "Field_DisplayName")]
     public string DisplayName { get; set; } = string.Empty;
 
     [Required]
-    [Display(Name = "Position")]
+    [Display(Name = "Field_Position")]
     public StaffPosition Position { get; set; }
 
     [MaxLength(120)]
-    [Display(Name = "Job title")]
+    [Display(Name = "Field_JobTitle")]
     public string? JobTitle { get; set; }
 
     [EmailAddress]
     [MaxLength(256)]
-    [Display(Name = "Contact email")]
+    [Display(Name = "Field_ContactEmail")]
     public string? ContactEmail { get; set; }
 
     [MaxLength(50)]
-    [Display(Name = "Phone number")]
+    [Display(Name = "Field_PhoneNumber")]
     public string? PhoneNumber { get; set; }
 
-    [Display(Name = "Link to existing login")]
+    [Display(Name = "Field_LinkToExistingLogin")]
     public Guid? LinkedUserId { get; set; }
 
-    [Display(Name = "Status")]
+    [Display(Name = "Field_Status")]
     public StaffStatus Status { get; set; } = StaffStatus.Active;
 
     public IReadOnlyList<WorkshopLocationOptionViewModel> WorkshopLocations { get; set; } =

@@ -1,32 +1,32 @@
 @model WorkshopOS.Web.Models.Team.TeamIndexViewModel
 @{
-    ViewData["Title"] = "Team";
+    ViewData["Title"] = Localizer["Team_Title"].Value;
 }
 
 <header class="wos-page-header">
     <div>
-        <h1 class="wos-page-title">Workshop team</h1>
-        <p class="wos-page-description">Staff profiles, login access, and workshop location assignments.</p>
+        <h1 class="wos-page-title">@Localizer["Team_PageTitle"]</h1>
+        <p class="wos-page-description">@Localizer["Team_Description"]</p>
     </div>
     @if (Model.CanManageTeam)
     {
         <div class="wos-page-actions">
-            <a class="btn btn-wos-primary" asp-action="Create">Add staff profile</a>
+            <a class="btn btn-wos-primary" asp-action="Create">@Localizer["Team_AddStaff"]</a>
         </div>
     }
 </header>
 
 <section class="wos-workspace-section">
-    <h2 class="wos-section-title">Staff profiles</h2>
+    <h2 class="wos-section-title">@Localizer["Team_StaffProfiles"]</h2>
     <div class="wos-table-wrap">
     <table class="table table-hover mb-0">
     <thead>
         <tr>
-            <th>Name</th>
-            <th>Position</th>
-            <th>Status</th>
-            <th>Login access</th>
-            <th>Locations</th>
+            <th>@Localizer["Common_Name"]</th>
+            <th>@Localizer["Team_Position"]</th>
+            <th>@Localizer["Common_Status"]</th>
+            <th>@Localizer["Team_LoginAccess"]</th>
+            <th>@Localizer["Team_Locations"]</th>
             @if (Model.CanManageTeam)
             {
                 <th></th>
@@ -45,12 +45,12 @@
             @if (Model.CanManageTeam)
             {
                 <td class="text-end">
-                    <a asp-action="Edit" asp-route-staffId="@member.StaffMemberId" class="btn btn-sm btn-outline-secondary">Edit</a>
+                    <a asp-action="Edit" asp-route-staffId="@member.StaffMemberId" class="btn btn-sm btn-outline-secondary">@Localizer["Common_Edit"]</a>
                     @if (member.Status == "Active")
                     {
                         <form asp-action="Deactivate" asp-route-staffId="@member.StaffMemberId" method="post" class="d-inline">
                             @Html.AntiForgeryToken()
-                            <button type="submit" class="btn btn-sm btn-outline-warning">Deactivate</button>
+                            <button type="submit" class="btn btn-sm btn-outline-warning">@Localizer["Team_Deactivate"]</button>
                         </form>
                     }
                 </td>
@@ -63,18 +63,18 @@
 </section>
 
 <section class="wos-workspace-section">
-    <h2 class="wos-section-title">Organization access</h2>
-    <p class="wos-page-description">Membership roles control authorization. Staff position does not grant access.</p>
+    <h2 class="wos-section-title">@Localizer["Team_OrganizationAccess"]</h2>
+    <p class="wos-page-description">@Localizer["Team_MembershipNote"]</p>
     <div class="wos-table-wrap">
     <table class="table table-hover mb-0">
     <thead>
         <tr>
-            <th>User</th>
-            <th>Role</th>
-            <th>Status</th>
+            <th>@Localizer["Team_User"]</th>
+            <th>@Localizer["Team_Role"]</th>
+            <th>@Localizer["Common_Status"]</th>
             @if (Model.CanManageTeam)
             {
-                <th>Actions</th>
+                <th>@Localizer["Team_Actions"]</th>
             }
         </tr>
     </thead>
@@ -96,7 +96,7 @@
                                 <option value="@role" selected="@(membership.Role == role)">@role</option>
                             }
                         </select>
-                        <button type="submit" class="btn btn-sm btn-outline-primary">Set role</button>
+                        <button type="submit" class="btn btn-sm btn-outline-primary">@Localizer["Team_SetRole"]</button>
                     </form>
                     <form asp-action="ChangeStatus" asp-route-membershipId="@membership.MembershipId" method="post" class="d-inline-flex gap-1 mt-1">
                         @Html.AntiForgeryToken()
@@ -106,7 +106,7 @@
                                 <option value="@status" selected="@(membership.Status == status)">@status</option>
                             }
                         </select>
-                        <button type="submit" class="btn btn-sm btn-outline-secondary">Set status</button>
+                        <button type="submit" class="btn btn-sm btn-outline-secondary">@Localizer["Team_SetStatus"]</button>
                     </form>
                 </td>
             }

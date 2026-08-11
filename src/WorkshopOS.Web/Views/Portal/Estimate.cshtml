@@ -1,7 +1,7 @@
 @model WorkshopOS.Web.Models.CustomerPortal.CustomerPortalEstimateViewModel
 @{
     Layout = "_CustomerPortalLayout";
-    ViewData["Title"] = $"Estimate {Model.EstimateNumber}";
+    ViewData["Title"] = string.Format(Localizer["Portal_EstimateTitle"].Value, Model.EstimateNumber);
     var vehicle = Model.VehicleModelYear.HasValue
         ? $"{Model.VehicleMake} {Model.VehicleModel} ({Model.VehicleModelYear})"
         : $"{Model.VehicleMake} {Model.VehicleModel}";
@@ -9,8 +9,8 @@
 
 <div class="portal-hero mb-4">
     <p class="portal-kicker mb-1">@Model.OrganizationDisplayName</p>
-    <h1 class="h3 mb-1">Estimate @Model.EstimateNumber</h1>
-    <p class="text-muted mb-0">Repair order @Model.RepairOrderNumber</p>
+    <h1 class="h3 mb-1">@string.Format(Localizer["Portal_EstimateTitle"].Value, Model.EstimateNumber)</h1>
+    <p class="text-muted mb-0">@string.Format(Localizer["Portal_RepairOrder"].Value, Model.RepairOrderNumber)</p>
 </div>
 
 @if (TempData["PortalError"] is string portalError)
@@ -22,25 +22,25 @@
     <div class="col-lg-5">
         <div class="card portal-card h-100">
             <div class="card-body">
-                <h2 class="h6 text-uppercase text-muted">Vehicle</h2>
+                <h2 class="h6 text-uppercase text-muted">@Localizer["Portal_Vehicle"]</h2>
                 <p class="mb-1 fw-semibold">@vehicle</p>
                 @if (!string.IsNullOrWhiteSpace(Model.VehicleRegistrationPlate))
                 {
                     <p class="text-muted mb-3">@Model.VehicleRegistrationPlate</p>
                 }
-                <h2 class="h6 text-uppercase text-muted mt-4">Status</h2>
+                <h2 class="h6 text-uppercase text-muted mt-4">@Localizer["Common_Status"]</h2>
                 <p class="mb-0">@Model.Status</p>
                 @if (Model.PresentedAtUtc.HasValue)
                 {
-                    <p class="small text-muted mt-2 mb-0">Presented @Model.PresentedAtUtc.Value.ToString("u")</p>
+                    <p class="small text-muted mt-2 mb-0">@string.Format(Localizer["Portal_PresentedAt"].Value, UiFormatting.FormatDateTime(Model.PresentedAtUtc.Value))</p>
                 }
                 @if (Model.PortalDecision.HasValue)
                 {
                     <p class="small text-muted mt-2 mb-0">
-                        Customer portal decision: @Model.PortalDecision
+                        @string.Format(Localizer["Portal_PortalDecision"].Value, Model.PortalDecision)
                         @if (Model.DecisionAtUtc.HasValue)
                         {
-                            <span>— @Model.DecisionAtUtc.Value.ToString("u")</span>
+                            <span>— @UiFormatting.FormatDateTime(Model.DecisionAtUtc.Value)</span>
                         }
                     </p>
                 }
@@ -52,7 +52,7 @@
         {
             <div class="card portal-card mb-4">
                 <div class="card-body">
-                    <h2 class="h6 text-uppercase text-muted">Message from the workshop</h2>
+                    <h2 class="h6 text-uppercase text-muted">@Localizer["Portal_MessageFromWorkshop"]</h2>
                     <p class="mb-0">@Model.CustomerMessage</p>
                 </div>
             </div>
@@ -60,15 +60,15 @@
 
         <div class="card portal-card">
             <div class="card-body">
-                <h2 class="h6 text-uppercase text-muted mb-3">Recommended work</h2>
+                <h2 class="h6 text-uppercase text-muted mb-3">@Localizer["Portal_RecommendedWork"]</h2>
                 <div class="table-responsive">
                     <table class="table table-sm align-middle mb-0">
                         <thead>
                             <tr>
-                                <th>Description</th>
-                                <th class="text-end">Qty</th>
-                                <th class="text-end">Unit</th>
-                                <th class="text-end">Total</th>
+                                <th>@Localizer["Common_Description"]</th>
+                                <th class="text-end">@Localizer["Common_Quantity"]</th>
+                                <th class="text-end">@Localizer["Portal_Unit"]</th>
+                                <th class="text-end">@Localizer["Common_Total"]</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -84,7 +84,7 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th colspan="3" class="text-end">Estimate total</th>
+                                <th colspan="3" class="text-end">@Localizer["Portal_EstimateTotal"]</th>
                                 <th class="text-end">@Model.Total @Model.CurrencyCode</th>
                             </tr>
                         </tfoot>
@@ -100,17 +100,17 @@
     <div class="card portal-card mt-4">
         <div class="card-body d-flex flex-column flex-md-row gap-2 justify-content-between align-items-md-center">
             <div>
-                <h2 class="h6 mb-1">Your decision</h2>
-                <p class="text-muted small mb-0">Submit your approval or decline for this estimate. This is not a digital signature.</p>
+                <h2 class="h6 mb-1">@Localizer["Portal_YourDecision"]</h2>
+                <p class="text-muted small mb-0">@Localizer["Portal_DecisionHelp"]</p>
             </div>
             <div class="d-flex gap-2">
                 <form asp-controller="Portal" asp-action="Approve" method="post">
                     @Html.AntiForgeryToken()
-                    <button type="submit" class="btn btn-success">Approve estimate</button>
+                    <button type="submit" class="btn btn-success">@Localizer["Portal_ApproveEstimate"]</button>
                 </form>
                 <form asp-controller="Portal" asp-action="Decline" method="post">
                     @Html.AntiForgeryToken()
-                    <button type="submit" class="btn btn-outline-secondary">Decline estimate</button>
+                    <button type="submit" class="btn btn-outline-secondary">@Localizer["Portal_DeclineEstimate"]</button>
                 </form>
             </div>
         </div>
@@ -118,14 +118,14 @@
 }
 else if (Model.Status == WorkshopOS.Domain.Estimates.EstimateStatus.Approved)
 {
-    <div class="alert alert-success mt-4 mb-0">Thank you. This estimate has been approved.</div>
+    <div class="alert alert-success mt-4 mb-0">@Localizer["Portal_ThankYouApproved"]</div>
 }
 else if (Model.Status == WorkshopOS.Domain.Estimates.EstimateStatus.Declined)
 {
-    <div class="alert alert-secondary mt-4 mb-0">This estimate has been declined.</div>
+    <div class="alert alert-secondary mt-4 mb-0">@Localizer["Portal_EstimateDeclined"]</div>
 }
 
 <form asp-controller="Portal" asp-action="Logout" method="post" class="mt-4">
     @Html.AntiForgeryToken()
-    <button type="submit" class="btn btn-link px-0">End secure session</button>
+    <button type="submit" class="btn btn-link px-0">@Localizer["Portal_EndSession"]</button>
 </form>

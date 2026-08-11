@@ -1,13 +1,13 @@
 @model WorkshopOS.Web.Models.Organizations.OrganizationSelectionViewModel
 @{
-    ViewData["Title"] = "Select organization";
+    ViewData["Title"] = Localizer["Organization_Title"];
 }
 
 @await Html.PartialAsync("_PageHeader", new PageHeaderViewModel
 {
-    Eyebrow = "Workspace",
-    Title = "Select organization",
-    Description = "Choose which workshop workspace to use for this session."
+    Eyebrow = Localizer["Organization_Eyebrow"].Value,
+    Title = Localizer["Organization_Title"].Value,
+    Description = Localizer["Organization_Description"].Value
 })
 
 <form asp-action="Select" asp-controller="Organization" method="post" class="wos-form-shell">
@@ -16,7 +16,7 @@
     <partial name="_FormValidationSummary" />
 
     <section class="wos-form-section">
-        <h2 class="wos-form-section-title">Available workspaces</h2>
+        <h2 class="wos-form-section-title">@Localizer["Organization_Section_Available"]</h2>
         <div class="wos-choice-group">
             @for (var index = 0; index < Model.Organizations.Count; index++)
             {
@@ -38,6 +38,6 @@
     </section>
 
     <div class="wos-form-actions">
-        <button type="submit" class="btn btn-wos-primary">Continue</button>
+        <button type="submit" class="btn btn-wos-primary">@Localizer["Common_Continue"]</button>
     </div>
 </form>

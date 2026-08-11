@@ -1,50 +1,50 @@
 @model WorkshopOS.Web.Models.Reporting.CommercialReportViewModel
 @using WorkshopOS.Web.Models.Reporting
 @{
-    ViewData["Title"] = "Commercial report";
+    ViewData["Title"] = Localizer["Reports_CommercialTitle"].Value;
     var header = Model.Report.Header;
-    var periodLabel = ReportingDisplayFormatter.FormatPeriodLabel(header);
-    var locationLabel = ReportingDisplayFormatter.FormatLocationLabel(header);
+    var periodLabel = UiFormatting.FormatReportingPeriod(header);
+    var locationLabel = UiFormatting.FormatLocationScope(header.WorkshopLocationName);
 }
 
 <header class="wos-page-header">
     <div>
-        <p class="wos-page-eyebrow">Reporting</p>
-        <h1 class="wos-page-title">Commercial report</h1>
+        <p class="wos-page-eyebrow">@Localizer["Common_Reporting"]</p>
+        <h1 class="wos-page-title">@Localizer["Reports_CommercialTitle"]</h1>
         <p class="wos-page-description">
-            @locationLabel · Time zone: @header.TimeZoneId · Generated @header.GeneratedAtUtc.ToString("u")
+            @locationLabel · @Localizer["Common_TimeZone"]: @header.TimeZoneId · @Localizer["Common_Generated"] @UiFormatting.FormatGeneratedAt(header.GeneratedAtUtc, header.TimeZoneId)
         </p>
     </div>
     <div class="wos-page-actions">
-        <a class="btn btn-outline-secondary btn-sm" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
+        <a class="btn btn-outline-secondary btn-sm" asp-controller="Dashboard" asp-action="Index">@Localizer["Common_Dashboard"]</a>
     </div>
 </header>
 
 @await Html.PartialAsync("_ReportingFilter", Model.Filter)
 
-<h2 class="h5 mt-4">Estimate decision funnel · @periodLabel</h2>
+<h2 class="h5 mt-4">@string.Format(Localizer["Reports_EstimateFunnel"].Value, periodLabel)</h2>
 <div class="row g-3 mb-4">
     <div class="col-md-3">
         <div class="border rounded p-3">
-            <div class="text-muted small">Presented</div>
+            <div class="text-muted small">@Localizer["Reports_Presented"]</div>
             <div class="fs-4">@Model.Report.SelectedPeriod.EstimatesPresented</div>
         </div>
     </div>
     <div class="col-md-3">
         <div class="border rounded p-3">
-            <div class="text-muted small">Approved</div>
+            <div class="text-muted small">@Localizer["Common_Approved"]</div>
             <div class="fs-4">@Model.Report.SelectedPeriod.EstimatesApproved</div>
         </div>
     </div>
     <div class="col-md-3">
         <div class="border rounded p-3">
-            <div class="text-muted small">Declined</div>
+            <div class="text-muted small">@Localizer["Common_Declined"]</div>
             <div class="fs-4">@Model.Report.SelectedPeriod.EstimatesDeclined</div>
         </div>
     </div>
     <div class="col-md-3">
         <div class="border rounded p-3">
-            <div class="text-muted small">Decision approval rate</div>
+            <div class="text-muted small">@Localizer["Reports_DecisionApprovalRate"]</div>
             <div class="fs-4">@ReportingDisplayFormatter.FormatApprovalRate(Model.Report.SelectedPeriod.DecisionApprovalRate)</div>
         </div>
     </div>
@@ -52,49 +52,49 @@
 
 @if (Model.Report.DecisionSourceBreakdown is not null)
 {
-    <h3 class="h6">Decision source · @periodLabel</h3>
+    <h3 class="h6">@string.Format(Localizer["Reports_DecisionSource"].Value, periodLabel)</h3>
     <table class="table table-sm table-bordered mb-4">
         <tbody>
-        <tr><td>Portal approvals</td><td>@Model.Report.DecisionSourceBreakdown.PortalApprovalsInPeriod</td></tr>
-        <tr><td>Portal declines</td><td>@Model.Report.DecisionSourceBreakdown.PortalDeclinesInPeriod</td></tr>
-        <tr><td>Staff-recorded approvals</td><td>@Model.Report.DecisionSourceBreakdown.StaffApprovalsInPeriod</td></tr>
-        <tr><td>Staff-recorded declines</td><td>@Model.Report.DecisionSourceBreakdown.StaffDeclinesInPeriod</td></tr>
+        <tr><td>@Localizer["Reports_PortalApprovals"]</td><td>@Model.Report.DecisionSourceBreakdown.PortalApprovalsInPeriod</td></tr>
+        <tr><td>@Localizer["Reports_PortalDeclines"]</td><td>@Model.Report.DecisionSourceBreakdown.PortalDeclinesInPeriod</td></tr>
+        <tr><td>@Localizer["Reports_StaffApprovals"]</td><td>@Model.Report.DecisionSourceBreakdown.StaffApprovalsInPeriod</td></tr>
+        <tr><td>@Localizer["Reports_StaffDeclines"]</td><td>@Model.Report.DecisionSourceBreakdown.StaffDeclinesInPeriod</td></tr>
         </tbody>
     </table>
 }
 
-<h2 class="h5">Invoice state · Current</h2>
+<h2 class="h5">@Localizer["Reports_InvoiceState"]</h2>
 <div class="row g-3 mb-4">
     <div class="col-md-3">
         <div class="border rounded p-3 bg-light">
-            <div class="text-muted small">Outstanding invoices</div>
+            <div class="text-muted small">@Localizer["Reports_OutstandingInvoices"]</div>
             <div class="fs-4">@Model.Report.CurrentSnapshot.OutstandingInvoices</div>
         </div>
     </div>
     <div class="col-md-3">
         <div class="border rounded p-3 bg-light">
-            <div class="text-muted small">Unpaid</div>
+            <div class="text-muted small">@Localizer["Status_Payment_Unpaid"]</div>
             <div class="fs-4">@Model.Report.CurrentInvoicePaymentStateBreakdown.Unpaid</div>
         </div>
     </div>
     <div class="col-md-3">
         <div class="border rounded p-3 bg-light">
-            <div class="text-muted small">Partially paid</div>
+            <div class="text-muted small">@Localizer["Reports_PartiallyPaid"]</div>
             <div class="fs-4">@Model.Report.CurrentInvoicePaymentStateBreakdown.PartiallyPaid</div>
         </div>
     </div>
     <div class="col-md-3">
         <div class="border rounded p-3 bg-light">
-            <div class="text-muted small">Paid</div>
+            <div class="text-muted small">@Localizer["Common_Paid"]</div>
             <div class="fs-4">@Model.Report.CurrentInvoicePaymentStateBreakdown.Paid</div>
         </div>
     </div>
 </div>
 
-<h3 class="h6">Current outstanding amounts</h3>
+<h3 class="h6">@Localizer["Reports_CurrentOutstanding"]</h3>
 @if (Model.Report.CurrentSnapshot.CurrentOutstandingAmounts.Count == 0)
 {
-    <p class="text-muted">No outstanding invoices</p>
+    <p class="text-muted">@Localizer["Reports_NoOutstanding"]</p>
 }
 else
 {
@@ -104,26 +104,26 @@ else
     }
 }
 
-<h2 class="h5 mt-4">Selected period · @periodLabel</h2>
+<h2 class="h5 mt-4">@Localizer["Common_Period"] · @periodLabel</h2>
 <div class="row g-3 mb-4">
     <div class="col-md-4">
         <div class="border rounded p-3">
-            <div class="text-muted small">Invoices issued</div>
+            <div class="text-muted small">@Localizer["Reports_InvoicesIssued"]</div>
             <div class="fs-4">@Model.Report.SelectedPeriod.InvoicesIssued</div>
         </div>
     </div>
     <div class="col-md-4">
         <div class="border rounded p-3">
-            <div class="text-muted small">Commercially closed jobs</div>
+            <div class="text-muted small">@Localizer["Reports_CommerciallyClosedJobs"]</div>
             <div class="fs-4">@Model.Report.SelectedPeriod.CommerciallyClosedJobs</div>
         </div>
     </div>
 </div>
 
-<h3 class="h6">Recorded payments · @periodLabel</h3>
+<h3 class="h6">@string.Format(Localizer["Reports_RecordedPayments"].Value, periodLabel)</h3>
 @if (Model.Report.SelectedPeriod.RecordedPayments.Count == 0)
 {
-    <p class="text-muted">No activity in this period</p>
+    <p class="text-muted">@Localizer["Common_NoActivityInPeriod"]</p>
 }
 else
 {
@@ -133,10 +133,10 @@ else
     }
 }
 
-<h3 class="h6">Invoiced amounts · @periodLabel</h3>
+<h3 class="h6">@string.Format(Localizer["Reports_InvoicedAmounts"].Value, periodLabel)</h3>
 @if (Model.Report.SelectedPeriod.InvoicedAmounts.Count == 0)
 {
-    <p class="text-muted">No activity in this period</p>
+    <p class="text-muted">@Localizer["Common_NoActivityInPeriod"]</p>
 }
 else
 {
@@ -147,5 +147,5 @@ else
 }
 
 <p class="mt-4 text-muted small">
-    Recorded payments reflect workshop-entered payment ledger entries, not accounting revenue recognition.
+    @Localizer["Reports_PaymentsDisclaimer"]
 </p>

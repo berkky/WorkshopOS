@@ -5,6 +5,7 @@ using WorkshopOS.Application.Catalog;
 using WorkshopOS.Application.Inventory;
 using WorkshopOS.Application.Team;
 using WorkshopOS.Infrastructure.Authorization;
+using WorkshopOS.Web.Localization;
 using WorkshopOS.Web.Models.Inventory;
 
 namespace WorkshopOS.Web.Controllers;
@@ -17,17 +18,20 @@ public sealed class InventoryController : Controller
     private readonly IPartCatalogService _partCatalogService;
     private readonly ITeamManagementService _teamManagementService;
     private readonly IAuthorizationService _authorizationService;
+    private readonly IWebFailureMessages _messages;
 
     public InventoryController(
         IInventoryManagementService inventoryManagementService,
         IPartCatalogService partCatalogService,
         ITeamManagementService teamManagementService,
-        IAuthorizationService authorizationService)
+        IAuthorizationService authorizationService,
+        IWebFailureMessages messages)
     {
         _inventoryManagementService = inventoryManagementService;
         _partCatalogService = partCatalogService;
         _teamManagementService = teamManagementService;
         _authorizationService = authorizationService;
+        _messages = messages;
     }
 
     [HttpGet("")]
@@ -120,7 +124,7 @@ public sealed class InventoryController : Controller
 
         if (!result.Success)
         {
-            ModelState.AddModelError(string.Empty, MapFailure(result.FailureReason));
+            ModelState.AddModelError(string.Empty, _messages.Inventory(result.FailureReason));
             ViewBag.PartOptions = await LoadActivePartOptionsAsync();
             ViewBag.LocationOptions = await _teamManagementService.GetWorkshopLocationOptionsAsync();
             return View(model);
@@ -201,17 +205,4 @@ public sealed class InventoryController : Controller
         return Guid.TryParse(value, out var userId) ? userId : null;
     }
 
-    private static string MapFailure(InventoryAdjustmentFailureReason? reason) =>
-        reason switch
-        {
-            InventoryAdjustmentFailureReason.InsufficientStock =>
-                "This adjustment would result in negative inventory.",
-            InventoryAdjustmentFailureReason.PartInactive => "Inactive parts cannot be adjusted.",
-            InventoryAdjustmentFailureReason.LocationInactive => "Inactive locations cannot receive adjustments.",
-            InventoryAdjustmentFailureReason.InvalidInput => "One or more adjustment fields are invalid.",
-            InventoryAdjustmentFailureReason.Unauthorized => "You are not authorized to adjust inventory.",
-            InventoryAdjustmentFailureReason.ConcurrencyConflict =>
-                "Inventory was updated by another operation. Refresh and try again.",
-            _ => "The inventory adjustment could not be completed.",
-        };
 }

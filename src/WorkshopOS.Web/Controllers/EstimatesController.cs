@@ -9,6 +9,7 @@ using WorkshopOS.Application.Inventory;
 using WorkshopOS.Application.Team;
 using WorkshopOS.Domain.Estimates;
 using WorkshopOS.Infrastructure.Authorization;
+using WorkshopOS.Web.Localization;
 using WorkshopOS.Web.Models.CustomerPortal;
 using WorkshopOS.Web.Models.Catalog;
 using WorkshopOS.Web.Models.Estimates;
@@ -26,6 +27,7 @@ public sealed class EstimatesController : Controller
     private readonly IInventoryManagementService _inventoryManagementService;
     private readonly ITeamManagementService _teamManagementService;
     private readonly IAuthorizationService _authorizationService;
+    private readonly IWebFailureMessages _messages;
 
     public EstimatesController(
         IEstimateManagementService estimateManagementService,
@@ -35,7 +37,8 @@ public sealed class EstimatesController : Controller
         IPartCatalogService partCatalogService,
         IInventoryManagementService inventoryManagementService,
         ITeamManagementService teamManagementService,
-        IAuthorizationService authorizationService)
+        IAuthorizationService authorizationService,
+        IWebFailureMessages messages)
     {
         _estimateManagementService = estimateManagementService;
         _invoiceManagementService = invoiceManagementService;
@@ -45,6 +48,7 @@ public sealed class EstimatesController : Controller
         _inventoryManagementService = inventoryManagementService;
         _teamManagementService = teamManagementService;
         _authorizationService = authorizationService;
+        _messages = messages;
     }
 
     [HttpGet("/estimates")]
@@ -122,7 +126,7 @@ public sealed class EstimatesController : Controller
                 return Forbid();
             }
 
-            TempData["EstimateError"] = MapFailure(result.FailureReason);
+            TempData["EstimateError"] = _messages.Estimate(result.FailureReason);
             return RedirectToAction("Details", "RepairOrders", new { repairOrderId });
         }
 
@@ -217,7 +221,7 @@ public sealed class EstimatesController : Controller
 
         if (!result.Success)
         {
-            TempData["EstimateError"] = MapFailure(result.FailureReason);
+            TempData["EstimateError"] = _messages.Estimate(result.FailureReason);
         }
 
         return RedirectToAction(nameof(Edit), new { estimateId });
@@ -248,7 +252,7 @@ public sealed class EstimatesController : Controller
 
         if (!result.Success)
         {
-            TempData["EstimateError"] = MapFailure(result.FailureReason);
+            TempData["EstimateError"] = _messages.Estimate(result.FailureReason);
         }
 
         return RedirectToAction(nameof(Edit), new { estimateId });
@@ -283,7 +287,7 @@ public sealed class EstimatesController : Controller
 
         if (!result.Success)
         {
-            TempData["EstimateError"] = MapFailure(result.FailureReason);
+            TempData["EstimateError"] = _messages.Estimate(result.FailureReason);
         }
 
         return RedirectToAction(nameof(Edit), new { estimateId });
@@ -319,7 +323,7 @@ public sealed class EstimatesController : Controller
 
         if (!result.Success)
         {
-            TempData["EstimateError"] = MapFailure(result.FailureReason);
+            TempData["EstimateError"] = _messages.Estimate(result.FailureReason);
         }
 
         return RedirectToAction(nameof(Edit), new { estimateId });
@@ -343,7 +347,7 @@ public sealed class EstimatesController : Controller
 
         if (!result.Success)
         {
-            TempData["EstimateError"] = MapFailure(result.FailureReason);
+            TempData["EstimateError"] = _messages.Estimate(result.FailureReason);
         }
 
         return RedirectToAction(nameof(Edit), new { estimateId });
@@ -374,7 +378,7 @@ public sealed class EstimatesController : Controller
 
         if (!result.Success)
         {
-            TempData["EstimateError"] = MapFailure(result.FailureReason);
+            TempData["EstimateError"] = _messages.Estimate(result.FailureReason);
         }
 
         return RedirectToAction(nameof(Edit), new { estimateId });
@@ -394,7 +398,7 @@ public sealed class EstimatesController : Controller
         var result = await _estimateManagementService.PresentForApprovalAsync(actorUserId.Value, estimateId);
         if (!result.Success)
         {
-            TempData["EstimateError"] = MapFailure(result.FailureReason);
+            TempData["EstimateError"] = _messages.Estimate(result.FailureReason);
             return RedirectToAction(nameof(Edit), new { estimateId });
         }
 
@@ -415,7 +419,7 @@ public sealed class EstimatesController : Controller
         var result = await _estimateManagementService.RecordCustomerApprovalAsync(actorUserId.Value, estimateId);
         if (!result.Success)
         {
-            TempData["EstimateError"] = MapFailure(result.FailureReason);
+            TempData["EstimateError"] = _messages.Estimate(result.FailureReason);
         }
 
         return RedirectToAction(nameof(Details), new { estimateId });
@@ -435,7 +439,7 @@ public sealed class EstimatesController : Controller
         var result = await _estimateManagementService.RecordCustomerDeclineAsync(actorUserId.Value, estimateId);
         if (!result.Success)
         {
-            TempData["EstimateError"] = MapFailure(result.FailureReason);
+            TempData["EstimateError"] = _messages.Estimate(result.FailureReason);
         }
 
         return RedirectToAction(nameof(Details), new { estimateId });
@@ -459,7 +463,7 @@ public sealed class EstimatesController : Controller
 
         if (!result.Success)
         {
-            TempData["EstimateError"] = MapShareFailure(result.FailureReason);
+            TempData["EstimateError"] = _messages.EstimateShare(result.FailureReason);
             return RedirectToAction(nameof(Details), new { estimateId });
         }
 
@@ -492,7 +496,7 @@ public sealed class EstimatesController : Controller
 
         if (!result.Success)
         {
-            TempData["EstimateError"] = MapShareFailure(result.FailureReason);
+            TempData["EstimateError"] = _messages.EstimateShare(result.FailureReason);
             return RedirectToAction(nameof(Details), new { estimateId });
         }
 
@@ -524,7 +528,7 @@ public sealed class EstimatesController : Controller
 
         if (!result.Success)
         {
-            TempData["EstimateError"] = MapShareFailure(result.FailureReason);
+            TempData["EstimateError"] = _messages.EstimateShare(result.FailureReason);
         }
 
         return RedirectToAction(nameof(Details), new { estimateId });
@@ -641,46 +645,5 @@ public sealed class EstimatesController : Controller
         return Guid.TryParse(value, out var userId) ? userId : null;
     }
 
-    private static string MapFailure(EstimateOperationFailureReason? reason) =>
-        reason switch
-        {
-            EstimateOperationFailureReason.OrganizationUnresolved => "Organization context is not resolved.",
-            EstimateOperationFailureReason.EstimateNotFound => "Estimate was not found.",
-            EstimateOperationFailureReason.RepairOrderNotFound => "Repair order was not found.",
-            EstimateOperationFailureReason.Unauthorized => "You are not authorized to manage estimates.",
-            EstimateOperationFailureReason.InvalidInput => "One or more estimate fields are invalid.",
-            EstimateOperationFailureReason.RepairOrderNotEligible =>
-                "Estimates cannot be created for completed or cancelled repair orders.",
-            EstimateOperationFailureReason.InvalidLifecycleTransition =>
-                "This estimate cannot be changed in its current status.",
-            EstimateOperationFailureReason.EmptyEstimate =>
-                "At least one line item is required before presenting for approval.",
-            EstimateOperationFailureReason.ConcurrencyConflict =>
-                "The estimate was updated by another operation. Refresh and try again.",
-            EstimateOperationFailureReason.ItemNotFound => "Estimate line item was not found.",
-            EstimateOperationFailureReason.ItemLimitExceeded =>
-                "This estimate has reached the maximum number of line items.",
-            EstimateOperationFailureReason.ItemBelongsToAnotherEstimate =>
-                "The line item does not belong to this estimate.",
-            EstimateOperationFailureReason.CatalogItemNotFound => "The selected catalog item was not found.",
-            EstimateOperationFailureReason.CatalogItemInactive =>
-                "Inactive catalog items cannot be added to estimates.",
-            EstimateOperationFailureReason.CurrencyMismatch =>
-                "The catalog item currency does not match this estimate.",
-            _ => "The estimate operation could not be completed.",
-        };
 
-    private static string MapShareFailure(EstimateShareOperationFailureReason? reason) =>
-        reason switch
-        {
-            EstimateShareOperationFailureReason.EstimateNotEligible =>
-                "Only sent, approved, or declined estimates can be shared with customers.",
-            EstimateShareOperationFailureReason.ActiveShareAlreadyExists =>
-                "A current secure share already exists. Rotate or revoke it first.",
-            EstimateShareOperationFailureReason.ShareNotFound => "No active secure share was found for this estimate.",
-            EstimateShareOperationFailureReason.Unauthorized =>
-                "You are not authorized to manage estimate shares.",
-            EstimateShareOperationFailureReason.InvalidInput => "The share duration is invalid.",
-            _ => "The secure share operation could not be completed.",
-        };
 }

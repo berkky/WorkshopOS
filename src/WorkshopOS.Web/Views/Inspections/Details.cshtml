@@ -7,11 +7,11 @@
 
 @await Html.PartialAsync("_DetailWorkspaceHeader", new DetailWorkspaceHeaderViewModel
 {
-    Eyebrow = "Digital vehicle inspection",
+    Eyebrow = Localizer["Inspections_Eyebrow"].Value,
     Title = Model.RepairOrderNumber,
     Meta = new HtmlString($"""
         {Model.CustomerDisplayName} · {Model.VehicleSummary} · {Model.WorkshopLocationName}
-        · <a href="{Url.Action("Details", "RepairOrders", new { repairOrderId = Model.RepairOrderId })}">View repair order</a>
+        · <a href="{Url.Action("Details", "RepairOrders", new { repairOrderId = Model.RepairOrderId })}">@Localizer["Appointments_ViewRepairOrder"]</a>
         """),
     StatusBadges = await Html.PartialAsync("_StatusBadge", StatusPresentation.ForInspection(Model.Status))
 })
@@ -21,11 +21,11 @@
     {
         <form asp-action="Start" asp-route-inspectionId="@Model.InspectionId" method="post" class="d-inline">
             @Html.AntiForgeryToken()
-            <button type="submit" class="btn btn-wos-primary">Start inspection</button>
+            <button type="submit" class="btn btn-wos-primary">@Localizer["Inspections_StartInspection"]</button>
         </form>
     }
-    <a asp-controller="Estimates" asp-action="Index" asp-route-repairOrderId="@Model.RepairOrderId" class="btn btn-outline-secondary">Estimates</a>
-    <a asp-action="Index" class="btn btn-wos-quiet">All inspections</a>
+    <a asp-controller="Estimates" asp-action="Index" asp-route-repairOrderId="@Model.RepairOrderId" class="btn btn-outline-secondary">@Localizer["RepairOrders_Estimates"]</a>
+    <a asp-action="Index" class="btn btn-wos-quiet">@Localizer["Inspections_AllInspections"]</a>
 </div>
 
 @if (TempData["InspectionError"] is string inspectionError)
@@ -35,67 +35,67 @@
 
 <div class="wos-inspection-summary">
     <div class="wos-inspection-stat">
-        <div class="wos-inspection-stat-label">Total items</div>
+        <div class="wos-inspection-stat-label">@Localizer["Inspections_TotalItems"]</div>
         <div class="wos-inspection-stat-value">@Model.Summary.Total</div>
     </div>
     <div class="wos-inspection-stat">
-        <div class="wos-inspection-stat-label">Inspected</div>
+        <div class="wos-inspection-stat-label">@Localizer["Inspections_Inspected"]</div>
         <div class="wos-inspection-stat-value">@Model.Summary.Inspected</div>
     </div>
     <div class="wos-inspection-stat">
-        <div class="wos-inspection-stat-label">Good</div>
+        <div class="wos-inspection-stat-label">@Localizer["Inspections_Good"]</div>
         <div class="wos-inspection-stat-value"><partial name="_StatusBadge" model="StatusPresentation.ForInspectionCondition(WorkshopOS.Domain.Inspections.InspectionCondition.Good)" /> @Model.Summary.Good</div>
     </div>
     <div class="wos-inspection-stat">
-        <div class="wos-inspection-stat-label">Monitor</div>
+        <div class="wos-inspection-stat-label">@Localizer["Inspections_Monitor"]</div>
         <div class="wos-inspection-stat-value"><partial name="_StatusBadge" model="StatusPresentation.ForInspectionCondition(WorkshopOS.Domain.Inspections.InspectionCondition.Monitor)" /> @Model.Summary.Monitor</div>
     </div>
     <div class="wos-inspection-stat">
-        <div class="wos-inspection-stat-label">Attention</div>
+        <div class="wos-inspection-stat-label">@Localizer["Inspections_Attention"]</div>
         <div class="wos-inspection-stat-value"><partial name="_StatusBadge" model="StatusPresentation.ForInspectionCondition(WorkshopOS.Domain.Inspections.InspectionCondition.Attention)" /> @Model.Summary.Attention</div>
     </div>
     <div class="wos-inspection-stat">
-        <div class="wos-inspection-stat-label">Critical</div>
+        <div class="wos-inspection-stat-label">@Localizer["Inspections_Critical"]</div>
         <div class="wos-inspection-stat-value"><partial name="_StatusBadge" model="StatusPresentation.ForInspectionCondition(WorkshopOS.Domain.Inspections.InspectionCondition.Critical)" /> @Model.Summary.Critical</div>
     </div>
     <div class="wos-inspection-stat">
-        <div class="wos-inspection-stat-label">Photo evidence</div>
+        <div class="wos-inspection-stat-label">@Localizer["Inspections_PhotoEvidence"]</div>
         <div class="wos-inspection-stat-value">@Model.ActivePhotoCount</div>
     </div>
 </div>
 
 <div class="wos-detail-grid mb-4">
     <section class="wos-detail-panel">
-        <h2 class="wos-detail-panel-title">Job context</h2>
+        <h2 class="wos-detail-panel-title">@Localizer["Appointments_JobContext"]</h2>
         <dl class="wos-dl">
             <div class="wos-dl-row">
-                <dt>Status</dt>
+                <dt>@Localizer["Common_Status"]</dt>
                 <dd><partial name="_StatusBadge" model="StatusPresentation.ForInspection(Model.Status)" /></dd>
             </div>
             <div class="wos-dl-row">
-                <dt>Customer</dt>
+                <dt>@Localizer["Common_Customer"]</dt>
                 <dd>@Model.CustomerDisplayName</dd>
             </div>
             <div class="wos-dl-row">
-                <dt>Vehicle</dt>
+                <dt>@Localizer["Common_Vehicle"]</dt>
                 <dd>@Model.VehicleSummary</dd>
             </div>
             <div class="wos-dl-row">
-                <dt>Location</dt>
+                <dt>@Localizer["Common_Location"]</dt>
                 <dd>@Model.WorkshopLocationName</dd>
             </div>
             @if (Model.StartedAtUtc.HasValue)
             {
                 <div class="wos-dl-row">
-                    <dt>Started</dt>
-                    <dd>@Model.StartedAtUtc.Value.ToString("u")</dd>
+                    <dt>@Localizer["Inspections_Started"]</dt>
+                    <dd>@UiFormatting.FormatDateTime(Model.StartedAtUtc.Value)</dd>
                 </div>
             }
             @if (Model.CompletedAtUtc.HasValue)
             {
                 <div class="wos-dl-row">
-                    <dt>Completed</dt>
-                    <dd>@Model.CompletedAtUtc.Value.ToString("u")</dd>
+                    <dt>@Localizer["Common_Completed"]</dt>
+                    <dd>@UiFormatting.FormatDateTime(Model.CompletedAtUtc.Value)</dd>
                 </div>
             }
         </dl>
@@ -117,9 +117,9 @@
                     <table class="table table-striped mb-0 align-middle">
                         <thead>
                             <tr>
-                                <th>Item</th>
-                                <th>Condition</th>
-                                <th>Notes</th>
+                                <th>@Localizer["Inspections_Item"]</th>
+                                <th>@Localizer["Inspections_Condition"]</th>
+                                <th>@Localizer["Inspections_Notes"]</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -129,7 +129,7 @@
                                 <td>@item.Name</td>
                                 <td>
                                     <input type="hidden" name="editableItems[@itemIndex].InspectionItemId" value="@item.InspectionItemId" />
-                                    <select name="editableItems[@itemIndex].Condition" class="form-select" aria-label="Condition for @item.Name">
+                                    <select name="editableItems[@itemIndex].Condition" class="form-select" aria-label="@string.Format(Localizer["Inspections_ConditionAria"].Value, item.Name)">
                                         @foreach (var condition in Enum.GetValues<WorkshopOS.Domain.Inspections.InspectionCondition>())
                                         {
                                             <option value="@condition" selected="@(item.Condition == condition)">@condition</option>
@@ -137,7 +137,7 @@
                                     </select>
                                 </td>
                                 <td>
-                                    <input name="editableItems[@itemIndex].Notes" value="@item.Notes" class="form-control" maxlength="2000" aria-label="Notes for @item.Name" />
+                                    <input name="editableItems[@itemIndex].Notes" value="@item.Notes" class="form-control" maxlength="2000" aria-label="@string.Format(Localizer["Inspections_NotesAria"].Value, item.Name)" />
                                 </td>
                             </tr>
                             itemIndex++;
@@ -148,14 +148,14 @@
             </section>
         }
         <div class="mb-4 mt-3">
-            <button type="submit" class="btn btn-wos-primary">Save inspection</button>
+            <button type="submit" class="btn btn-wos-primary">@Localizer["Inspections_SaveInspection"]</button>
         </div>
     </form>
     @if (Model.CanComplete)
     {
         <form asp-action="Complete" asp-route-inspectionId="@Model.InspectionId" method="post" class="mb-4">
             @Html.AntiForgeryToken()
-            <button type="submit" class="btn btn-success">Complete inspection</button>
+            <button type="submit" class="btn btn-success">@Localizer["Inspections_CompleteInspection"]</button>
         </form>
     }
 }
@@ -169,9 +169,9 @@ else
                 <table class="table table-striped mb-0">
                     <thead>
                         <tr>
-                            <th>Item</th>
-                            <th>Condition</th>
-                            <th>Notes</th>
+                            <th>@Localizer["Inspections_Item"]</th>
+                            <th>@Localizer["Inspections_Condition"]</th>
+                            <th>@Localizer["Inspections_Notes"]</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -182,7 +182,7 @@ else
                             <td>
                                 <partial name="_StatusBadge" model="StatusPresentation.ForInspectionCondition(item.Condition)" />
                             </td>
-                            <td>@(string.IsNullOrWhiteSpace(item.Notes) ? "—" : item.Notes)</td>
+                            <td>@(string.IsNullOrWhiteSpace(item.Notes) ? Localizer["Common_NoValue"].Value : item.Notes)</td>
                         </tr>
                     }
                     </tbody>
@@ -193,7 +193,7 @@ else
 
     @if (isCompleted)
     {
-        <p class="text-muted">This inspection is completed and cannot be modified.</p>
+        <p class="text-muted">@Localizer["Inspections_CompletedReadOnly"]</p>
     }
 }
 
@@ -202,14 +202,14 @@ else
     ViewData["InspectionId"] = Model.InspectionId;
     ViewData["CanRemoveMedia"] = Model.CanRemoveMedia;
     <section class="wos-workspace-section">
-        <h2 class="wos-section-title">Photo evidence</h2>
+        <h2 class="wos-section-title">@Localizer["Inspections_PhotoEvidence"]</h2>
         @foreach (var sectionGroup in Model.Sections)
         {
             @foreach (var item in sectionGroup.Items.OrderBy(candidate => candidate.SortOrder))
             {
                 <div class="wos-detail-panel mb-3">
                     <div class="fw-semibold">@sectionGroup.Section — @item.Name</div>
-                    <div class="small text-muted mb-2">@item.Media.Count photo(s)</div>
+                    <div class="small text-muted mb-2">@string.Format(Localizer["Inspections_PhotoCount"].Value, item.Media.Count)</div>
                     @if (item.Media.Count > 0)
                     {
                         @await Html.PartialAsync("_InspectionItemMedia", item)
@@ -224,15 +224,15 @@ else
                               class="row g-2 align-items-end mt-2 wos-filter-bar">
                             @Html.AntiForgeryToken()
                             <div class="col-md-5">
-                                <label class="form-label">Photo (JPEG, PNG, WebP, max 8 MB)</label>
+                                <label class="form-label">@Localizer["Inspections_PhotoLabel"]</label>
                                 <input type="file" name="photo" accept="image/jpeg,image/png,image/webp" class="form-control" required />
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label">Caption (optional)</label>
+                                <label class="form-label">@Localizer["Inspections_CaptionOptional"]</label>
                                 <input type="text" name="caption" class="form-control" maxlength="500" />
                             </div>
                             <div class="col-md-3">
-                                <button type="submit" class="btn btn-outline-primary">Upload photo</button>
+                                <button type="submit" class="btn btn-outline-primary">@Localizer["Inspections_UploadPhoto"]</button>
                             </div>
                         </form>
                     }

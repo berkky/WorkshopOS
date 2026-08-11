@@ -1,23 +1,23 @@
 @model WorkshopOS.Web.Models.Reporting.DashboardViewModel
 @using WorkshopOS.Web.Models.Reporting
 @{
-    ViewData["Title"] = "Executive dashboard";
-    var periodLabel = ReportingDisplayFormatter.FormatPeriodLabel(Model.Header);
-    var locationLabel = ReportingDisplayFormatter.FormatLocationLabel(Model.Header);
+    ViewData["Title"] = Localizer["Dashboard_Title"];
+    var periodLabel = UiFormatting.FormatReportingPeriod(Model.Header);
+    var locationLabel = UiFormatting.FormatLocationScope(Model.Header.WorkshopLocationName);
 }
 
 <div class="wos-dash-hero">
     <div class="wos-dash-hero-inner">
         <div>
-            <p class="wos-page-eyebrow" style="color: var(--wos-accent-teal);">Operations intelligence</p>
-            <h1>Executive dashboard</h1>
+            <p class="wos-page-eyebrow" style="color: var(--wos-accent-teal);">@Localizer["Dashboard_Eyebrow"]</p>
+            <h1>@Localizer["Dashboard_Title"]</h1>
             <p class="wos-dash-hero-meta">
-                @locationLabel · @Model.Header.TimeZoneId · Generated @Model.Header.GeneratedAtUtc.ToString("u")
+                @locationLabel · @Model.Header.TimeZoneId · @Localizer["Common_GeneratedAt", UiFormatting.FormatGeneratedAt(Model.Header.GeneratedAtUtc, Model.Header.TimeZoneId)]
             </p>
         </div>
         <div class="wos-dash-hero-actions">
-            <a class="btn btn-outline-light btn-sm" asp-controller="Reports" asp-action="Operations">Operations report</a>
-            <a class="btn btn-outline-light btn-sm" asp-controller="Reports" asp-action="Commercial">Commercial report</a>
+            <a class="btn btn-outline-light btn-sm" asp-controller="Reports" asp-action="Operations">@Localizer["Dashboard_OperationsReport"]</a>
+            <a class="btn btn-outline-light btn-sm" asp-controller="Reports" asp-action="Commercial">@Localizer["Dashboard_CommercialReport"]</a>
         </div>
     </div>
 </div>
@@ -26,44 +26,44 @@
 
 <div class="wos-report-section">
     <div class="wos-report-section-header">
-        <h2>Current workshop snapshot</h2>
-        <p>Point-in-time operational state — not limited to the selected period.</p>
+        <h2>@Localizer["Dashboard_Section_CurrentSnapshot"]</h2>
+        <p>@Localizer["Dashboard_Section_CurrentSnapshot_Description"]</p>
     </div>
     <div class="wos-kpi-grid">
         <div class="wos-card wos-kpi-card is-snapshot">
-            <div class="wos-metric-label">Active repair orders · Current</div>
+            <div class="wos-metric-label">@Localizer["Dashboard_Kpi_ActiveRepairOrders"]</div>
             <div class="wos-metric-value">@Model.CurrentSnapshot.ActiveRepairOrders</div>
-            <a asp-controller="RepairOrders" asp-action="Index" class="wos-kpi-link">View repair orders →</a>
+            <a asp-controller="RepairOrders" asp-action="Index" class="wos-kpi-link">@Localizer["Dashboard_Link_ViewRepairOrders"]</a>
         </div>
         <div class="wos-card wos-kpi-card is-snapshot">
-            <div class="wos-metric-label">Unassigned jobs · Current</div>
+            <div class="wos-metric-label">@Localizer["Dashboard_Kpi_UnassignedJobs"]</div>
             <div class="wos-metric-value">@Model.CurrentSnapshot.UnassignedRepairOrders</div>
-            <a asp-controller="Operations" asp-action="Index" asp-route-unassignedOnly="true" class="wos-kpi-link">Operations board →</a>
+            <a asp-controller="Operations" asp-action="Index" asp-route-unassignedOnly="true" class="wos-kpi-link">@Localizer["Dashboard_Link_OperationsBoard"]</a>
         </div>
         <div class="wos-card wos-kpi-card is-snapshot">
-            <div class="wos-metric-label">Urgent jobs · Current</div>
+            <div class="wos-metric-label">@Localizer["Dashboard_Kpi_UrgentJobs"]</div>
             <div class="wos-metric-value">@Model.CurrentSnapshot.UrgentRepairOrders</div>
         </div>
         <div class="wos-card wos-kpi-card is-snapshot">
-            <div class="wos-metric-label">Technicians in progress · Current</div>
+            <div class="wos-metric-label">@Localizer["Dashboard_Kpi_TechniciansInProgress"]</div>
             <div class="wos-metric-value">@Model.CurrentSnapshot.TechniciansCurrentlyWorking</div>
         </div>
         <div class="wos-card wos-kpi-card is-snapshot">
-            <div class="wos-metric-label">Open DVI · Current</div>
+            <div class="wos-metric-label">@Localizer["Dashboard_Kpi_OpenDvi"]</div>
             <div class="wos-metric-value">@Model.CurrentSnapshot.OpenDviInspections</div>
-            <a asp-controller="Inspections" asp-action="Index" class="wos-kpi-link">View inspections →</a>
+            <a asp-controller="Inspections" asp-action="Index" class="wos-kpi-link">@Localizer["Dashboard_Link_ViewInspections"]</a>
         </div>
         <div class="wos-card wos-kpi-card is-snapshot">
-            <div class="wos-metric-label">Estimates awaiting decision · Current</div>
+            <div class="wos-metric-label">@Localizer["Dashboard_Kpi_EstimatesAwaitingDecision"]</div>
             <div class="wos-metric-value">@Model.CurrentSnapshot.EstimatesAwaitingDecision</div>
-            <a asp-controller="Estimates" asp-action="Index" class="wos-kpi-link">View estimates →</a>
+            <a asp-controller="Estimates" asp-action="Index" class="wos-kpi-link">@Localizer["Dashboard_Link_ViewEstimates"]</a>
         </div>
         <div class="wos-card wos-kpi-card is-snapshot">
-            <div class="wos-metric-label">Outstanding invoices · Current</div>
+            <div class="wos-metric-label">@Localizer["Dashboard_Kpi_OutstandingInvoices"]</div>
             <div class="wos-metric-value">@Model.CurrentSnapshot.OutstandingInvoices</div>
             @if (Model.CurrentSnapshot.CurrentOutstandingAmounts.Count == 0)
             {
-                <div class="small text-muted mt-1">No outstanding invoices</div>
+                <div class="small text-muted mt-1">@Localizer["Dashboard_NoOutstandingInvoices"]</div>
             }
             else
             {
@@ -72,53 +72,53 @@
                     <div class="small wos-money-line mt-1">@ReportingDisplayFormatter.FormatMoney(amount)</div>
                 }
             }
-            <a asp-controller="Invoices" asp-action="Index" class="wos-kpi-link">View invoices →</a>
+            <a asp-controller="Invoices" asp-action="Index" class="wos-kpi-link">@Localizer["Dashboard_Link_ViewInvoices"]</a>
         </div>
         <div class="wos-card wos-kpi-card is-snapshot">
-            <div class="wos-metric-label">Commercially closable jobs · Current</div>
+            <div class="wos-metric-label">@Localizer["Dashboard_Kpi_CommerciallyClosableJobs"]</div>
             <div class="wos-metric-value">@Model.CurrentSnapshot.CommerciallyClosableJobs</div>
-            <a asp-controller="RepairOrders" asp-action="Index" class="wos-kpi-link">Review jobs →</a>
+            <a asp-controller="RepairOrders" asp-action="Index" class="wos-kpi-link">@Localizer["Dashboard_Link_ReviewJobs"]</a>
         </div>
     </div>
 </div>
 
 <div class="wos-report-section">
     <div class="wos-report-section-header">
-        <h2>Selected period performance</h2>
-        <p>@periodLabel (business-local dates)</p>
+        <h2>@Localizer["Dashboard_Section_PeriodPerformance"]</h2>
+        <p>@Localizer["Dashboard_Section_PeriodPerformance_Description", periodLabel]</p>
     </div>
     <div class="wos-kpi-grid">
         <div class="wos-card wos-kpi-card is-period">
-            <div class="wos-metric-label">Appointments scheduled · @periodLabel</div>
+            <div class="wos-metric-label">@Localizer["Dashboard_Kpi_AppointmentsScheduled", periodLabel]</div>
             <div class="wos-metric-value">@Model.SelectedPeriod.AppointmentsScheduled</div>
-            <a asp-controller="Appointments" asp-action="Index" class="wos-kpi-link">Appointments →</a>
+            <a asp-controller="Appointments" asp-action="Index" class="wos-kpi-link">@Localizer["Dashboard_Link_Appointments"]</a>
         </div>
         <div class="wos-card wos-kpi-card is-period">
-            <div class="wos-metric-label">Repair orders opened · @periodLabel</div>
+            <div class="wos-metric-label">@Localizer["Dashboard_Kpi_RepairOrdersOpened", periodLabel]</div>
             <div class="wos-metric-value">@Model.SelectedPeriod.RepairOrdersOpened</div>
         </div>
         <div class="wos-card wos-kpi-card is-period">
-            <div class="wos-metric-label">Repair orders completed · @periodLabel</div>
+            <div class="wos-metric-label">@Localizer["Dashboard_Kpi_RepairOrdersCompleted", periodLabel]</div>
             <div class="wos-metric-value">@Model.SelectedPeriod.RepairOrdersCompleted</div>
         </div>
         <div class="wos-card wos-kpi-card is-period">
-            <div class="wos-metric-label">Inspections completed · @periodLabel</div>
+            <div class="wos-metric-label">@Localizer["Dashboard_Kpi_InspectionsCompleted", periodLabel]</div>
             <div class="wos-metric-value">@Model.SelectedPeriod.InspectionsCompleted</div>
         </div>
         <div class="wos-card wos-kpi-card is-period">
-            <div class="wos-metric-label">Critical findings · @periodLabel</div>
+            <div class="wos-metric-label">@Localizer["Dashboard_Kpi_CriticalFindings", periodLabel]</div>
             <div class="wos-metric-value">@Model.SelectedPeriod.CriticalInspectionFindings</div>
         </div>
         <div class="wos-card wos-kpi-card is-period">
-            <div class="wos-metric-label">Estimates presented · @periodLabel</div>
+            <div class="wos-metric-label">@Localizer["Dashboard_Kpi_EstimatesPresented", periodLabel]</div>
             <div class="wos-metric-value">@Model.SelectedPeriod.EstimatesPresented</div>
         </div>
         <div class="wos-card wos-kpi-card is-period">
-            <div class="wos-metric-label">Decision approval rate · Selected period</div>
+            <div class="wos-metric-label">@Localizer["Dashboard_Kpi_DecisionApprovalRate"]</div>
             <div class="wos-metric-value">@ReportingDisplayFormatter.FormatApprovalRate(Model.SelectedPeriod.DecisionApprovalRate)</div>
         </div>
         <div class="wos-card wos-kpi-card is-period">
-            <div class="wos-metric-label">Commercially closed · @periodLabel</div>
+            <div class="wos-metric-label">@Localizer["Dashboard_Kpi_CommerciallyClosed", periodLabel]</div>
             <div class="wos-metric-value">@Model.SelectedPeriod.CommerciallyClosedJobs</div>
         </div>
     </div>
@@ -126,19 +126,19 @@
 
 <div class="wos-report-section">
     <div class="wos-report-section-header">
-        <h2>Commercial health</h2>
-        <p>Financial activity for the selected reporting period.</p>
+        <h2>@Localizer["Dashboard_Section_CommercialHealth"]</h2>
+        <p>@Localizer["Dashboard_Section_CommercialHealth_Description"]</p>
     </div>
     <div class="wos-kpi-grid">
         <div class="wos-card wos-kpi-card is-commercial">
-            <div class="wos-metric-label">Invoices issued · @periodLabel</div>
+            <div class="wos-metric-label">@Localizer["Dashboard_Kpi_InvoicesIssued", periodLabel]</div>
             <div class="wos-metric-value">@Model.SelectedPeriod.InvoicesIssued</div>
         </div>
         <div class="wos-card wos-kpi-card is-commercial">
-            <div class="wos-metric-label">Recorded payments · @periodLabel</div>
+            <div class="wos-metric-label">@Localizer["Dashboard_Kpi_RecordedPayments", periodLabel]</div>
             @if (Model.SelectedPeriod.RecordedPayments.Count == 0)
             {
-                <div class="text-muted mt-2">No activity in this period</div>
+                <div class="text-muted mt-2">@Localizer["Dashboard_NoActivityInPeriod"]</div>
             }
             else
             {
@@ -149,10 +149,10 @@
             }
         </div>
         <div class="wos-card wos-kpi-card is-commercial">
-            <div class="wos-metric-label">Invoiced amounts · @periodLabel</div>
+            <div class="wos-metric-label">@Localizer["Dashboard_Kpi_InvoicedAmounts", periodLabel]</div>
             @if (Model.SelectedPeriod.InvoicedAmounts.Count == 0)
             {
-                <div class="text-muted mt-2">No activity in this period</div>
+                <div class="text-muted mt-2">@Localizer["Dashboard_NoActivityInPeriod"]</div>
             }
             else
             {

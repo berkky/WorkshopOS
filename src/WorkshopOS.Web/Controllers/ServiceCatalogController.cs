@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WorkshopOS.Application.Catalog;
 using WorkshopOS.Infrastructure.Authorization;
+using WorkshopOS.Web.Localization;
 using WorkshopOS.Web.Models.Catalog;
 
 namespace WorkshopOS.Web.Controllers;
@@ -13,13 +14,16 @@ public sealed class ServiceCatalogController : Controller
 {
     private readonly IServiceCatalogService _serviceCatalogService;
     private readonly IAuthorizationService _authorizationService;
+    private readonly IWebFailureMessages _messages;
 
     public ServiceCatalogController(
         IServiceCatalogService serviceCatalogService,
-        IAuthorizationService authorizationService)
+        IAuthorizationService authorizationService,
+        IWebFailureMessages messages)
     {
         _serviceCatalogService = serviceCatalogService;
         _authorizationService = authorizationService;
+        _messages = messages;
     }
 
     [HttpGet("")]
@@ -93,7 +97,7 @@ public sealed class ServiceCatalogController : Controller
 
         if (!result.Success)
         {
-            ModelState.AddModelError(string.Empty, MapFailure(result.FailureReason));
+            ModelState.AddModelError(string.Empty, _messages.Catalog(result.FailureReason));
             return View(model);
         }
 
@@ -151,7 +155,7 @@ public sealed class ServiceCatalogController : Controller
 
         if (!result.Success)
         {
-            ModelState.AddModelError(string.Empty, MapFailure(result.FailureReason));
+            ModelState.AddModelError(string.Empty, _messages.Catalog(result.FailureReason));
             return View(model);
         }
 
@@ -164,13 +168,4 @@ public sealed class ServiceCatalogController : Controller
         return Guid.TryParse(value, out var userId) ? userId : null;
     }
 
-    private static string MapFailure(CatalogOperationFailureReason? reason) =>
-        reason switch
-        {
-            CatalogOperationFailureReason.DuplicateCode => "A service with this code already exists.",
-            CatalogOperationFailureReason.InvalidInput => "One or more fields are invalid.",
-            CatalogOperationFailureReason.Unauthorized => "You are not authorized to manage the catalog.",
-            CatalogOperationFailureReason.ItemNotFound => "Service catalog item was not found.",
-            _ => "The catalog operation could not be completed.",
-        };
 }

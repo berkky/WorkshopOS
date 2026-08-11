@@ -1,104 +1,113 @@
 @model WorkshopOS.Web.Models.Operations.OperationsBoardViewModel
 @{
-    ViewData["Title"] = "Workshop operations";
+    ViewData["Title"] = Localizer["Operations_Title"].Value;
 }
 
 <header class="wos-page-header">
     <div>
-        <h1 class="wos-page-title">Workshop operations</h1>
-        <p class="wos-page-description">Active repair order queue</p>
+        <h1 class="wos-page-title">@Localizer["Operations_Title"]</h1>
+        <p class="wos-page-description">@Localizer["Operations_Description"]</p>
     </div>
     <div class="wos-page-actions">
-        <a asp-controller="RepairOrders" asp-action="Index" class="btn btn-outline-secondary">Repair order list</a>
+        <a asp-controller="RepairOrders" asp-action="Index" class="btn btn-outline-secondary">@Localizer["Operations_RepairOrderList"]</a>
     </div>
 </header>
 
 <div class="row g-3 mb-4">
     <div class="col-6 col-md-3">
         <div class="wos-card wos-kpi-card">
-            <div class="wos-metric-label">Active jobs · Current</div>
+            <div class="wos-metric-label">@Localizer["Operations_ActiveJobs"]</div>
             <div class="wos-metric-value">@Model.Summary.ActiveJobs</div>
         </div>
     </div>
     <div class="col-6 col-md-3">
         <div class="wos-card wos-kpi-card">
-            <div class="wos-metric-label">Unassigned · Current</div>
+            <div class="wos-metric-label">@Localizer["Operations_Unassigned"]</div>
             <div class="wos-metric-value">@Model.Summary.Unassigned</div>
         </div>
     </div>
     <div class="col-6 col-md-3">
         <div class="wos-card wos-kpi-card">
-            <div class="wos-metric-label">In progress · Current</div>
+            <div class="wos-metric-label">@Localizer["Operations_InProgress"]</div>
             <div class="wos-metric-value">@Model.Summary.InProgress</div>
         </div>
     </div>
     <div class="col-6 col-md-3">
         <div class="wos-card wos-kpi-card">
-            <div class="wos-metric-label">Urgent · Current</div>
+            <div class="wos-metric-label">@Localizer["Operations_Urgent"]</div>
             <div class="wos-metric-value">@Model.Summary.Urgent</div>
         </div>
     </div>
 </div>
 
-<form asp-action="Index" method="get" class="wos-filter-bar row g-3 align-items-end mb-4">
-    <div class="col-md-2">
-        <input name="search" value="@Model.Search" class="form-control" placeholder="Search" />
-    </div>
-    <div class="col-md-2">
-        <select name="workshopLocationId" class="form-select">
-            <option value="">All locations</option>
-            @foreach (var location in Model.LocationOptions)
-            {
-                <option value="@location.WorkshopLocationId" selected="@(Model.WorkshopLocationId == location.WorkshopLocationId)">@location.Name</option>
-            }
-        </select>
-    </div>
-    <div class="col-md-2">
-        <select name="status" class="form-select" asp-for="Status" asp-items="Html.GetEnumSelectList<WorkshopOS.Domain.RepairOrders.RepairOrderStatus>()">
-            <option value="">All statuses</option>
-        </select>
-    </div>
-    <div class="col-md-2">
-        <select name="priority" class="form-select" asp-for="Priority" asp-items="Html.GetEnumSelectList<WorkshopOS.Domain.RepairOrders.RepairOrderPriority>()">
-            <option value="">All priorities</option>
-        </select>
-    </div>
-    <div class="col-md-2">
-        <select name="assignedStaffMemberId" class="form-select">
-            <option value="">All technicians</option>
-            @foreach (var technician in Model.TechnicianOptions)
-            {
-                <option value="@technician.StaffMemberId" selected="@(Model.AssignedStaffMemberId == technician.StaffMemberId)">@technician.DisplayName</option>
-            }
-        </select>
-    </div>
-    <div class="col-md-1">
-        <div class="form-check mt-2">
-            <input class="form-check-input" type="checkbox" name="unassignedOnly" value="true" checked="@Model.UnassignedOnly" />
-            <label class="form-check-label">Unassigned</label>
+<form asp-action="Index" method="get" class="wos-filter-bar wos-operations-filter mb-4">
+    <div class="wos-operations-filter-grid">
+        <div class="wos-filter-field wos-filter-field-search">
+            <label class="form-label" for="operations-search">@Localizer["Common_Search"]</label>
+            <input id="operations-search" name="search" value="@Model.Search" class="form-control" placeholder="@Localizer["Common_Search"]" />
         </div>
-    </div>
-    <div class="col-md-1">
-        <button type="submit" class="btn btn-wos-primary w-100">Filter</button>
+        <div class="wos-filter-field wos-filter-field-location">
+            <label class="form-label" for="operations-location">@Localizer["Reporting_Filter_Location"]</label>
+            <select id="operations-location" name="workshopLocationId" class="form-select">
+                <option value="">@Localizer["Common_AllLocations"]</option>
+                @foreach (var location in Model.LocationOptions)
+                {
+                    <option value="@location.WorkshopLocationId" selected="@(Model.WorkshopLocationId == location.WorkshopLocationId)">@location.Name</option>
+                }
+            </select>
+        </div>
+        <div class="wos-filter-field wos-filter-field-status">
+            <label class="form-label" for="operations-status">@Localizer["Common_Status"]</label>
+            <select id="operations-status" name="status" class="form-select" asp-for="Status" asp-items="Html.GetEnumSelectList<WorkshopOS.Domain.RepairOrders.RepairOrderStatus>()">
+                <option value="">@Localizer["Common_AllStatuses"]</option>
+            </select>
+        </div>
+        <div class="wos-filter-field wos-filter-field-priority">
+            <label class="form-label" for="operations-priority">@Localizer["Common_Priority"]</label>
+            <select id="operations-priority" name="priority" class="form-select" asp-for="Priority" asp-items="Html.GetEnumSelectList<WorkshopOS.Domain.RepairOrders.RepairOrderPriority>()">
+                <option value="">@Localizer["Common_AllPriorities"]</option>
+            </select>
+        </div>
+        <div class="wos-filter-field wos-filter-field-technician">
+            <label class="form-label" for="operations-technician">@Localizer["Common_Technician"]</label>
+            <select id="operations-technician" name="assignedStaffMemberId" class="form-select">
+                <option value="">@Localizer["Common_AllTechnicians"]</option>
+                @foreach (var technician in Model.TechnicianOptions)
+                {
+                    <option value="@technician.StaffMemberId" selected="@(Model.AssignedStaffMemberId == technician.StaffMemberId)">@technician.DisplayName</option>
+                }
+            </select>
+        </div>
+        <div class="wos-filter-field wos-filter-field-assignment">
+            <span class="form-label">@Localizer["Operations_AssignmentFilter"]</span>
+            <div class="wos-filter-checkbox">
+                <input class="form-check-input" type="checkbox" id="operations-unassigned" name="unassignedOnly" value="true" checked="@Model.UnassignedOnly" />
+                <label class="form-check-label" for="operations-unassigned">@Localizer["Operations_UnassignedFilter"]</label>
+            </div>
+        </div>
+        <div class="wos-filter-field wos-filter-field-action">
+            <span class="form-label" aria-hidden="true">&nbsp;</span>
+            <button type="submit" class="btn btn-wos-primary w-100">@Localizer["Common_Filter"]</button>
+        </div>
     </div>
 </form>
 
 @if (Model.ResultsTruncated)
 {
-    <div class="alert alert-warning">Showing first 200 matches. Narrow filters to see more specific results.</div>
+    <div class="alert alert-warning">@Localizer["Operations_TruncatedWarning"]</div>
 }
 
 <div class="wos-board">
     <div class="wos-board-column">
         <div class="wos-board-column-header">
-            <h3>Draft / intake</h3>
+            <h3>@Localizer["Operations_DraftIntake"]</h3>
             <span class="wos-board-column-count">@Model.IntakeItems.Count</span>
         </div>
         @await Html.PartialAsync("_BoardColumn", Model.IntakeItems)
     </div>
     <div class="wos-board-column">
         <div class="wos-board-column-header">
-            <h3>In progress</h3>
+            <h3>@Localizer["Operations_InProgressColumn"]</h3>
             <span class="wos-board-column-count">@Model.InProgressItems.Count</span>
         </div>
         @await Html.PartialAsync("_BoardColumn", Model.InProgressItems)
@@ -107,6 +116,6 @@
 
 @if (Model.OtherActiveItems.Count > 0)
 {
-    <h2 class="wos-section-title mt-4">Other active statuses</h2>
+    <h2 class="wos-section-title mt-4">@Localizer["Operations_OtherActiveStatuses"]</h2>
     @await Html.PartialAsync("_BoardColumn", Model.OtherActiveItems)
 }

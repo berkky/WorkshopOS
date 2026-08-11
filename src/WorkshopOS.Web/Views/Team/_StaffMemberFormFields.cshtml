@@ -3,7 +3,7 @@
 <partial name="_FormValidationSummary" />
 
 <section class="wos-form-section">
-    <h2 class="wos-form-section-title">Staff profile</h2>
+    <h2 class="wos-form-section-title">@Localizer["Team_StaffProfile"]</h2>
     <div class="wos-form-grid wos-form-grid-2">
         <div class="wos-field">
             <label asp-for="DisplayName" class="wos-field-label"></label>
@@ -31,34 +31,34 @@
 </section>
 
 <section class="wos-form-section">
-    <h2 class="wos-form-section-title">Login linkage</h2>
+    <h2 class="wos-form-section-title">@Localizer["Team_LoginLinkage"]</h2>
     <div class="wos-field wos-field-full">
         <label asp-for="LinkedUserId" class="wos-field-label"></label>
         <select asp-for="LinkedUserId" class="form-select">
-            <option value="">Not linked</option>
+            <option value="">@Localizer["Team_NotLinked"]</option>
             @foreach (var user in Model.LinkableUsers)
             {
                 <option value="@user.UserId">@user.DisplayLabel (@user.MembershipRole)</option>
             }
         </select>
-        <p class="wos-field-help">Optional link to an existing organization membership login. Staff position does not grant access.</p>
+        <p class="wos-field-help">@Localizer["Team_LoginLinkageHelp"]</p>
     </div>
 </section>
 
 @if (Model.StaffMemberId.HasValue)
 {
     <section class="wos-form-section">
-        <h2 class="wos-form-section-title">Operational status</h2>
+        <h2 class="wos-form-section-title">@Localizer["Team_OperationalStatus"]</h2>
         <div class="wos-field wos-field-full">
             <label asp-for="Status" class="wos-field-label"></label>
             <select asp-for="Status" class="form-select" asp-items="Html.GetEnumSelectList<WorkshopOS.Domain.Staff.StaffStatus>()"></select>
-            <p class="wos-field-help">Staff inactivity does not suspend login access.</p>
+            <p class="wos-field-help">@Localizer["Team_InactivityHelp"]</p>
         </div>
     </section>
 }
 
 <section class="wos-form-section">
-    <h2 class="wos-form-section-title">Workshop locations</h2>
+    <h2 class="wos-form-section-title">@Localizer["Team_WorkshopLocations"]</h2>
     <div class="wos-choice-group">
         @foreach (var location in Model.WorkshopLocations)
         {

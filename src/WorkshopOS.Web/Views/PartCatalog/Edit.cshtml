@@ -1,12 +1,12 @@
 @model WorkshopOS.Web.Models.Catalog.PartCatalogFormViewModel
 @{
-    ViewData["Title"] = "Edit part";
+    ViewData["Title"] = Localizer["PartCatalog_EditTitle"].Value;
 }
 
 @await Html.PartialAsync("_PageHeader", new PageHeaderViewModel
 {
-    Eyebrow = "Parts catalog",
-    Title = "Edit part",
+    Eyebrow = Localizer["PartCatalog_Eyebrow"].Value,
+    Title = Localizer["PartCatalog_EditTitle"].Value,
     Description = Model.Name
 })
 
@@ -14,8 +14,8 @@
     @Html.AntiForgeryToken()
     <partial name="_PartCatalogFormFields" model="Model" />
     <div class="wos-form-actions">
-        <button type="submit" class="btn btn-wos-primary">Save</button>
-        <a asp-action="Index" class="btn btn-wos-quiet">Cancel</a>
+        <button type="submit" class="btn btn-wos-primary">@Localizer["Common_Save"]</button>
+        <a asp-action="Index" class="btn btn-wos-quiet">@Localizer["Common_Cancel"]</a>
     </div>
 </form>
 

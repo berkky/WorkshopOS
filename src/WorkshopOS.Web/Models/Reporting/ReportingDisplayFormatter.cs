@@ -5,11 +5,16 @@ namespace WorkshopOS.Web.Models.Reporting;
 
 public static class ReportingDisplayFormatter
 {
-    public static string FormatPeriodLabel(ReportingContextHeader header) =>
-        $"{header.From:MMM d, yyyy} – {header.To:MMM d, yyyy}";
+    public static string FormatPeriodLabel(ReportingContextHeader header)
+    {
+        var culture = CultureInfo.CurrentUICulture;
+        return culture.TwoLetterISOLanguageName.Equals("tr", StringComparison.OrdinalIgnoreCase)
+            ? $"{header.From.ToString("dd MMM yyyy", culture)} – {header.To.ToString("dd MMM yyyy", culture)}"
+            : $"{header.From.ToString("MMM d, yyyy", culture)} – {header.To.ToString("MMM d, yyyy", culture)}";
+    }
 
     public static string FormatLocationLabel(ReportingContextHeader header) =>
-        header.WorkshopLocationName ?? "All locations";
+        header.WorkshopLocationName ?? string.Empty;
 
     public static string FormatMoney(MoneyBreakdownItem item) =>
         $"{item.CurrencyCode} {item.Amount.ToString("N2", CultureInfo.InvariantCulture)}";

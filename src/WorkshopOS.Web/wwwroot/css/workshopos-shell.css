@@ -14,7 +14,7 @@
   width: auto;
   height: auto;
   padding: var(--wos-space-2) var(--wos-space-3);
-  background: var(--wos-surface);
+  background: var(--wos-surface-elevated);
   border: 2px solid var(--wos-primary);
   border-radius: var(--wos-radius-sm);
   color: var(--wos-text);
@@ -24,7 +24,7 @@
 body.wos-app-body {
   margin: 0;
   font-family: var(--wos-font-sans);
-  background: var(--wos-bg-ambient);
+  background: var(--wos-bg-deep);
   color: var(--wos-text);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
@@ -33,26 +33,58 @@ body.wos-app-body {
 .wos-app {
   display: flex;
   min-height: 100vh;
+  background: var(--wos-bg-ambient);
+  position: relative;
+}
+
+/* Subtle technical grid — automotive precision motif */
+.wos-app::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.35;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, black 20%, transparent 75%);
 }
 
 /* Premium dark sidebar */
 .wos-sidebar {
   width: var(--wos-sidebar-width);
   flex-shrink: 0;
-  background: linear-gradient(180deg, #0f1117 0%, #12151c 100%);
-  border-right: 1px solid var(--wos-border-dark);
+  background:
+    linear-gradient(180deg, rgba(14, 18, 28, 0.98) 0%, rgba(10, 13, 22, 0.99) 100%);
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
   display: flex;
   flex-direction: column;
   position: sticky;
   top: 0;
   height: 100vh;
   z-index: 1030;
-  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
+  box-shadow:
+    4px 0 32px rgba(0, 0, 0, 0.35),
+    inset -1px 0 0 rgba(59, 108, 245, 0.08);
+}
+
+.wos-sidebar::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(59, 108, 245, 0.25) 0%, transparent 40%, rgba(34, 211, 238, 0.12) 100%);
+  pointer-events: none;
 }
 
 .wos-sidebar-brand {
   padding: var(--wos-space-5) var(--wos-space-4);
-  border-bottom: 1px solid var(--wos-border-dark);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  position: relative;
 }
 
 .wos-sidebar-brand a {
@@ -70,13 +102,14 @@ body.wos-app-body {
   width: 36px;
   height: 36px;
   border-radius: var(--wos-radius-sm);
-  background: linear-gradient(135deg, var(--wos-primary), var(--wos-accent-teal));
+  background: linear-gradient(135deg, var(--wos-accent-cobalt) 0%, #2563eb 45%, var(--wos-cyan) 100%);
   display: grid;
   place-items: center;
   color: #fff;
   font-size: 0.75rem;
   font-weight: 800;
   flex-shrink: 0;
+  box-shadow: 0 4px 16px rgba(59, 108, 245, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .wos-sidebar-brand small {
@@ -109,12 +142,17 @@ body.wos-app-body {
   margin-bottom: var(--wos-space-5);
 }
 
+.wos-nav-section + .wos-nav-section {
+  padding-top: var(--wos-space-2);
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
 .wos-nav-section-label {
   font-size: 0.625rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.35);
+  color: rgba(255, 255, 255, 0.32);
   padding: var(--wos-space-2) var(--wos-space-3);
 }
 
@@ -122,48 +160,61 @@ body.wos-app-body {
   display: flex;
   align-items: center;
   gap: var(--wos-space-2);
-  padding: 0.6rem var(--wos-space-3);
+  padding: 0.625rem var(--wos-space-3);
   border-radius: var(--wos-radius-sm);
   color: var(--wos-text-muted-on-dark);
   text-decoration: none;
   font-size: 0.875rem;
   font-weight: 500;
-  transition: background var(--wos-duration) var(--wos-ease), color var(--wos-duration) var(--wos-ease);
+  transition:
+    background var(--wos-duration) var(--wos-ease),
+    color var(--wos-duration) var(--wos-ease),
+    border-color var(--wos-duration) var(--wos-ease),
+    box-shadow var(--wos-duration) var(--wos-ease);
   border: 1px solid transparent;
 }
 
 .wos-nav-link:hover {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.05);
   color: #fff;
+  border-color: rgba(255, 255, 255, 0.06);
 }
 
 .wos-nav-link.is-active {
-  background: rgba(59, 108, 245, 0.15);
-  color: #7ba3ff;
-  border-color: rgba(59, 108, 245, 0.25);
+  background: linear-gradient(135deg, rgba(59, 108, 245, 0.22) 0%, rgba(59, 108, 245, 0.08) 100%);
+  color: #b8ccff;
+  border-color: rgba(59, 108, 245, 0.28);
   font-weight: 600;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 4px 16px rgba(59, 108, 245, 0.12);
 }
 
 .wos-nav-link.is-active::before {
   content: "";
   width: 3px;
-  height: 16px;
+  height: 18px;
   border-radius: 2px;
-  background: var(--wos-primary);
+  background: linear-gradient(180deg, var(--wos-cyan) 0%, var(--wos-accent-cobalt) 100%);
   margin-right: var(--wos-space-1);
   margin-left: -4px;
+  box-shadow: 0 0 12px rgba(59, 108, 245, 0.5);
 }
 
 .wos-sidebar-footer {
   padding: var(--wos-space-4);
-  border-top: 1px solid var(--wos-border-dark);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
   font-size: 0.8125rem;
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.15) 100%);
+  position: relative;
+  overflow: visible;
+  z-index: 1040;
 }
 
 .wos-sidebar-user {
   margin-bottom: var(--wos-space-3);
   padding-bottom: var(--wos-space-3);
-  border-bottom: 1px solid var(--wos-border-dark);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .wos-sidebar-user-label {
@@ -191,12 +242,26 @@ body.wos-app-body {
   background: rgba(255, 255, 255, 0.06);
 }
 
-/* Main area */
+/* Main area — cohesive with sidebar */
 .wos-app-main {
   flex: 1;
   min-width: 0;
   display: flex;
   flex-direction: column;
+  position: relative;
+  z-index: 1;
+}
+
+.wos-app-main::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(circle, rgba(59, 108, 245, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
 }
 
 .wos-topbar {
@@ -204,13 +269,14 @@ body.wos-app-body {
   align-items: center;
   justify-content: space-between;
   padding: var(--wos-space-3) var(--wos-space-4);
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(12, 16, 26, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--wos-border);
   position: sticky;
   top: 0;
   z-index: 1020;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
 }
 
 .wos-topbar-brand {
@@ -218,7 +284,7 @@ body.wos-app-body {
   align-items: center;
   gap: var(--wos-space-2);
   font-weight: 700;
-  color: var(--wos-text);
+  color: var(--wos-text-primary);
   text-decoration: none;
   letter-spacing: -0.02em;
 }
@@ -229,11 +295,14 @@ body.wos-app-body {
   max-width: var(--wos-content-max);
   margin: 0 auto;
   padding: var(--wos-space-6) var(--wos-space-5) var(--wos-space-8);
+  position: relative;
+  z-index: 1;
 }
 
 .wos-offcanvas-nav {
-  background: #0f1117 !important;
+  background: #0a0d14 !important;
   color: var(--wos-text-on-dark);
+  border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
 
 .wos-offcanvas-nav .offcanvas-header {
@@ -274,5 +343,21 @@ body.wos-app-body {
 @media (min-width: 992px) {
   .wos-offcanvas-nav {
     display: none !important;
+  }
+
+  .wos-topbar .wos-account-center {
+    display: none;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .wos-sidebar-footer .wos-account-center {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wos-nav-link {
+    transition: none !important;
   }
 }

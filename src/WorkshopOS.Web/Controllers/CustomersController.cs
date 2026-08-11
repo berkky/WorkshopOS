@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using WorkshopOS.Application.Customers;
 using WorkshopOS.Application.RepairOrders;
 using WorkshopOS.Infrastructure.Authorization;
+using WorkshopOS.Web.Localization;
 using WorkshopOS.Web.Models.Customers;
 using WorkshopOS.Web.Models.RepairOrders;
 
@@ -15,15 +16,18 @@ public sealed class CustomersController : Controller
     private readonly ICustomerManagementService _customerManagementService;
     private readonly IRepairOrderManagementService _repairOrderManagementService;
     private readonly IAuthorizationService _authorizationService;
+    private readonly IWebFailureMessages _messages;
 
     public CustomersController(
         ICustomerManagementService customerManagementService,
         IRepairOrderManagementService repairOrderManagementService,
-        IAuthorizationService authorizationService)
+        IAuthorizationService authorizationService,
+        IWebFailureMessages messages)
     {
         _customerManagementService = customerManagementService;
         _repairOrderManagementService = repairOrderManagementService;
         _authorizationService = authorizationService;
+        _messages = messages;
     }
 
     [HttpGet("")]
@@ -85,7 +89,7 @@ public sealed class CustomersController : Controller
 
         if (!result.Success)
         {
-            ModelState.AddModelError(string.Empty, MapFailure(result.FailureReason));
+            ModelState.AddModelError(string.Empty, _messages.Customer(result.FailureReason));
             return View(model);
         }
 
@@ -185,7 +189,7 @@ public sealed class CustomersController : Controller
                 return NotFound();
             }
 
-            ModelState.AddModelError(string.Empty, MapFailure(result.FailureReason));
+            ModelState.AddModelError(string.Empty, _messages.Customer(result.FailureReason));
             return View(model);
         }
 
@@ -224,13 +228,4 @@ public sealed class CustomersController : Controller
         return RedirectToAction(nameof(Details), new { customerId });
     }
 
-    private static string MapFailure(CustomerOperationFailureReason? reason) =>
-        reason switch
-        {
-            CustomerOperationFailureReason.InvalidInput =>
-                "Please check the customer details and try again.",
-            CustomerOperationFailureReason.OrganizationUnresolved =>
-                "Organization context is not available.",
-            _ => "Unable to save customer record.",
-        };
 }

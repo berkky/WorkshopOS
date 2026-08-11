@@ -2,36 +2,36 @@
 @using WorkshopOS.Domain.RepairOrders
 @using WorkshopOS.Web.Models.Reporting
 @{
-    ViewData["Title"] = "Operations report";
+    ViewData["Title"] = Localizer["Reports_OperationsTitle"].Value;
     var header = Model.Report.Header;
-    var periodLabel = ReportingDisplayFormatter.FormatPeriodLabel(header);
-    var locationLabel = ReportingDisplayFormatter.FormatLocationLabel(header);
+    var periodLabel = UiFormatting.FormatReportingPeriod(header);
+    var locationLabel = UiFormatting.FormatLocationScope(header.WorkshopLocationName);
 }
 
 <header class="wos-page-header">
     <div>
-        <p class="wos-page-eyebrow">Reporting</p>
-        <h1 class="wos-page-title">Operations report</h1>
+        <p class="wos-page-eyebrow">@Localizer["Common_Reporting"]</p>
+        <h1 class="wos-page-title">@Localizer["Reports_OperationsTitle"]</h1>
         <p class="wos-page-description">
-            @locationLabel · Time zone: @header.TimeZoneId · Generated @header.GeneratedAtUtc.ToString("u")
+            @locationLabel · @Localizer["Common_TimeZone"]: @header.TimeZoneId · @Localizer["Common_Generated"] @UiFormatting.FormatGeneratedAt(header.GeneratedAtUtc, header.TimeZoneId)
         </p>
     </div>
     <div class="wos-page-actions">
-        <a class="btn btn-outline-secondary btn-sm" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
+        <a class="btn btn-outline-secondary btn-sm" asp-controller="Dashboard" asp-action="Index">@Localizer["Common_Dashboard"]</a>
     </div>
 </header>
 
 @await Html.PartialAsync("_ReportingFilter", Model.Filter)
 
-<h2 class="h5 mt-4">Repair order status (active)</h2>
+<h2 class="h5 mt-4">@Localizer["Reports_RoStatusActive"]</h2>
 @if (Model.Report.RepairOrderStatusBreakdown.Count == 0)
 {
-    <p class="text-muted">No active repair orders.</p>
+    <p class="text-muted">@Localizer["Reports_NoActiveRo"]</p>
 }
 else
 {
     <table class="table table-sm table-bordered">
-        <thead><tr><th>Status</th><th>Count</th></tr></thead>
+        <thead><tr><th>@Localizer["Common_Status"]</th><th>@Localizer["Common_Count"]</th></tr></thead>
         <tbody>
         @foreach (var entry in Model.Report.RepairOrderStatusBreakdown.OrderBy(pair => pair.Key))
         {
@@ -41,9 +41,9 @@ else
     </table>
 }
 
-<h2 class="h5">Repair order priority (active)</h2>
+<h2 class="h5">@Localizer["Reports_RoPriorityActive"]</h2>
 <table class="table table-sm table-bordered">
-    <thead><tr><th>Priority</th><th>Count</th></tr></thead>
+    <thead><tr><th>@Localizer["Common_Priority"]</th><th>@Localizer["Common_Count"]</th></tr></thead>
     <tbody>
     @foreach (var entry in Model.Report.RepairOrderPriorityBreakdown.OrderBy(pair => pair.Key))
     {
@@ -52,74 +52,74 @@ else
     </tbody>
 </table>
 
-<h2 class="h5">Assignment (active jobs)</h2>
+<h2 class="h5">@Localizer["Reports_AssignmentActive"]</h2>
 <div class="row g-3 mb-4">
     <div class="col-md-4">
         <div class="border rounded p-3 bg-light">
-            <div class="text-muted small">Assigned · Current</div>
+            <div class="text-muted small">@Localizer["Reports_AssignedCurrent"]</div>
             <div class="fs-4">@Model.Report.ActiveAssignedRepairOrders</div>
         </div>
     </div>
     <div class="col-md-4">
         <div class="border rounded p-3 bg-light">
-            <div class="text-muted small">Unassigned · Current</div>
+            <div class="text-muted small">@Localizer["Reports_UnassignedCurrent"]</div>
             <div class="fs-4">@Model.Report.ActiveUnassignedRepairOrders</div>
         </div>
     </div>
 </div>
 
-<h2 class="h5">Appointments · @periodLabel</h2>
-<p class="text-muted small">Scheduled start within selected period.</p>
-<div class="mb-2">Total scheduled: @Model.Report.SelectedPeriod.AppointmentsScheduled</div>
+<h2 class="h5">@string.Format(Localizer["Reports_AppointmentsPeriod"].Value, periodLabel)</h2>
+<p class="text-muted small">@Localizer["Reports_AppointmentsScheduledHelp"]</p>
+<div class="mb-2">@string.Format(Localizer["Reports_TotalScheduled"].Value, Model.Report.SelectedPeriod.AppointmentsScheduled)</div>
 <table class="table table-sm table-bordered">
-    <thead><tr><th>Status</th><th>Count</th></tr></thead>
+    <thead><tr><th>@Localizer["Common_Status"]</th><th>@Localizer["Common_Count"]</th></tr></thead>
     <tbody>
-        <tr><td>Scheduled</td><td>@Model.Report.SelectedPeriod.AppointmentStatusBreakdown.Scheduled</td></tr>
-        <tr><td>Confirmed</td><td>@Model.Report.SelectedPeriod.AppointmentStatusBreakdown.Confirmed</td></tr>
-        <tr><td>Checked in</td><td>@Model.Report.SelectedPeriod.AppointmentStatusBreakdown.CheckedIn</td></tr>
-        <tr><td>Completed</td><td>@Model.Report.SelectedPeriod.AppointmentStatusBreakdown.Completed</td></tr>
-        <tr><td>Cancelled</td><td>@Model.Report.SelectedPeriod.AppointmentStatusBreakdown.Cancelled</td></tr>
-        <tr><td>No show</td><td>@Model.Report.SelectedPeriod.AppointmentStatusBreakdown.NoShow</td></tr>
+        <tr><td>@Localizer["Reports_Scheduled"]</td><td>@Model.Report.SelectedPeriod.AppointmentStatusBreakdown.Scheduled</td></tr>
+        <tr><td>@Localizer["Reports_Confirmed"]</td><td>@Model.Report.SelectedPeriod.AppointmentStatusBreakdown.Confirmed</td></tr>
+        <tr><td>@Localizer["Reports_CheckedIn"]</td><td>@Model.Report.SelectedPeriod.AppointmentStatusBreakdown.CheckedIn</td></tr>
+        <tr><td>@Localizer["Common_Completed"]</td><td>@Model.Report.SelectedPeriod.AppointmentStatusBreakdown.Completed</td></tr>
+        <tr><td>@Localizer["Status_Appointment_Cancelled"]</td><td>@Model.Report.SelectedPeriod.AppointmentStatusBreakdown.Cancelled</td></tr>
+        <tr><td>@Localizer["Reports_NoShow"]</td><td>@Model.Report.SelectedPeriod.AppointmentStatusBreakdown.NoShow</td></tr>
     </tbody>
 </table>
 
-<h2 class="h5">DVI · @periodLabel</h2>
+<h2 class="h5">@string.Format(Localizer["Reports_DviPeriod"].Value, periodLabel)</h2>
 <div class="row g-3 mb-4">
     <div class="col-md-4">
         <div class="border rounded p-3">
-            <div class="text-muted small">Inspections completed</div>
+            <div class="text-muted small">@Localizer["Reports_InspectionsCompleted"]</div>
             <div class="fs-4">@Model.Report.SelectedPeriod.InspectionsCompleted</div>
         </div>
     </div>
     <div class="col-md-4">
         <div class="border rounded p-3">
-            <div class="text-muted small">Critical findings (completed inspections)</div>
+            <div class="text-muted small">@Localizer["Reports_CriticalFindings"]</div>
             <div class="fs-4">@Model.Report.SelectedPeriod.CriticalInspectionFindings</div>
         </div>
     </div>
     <div class="col-md-4">
         <div class="border rounded p-3 bg-light">
-            <div class="text-muted small">Open DVI · Current</div>
+            <div class="text-muted small">@Localizer["Reports_OpenDviCurrent"]</div>
             <div class="fs-4">@Model.Report.CurrentSnapshot.OpenDviInspections</div>
         </div>
     </div>
 </div>
 
-<h2 class="h5">Technician workload</h2>
+<h2 class="h5">@Localizer["Reports_TechnicianWorkload"]</h2>
 @if (Model.Report.TechnicianWorkload.Count == 0)
 {
-    <p class="text-muted">No active technicians.</p>
+    <p class="text-muted">@Localizer["Reports_NoActiveTechnicians"]</p>
 }
 else
 {
     <table class="table table-bordered table-sm">
         <thead>
         <tr>
-            <th>Technician</th>
-            <th>Location</th>
-            <th>Active assigned</th>
-            <th>In progress</th>
-            <th>Work completed · @periodLabel</th>
+            <th>@Localizer["Common_Technician"]</th>
+            <th>@Localizer["Common_Location"]</th>
+            <th>@Localizer["Reports_ActiveAssigned"]</th>
+            <th>@Localizer["Reports_InProgress"]</th>
+            <th>@string.Format(Localizer["Reports_WorkCompletedPeriod"].Value, periodLabel)</th>
         </tr>
         </thead>
         <tbody>
@@ -127,7 +127,7 @@ else
         {
             <tr>
                 <td>@row.DisplayName</td>
-                <td>@(row.WorkshopLocationName ?? "—")</td>
+                <td>@(row.WorkshopLocationName ?? Localizer["Common_NoValue"].Value)</td>
                 <td>@row.ActiveAssignedJobs</td>
                 <td>@row.InProgressJobs</td>
                 <td>@row.WorkCompletedAssignmentsInPeriod</td>
@@ -139,17 +139,17 @@ else
 
 @if (Model.Report.LocationBreakdown.Count > 0)
 {
-    <h2 class="h5 mt-4">Location breakdown</h2>
+    <h2 class="h5 mt-4">@Localizer["Reports_LocationBreakdown"]</h2>
     <table class="table table-bordered table-sm">
         <thead>
         <tr>
-            <th>Location</th>
-            <th>Active RO</th>
-            <th>Unassigned</th>
-            <th>Urgent</th>
-            <th>Appointments · period</th>
-            <th>Completed · period</th>
-            <th>Open DVI</th>
+            <th>@Localizer["Common_Location"]</th>
+            <th>@Localizer["Reports_ActiveRo"]</th>
+            <th>@Localizer["Common_Unassigned"]</th>
+            <th>@Localizer["Status_Priority_Urgent"]</th>
+            <th>@Localizer["Reports_AppointmentsPeriodShort"]</th>
+            <th>@Localizer["Reports_CompletedPeriod"]</th>
+            <th>@Localizer["Reports_OpenDvi"]</th>
         </tr>
         </thead>
         <tbody>
@@ -170,5 +170,5 @@ else
 }
 
 <p class="mt-4">
-    <a asp-controller="Reports" asp-action="Commercial">Commercial report</a> for financial metrics.
+    <a asp-controller="Reports" asp-action="Commercial">@Localizer["Reports_CommercialLink"]</a> @Localizer["Reports_CommercialLinkSuffix"]
 </p>

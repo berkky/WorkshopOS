@@ -17,21 +17,21 @@
     }
 }
 
-<form method="get" class="wos-card wos-card-body wos-report-bar row g-3 align-items-end">
+<form method="get" class="wos-filter-bar wos-report-bar row g-3 align-items-end">
     <div class="col-md-3">
-        <label class="form-label" for="from">From</label>
+        <label class="form-label" for="from">@Localizer["Reporting_Filter_From"]</label>
         <input type="date" class="form-control" id="from" name="from"
                value="@(Model.From?.ToString("yyyy-MM-dd"))" />
     </div>
     <div class="col-md-3">
-        <label class="form-label" for="to">To</label>
+        <label class="form-label" for="to">@Localizer["Reporting_Filter_To"]</label>
         <input type="date" class="form-control" id="to" name="to"
                value="@(Model.To?.ToString("yyyy-MM-dd"))" />
     </div>
     <div class="col-md-3">
-        <label class="form-label" for="workshopLocationId">Location</label>
+        <label class="form-label" for="workshopLocationId">@Localizer["Reporting_Filter_Location"]</label>
         <select class="form-select" id="workshopLocationId" name="workshopLocationId">
-            <option value="">All locations</option>
+            <option value="">@Localizer["Common_AllLocations"]</option>
             @foreach (var location in Model.LocationOptions)
             {
                 <option value="@location.WorkshopLocationId"
@@ -42,18 +42,18 @@
         </select>
     </div>
     <div class="col-md-3">
-        <button type="submit" class="btn btn-wos-primary w-100">Apply filters</button>
+        <button type="submit" class="btn btn-wos-primary w-100">@Localizer["Reporting_Filter_Apply"]</button>
     </div>
     <div class="col-12">
         <div class="d-flex flex-wrap gap-2 small">
-            <span class="text-muted">Presets:</span>
+            <span class="text-muted">@Localizer["Reporting_Filter_Presets"]</span>
             @if (Model.To.HasValue)
             {
                 var to = Model.To.Value;
-                <a class="btn btn-sm btn-outline-secondary" href="?from=@to.AddDays(-6).ToString("yyyy-MM-dd")&to=@to.ToString("yyyy-MM-dd")@(Model.WorkshopLocationId.HasValue ? $"&workshopLocationId={Model.WorkshopLocationId}" : "")">7D</a>
-                <a class="btn btn-sm btn-outline-secondary" href="?from=@to.AddDays(-29).ToString("yyyy-MM-dd")&to=@to.ToString("yyyy-MM-dd")@(Model.WorkshopLocationId.HasValue ? $"&workshopLocationId={Model.WorkshopLocationId}" : "")">30D</a>
-                <a class="btn btn-sm btn-outline-secondary" href="?from=@to.AddDays(-89).ToString("yyyy-MM-dd")&to=@to.ToString("yyyy-MM-dd")@(Model.WorkshopLocationId.HasValue ? $"&workshopLocationId={Model.WorkshopLocationId}" : "")">90D</a>
-                <a class="btn btn-sm btn-outline-secondary" href="?from=@to.AddDays(-364).ToString("yyyy-MM-dd")&to=@to.ToString("yyyy-MM-dd")@(Model.WorkshopLocationId.HasValue ? $"&workshopLocationId={Model.WorkshopLocationId}" : "")">1Y</a>
+                <a class="wos-preset-chip" href="?from=@to.AddDays(-6).ToString("yyyy-MM-dd")&to=@to.ToString("yyyy-MM-dd")@(Model.WorkshopLocationId.HasValue ? $"&workshopLocationId={Model.WorkshopLocationId}" : "")">@Localizer["Reporting_Filter_Preset_7D"]</a>
+                <a class="wos-preset-chip" href="?from=@to.AddDays(-29).ToString("yyyy-MM-dd")&to=@to.ToString("yyyy-MM-dd")@(Model.WorkshopLocationId.HasValue ? $"&workshopLocationId={Model.WorkshopLocationId}" : "")">@Localizer["Reporting_Filter_Preset_30D"]</a>
+                <a class="wos-preset-chip" href="?from=@to.AddDays(-89).ToString("yyyy-MM-dd")&to=@to.ToString("yyyy-MM-dd")@(Model.WorkshopLocationId.HasValue ? $"&workshopLocationId={Model.WorkshopLocationId}" : "")">@Localizer["Reporting_Filter_Preset_90D"]</a>
+                <a class="wos-preset-chip" href="?from=@to.AddDays(-364).ToString("yyyy-MM-dd")&to=@to.ToString("yyyy-MM-dd")@(Model.WorkshopLocationId.HasValue ? $"&workshopLocationId={Model.WorkshopLocationId}" : "")">@Localizer["Reporting_Filter_Preset_1Y"]</a>
             }
         </div>
     </div>

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using WorkshopOS.Application.Reporting;
 using WorkshopOS.Application.Team;
 using WorkshopOS.Infrastructure.Authorization;
+using WorkshopOS.Web.Localization;
 using WorkshopOS.Web.Models.Reporting;
 
 namespace WorkshopOS.Web.Controllers;
@@ -14,13 +15,16 @@ public sealed class ReportsController : Controller
 {
     private readonly IWorkshopReportingService _reportingService;
     private readonly ITeamManagementService _teamManagementService;
+    private readonly IWebFailureMessages _messages;
 
     public ReportsController(
         IWorkshopReportingService reportingService,
-        ITeamManagementService teamManagementService)
+        ITeamManagementService teamManagementService,
+        IWebFailureMessages messages)
     {
         _reportingService = reportingService;
         _teamManagementService = teamManagementService;
+        _messages = messages;
     }
 
     [HttpGet("operations")]
@@ -103,7 +107,7 @@ public sealed class ReportsController : Controller
         switch (failureReason)
         {
             case ReportingFailureReason.InvalidDateRange:
-                return BadRequest("Invalid reporting date range.");
+                return BadRequest(_messages.InvalidReportingDateRange());
             case ReportingFailureReason.LocationNotFound:
                 return NotFound();
             case ReportingFailureReason.Unauthorized:

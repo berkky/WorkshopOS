@@ -6,6 +6,7 @@ using WorkshopOS.Application.Team;
 using WorkshopOS.Application.Vehicles;
 using WorkshopOS.Domain.Appointments;
 using WorkshopOS.Infrastructure.Authorization;
+using WorkshopOS.Web.Localization;
 using WorkshopOS.Web.Models.Appointments;
 
 namespace WorkshopOS.Web.Controllers;
@@ -19,19 +20,22 @@ public sealed class AppointmentsController : Controller
     private readonly ICustomerManagementService _customerManagementService;
     private readonly IVehicleManagementService _vehicleManagementService;
     private readonly IAuthorizationService _authorizationService;
+    private readonly IWebFailureMessages _messages;
 
     public AppointmentsController(
         IAppointmentManagementService appointmentManagementService,
         ITeamManagementService teamManagementService,
         ICustomerManagementService customerManagementService,
         IVehicleManagementService vehicleManagementService,
-        IAuthorizationService authorizationService)
+        IAuthorizationService authorizationService,
+        IWebFailureMessages messages)
     {
         _appointmentManagementService = appointmentManagementService;
         _teamManagementService = teamManagementService;
         _customerManagementService = customerManagementService;
         _vehicleManagementService = vehicleManagementService;
         _authorizationService = authorizationService;
+        _messages = messages;
     }
 
     [HttpGet("")]
@@ -179,7 +183,7 @@ public sealed class AppointmentsController : Controller
 
         if (!result.Success)
         {
-            ModelState.AddModelError(string.Empty, MapFailure(result.FailureReason));
+            ModelState.AddModelError(string.Empty, _messages.Appointment(result.FailureReason));
             return View(await BuildFormViewModelAsync(viewModel));
         }
 
@@ -280,7 +284,7 @@ public sealed class AppointmentsController : Controller
                 return NotFound();
             }
 
-            ModelState.AddModelError(string.Empty, MapFailure(result.FailureReason));
+            ModelState.AddModelError(string.Empty, _messages.Appointment(result.FailureReason));
             return View(await BuildFormViewModelAsync(viewModel));
         }
 
@@ -357,7 +361,7 @@ public sealed class AppointmentsController : Controller
                 return NotFound();
             }
 
-            ModelState.AddModelError(string.Empty, MapFailure(result.FailureReason));
+            ModelState.AddModelError(string.Empty, _messages.Appointment(result.FailureReason));
             viewModel.LocationOptions = await _teamManagementService.GetWorkshopLocationOptionsAsync();
             return View(viewModel);
         }
@@ -481,29 +485,4 @@ public sealed class AppointmentsController : Controller
             new(false, default, default, errorMessage);
     }
 
-    private static string MapFailure(AppointmentOperationFailureReason? reason) =>
-        reason switch
-        {
-            AppointmentOperationFailureReason.InvalidInput =>
-                "Please check the appointment schedule and try again.",
-            AppointmentOperationFailureReason.WorkshopLocationNotFound =>
-                "The selected workshop location was not found.",
-            AppointmentOperationFailureReason.CustomerNotFound =>
-                "The selected customer was not found in the current organization.",
-            AppointmentOperationFailureReason.VehicleNotFound =>
-                "The selected vehicle was not found in the current organization.",
-            AppointmentOperationFailureReason.CustomerVehicleMismatch =>
-                "The selected vehicle is not currently associated with the selected customer.",
-            AppointmentOperationFailureReason.PastStartNotAllowed =>
-                "New appointments cannot be scheduled in the past.",
-            AppointmentOperationFailureReason.VehicleOverlap =>
-                "This vehicle already has an overlapping appointment.",
-            AppointmentOperationFailureReason.ConcurrencyConflict =>
-                "Another booking was saved at the same time. Please review the schedule and try again.",
-            AppointmentOperationFailureReason.CannotModifyCancelled =>
-                "Cancelled appointments cannot be modified.",
-            AppointmentOperationFailureReason.OrganizationUnresolved =>
-                "Organization context is not available.",
-            _ => "Unable to save appointment.",
-        };
 }

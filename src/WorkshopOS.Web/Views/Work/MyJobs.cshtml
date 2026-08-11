@@ -1,16 +1,16 @@
 @model WorkshopOS.Web.Models.Work.MyWorkViewModel
 @{
-    ViewData["Title"] = "My work";
+    ViewData["Title"] = Localizer["Work_Title"].Value;
 }
 
 <header class="wos-page-header">
     <div>
-        <div class="wos-page-eyebrow">Workshop floor</div>
-        <h1 class="wos-page-title">My work</h1>
-        <p class="wos-page-description">Your assigned repair orders and active technician tasks.</p>
+        <div class="wos-page-eyebrow">@Localizer["Work_Eyebrow"]</div>
+        <h1 class="wos-page-title">@Localizer["Work_Title"]</h1>
+        <p class="wos-page-description">@Localizer["Work_Description"]</p>
     </div>
     <div class="wos-page-actions">
-        <a asp-controller="Operations" asp-action="Index" class="btn btn-outline-secondary">Operations board</a>
+        <a asp-controller="Operations" asp-action="Index" class="btn btn-outline-secondary">@Localizer["Work_OperationsBoard"]</a>
     </div>
 </header>
 
@@ -18,16 +18,16 @@
 {
     @await Html.PartialAsync("_EmptyState", new EmptyStateViewModel
     {
-        Title = "Technician profile not linked",
-        Description = "Your account is not linked to an active technician staff profile. Contact a workshop manager to link your login."
+        Title = Localizer["Work_NoProfileTitle"].Value,
+        Description = Localizer["Work_NoProfileDesc"].Value
     })
 }
 else if (Model.Items.Count == 0)
 {
     @await Html.PartialAsync("_EmptyState", new EmptyStateViewModel
     {
-        Title = "No active assignments",
-        Description = "You have no repair orders assigned to you right now."
+        Title = Localizer["Work_NoAssignmentsTitle"].Value,
+        Description = Localizer["Work_NoAssignmentsDesc"].Value
     })
 }
 else
@@ -36,13 +36,13 @@ else
         <table class="table table-hover mb-0">
             <thead>
                 <tr>
-                    <th>Repair order</th>
-                    <th>Priority</th>
-                    <th>Customer</th>
-                    <th>Vehicle</th>
-                    <th>Location</th>
-                    <th>Job status</th>
-                    <th>Your work</th>
+                    <th>@Localizer["Inspections_RepairOrder"]</th>
+                    <th>@Localizer["Common_Priority"]</th>
+                    <th>@Localizer["Common_Customer"]</th>
+                    <th>@Localizer["Common_Vehicle"]</th>
+                    <th>@Localizer["Common_Location"]</th>
+                    <th>@Localizer["Work_JobStatus"]</th>
+                    <th>@Localizer["Work_YourWork"]</th>
                     <th></th>
                 </tr>
             </thead>
@@ -62,20 +62,20 @@ else
                         {
                             <form asp-action="Start" asp-route-repairOrderId="@job.RepairOrderId" method="post" class="d-inline">
                                 @Html.AntiForgeryToken()
-                                <button type="submit" class="btn btn-sm btn-wos-primary">Start work</button>
+                                <button type="submit" class="btn btn-sm btn-wos-primary">@Localizer["RepairOrders_StartWork"]</button>
                             </form>
                         }
                         @if (job.CanCompleteWork)
                         {
                             <form asp-action="Complete" asp-route-repairOrderId="@job.RepairOrderId" method="post" class="d-inline">
                                 @Html.AntiForgeryToken()
-                                <button type="submit" class="btn btn-sm btn-success">Complete</button>
+                                <button type="submit" class="btn btn-sm btn-success">@Localizer["Common_Complete"]</button>
                             </form>
                         }
                         @if (job.LatestInspectionId.HasValue)
                         {
                             <a asp-controller="Inspections" asp-action="Details" asp-route-inspectionId="@job.LatestInspectionId" class="btn btn-sm btn-outline-secondary">
-                                @(job.LatestInspectionStatus == WorkshopOS.Domain.Inspections.InspectionStatus.Draft ? "Start inspection" : "Continue inspection")
+                                @(job.LatestInspectionStatus == WorkshopOS.Domain.Inspections.InspectionStatus.Draft ? Localizer["Work_StartInspection"].Value : Localizer["Work_ContinueInspection"].Value)
                             </a>
                         }
                     </td>
@@ -96,7 +96,7 @@ else
                 </div>
                 <div class="wos-list-card-footer">
                     <partial name="_StatusBadge" model="StatusPresentation.ForTechnicianWork(job.TechnicianWorkStatus)" />
-                    <span class="text-muted small">View</span>
+                    <span class="text-muted small">@Localizer["Common_View"]</span>
                 </div>
             </a>
         }

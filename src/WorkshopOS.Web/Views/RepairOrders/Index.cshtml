@@ -1,7 +1,7 @@
 @model WorkshopOS.Web.Models.RepairOrders.RepairOrderListViewModel
 @using WorkshopOS.Web.Models.Shared
 @{
-    ViewData["Title"] = "Repair orders";
+    ViewData["Title"] = Localizer["RepairOrders_Title"].Value;
     var paginationRouteValues = new Dictionary<string, string>();
     if (!string.IsNullOrWhiteSpace(Model.Search))
     {
@@ -27,26 +27,26 @@
 
 <header class="wos-page-header">
     <div>
-        <h1 class="wos-page-title">Repair orders</h1>
-        <p class="wos-page-description">@Model.TotalCount repair order(s) in current view</p>
+        <h1 class="wos-page-title">@Localizer["RepairOrders_Title"]</h1>
+        <p class="wos-page-description">@string.Format(Localizer["RepairOrders_CountInView"].Value, Model.TotalCount)</p>
     </div>
     @if (Model.CanManageRepairOrders)
     {
         <div class="wos-page-actions">
-            <a asp-action="Create" class="btn btn-wos-primary">Create repair order</a>
+            <a asp-action="Create" class="btn btn-wos-primary">@Localizer["RepairOrders_Create"]</a>
         </div>
     }
 </header>
 
 <form asp-action="Index" method="get" class="wos-filter-bar row g-3 align-items-end mb-4">
     <div class="col-md-3">
-        <label class="form-label">Search</label>
-        <input name="search" value="@Model.Search" class="form-control" placeholder="Number, customer, vehicle" />
+        <label class="form-label">@Localizer["Common_Search"]</label>
+        <input name="search" value="@Model.Search" class="form-control" placeholder="@Localizer["RepairOrders_SearchPlaceholder"]" />
     </div>
     <div class="col-md-2">
-        <label class="form-label">Location</label>
+        <label class="form-label">@Localizer["Common_Location"]</label>
         <select name="workshopLocationId" class="form-select">
-            <option value="">All locations</option>
+            <option value="">@Localizer["Common_AllLocations"]</option>
             @foreach (var location in Model.LocationOptions)
             {
                 <option value="@location.WorkshopLocationId" selected="@(Model.WorkshopLocationId == location.WorkshopLocationId)">@location.Name</option>
@@ -54,13 +54,13 @@
         </select>
     </div>
     <div class="col-md-2">
-        <label class="form-label">Status</label>
+        <label class="form-label">@Localizer["Common_Status"]</label>
         <select name="status" class="form-select" asp-for="Status" asp-items="Html.GetEnumSelectList<WorkshopOS.Domain.RepairOrders.RepairOrderStatus>()">
-            <option value="">All statuses</option>
+            <option value="">@Localizer["Common_AllStatuses"]</option>
         </select>
     </div>
     <div class="col-md-2">
-        <button type="submit" class="btn btn-outline-secondary w-100">Filter</button>
+        <button type="submit" class="btn btn-outline-secondary w-100">@Localizer["Common_Filter"]</button>
     </div>
 </form>
 
@@ -68,10 +68,10 @@
 {
     @await Html.PartialAsync("_EmptyState", new EmptyStateViewModel
     {
-        Title = Model.HasActiveFilters ? "No matching repair orders" : "No repair orders yet",
+        Title = Model.HasActiveFilters ? Localizer["RepairOrders_NoMatching"].Value : Localizer["RepairOrders_NoYet"].Value,
         Description = Model.HasActiveFilters
-            ? "No repair orders match the current filters."
-            : "Create a repair order to start tracking workshop work."
+            ? Localizer["RepairOrders_NoFilters"].Value
+            : Localizer["RepairOrders_NoYetDesc"].Value
     })
 }
 else
@@ -80,12 +80,12 @@ else
         <table class="table table-hover mb-0">
             <thead>
                 <tr>
-                    <th>Number</th>
-                    <th>Opened</th>
-                    <th>Location</th>
-                    <th>Customer</th>
-                    <th>Vehicle</th>
-                    <th>Status</th>
+                    <th>@Localizer["Common_Number"]</th>
+                    <th>@Localizer["Common_Opened"]</th>
+                    <th>@Localizer["Common_Location"]</th>
+                    <th>@Localizer["Common_Customer"]</th>
+                    <th>@Localizer["Common_Vehicle"]</th>
+                    <th>@Localizer["Common_Status"]</th>
                     <th></th>
                 </tr>
             </thead>
@@ -94,13 +94,13 @@ else
             {
                 <tr>
                     <td>@repairOrder.Number</td>
-                    <td>@repairOrder.OpenedAtUtc.ToString("u")</td>
+                    <td>@UiFormatting.FormatDateTime(repairOrder.OpenedAtUtc)</td>
                     <td>@repairOrder.WorkshopLocationName</td>
                     <td>@repairOrder.CustomerDisplayName</td>
                     <td>@repairOrder.VehicleSummary</td>
                     <td><partial name="_StatusBadge" model="StatusPresentation.ForRepairOrder(repairOrder.Status)" /></td>
                     <td class="text-end">
-                        <a asp-action="Details" asp-route-repairOrderId="@repairOrder.RepairOrderId" class="btn btn-sm btn-outline-primary">View</a>
+                        <a asp-action="Details" asp-route-repairOrderId="@repairOrder.RepairOrderId" class="btn btn-sm btn-outline-primary">@Localizer["Common_View"]</a>
                     </td>
                 </tr>
             }
@@ -116,11 +116,11 @@ else
                 <div class="wos-list-card-meta">
                     <span>@repairOrder.CustomerDisplayName</span>
                     <span>@repairOrder.VehicleSummary</span>
-                    <span>@repairOrder.WorkshopLocationName · @repairOrder.OpenedAtUtc.ToString("u")</span>
+                    <span>@repairOrder.WorkshopLocationName · @UiFormatting.FormatDateTime(repairOrder.OpenedAtUtc)</span>
                 </div>
                 <div class="wos-list-card-footer">
                     <partial name="_StatusBadge" model="StatusPresentation.ForRepairOrder(repairOrder.Status)" />
-                    <span class="text-muted small">View</span>
+                    <span class="text-muted small">@Localizer["Common_View"]</span>
                 </div>
             </a>
         }

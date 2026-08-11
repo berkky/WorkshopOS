@@ -2,16 +2,16 @@
 @using WorkshopOS.Application.Catalog
 @using WorkshopOS.Application.Team
 @{
-    ViewData["Title"] = "Adjust inventory";
+    ViewData["Title"] = Localizer["Inventory_AdjustTitle"].Value;
     var partOptions = (IReadOnlyList<PartCatalogListItem>)ViewBag.PartOptions;
     var locationOptions = (IReadOnlyList<WorkshopLocationOption>)ViewBag.LocationOptions;
 }
 
 @await Html.PartialAsync("_PageHeader", new PageHeaderViewModel
 {
-    Eyebrow = "Inventory",
-    Title = "Adjust inventory",
-    Description = "Record a stock movement. This updates the on-hand balance ledger — not online payment processing."
+    Eyebrow = Localizer["Inventory_Title"].Value,
+    Title = Localizer["Inventory_AdjustTitle"].Value,
+    Description = Localizer["Inventory_AdjustDescription"].Value
 })
 
 <form method="post" class="wos-form-shell">
@@ -19,12 +19,12 @@
     <partial name="_FormValidationSummary" />
 
     <section class="wos-form-section">
-        <h2 class="wos-form-section-title">Part &amp; location</h2>
+        <h2 class="wos-form-section-title">@Localizer["Inventory_PartAndLocation"]</h2>
         <div class="wos-form-grid">
             <div class="wos-field">
                 <label asp-for="PartCatalogItemId" class="wos-field-label"></label>
                 <select asp-for="PartCatalogItemId" class="form-select" required>
-                    <option value="">Select part</option>
+                    <option value="">@Localizer["Common_SelectPart"]</option>
                     @foreach (var part in partOptions)
                     {
                         <option value="@part.PartCatalogItemId">@part.Sku — @part.Name</option>
@@ -34,7 +34,7 @@
             <div class="wos-field">
                 <label asp-for="WorkshopLocationId" class="wos-field-label"></label>
                 <select asp-for="WorkshopLocationId" class="form-select" required>
-                    <option value="">Select location</option>
+                    <option value="">@Localizer["Common_SelectLocation"]</option>
                     @foreach (var location in locationOptions)
                     {
                         <option value="@location.WorkshopLocationId">@location.Name</option>
@@ -45,7 +45,7 @@
     </section>
 
     <section class="wos-form-section">
-        <h2 class="wos-form-section-title">Movement</h2>
+        <h2 class="wos-form-section-title">@Localizer["Inventory_Movement"]</h2>
         <div class="wos-form-grid wos-form-grid-2">
             <div class="wos-field">
                 <label asp-for="MovementType" class="wos-field-label"></label>
@@ -54,19 +54,19 @@
             <div class="wos-field">
                 <label asp-for="Quantity" class="wos-field-label"></label>
                 <input asp-for="Quantity" class="form-control" type="number" step="0.001" min="0.001" />
-                <p class="wos-field-help">Enter a positive quantity. Decreases are applied based on movement type.</p>
+                <p class="wos-field-help">@Localizer["Inventory_QuantityHelp"]</p>
             </div>
             <div class="wos-field wos-field-full">
                 <label asp-for="Reason" class="wos-field-label"></label>
                 <input asp-for="Reason" class="form-control" maxlength="500" />
-                <p class="wos-field-help">Required context for audit trail (receipt, correction, usage, etc.).</p>
+                <p class="wos-field-help">@Localizer["Inventory_ReasonHelp"]</p>
             </div>
         </div>
     </section>
 
     <div class="wos-form-actions">
-        <button type="submit" class="btn btn-wos-primary">Record adjustment</button>
-        <a asp-action="Index" class="btn btn-wos-quiet">Cancel</a>
+        <button type="submit" class="btn btn-wos-primary">@Localizer["Inventory_RecordAdjustment"]</button>
+        <a asp-action="Index" class="btn btn-wos-quiet">@Localizer["Common_Cancel"]</a>
     </div>
 </form>
 

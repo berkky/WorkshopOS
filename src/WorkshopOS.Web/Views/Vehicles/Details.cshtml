@@ -3,25 +3,21 @@
 @{
     ViewData["Title"] = $"{Model.Make} {Model.Model}";
     var vehicleTitle = $"{Model.Make} {Model.Model}{(Model.ModelYear.HasValue ? $" ({Model.ModelYear})" : "")}";
-    var repairOrderSummary = $"{Model.RepairOrderCount} repair order(s)";
-    if (Model.LastRepairOrderOpenedAtUtc.HasValue)
-    {
-        repairOrderSummary += $" — last opened {Model.LastRepairOrderOpenedAtUtc.Value:u}";
-    }
-    var appointmentSummary = $"{Model.UpcomingAppointmentCount} upcoming appointment(s)";
-    if (Model.NextAppointmentStartUtc.HasValue)
-    {
-        appointmentSummary += $" — next {Model.NextAppointmentStartUtc.Value:u} UTC";
-    }
+    var repairOrderSummary = Model.LastRepairOrderOpenedAtUtc.HasValue
+        ? Localizer["Vehicles_Related_RepairOrdersSummaryLastOpened", Model.RepairOrderCount, UiFormatting.FormatDateTime(Model.LastRepairOrderOpenedAtUtc.Value)].Value
+        : Localizer["Vehicles_Related_RepairOrdersSummary", Model.RepairOrderCount].Value;
+    var appointmentSummary = Model.NextAppointmentStartUtc.HasValue
+        ? Localizer["Vehicles_Related_AppointmentsSummaryNext", Model.UpcomingAppointmentCount, UiFormatting.FormatDateTime(Model.NextAppointmentStartUtc.Value)].Value
+        : Localizer["Vehicles_Related_AppointmentsSummary", Model.UpcomingAppointmentCount].Value;
 }
 
 @await Html.PartialAsync("_DetailWorkspaceHeader", new DetailWorkspaceHeaderViewModel
 {
-    Eyebrow = "Vehicle",
+    Eyebrow = Localizer["Vehicles_DetailEyebrow"].Value,
     Title = vehicleTitle,
     Meta = new HtmlString($"""
-        {(string.IsNullOrWhiteSpace(Model.RegistrationPlate) ? "No plate" : Model.RegistrationPlate)}
-        {(string.IsNullOrWhiteSpace(Model.Vin) ? "" : $" · VIN {Model.Vin}")}
+        {(string.IsNullOrWhiteSpace(Model.RegistrationPlate) ? Localizer["Common_NoPlate"].Value : Model.RegistrationPlate)}
+        {(string.IsNullOrWhiteSpace(Model.Vin) ? "" : $" · {Localizer["Common_VinPrefix", Model.Vin].Value}")}
         {(string.IsNullOrWhiteSpace(Model.Color) ? "" : $" · {Model.Color}")}
         """)
 })
@@ -29,65 +25,65 @@
 <div class="wos-action-cluster mb-4">
     @if (Model.CanManageVehicles)
     {
-        <a asp-action="Edit" asp-route-vehicleId="@Model.VehicleId" class="btn btn-outline-secondary">Edit</a>
-        <a asp-action="ReassignCustomer" asp-route-vehicleId="@Model.VehicleId" class="btn btn-outline-secondary">Reassign customer</a>
+        <a asp-action="Edit" asp-route-vehicleId="@Model.VehicleId" class="btn btn-outline-secondary">@Localizer["Common_Edit"]</a>
+        <a asp-action="ReassignCustomer" asp-route-vehicleId="@Model.VehicleId" class="btn btn-outline-secondary">@Localizer["Vehicles_ReassignCustomer"]</a>
     }
-    <a asp-action="Index" class="btn btn-wos-quiet">Back to list</a>
+    <a asp-action="Index" class="btn btn-wos-quiet">@Localizer["Common_BackToList"]</a>
 </div>
 
 <div class="wos-detail-grid">
     <section class="wos-detail-panel">
-        <h2 class="wos-detail-panel-title">Vehicle identity</h2>
+        <h2 class="wos-detail-panel-title">@Localizer["Vehicles_Section_Identity"]</h2>
         <dl class="wos-dl">
             <div class="wos-dl-row">
-                <dt>Make</dt>
+                <dt>@Localizer["Field_Make"]</dt>
                 <dd>@Model.Make</dd>
             </div>
             <div class="wos-dl-row">
-                <dt>Model</dt>
+                <dt>@Localizer["Field_Model"]</dt>
                 <dd>@Model.Model</dd>
             </div>
             <div class="wos-dl-row">
-                <dt>Model year</dt>
-                <dd>@(Model.ModelYear?.ToString() ?? "—")</dd>
+                <dt>@Localizer["Field_ModelYear"]</dt>
+                <dd>@(Model.ModelYear?.ToString() ?? Localizer["Common_NotAvailable"].Value)</dd>
             </div>
             <div class="wos-dl-row">
-                <dt>License plate</dt>
-                <dd>@(Model.RegistrationPlate ?? "—")</dd>
+                <dt>@Localizer["Field_LicensePlate"]</dt>
+                <dd>@(Model.RegistrationPlate ?? Localizer["Common_NotAvailable"].Value)</dd>
             </div>
             <div class="wos-dl-row">
-                <dt>VIN / chassis</dt>
-                <dd>@(Model.Vin ?? "—")</dd>
+                <dt>@Localizer["Field_VinChassis"]</dt>
+                <dd>@(Model.Vin ?? Localizer["Common_NotAvailable"].Value)</dd>
             </div>
             <div class="wos-dl-row">
-                <dt>Color</dt>
-                <dd>@(Model.Color ?? "—")</dd>
+                <dt>@Localizer["Field_Color"]</dt>
+                <dd>@(Model.Color ?? Localizer["Common_NotAvailable"].Value)</dd>
             </div>
         </dl>
     </section>
     <section class="wos-detail-panel">
-        <h2 class="wos-detail-panel-title">Current customer</h2>
+        <h2 class="wos-detail-panel-title">@Localizer["Vehicles_Section_CurrentCustomer"]</h2>
         <dl class="wos-dl">
             <div class="wos-dl-row">
-                <dt>Customer</dt>
+                <dt>@Localizer["Common_Customer"]</dt>
                 <dd>
                     @if (Model.CurrentCustomerId.HasValue)
                     {
-                        <a asp-controller="Customers" asp-action="Details" asp-route-customerId="@Model.CurrentCustomerId">@(Model.CurrentCustomerDisplayName ?? "Customer")</a>
+                        <a asp-controller="Customers" asp-action="Details" asp-route-customerId="@Model.CurrentCustomerId">@(Model.CurrentCustomerDisplayName ?? Localizer["Common_Customer"].Value)</a>
                     }
                     else
                     {
-                        <span class="text-muted">Unassigned</span>
+                        <span class="text-muted">@Localizer["Common_Unassigned"]</span>
                     }
                 </dd>
             </div>
             <div class="wos-dl-row">
-                <dt>Created</dt>
-                <dd>@Model.CreatedAtUtc.ToString("u")</dd>
+                <dt>@Localizer["Common_Created"]</dt>
+                <dd>@UiFormatting.FormatDateTime(Model.CreatedAtUtc)</dd>
             </div>
             <div class="wos-dl-row">
-                <dt>Updated</dt>
-                <dd>@Model.UpdatedAtUtc.ToString("u")</dd>
+                <dt>@Localizer["Common_Updated"]</dt>
+                <dd>@UiFormatting.FormatDateTime(Model.UpdatedAtUtc)</dd>
             </div>
         </dl>
     </section>
@@ -96,18 +92,18 @@
 <div class="wos-related-modules">
     @await Html.PartialAsync("_RelatedModule", new RelatedModuleViewModel
     {
-        Title = "Service history",
+        Title = Localizer["Vehicles_Related_ServiceHistory"].Value,
         Summary = repairOrderSummary + ".",
-        PrimaryLinkText = "View repair orders",
+        PrimaryLinkText = Localizer["Vehicles_Related_ViewRepairOrders"].Value,
         PrimaryLinkUrl = Url.Action("Index", "RepairOrders", new { vehicleId = Model.VehicleId })!,
-        SecondaryLinkText = Model.LastRepairOrderId.HasValue ? $"Latest: {Model.LastRepairOrderNumber}" : null,
+        SecondaryLinkText = Model.LastRepairOrderId.HasValue ? Localizer["Vehicles_Related_LatestRepairOrder", Model.LastRepairOrderNumber ?? string.Empty].Value : null,
         SecondaryLinkUrl = Model.LastRepairOrderId.HasValue ? Url.Action("Details", "RepairOrders", new { repairOrderId = Model.LastRepairOrderId }) : null
     })
     @await Html.PartialAsync("_RelatedModule", new RelatedModuleViewModel
     {
-        Title = "Appointments",
+        Title = Localizer["Vehicles_Related_Appointments"].Value,
         Summary = appointmentSummary + ".",
-        PrimaryLinkText = "View appointments",
+        PrimaryLinkText = Localizer["Vehicles_Related_ViewAppointments"].Value,
         PrimaryLinkUrl = Url.Action("Index", "Appointments", new { vehicleId = Model.VehicleId })!
     })
 </div>

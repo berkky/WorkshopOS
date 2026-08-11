@@ -1,6 +1,6 @@
 @model WorkshopOS.Web.Models.Account.LoginViewModel
 @{
-    ViewData["Title"] = "Sign in";
+    ViewData["Title"] = Localizer["Login_Title"];
 }
 
 <div class="wos-auth-shell">
@@ -8,16 +8,16 @@
         <div class="wos-auth-brand-strip">
             <div class="wos-public-brand-mark" aria-hidden="true">W</div>
         </div>
-        <h1 class="wos-page-title text-center mb-2">Welcome back</h1>
-        <p class="wos-page-description text-center mb-4">Sign in to access your workshop workspace.</p>
+        <h1 class="wos-page-title text-center mb-2">@Localizer["Login_WelcomeBack"]</h1>
+        <p class="wos-page-description text-center mb-4">@Localizer["Login_Description"]</p>
 
         <form asp-action="Login" asp-controller="Account" method="post">
             <input type="hidden" asp-for="ReturnUrl" />
-            <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+            <partial name="_FormValidationSummary" />
 
             <div class="mb-3">
                 <label asp-for="Email" class="form-label"></label>
-                <input asp-for="Email" class="form-control" autocomplete="username" placeholder="you@workshop.com" />
+                <input asp-for="Email" class="form-control" autocomplete="username" placeholder="@Localizer["Login_EmailPlaceholder"]" />
                 <span asp-validation-for="Email" class="text-danger small"></span>
             </div>
 
@@ -33,8 +33,8 @@
             </div>
 
             <div class="d-grid gap-2">
-                <button type="submit" class="btn btn-wos-primary btn-lg">Sign in</button>
-                <a class="btn btn-wos-secondary" asp-controller="Onboarding" asp-action="Index">Create a new workshop</a>
+                <button type="submit" class="btn btn-wos-primary btn-lg">@Localizer["Login_Submit"]</button>
+                <a class="btn btn-wos-secondary" asp-controller="Onboarding" asp-action="Index">@Localizer["Login_CreateWorkshop"]</a>
             </div>
         </form>
     </div>

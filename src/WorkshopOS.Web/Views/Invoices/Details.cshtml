@@ -6,7 +6,7 @@
 
 @await Html.PartialAsync("_DetailWorkspaceHeader", new DetailWorkspaceHeaderViewModel
 {
-    Eyebrow = "Invoice",
+    Eyebrow = Localizer["Invoices_Eyebrow"].Value,
     Title = Model.Number,
     Meta = new HtmlString($"""
         {Model.CustomerDisplayName} · {Model.VehicleSummary}
@@ -18,9 +18,9 @@
 <div class="wos-action-cluster mb-4">
     @if (Model.CanEditItems && Model.CanManageBilling)
     {
-        <a asp-action="Edit" asp-route-invoiceId="@Model.InvoiceId" class="btn btn-outline-secondary">Edit draft</a>
+        <a asp-action="Edit" asp-route-invoiceId="@Model.InvoiceId" class="btn btn-outline-secondary">@Localizer["Estimates_EditDraft"]</a>
     }
-    <a asp-action="Index" class="btn btn-wos-quiet">All invoices</a>
+    <a asp-action="Index" class="btn btn-wos-quiet">@Localizer["Invoices_AllInvoices"]</a>
 </div>
 
 @if (TempData["InvoiceError"] is string invoiceError)
@@ -30,81 +30,81 @@
 
 @if (Model.RepairOrderCommerciallyClosed)
 {
-    <div class="alert alert-info">This repair order has been commercially closed. Billing is read-only.</div>
+    <div class="alert alert-info">@Localizer["Invoices_CommerciallyClosedReadOnly"]</div>
 }
 
 <div class="wos-detail-grid mb-4">
     <section class="wos-detail-panel">
-        <h2 class="wos-detail-panel-title">Invoice summary</h2>
+        <h2 class="wos-detail-panel-title">@Localizer["Invoices_Summary"]</h2>
         <dl class="wos-dl">
             <div class="wos-dl-row">
-                <dt>Status</dt>
+                <dt>@Localizer["Common_Status"]</dt>
                 <dd><partial name="_StatusBadge" model="StatusPresentation.ForInvoice(Model.Status)" /></dd>
             </div>
             <div class="wos-dl-row">
-                <dt>Payment</dt>
+                <dt>@Localizer["Common_Payment"]</dt>
                 <dd><partial name="_StatusBadge" model="StatusPresentation.ForPaymentState(Model.PaymentState)" /></dd>
             </div>
             <div class="wos-dl-row">
-                <dt>Customer</dt>
+                <dt>@Localizer["Common_Customer"]</dt>
                 <dd>@Model.CustomerDisplayName</dd>
             </div>
             <div class="wos-dl-row">
-                <dt>Vehicle</dt>
+                <dt>@Localizer["Common_Vehicle"]</dt>
                 <dd>@Model.VehicleSummary</dd>
             </div>
             <div class="wos-dl-row">
-                <dt>Location</dt>
+                <dt>@Localizer["Common_Location"]</dt>
                 <dd>@Model.WorkshopLocationName</dd>
             </div>
             @if (Model.SourceEstimateId.HasValue)
             {
                 <div class="wos-dl-row">
-                    <dt>Source estimate</dt>
+                    <dt>@Localizer["Invoices_SourceEstimate"]</dt>
                     <dd>
                         <a asp-controller="Estimates" asp-action="Details" asp-route-estimateId="@Model.SourceEstimateId">@Model.SourceEstimateNumber</a>
                     </dd>
                 </div>
             }
             <div class="wos-dl-row">
-                <dt>Total</dt>
+                <dt>@Localizer["Common_Total"]</dt>
                 <dd>@Model.Total @Model.CurrencyCode</dd>
             </div>
             <div class="wos-dl-row">
-                <dt>Paid</dt>
+                <dt>@Localizer["Common_Paid"]</dt>
                 <dd>@Model.AmountPaid @Model.CurrencyCode</dd>
             </div>
             <div class="wos-dl-row">
-                <dt>Balance</dt>
+                <dt>@Localizer["Common_Balance"]</dt>
                 <dd>@Model.RemainingBalance @Model.CurrencyCode</dd>
             </div>
             @if (Model.IssuedAtUtc.HasValue)
             {
                 <div class="wos-dl-row">
-                    <dt>Issued</dt>
-                    <dd>@Model.IssuedAtUtc.Value.ToString("u")</dd>
+                    <dt>@Localizer["Common_Issued"]</dt>
+                    <dd>@UiFormatting.FormatDateTime(Model.IssuedAtUtc.Value)</dd>
                 </div>
             }
             @if (Model.VoidedAtUtc.HasValue)
             {
                 <div class="wos-dl-row">
-                    <dt>Voided</dt>
-                    <dd>@Model.VoidedAtUtc.Value.ToString("u")</dd>
+                    <dt>@Localizer["Common_Voided"]</dt>
+                    <dd>@UiFormatting.FormatDateTime(Model.VoidedAtUtc.Value)</dd>
                 </div>
             }
         </dl>
         @if (!string.IsNullOrWhiteSpace(Model.CommercialNotes))
         {
-            <h3 class="wos-detail-panel-title mt-4">Commercial notes</h3>
+            <h3 class="wos-detail-panel-title mt-4">@Localizer["Invoices_CommercialNotes"]</h3>
             <div class="wos-note-block">@Model.CommercialNotes</div>
         }
     </section>
 </div>
 
-<h2 class="wos-section-title">Line items</h2>
+<h2 class="wos-section-title">@Localizer["Estimates_LineItems"]</h2>
 @if (Model.Items.Count == 0)
 {
-    @await Html.PartialAsync("_EmptyState", new EmptyStateViewModel { Title = "No line items", Description = "Add line items while this invoice is in draft." })
+    @await Html.PartialAsync("_EmptyState", new EmptyStateViewModel { Title = Localizer["Estimates_NoLineItems"].Value, Description = Localizer["Invoices_NoLineItemsDesc"].Value })
 }
 else
 {
@@ -112,11 +112,11 @@ else
     <table class="table table-striped mb-0">
         <thead>
             <tr>
-                <th>Type</th>
-                <th>Description</th>
-                <th>Qty</th>
-                <th>Unit price</th>
-                <th>Line total</th>
+                <th>@Localizer["Common_Type"]</th>
+                <th>@Localizer["Common_Description"]</th>
+                <th>@Localizer["Common_Quantity"]</th>
+                <th>@Localizer["Common_UnitPrice"]</th>
+                <th>@Localizer["Common_LineTotal"]</th>
             </tr>
         </thead>
         <tbody>
@@ -133,7 +133,7 @@ else
         </tbody>
         <tfoot>
             <tr>
-                <th colspan="4" class="text-end">Invoice total</th>
+                <th colspan="4" class="text-end">@Localizer["Invoices_InvoiceTotal"]</th>
                 <th>@Model.Total @Model.CurrencyCode</th>
             </tr>
         </tfoot>
@@ -141,10 +141,10 @@ else
     </div>
 }
 
-<h2 class="wos-section-title">Payments</h2>
+<h2 class="wos-section-title">@Localizer["Common_Payments"]</h2>
 @if (Model.Payments.Count == 0)
 {
-    @await Html.PartialAsync("_EmptyState", new EmptyStateViewModel { Title = "No payments recorded", Description = "Payment ledger entries appear here after staff record them." })
+    @await Html.PartialAsync("_EmptyState", new EmptyStateViewModel { Title = Localizer["Invoices_NoPayments"].Value, Description = Localizer["Invoices_NoPaymentsDesc"].Value })
 }
 else
 {
@@ -152,22 +152,22 @@ else
     <table class="table table-striped mb-4">
         <thead>
             <tr>
-                <th>Recorded</th>
-                <th>Method</th>
-                <th>Amount</th>
-                <th>Reference</th>
-                <th>Note</th>
+                <th>@Localizer["Common_Recorded"]</th>
+                <th>@Localizer["Common_Method"]</th>
+                <th>@Localizer["Common_Amount"]</th>
+                <th>@Localizer["Common_Reference"]</th>
+                <th>@Localizer["Common_Note"]</th>
             </tr>
         </thead>
         <tbody>
         @foreach (var payment in Model.Payments)
         {
             <tr>
-                <td>@payment.RecordedAtUtc.ToString("u")</td>
+                <td>@UiFormatting.FormatDateTime(payment.RecordedAtUtc)</td>
                 <td>@payment.PaymentMethod</td>
                 <td>@payment.Amount @Model.CurrencyCode</td>
-                <td>@(payment.Reference ?? "—")</td>
-                <td>@(payment.Note ?? "—")</td>
+                <td>@(payment.Reference ?? Localizer["Common_NoValue"].Value)</td>
+                <td>@(payment.Note ?? Localizer["Common_NoValue"].Value)</td>
             </tr>
         }
         </tbody>
@@ -178,28 +178,28 @@ else
 @if (Model.CanManageBilling && Model.CanRecordPayment)
 {
     <div class="wos-payment-entry">
-        <h2 class="wos-payment-entry-title">Record payment</h2>
-        <p class="wos-payment-entry-note">Records a payment ledger entry in WorkshopOS. This does not process card or online payments.</p>
+        <h2 class="wos-payment-entry-title">@Localizer["Invoices_RecordPayment"]</h2>
+        <p class="wos-payment-entry-note">@Localizer["Invoices_RecordPaymentNote"]</p>
         <form asp-action="RecordPayment" asp-route-invoiceId="@Model.InvoiceId" method="post" class="wos-filter-bar row g-3 align-items-end">
             @Html.AntiForgeryToken()
             <div class="col-md-2">
-                <label class="form-label">Amount</label>
+                <label class="form-label">@Localizer["Common_Amount"]</label>
                 <input name="Amount" type="number" step="0.01" min="0.01" class="form-control" placeholder="0.00" required />
             </div>
             <div class="col-md-2">
-                <label class="form-label">Method</label>
+                <label class="form-label">@Localizer["Common_Method"]</label>
                 <select name="PaymentMethod" class="form-select" asp-items="Html.GetEnumSelectList<WorkshopOS.Domain.Billing.PaymentMethod>()"></select>
             </div>
             <div class="col-md-2">
-                <label class="form-label">Reference</label>
-                <input name="Reference" class="form-control" placeholder="Optional" maxlength="100" />
+                <label class="form-label">@Localizer["Common_Reference"]</label>
+                <input name="Reference" class="form-control" placeholder="@Localizer["Common_Optional"]" maxlength="100" />
             </div>
             <div class="col-md-3">
-                <label class="form-label">Note</label>
-                <input name="Note" class="form-control" placeholder="Optional" maxlength="500" />
+                <label class="form-label">@Localizer["Common_Note"]</label>
+                <input name="Note" class="form-control" placeholder="@Localizer["Common_Optional"]" maxlength="500" />
             </div>
             <div class="col-md-2">
-                <button type="submit" class="btn btn-wos-primary w-100">Record payment</button>
+                <button type="submit" class="btn btn-wos-primary w-100">@Localizer["Invoices_RecordPayment"]</button>
             </div>
         </form>
     </div>
@@ -212,14 +212,14 @@ else
         {
             <form asp-action="Issue" asp-route-invoiceId="@Model.InvoiceId" method="post">
                 @Html.AntiForgeryToken()
-                <button type="submit" class="btn btn-success">Issue invoice</button>
+                <button type="submit" class="btn btn-success">@Localizer["Invoices_IssueInvoice"]</button>
             </form>
         }
         @if (Model.CanVoid)
         {
             <form asp-action="Void" asp-route-invoiceId="@Model.InvoiceId" method="post">
                 @Html.AntiForgeryToken()
-                <button type="submit" class="btn btn-outline-warning">Void invoice</button>
+                <button type="submit" class="btn btn-outline-warning">@Localizer["Invoices_VoidInvoice"]</button>
             </form>
         }
     </div>

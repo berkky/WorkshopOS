@@ -1,21 +1,21 @@
 @model WorkshopOS.Web.Models.Team.StaffMemberFormViewModel
 @{
-    ViewData["Title"] = "Add staff profile";
+    ViewData["Title"] = Localizer["Team_CreateTitle"].Value;
 }
 
 @await Html.PartialAsync("_PageHeader", new PageHeaderViewModel
 {
-    Eyebrow = "Team",
-    Title = "Add staff profile",
-    Description = "Create an operational staff record. Login access is managed separately via organization membership."
+    Eyebrow = Localizer["Team_Title"].Value,
+    Title = Localizer["Team_CreateTitle"].Value,
+    Description = Localizer["Team_CreateDescription"].Value
 })
 
 <form asp-action="Create" method="post" class="wos-form-shell wos-form-shell-wide">
     @Html.AntiForgeryToken()
     <partial name="_StaffMemberFormFields" model="Model" />
     <div class="wos-form-actions">
-        <button type="submit" class="btn btn-wos-primary">Create staff profile</button>
-        <a asp-action="Index" class="btn btn-wos-quiet">Cancel</a>
+        <button type="submit" class="btn btn-wos-primary">@Localizer["Team_CreateStaff"]</button>
+        <a asp-action="Index" class="btn btn-wos-quiet">@Localizer["Common_Cancel"]</a>
     </div>
 </form>
 

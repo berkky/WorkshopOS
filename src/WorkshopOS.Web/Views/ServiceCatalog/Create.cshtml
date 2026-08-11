@@ -1,21 +1,21 @@
 @model WorkshopOS.Web.Models.Catalog.ServiceCatalogFormViewModel
 @{
-    ViewData["Title"] = Model.ServiceCatalogItemId.HasValue ? "Edit service" : "Create service";
+    ViewData["Title"] = Model.ServiceCatalogItemId.HasValue ? Localizer["ServiceCatalog_EditTitle"].Value : Localizer["ServiceCatalog_CreateTitle"].Value;
 }
 
 @await Html.PartialAsync("_PageHeader", new PageHeaderViewModel
 {
-    Eyebrow = "Service catalog",
+    Eyebrow = Localizer["ServiceCatalog_Eyebrow"].Value,
     Title = ViewData["Title"]!.ToString()!,
-    Description = "Define workshop services available for estimates and billing."
+    Description = Localizer["ServiceCatalog_CreateDescription"].Value
 })
 
 <form method="post" class="wos-form-shell">
     @Html.AntiForgeryToken()
     <partial name="_ServiceCatalogFormFields" model="Model" />
     <div class="wos-form-actions">
-        <button type="submit" class="btn btn-wos-primary">Save</button>
-        <a asp-action="Index" class="btn btn-wos-quiet">Cancel</a>
+        <button type="submit" class="btn btn-wos-primary">@Localizer["Common_Save"]</button>
+        <a asp-action="Index" class="btn btn-wos-quiet">@Localizer["Common_Cancel"]</a>
     </div>
 </form>
 

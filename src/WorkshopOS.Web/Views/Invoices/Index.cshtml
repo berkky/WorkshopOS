@@ -1,39 +1,39 @@
 @model WorkshopOS.Web.Models.Billing.InvoiceListViewModel
 @{
-    ViewData["Title"] = "Invoices";
+    ViewData["Title"] = Localizer["Invoices_Title"].Value;
 }
 
 <header class="wos-page-header">
     <div>
-        <h1 class="wos-page-title">Invoices</h1>
-        <p class="wos-page-description">@Model.TotalCount invoice(s) in current view</p>
+        <h1 class="wos-page-title">@Localizer["Invoices_Title"]</h1>
+        <p class="wos-page-description">@string.Format(Localizer["Invoices_CountInView"].Value, Model.TotalCount)</p>
     </div>
     <div class="wos-page-actions">
-        <a asp-controller="RepairOrders" asp-action="Index" class="btn btn-outline-secondary">Repair orders</a>
+        <a asp-controller="RepairOrders" asp-action="Index" class="btn btn-outline-secondary">@Localizer["RepairOrders_Title"]</a>
     </div>
 </header>
 
 <form asp-action="Index" method="get" class="wos-filter-bar row g-3 align-items-end mb-4">
     <div class="col-md-3">
-        <label class="form-label">Search</label>
-        <input name="search" value="@Model.Search" class="form-control" placeholder="Invoice, repair order, customer" />
+        <label class="form-label">@Localizer["Common_Search"]</label>
+        <input name="search" value="@Model.Search" class="form-control" placeholder="@Localizer["Invoices_SearchPlaceholder"]" />
     </div>
     <div class="col-md-2">
-        <label class="form-label">Status</label>
+        <label class="form-label">@Localizer["Common_Status"]</label>
         <select name="status" class="form-select" asp-for="Status" asp-items="Html.GetEnumSelectList<WorkshopOS.Domain.Billing.InvoiceStatus>()">
-            <option value="">All statuses</option>
+            <option value="">@Localizer["Common_AllStatuses"]</option>
         </select>
     </div>
     <div class="col-md-2">
-        <label class="form-label">Payment</label>
+        <label class="form-label">@Localizer["Common_Payment"]</label>
         <select name="paymentState" class="form-select" asp-for="PaymentState" asp-items="Html.GetEnumSelectList<WorkshopOS.Application.Billing.InvoicePaymentState>()">
-            <option value="">All payment states</option>
+            <option value="">@Localizer["Common_AllPaymentStates"]</option>
         </select>
     </div>
     <div class="col-md-2">
-        <label class="form-label">Location</label>
+        <label class="form-label">@Localizer["Common_Location"]</label>
         <select name="workshopLocationId" class="form-select">
-            <option value="">All locations</option>
+            <option value="">@Localizer["Common_AllLocations"]</option>
             @foreach (var location in Model.LocationOptions)
             {
                 <option value="@location.WorkshopLocationId" selected="@(Model.WorkshopLocationId == location.WorkshopLocationId)">@location.Name</option>
@@ -41,13 +41,13 @@
         </select>
     </div>
     <div class="col-md-2">
-        <button type="submit" class="btn btn-outline-secondary w-100">Filter</button>
+        <button type="submit" class="btn btn-outline-secondary w-100">@Localizer["Common_Filter"]</button>
     </div>
 </form>
 
 @if (Model.Invoices.Count == 0)
 {
-    @await Html.PartialAsync("_EmptyState", new EmptyStateViewModel { Title = "No invoices", Description = "No invoices match the current filters." })
+    @await Html.PartialAsync("_EmptyState", new EmptyStateViewModel { Title = Localizer["Invoices_NoInvoices"].Value, Description = Localizer["Invoices_NoFilters"].Value })
 }
 else
 {
@@ -55,15 +55,15 @@ else
         <table class="table table-hover mb-0">
             <thead>
                 <tr>
-                    <th>Invoice</th>
-                    <th>Repair order</th>
-                    <th>Customer</th>
-                    <th>Vehicle</th>
-                    <th>Location</th>
-                    <th>Status</th>
-                    <th>Payment</th>
-                    <th>Total</th>
-                    <th>Created</th>
+                    <th>@Localizer["Invoices_Eyebrow"]</th>
+                    <th>@Localizer["Inspections_RepairOrder"]</th>
+                    <th>@Localizer["Common_Customer"]</th>
+                    <th>@Localizer["Common_Vehicle"]</th>
+                    <th>@Localizer["Common_Location"]</th>
+                    <th>@Localizer["Common_Status"]</th>
+                    <th>@Localizer["Common_Payment"]</th>
+                    <th>@Localizer["Common_Total"]</th>
+                    <th>@Localizer["Common_Created"]</th>
                     <th></th>
                 </tr>
             </thead>
@@ -79,9 +79,9 @@ else
                     <td><partial name="_StatusBadge" model="StatusPresentation.ForInvoice(invoice.Status)" /></td>
                     <td><partial name="_StatusBadge" model="StatusPresentation.ForPaymentState(invoice.PaymentState)" /></td>
                     <td>@invoice.Total @invoice.CurrencyCode</td>
-                    <td>@invoice.CreatedAtUtc.ToString("u")</td>
+                    <td>@UiFormatting.FormatDateTime(invoice.CreatedAtUtc)</td>
                     <td class="text-end">
-                        <a asp-action="Details" asp-route-invoiceId="@invoice.InvoiceId" class="btn btn-sm btn-outline-secondary">View</a>
+                        <a asp-action="Details" asp-route-invoiceId="@invoice.InvoiceId" class="btn btn-sm btn-outline-secondary">@Localizer["Common_View"]</a>
                     </td>
                 </tr>
             }
@@ -100,7 +100,7 @@ else
                 </div>
                 <div class="wos-list-card-footer">
                     <partial name="_StatusBadge" model="StatusPresentation.ForPaymentState(invoice.PaymentState)" />
-                    <span class="text-muted small">View</span>
+                    <span class="text-muted small">@Localizer["Common_View"]</span>
                 </div>
             </a>
         }

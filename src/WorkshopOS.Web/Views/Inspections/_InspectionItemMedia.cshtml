@@ -5,7 +5,7 @@
 {
     <div class="border rounded p-2" style="max-width: 220px;">
         <img src="/inspection-media/@media.MediaId/content"
-             alt="Photo evidence for @Model.Name"
+             alt="@string.Format(Localizer["Inspections_PhotoAlt"].Value, Model.Name)"
              loading="lazy"
              class="img-fluid rounded"
              style="max-height: 160px; object-fit: contain;" />
@@ -13,7 +13,7 @@
         {
             <div class="small mt-1">@media.Caption</div>
         }
-        <div class="small text-muted">@media.UploadedAtUtc.ToString("u")</div>
+        <div class="small text-muted">@UiFormatting.FormatDateTime(media.UploadedAtUtc)</div>
         @if (ViewData["CanRemoveMedia"] as bool? == true)
         {
             <form asp-controller="Inspections"
@@ -23,7 +23,7 @@
                   method="post"
                   class="mt-1">
                 @Html.AntiForgeryToken()
-                <button type="submit" class="btn btn-sm btn-outline-danger">Remove</button>
+                <button type="submit" class="btn btn-sm btn-outline-danger">@Localizer["Common_Remove"]</button>
             </form>
         }
     </div>

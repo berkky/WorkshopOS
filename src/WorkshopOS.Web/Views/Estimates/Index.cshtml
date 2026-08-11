@@ -1,33 +1,33 @@
 @model WorkshopOS.Web.Models.Estimates.EstimateListViewModel
 @{
-    ViewData["Title"] = "Estimates";
+    ViewData["Title"] = Localizer["Estimates_Title"].Value;
 }
 
 <header class="wos-page-header">
     <div>
-        <h1 class="wos-page-title">Estimates</h1>
-        <p class="wos-page-description">@Model.TotalCount estimate(s) in current view</p>
+        <h1 class="wos-page-title">@Localizer["Estimates_Title"]</h1>
+        <p class="wos-page-description">@string.Format(Localizer["Estimates_CountInView"].Value, Model.TotalCount)</p>
     </div>
     <div class="wos-page-actions">
-        <a asp-controller="RepairOrders" asp-action="Index" class="btn btn-outline-secondary">Repair orders</a>
+        <a asp-controller="RepairOrders" asp-action="Index" class="btn btn-outline-secondary">@Localizer["RepairOrders_Title"]</a>
     </div>
 </header>
 
 <form asp-action="Index" method="get" class="wos-filter-bar row g-3 align-items-end mb-4">
     <div class="col-md-3">
-        <label class="form-label">Search</label>
-        <input name="search" value="@Model.Search" class="form-control" placeholder="Estimate, repair order, customer" />
+        <label class="form-label">@Localizer["Common_Search"]</label>
+        <input name="search" value="@Model.Search" class="form-control" placeholder="@Localizer["Estimates_SearchPlaceholder"]" />
     </div>
     <div class="col-md-2">
-        <label class="form-label">Status</label>
+        <label class="form-label">@Localizer["Common_Status"]</label>
         <select name="status" class="form-select" asp-for="Status" asp-items="Html.GetEnumSelectList<WorkshopOS.Domain.Estimates.EstimateStatus>()">
-            <option value="">All statuses</option>
+            <option value="">@Localizer["Common_AllStatuses"]</option>
         </select>
     </div>
     <div class="col-md-2">
-        <label class="form-label">Location</label>
+        <label class="form-label">@Localizer["Common_Location"]</label>
         <select name="workshopLocationId" class="form-select">
-            <option value="">All locations</option>
+            <option value="">@Localizer["Common_AllLocations"]</option>
             @foreach (var location in Model.LocationOptions)
             {
                 <option value="@location.WorkshopLocationId" selected="@(Model.WorkshopLocationId == location.WorkshopLocationId)">@location.Name</option>
@@ -35,13 +35,13 @@
         </select>
     </div>
     <div class="col-md-2">
-        <button type="submit" class="btn btn-outline-secondary w-100">Filter</button>
+        <button type="submit" class="btn btn-outline-secondary w-100">@Localizer["Common_Filter"]</button>
     </div>
 </form>
 
 @if (Model.Estimates.Count == 0)
 {
-    @await Html.PartialAsync("_EmptyState", new EmptyStateViewModel { Title = "No estimates", Description = "No estimates match the current filters." })
+    @await Html.PartialAsync("_EmptyState", new EmptyStateViewModel { Title = Localizer["Estimates_NoEstimates"].Value, Description = Localizer["Estimates_NoFilters"].Value })
 }
 else
 {
@@ -49,14 +49,14 @@ else
         <table class="table table-hover mb-0">
             <thead>
                 <tr>
-                    <th>Estimate</th>
-                    <th>Repair order</th>
-                    <th>Customer</th>
-                    <th>Vehicle</th>
-                    <th>Location</th>
-                    <th>Status</th>
-                    <th>Total</th>
-                    <th>Created</th>
+                    <th>@Localizer["Estimates_Estimate"]</th>
+                    <th>@Localizer["Inspections_RepairOrder"]</th>
+                    <th>@Localizer["Common_Customer"]</th>
+                    <th>@Localizer["Common_Vehicle"]</th>
+                    <th>@Localizer["Common_Location"]</th>
+                    <th>@Localizer["Common_Status"]</th>
+                    <th>@Localizer["Common_Total"]</th>
+                    <th>@Localizer["Common_Created"]</th>
                     <th></th>
                 </tr>
             </thead>
@@ -71,9 +71,9 @@ else
                     <td>@estimate.WorkshopLocationName</td>
                     <td><partial name="_StatusBadge" model="StatusPresentation.ForEstimate(estimate.Status)" /></td>
                     <td>@estimate.Total @estimate.CurrencyCode</td>
-                    <td>@estimate.CreatedAtUtc.ToString("u")</td>
+                    <td>@UiFormatting.FormatDateTime(estimate.CreatedAtUtc)</td>
                     <td class="text-end">
-                        <a asp-action="Details" asp-route-estimateId="@estimate.EstimateId" class="btn btn-sm btn-outline-secondary">View</a>
+                        <a asp-action="Details" asp-route-estimateId="@estimate.EstimateId" class="btn btn-sm btn-outline-secondary">@Localizer["Common_View"]</a>
                     </td>
                 </tr>
             }

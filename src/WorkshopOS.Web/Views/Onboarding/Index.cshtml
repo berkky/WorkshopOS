@@ -1,6 +1,6 @@
 @model WorkshopOS.Web.Models.Onboarding.OwnerOnboardingViewModel
 @{
-    ViewData["Title"] = "Create your workshop";
+    ViewData["Title"] = Localizer["Onboarding_Title"];
 }
 
 <div class="wos-auth-shell">
@@ -8,14 +8,14 @@
         <div class="wos-auth-brand-strip">
             <div class="wos-public-brand-mark" aria-hidden="true">W</div>
         </div>
-        <h1 class="wos-page-title text-center mb-2">Create your workshop</h1>
-        <p class="wos-page-description text-center mb-5">Set up your owner account and first workshop location. Your premium workspace awaits.</p>
+        <h1 class="wos-page-title text-center mb-2">@Localizer["Onboarding_Heading"]</h1>
+        <p class="wos-page-description text-center mb-5">@Localizer["Onboarding_Description"]</p>
 
         <form asp-action="Index" asp-controller="Onboarding" method="post">
             <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
 
             <div class="wos-form-section">
-                <div class="wos-form-section-title">Owner account</div>
+                <div class="wos-form-section-title">@Localizer["Onboarding_Section_OwnerAccount"]</div>
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label asp-for="OwnerDisplayName" class="form-label"></label>
@@ -41,39 +41,39 @@
             </div>
 
             <div class="wos-form-section">
-                <div class="wos-form-section-title">Organization &amp; location</div>
+                <div class="wos-form-section-title">@Localizer["Onboarding_Section_OrganizationLocation"]</div>
                 <div class="row g-3">
                     <div class="col-12">
                         <label asp-for="OrganizationName" class="form-label"></label>
-                        <input asp-for="OrganizationName" class="form-control" placeholder="e.g. Apex Auto Workshop" />
+                        <input asp-for="OrganizationName" class="form-control" placeholder="@Localizer["Onboarding_Placeholder_OrganizationName"]" />
                         <span asp-validation-for="OrganizationName" class="text-danger small"></span>
                     </div>
                     <div class="col-md-6">
                         <label asp-for="WorkshopLocationName" class="form-label"></label>
-                        <input asp-for="WorkshopLocationName" class="form-control" placeholder="Main workshop" />
+                        <input asp-for="WorkshopLocationName" class="form-control" placeholder="@Localizer["Onboarding_Placeholder_LocationName"]" />
                         <span asp-validation-for="WorkshopLocationName" class="text-danger small"></span>
                     </div>
                     <div class="col-md-6">
                         <label asp-for="WorkshopLocationCode" class="form-label"></label>
-                        <input asp-for="WorkshopLocationCode" class="form-control" placeholder="MAIN" />
+                        <input asp-for="WorkshopLocationCode" class="form-control" placeholder="@Localizer["Onboarding_Placeholder_LocationCode"]" />
                         <span asp-validation-for="WorkshopLocationCode" class="text-danger small"></span>
                     </div>
                     <div class="col-md-6">
                         <label asp-for="TimeZoneId" class="form-label"></label>
-                        <input asp-for="TimeZoneId" class="form-control" placeholder="Europe/Istanbul" />
+                        <input asp-for="TimeZoneId" class="form-control" placeholder="@Localizer["Onboarding_Placeholder_TimeZone"]" />
                         <span asp-validation-for="TimeZoneId" class="text-danger small"></span>
                     </div>
                     <div class="col-md-6">
                         <label asp-for="CurrencyCode" class="form-label"></label>
-                        <input asp-for="CurrencyCode" class="form-control" placeholder="TRY" maxlength="3" />
+                        <input asp-for="CurrencyCode" class="form-control" placeholder="@Localizer["Onboarding_Placeholder_Currency"]" maxlength="3" />
                         <span asp-validation-for="CurrencyCode" class="text-danger small"></span>
                     </div>
                 </div>
             </div>
 
             <div class="wos-form-footer border-0 pt-0">
-                <button type="submit" class="btn btn-wos-primary btn-lg flex-grow-1">Create workshop</button>
-                <a class="btn btn-wos-secondary" asp-controller="Account" asp-action="Login">Sign in instead</a>
+                <button type="submit" class="btn btn-wos-primary btn-lg flex-grow-1">@Localizer["Onboarding_CreateWorkshop"]</button>
+                <a class="btn btn-wos-secondary" asp-controller="Account" asp-action="Login">@Localizer["Onboarding_SignInInstead"]</a>
             </div>
         </form>
     </div>

@@ -1166,23 +1166,44 @@ body.wos-public-body {
   color: var(--wos-primary);
 }
 
-/* Portal */
+/* Portal — premium dark alignment */
 .portal-body {
   background:
-    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(59, 108, 245, 0.05), transparent),
-    var(--wos-bg);
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(59, 108, 245, 0.12), transparent),
+    radial-gradient(ellipse 60% 40% at 100% 100%, rgba(34, 211, 238, 0.05), transparent),
+    linear-gradient(165deg, #0a0d14 0%, #0f141f 50%, #0b0f17 100%);
   min-height: 100vh;
+  color: var(--wos-text-on-dark);
+}
+
+.portal-body .wos-public-header {
+  background: rgba(10, 13, 20, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.portal-body .wos-public-brand {
+  color: #fff;
+}
+
+.portal-body .text-muted {
+  color: var(--wos-text-muted-on-dark) !important;
+}
+
+.portal-card {
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background: rgba(16, 22, 34, 0.82) !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+  border-radius: var(--wos-radius-xl) !important;
+  overflow: hidden;
+  color: var(--wos-text-on-dark);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
 .portal-shell {
   max-width: 960px;
-}
-
-.portal-card {
-  border: 1px solid var(--wos-border) !important;
-  box-shadow: var(--wos-shadow-md) !important;
-  border-radius: var(--wos-radius-xl) !important;
-  overflow: hidden;
 }
 
 .portal-card .card-body {

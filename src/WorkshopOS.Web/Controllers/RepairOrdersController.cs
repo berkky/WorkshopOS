@@ -11,6 +11,7 @@ using WorkshopOS.Application.Team;
 using WorkshopOS.Application.Vehicles;
 using WorkshopOS.Domain.RepairOrders;
 using WorkshopOS.Infrastructure.Authorization;
+using WorkshopOS.Web.Localization;
 using WorkshopOS.Web.Models.Appointments;
 using WorkshopOS.Web.Models.RepairOrders;
 
@@ -29,6 +30,7 @@ public sealed class RepairOrdersController : Controller
     private readonly ICustomerManagementService _customerManagementService;
     private readonly IVehicleManagementService _vehicleManagementService;
     private readonly IAuthorizationService _authorizationService;
+    private readonly IWebFailureMessages _messages;
 
     public RepairOrdersController(
         IRepairOrderManagementService repairOrderManagementService,
@@ -39,7 +41,8 @@ public sealed class RepairOrdersController : Controller
         ITeamManagementService teamManagementService,
         ICustomerManagementService customerManagementService,
         IVehicleManagementService vehicleManagementService,
-        IAuthorizationService authorizationService)
+        IAuthorizationService authorizationService,
+        IWebFailureMessages messages)
     {
         _repairOrderManagementService = repairOrderManagementService;
         _inspectionManagementService = inspectionManagementService;
@@ -50,6 +53,7 @@ public sealed class RepairOrdersController : Controller
         _customerManagementService = customerManagementService;
         _vehicleManagementService = vehicleManagementService;
         _authorizationService = authorizationService;
+        _messages = messages;
     }
 
     [HttpGet("")]
@@ -141,7 +145,7 @@ public sealed class RepairOrdersController : Controller
 
         if (!result.Success)
         {
-            ModelState.AddModelError(string.Empty, MapFailure(result.FailureReason));
+            ModelState.AddModelError(string.Empty, _messages.RepairOrder(result.FailureReason));
             return View(await BuildFormViewModelAsync(viewModel));
         }
 
@@ -166,7 +170,7 @@ public sealed class RepairOrdersController : Controller
                 return NotFound();
             }
 
-            TempData["RepairOrderError"] = MapFailure(result.FailureReason);
+            TempData["RepairOrderError"] = _messages.RepairOrder(result.FailureReason);
             return RedirectToAction("Details", "Appointments", new { appointmentId });
         }
 
@@ -383,7 +387,7 @@ public sealed class RepairOrdersController : Controller
                 return NotFound();
             }
 
-            ModelState.AddModelError(string.Empty, MapFailure(result.FailureReason));
+            ModelState.AddModelError(string.Empty, _messages.RepairOrder(result.FailureReason));
             return View(viewModel);
         }
 
@@ -472,28 +476,6 @@ public sealed class RepairOrdersController : Controller
         return Guid.TryParse(value, out var userId) ? userId : null;
     }
 
-    private static string MapFailure(RepairOrderOperationFailureReason? failureReason) =>
-        failureReason switch
-        {
-            RepairOrderOperationFailureReason.OrganizationUnresolved =>
-                "Organization context is not resolved for this request.",
-            RepairOrderOperationFailureReason.InvalidInput => "One or more fields are invalid.",
-            RepairOrderOperationFailureReason.WorkshopLocationNotFound =>
-                "The selected workshop location is not available.",
-            RepairOrderOperationFailureReason.CustomerNotFound => "The selected customer is not available.",
-            RepairOrderOperationFailureReason.VehicleNotFound => "The selected vehicle is not available.",
-            RepairOrderOperationFailureReason.AppointmentNotFound => "The appointment could not be found.",
-            RepairOrderOperationFailureReason.CustomerVehicleMismatch =>
-                "The vehicle is not linked to the selected customer.",
-            RepairOrderOperationFailureReason.DuplicateAppointmentRepairOrder =>
-                "A repair order already exists for this appointment.",
-            RepairOrderOperationFailureReason.ConcurrencyConflict =>
-                "The repair order could not be created due to a concurrent update. Please try again.",
-            RepairOrderOperationFailureReason.InvalidLifecycleTransition =>
-                "That workflow action is not allowed for the current repair order status.",
-            RepairOrderOperationFailureReason.RepairOrderNotFound => "The repair order could not be found.",
-            _ => "The repair order operation could not be completed.",
-        };
 
     private static bool HasActiveListFilters(
         string? search,

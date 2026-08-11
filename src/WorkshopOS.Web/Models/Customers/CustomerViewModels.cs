@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using WorkshopOS.Application.Customers;
 using WorkshopOS.Web.Models.RepairOrders;
+using WorkshopOS.Web;
 
 namespace WorkshopOS.Web.Models.Customers;
 
@@ -39,23 +40,23 @@ public sealed class CustomerFormViewModel
 
     [Required]
     [MaxLength(CustomerInputValidator.MaxDisplayNameLength)]
-    [Display(Name = "Display name")]
+    [Display(Name = "Field_DisplayName")]
     public string DisplayName { get; set; } = string.Empty;
 
     [EmailAddress]
     [MaxLength(CustomerInputValidator.MaxEmailLength)]
-    [Display(Name = "Email")]
+    [Display(Name = "Field_Email")]
     public string? Email { get; set; }
 
     [MaxLength(CustomerInputValidator.MaxPhoneLength)]
-    [Display(Name = "Phone")]
+    [Display(Name = "Field_Phone")]
     public string? Phone { get; set; }
 
     [MaxLength(CustomerInputValidator.MaxNotesLength)]
-    [Display(Name = "Notes")]
+    [Display(Name = "Field_Notes")]
     public string? Notes { get; set; }
 
-    [Display(Name = "Active")]
+    [Display(Name = "Field_Active")]
     public bool IsActive { get; set; } = true;
 }
 

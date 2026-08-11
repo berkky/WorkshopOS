@@ -1,0 +1,2926 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root xmlns:ns1="urn:schemas-microsoft-com:xml-msdata" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:schema id="root">
+    <xs:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xs:element name="root" ns1:IsDataSet="true">
+      <xs:complexType>
+        <xs:choice maxOccurs="unbounded">
+          <xs:element name="metadata">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="value" type="xsd:string" minOccurs="0" />
+              </xs:sequence>
+              <xs:attribute name="name" use="required" type="xsd:string" />
+              <xs:attribute name="type" type="xsd:string" />
+              <xs:attribute name="mimetype" type="xsd:string" />
+              <xs:attribute ref="xml:space" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="assembly">
+            <xs:complexType>
+              <xs:attribute name="alias" type="xsd:string" />
+              <xs:attribute name="name" type="xsd:string" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="data">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="value" type="xsd:string" minOccurs="0" ns1:Ordinal="1" />
+                <xs:element name="comment" type="xsd:string" minOccurs="0" ns1:Ordinal="2" />
+              </xs:sequence>
+              <xs:attribute name="name" type="xsd:string" use="required" ns1:Ordinal="1" />
+              <xs:attribute name="type" type="xsd:string" ns1:Ordinal="3" />
+              <xs:attribute name="mimetype" type="xsd:string" ns1:Ordinal="4" />
+              <xs:attribute ref="xml:space" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="resheader">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="value" type="xsd:string" minOccurs="0" ns1:Ordinal="1" />
+              </xs:sequence>
+              <xs:attribute name="name" type="xsd:string" use="required" />
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data xml:space="preserve" name="AccessDenied_Description">
+    <value>Bu sayfaya erişim izniniz yok.</value>
+  </data>
+  <data xml:space="preserve" name="AccessDenied_Heading">
+    <value>Erişim reddedildi</value>
+  </data>
+  <data xml:space="preserve" name="AccessDenied_ReturnDashboard">
+    <value>Genel bakışa dön</value>
+  </data>
+  <data xml:space="preserve" name="AccessDenied_Title">
+    <value>Erişim reddedildi</value>
+  </data>
+  <data xml:space="preserve" name="Appointments_CalendarTitle">
+    <value>Randevu takvimi</value>
+  </data>
+  <data xml:space="preserve" name="Appointments_CancelAppointment">
+    <value>Randevuyu iptal et</value>
+  </data>
+  <data xml:space="preserve" name="Appointments_ConvertToRepairOrder">
+    <value>Müşteri geldiğinde bu randevuyu iş emrine dönüştürün.</value>
+  </data>
+  <data xml:space="preserve" name="Appointments_CountInView">
+    <value>Görünümde {0} randevu</value>
+  </data>
+  <data xml:space="preserve" name="Appointments_Create">
+    <value>Randevu oluştur</value>
+  </data>
+  <data xml:space="preserve" name="Appointments_CreateDescription">
+    <value>Lokasyon, tarih ve saat ile müşteri ziyareti planlayın.</value>
+  </data>
+  <data xml:space="preserve" name="Appointments_CreateRepairOrder">
+    <value>İş emri oluştur</value>
+  </data>
+  <data xml:space="preserve" name="Appointments_CreateTitle">
+    <value>Randevu oluştur</value>
+  </data>
+  <data xml:space="preserve" name="Appointments_CustomerAndVehicle">
+    <value>Müşteri ve araç</value>
+  </data>
+  <data xml:space="preserve" name="Appointments_DetailsTitle">
+    <value>Randevu detayları</value>
+  </data>
+  <data xml:space="preserve" name="Appointments_EditDescription">
+    <value>Bu randevunun programlama bilgilerini ve notlarını güncelleyin.</value>
+  </data>
+  <data xml:space="preserve" name="Appointments_EditTitle">
+    <value>Randevuyu düzenle</value>
+  </data>
+  <data xml:space="preserve" name="Appointments_Eyebrow">
+    <value>Randevu</value>
+  </data>
+  <data xml:space="preserve" name="Appointments_InternalNotesHelp">
+    <value>Programlama ve kabul bağlamı için yalnızca personel notları.</value>
+  </data>
+  <data xml:space="preserve" name="Appointments_JobContext">
+    <value>İş bağlamı</value>
+  </data>
+  <data xml:space="preserve" name="Appointments_LinkedRepairOrder">
+    <value>Bağlı iş emri:</value>
+  </data>
+  <data xml:space="preserve" name="Appointments_NewSchedule">
+    <value>Yeni program</value>
+  </data>
+  <data xml:space="preserve" name="Appointments_NextWeek">
+    <value>Sonraki hafta</value>
+  </data>
+  <data xml:space="preserve" name="Appointments_NoAppointments">
+    <value>Randevu yok</value>
+  </data>
+  <data xml:space="preserve" name="Appointments_NoAppointmentsFilters">
+    <value>Mevcut filtrelere uyan randevu yok.</value>
+  </data>
+  <data xml:space="preserve" name="Appointments_NoRepairOrderLinked">
+    <value>Bağlı iş emri yok</value>
+  </data>
+  <data xml:space="preserve" name="Appointments_NoRepairOrderLinkedDesc">
+    <value>Bu randevudan henüz iş emri oluşturulmadı.</value>
+  </data>
+  <data xml:space="preserve" name="Appointments_PreviousWeek">
+    <value>Önceki hafta</value>
+  </data>
+  <data xml:space="preserve" name="Appointments_RepairOrder">
+    <value>İş emri</value>
+  </data>
+  <data xml:space="preserve" name="Appointments_Reschedule">
+    <value>Yeniden planla</value>
+  </data>
+  <data xml:space="preserve" name="Appointments_RescheduleHelp">
+    <value>Çakışma ve saat dilimi kuralları sunucu tarafında uygulanır.</value>
+  </data>
+  <data xml:space="preserve" name="Appointments_RescheduleTitle">
+    <value>Randevuyu yeniden planla</value>
+  </data>
+  <data xml:space="preserve" name="Appointments_ScheduleHelp">
+    <value>Saatler atölye lokasyonu saat dilimini kullanır. Çakışma kuralları sunucu tarafında uygulanır.</value>
+  </data>
+  <data xml:space="preserve" name="Appointments_ThisWeek">
+    <value>Bu hafta</value>
+  </data>
+  <data xml:space="preserve" name="Appointments_Title">
+    <value>Randevular</value>
+  </data>
+  <data xml:space="preserve" name="Appointments_ViewRepairOrder">
+    <value>İş emrini görüntüle</value>
+  </data>
+  <data xml:space="preserve" name="Appointments_WeekOf">
+    <value>{0} – {1} haftası ({2})</value>
+  </data>
+  <data xml:space="preserve" name="Common_Activate">
+    <value>Etkinleştir</value>
+  </data>
+  <data xml:space="preserve" name="Common_Add">
+    <value>Ekle</value>
+  </data>
+  <data xml:space="preserve" name="Common_AllLocations">
+    <value>Tüm lokasyonlar</value>
+  </data>
+  <data xml:space="preserve" name="Common_AllPaymentStates">
+    <value>Tüm ödeme durumları</value>
+  </data>
+  <data xml:space="preserve" name="Common_AllPriorities">
+    <value>Tüm öncelikler</value>
+  </data>
+  <data xml:space="preserve" name="Common_AllStatuses">
+    <value>Tüm durumlar</value>
+  </data>
+  <data xml:space="preserve" name="Common_AllTechnicians">
+    <value>Tüm teknisyenler</value>
+  </data>
+  <data xml:space="preserve" name="Common_Amount">
+    <value>Tutar</value>
+  </data>
+  <data xml:space="preserve" name="Common_Appointments">
+    <value>Randevular</value>
+  </data>
+  <data xml:space="preserve" name="Common_Approved">
+    <value>Onaylandı</value>
+  </data>
+  <data xml:space="preserve" name="Common_Assign">
+    <value>Ata</value>
+  </data>
+  <data xml:space="preserve" name="Common_BackToList">
+    <value>Listeye dön</value>
+  </data>
+  <data xml:space="preserve" name="Common_Balance">
+    <value>Bakiye</value>
+  </data>
+  <data xml:space="preserve" name="Common_Calendar">
+    <value>Takvim</value>
+  </data>
+  <data xml:space="preserve" name="Common_Cancel">
+    <value>İptal</value>
+  </data>
+  <data xml:space="preserve" name="Common_Code">
+    <value>Kod</value>
+  </data>
+  <data xml:space="preserve" name="Common_Complete">
+    <value>Tamamla</value>
+  </data>
+  <data xml:space="preserve" name="Common_Completed">
+    <value>Tamamlandı</value>
+  </data>
+  <data xml:space="preserve" name="Common_Continue">
+    <value>Devam et</value>
+  </data>
+  <data xml:space="preserve" name="Common_Count">
+    <value>Adet</value>
+  </data>
+  <data xml:space="preserve" name="Common_Created">
+    <value>Oluşturulma</value>
+  </data>
+  <data xml:space="preserve" name="Common_Current">
+    <value>Güncel</value>
+  </data>
+  <data xml:space="preserve" name="Common_Customer">
+    <value>Müşteri</value>
+  </data>
+  <data xml:space="preserve" name="Common_Dashboard">
+    <value>Kontrol Paneli</value>
+  </data>
+  <data xml:space="preserve" name="Common_Deactivate">
+    <value>Devre dışı bırak</value>
+  </data>
+  <data xml:space="preserve" name="Common_Declined">
+    <value>Reddedildi</value>
+  </data>
+  <data xml:space="preserve" name="Common_Description">
+    <value>Açıklama</value>
+  </data>
+  <data xml:space="preserve" name="Common_Edit">
+    <value>Düzenle</value>
+  </data>
+  <data xml:space="preserve" name="Common_Email">
+    <value>E-posta</value>
+  </data>
+  <data xml:space="preserve" name="Common_End">
+    <value>Bitiş</value>
+  </data>
+  <data xml:space="preserve" name="Common_Expires">
+    <value>Son geçerlilik</value>
+  </data>
+  <data xml:space="preserve" name="Common_Filter">
+    <value>Filtrele</value>
+  </data>
+  <data xml:space="preserve" name="Common_Generated">
+    <value>Oluşturulma</value>
+  </data>
+  <data xml:space="preserve" name="Common_GeneratedAt">
+    <value>Oluşturulma: {0}</value>
+  </data>
+  <data xml:space="preserve" name="Common_History">
+    <value>Geçmiş</value>
+  </data>
+  <data xml:space="preserve" name="Common_Inactive">
+    <value>(pasif)</value>
+  </data>
+  <data xml:space="preserve" name="Common_Issued">
+    <value>Kesildi</value>
+  </data>
+  <data xml:space="preserve" name="Common_Items">
+    <value>kalem</value>
+  </data>
+  <data xml:space="preserve" name="Common_LineTotal">
+    <value>Satır toplamı</value>
+  </data>
+  <data xml:space="preserve" name="Common_List">
+    <value>Liste</value>
+  </data>
+  <data xml:space="preserve" name="Common_Location">
+    <value>Lokasyon</value>
+  </data>
+  <data xml:space="preserve" name="Common_Method">
+    <value>Yöntem</value>
+  </data>
+  <data xml:space="preserve" name="Common_Name">
+    <value>Ad</value>
+  </data>
+  <data xml:space="preserve" name="Common_NoActivityInPeriod">
+    <value>Bu dönemde aktivite yok</value>
+  </data>
+  <data xml:space="preserve" name="Common_NoPlate">
+    <value>Plaka yok</value>
+  </data>
+  <data xml:space="preserve" name="Common_NoValue">
+    <value>—</value>
+  </data>
+  <data xml:space="preserve" name="Common_NotAvailable">
+    <value>—</value>
+  </data>
+  <data xml:space="preserve" name="Common_Note">
+    <value>Not</value>
+  </data>
+  <data xml:space="preserve" name="Common_Notes">
+    <value>Notlar</value>
+  </data>
+  <data xml:space="preserve" name="Common_Number">
+    <value>Numara</value>
+  </data>
+  <data xml:space="preserve" name="Common_Opened">
+    <value>Açılış</value>
+  </data>
+  <data xml:space="preserve" name="Common_Optional">
+    <value>İsteğe bağlı</value>
+  </data>
+  <data xml:space="preserve" name="Common_PaginationAriaLabel">
+    <value>Sayfalama</value>
+  </data>
+  <data xml:space="preserve" name="Common_Paid">
+    <value>Ödendi</value>
+  </data>
+  <data xml:space="preserve" name="Common_Payment">
+    <value>Ödeme</value>
+  </data>
+  <data xml:space="preserve" name="Common_Payments">
+    <value>Ödemeler</value>
+  </data>
+  <data xml:space="preserve" name="Common_Period">
+    <value>Seçilen dönem</value>
+  </data>
+  <data xml:space="preserve" name="Common_Phone">
+    <value>Telefon</value>
+  </data>
+  <data xml:space="preserve" name="Common_Presented">
+    <value>Sunuldu</value>
+  </data>
+  <data xml:space="preserve" name="Common_Price">
+    <value>Fiyat</value>
+  </data>
+  <data xml:space="preserve" name="Common_Priority">
+    <value>Öncelik</value>
+  </data>
+  <data xml:space="preserve" name="Common_Progress">
+    <value>İlerleme</value>
+  </data>
+  <data xml:space="preserve" name="Common_Quantity">
+    <value>Adet</value>
+  </data>
+  <data xml:space="preserve" name="Common_Reassign">
+    <value>Yeniden ata</value>
+  </data>
+  <data xml:space="preserve" name="Common_Recorded">
+    <value>Kayıt</value>
+  </data>
+  <data xml:space="preserve" name="Common_Reference">
+    <value>Referans</value>
+  </data>
+  <data xml:space="preserve" name="Common_Remove">
+    <value>Kaldır</value>
+  </data>
+  <data xml:space="preserve" name="Common_Reporting">
+    <value>Raporlama</value>
+  </data>
+  <data xml:space="preserve" name="Common_Save">
+    <value>Kaydet</value>
+  </data>
+  <data xml:space="preserve" name="Common_SaveChanges">
+    <value>Değişiklikleri kaydet</value>
+  </data>
+  <data xml:space="preserve" name="Common_Schedule">
+    <value>Program</value>
+  </data>
+  <data xml:space="preserve" name="Common_Search">
+    <value>Ara</value>
+  </data>
+  <data xml:space="preserve" name="Common_SelectCustomer">
+    <value>Müşteri seçin</value>
+  </data>
+  <data xml:space="preserve" name="Common_SelectLocation">
+    <value>Lokasyon seçin</value>
+  </data>
+  <data xml:space="preserve" name="Common_SelectPart">
+    <value>Parça seçin</value>
+  </data>
+  <data xml:space="preserve" name="Common_SelectService">
+    <value>Hizmet seçin</value>
+  </data>
+  <data xml:space="preserve" name="Common_SelectTechnician">
+    <value>Teknisyen seçin</value>
+  </data>
+  <data xml:space="preserve" name="Common_SelectVehicle">
+    <value>Araç seçin</value>
+  </data>
+  <data xml:space="preserve" name="Common_Sku">
+    <value>SKU</value>
+  </data>
+  <data xml:space="preserve" name="Common_Start">
+    <value>Başlangıç</value>
+  </data>
+  <data xml:space="preserve" name="Common_Status">
+    <value>Durum</value>
+  </data>
+  <data xml:space="preserve" name="Common_Technician">
+    <value>Teknisyen</value>
+  </data>
+  <data xml:space="preserve" name="Common_TimeZone">
+    <value>Saat dilimi</value>
+  </data>
+  <data xml:space="preserve" name="Common_To">
+    <value>–</value>
+  </data>
+  <data xml:space="preserve" name="Common_Total">
+    <value>Toplam</value>
+  </data>
+  <data xml:space="preserve" name="Common_Type">
+    <value>Tür</value>
+  </data>
+  <data xml:space="preserve" name="Common_Unassigned">
+    <value>Atanmamış</value>
+  </data>
+  <data xml:space="preserve" name="Common_UnitPrice">
+    <value>Birim fiyat</value>
+  </data>
+  <data xml:space="preserve" name="Common_Update">
+    <value>Güncelle</value>
+  </data>
+  <data xml:space="preserve" name="Common_Updated">
+    <value>Güncellenme</value>
+  </data>
+  <data xml:space="preserve" name="Common_Vehicle">
+    <value>Araç</value>
+  </data>
+  <data xml:space="preserve" name="Common_View">
+    <value>Görüntüle</value>
+  </data>
+  <data xml:space="preserve" name="Common_VinPrefix">
+    <value>Şasi {0}</value>
+  </data>
+  <data xml:space="preserve" name="Common_Voided">
+    <value>İptal edildi</value>
+  </data>
+  <data xml:space="preserve" name="Common_When">
+    <value>Zaman</value>
+  </data>
+  <data xml:space="preserve" name="Customers_ContactInformation">
+    <value>İletişim bilgileri</value>
+  </data>
+  <data xml:space="preserve" name="Customers_Create">
+    <value>Müşteri oluştur</value>
+  </data>
+  <data xml:space="preserve" name="Customers_CreateDescription">
+    <value>Atölye CRM'ine yeni bir müşteri ekleyin.</value>
+  </data>
+  <data xml:space="preserve" name="Customers_CreateTitle">
+    <value>Müşteri oluştur</value>
+  </data>
+  <data xml:space="preserve" name="Customers_DetailEyebrow">
+    <value>Müşteri</value>
+  </data>
+  <data xml:space="preserve" name="Customers_EditTitle">
+    <value>Müşteriyi düzenle</value>
+  </data>
+  <data xml:space="preserve" name="Customers_Empty_Description">
+    <value>Mevcut filtrelere uyan müşteri bulunamadı.</value>
+  </data>
+  <data xml:space="preserve" name="Customers_Empty_Title">
+    <value>Henüz müşteri yok</value>
+  </data>
+  <data xml:space="preserve" name="Customers_Eyebrow">
+    <value>Müşteriler</value>
+  </data>
+  <data xml:space="preserve" name="Customers_Information">
+    <value>Müşteri bilgileri</value>
+  </data>
+  <data xml:space="preserve" name="Customers_ListCount">
+    <value>Görünümde {0} müşteri</value>
+  </data>
+  <data xml:space="preserve" name="Customers_NoEmailOnFile">
+    <value>Kayıtlı e-posta yok</value>
+  </data>
+  <data xml:space="preserve" name="Customers_NotesHelp">
+    <value>Yalnızca atölye personeline görünen dahili notlar.</value>
+  </data>
+  <data xml:space="preserve" name="Customers_RecentRepairOrders">
+    <value>Son iş emirleri</value>
+  </data>
+  <data xml:space="preserve" name="Customers_Related_AddVehicle">
+    <value>Araç ekle</value>
+  </data>
+  <data xml:space="preserve" name="Customers_Related_Appointments">
+    <value>Randevular</value>
+  </data>
+  <data xml:space="preserve" name="Customers_Related_AppointmentsSummary">
+    <value>{0} yaklaşan randevu.</value>
+  </data>
+  <data xml:space="preserve" name="Customers_Related_RepairOrders">
+    <value>İş emirleri</value>
+  </data>
+  <data xml:space="preserve" name="Customers_Related_RepairOrdersSummary">
+    <value>{0} iş emri.</value>
+  </data>
+  <data xml:space="preserve" name="Customers_Related_Vehicles">
+    <value>Araçlar</value>
+  </data>
+  <data xml:space="preserve" name="Customers_Related_VehiclesSummary">
+    <value>Şu anda bağlı {0} araç.</value>
+  </data>
+  <data xml:space="preserve" name="Customers_Related_ViewAppointments">
+    <value>Randevuları görüntüle</value>
+  </data>
+  <data xml:space="preserve" name="Customers_Related_ViewRepairOrders">
+    <value>İş emirlerini görüntüle</value>
+  </data>
+  <data xml:space="preserve" name="Customers_Related_ViewVehicles">
+    <value>Araçları görüntüle</value>
+  </data>
+  <data xml:space="preserve" name="Customers_SearchPlaceholder">
+    <value>Ad, e-posta veya telefon ara</value>
+  </data>
+  <data xml:space="preserve" name="Customers_Section_AccountStatus">
+    <value>Hesap durumu</value>
+  </data>
+  <data xml:space="preserve" name="Customers_Section_ContactDetails">
+    <value>İletişim bilgileri</value>
+  </data>
+  <data xml:space="preserve" name="Customers_Section_Identity">
+    <value>Müşteri kimliği</value>
+  </data>
+  <data xml:space="preserve" name="Customers_Title">
+    <value>Müşteriler</value>
+  </data>
+  <data xml:space="preserve" name="Dashboard_CommercialReport">
+    <value>Ticari rapor</value>
+  </data>
+  <data xml:space="preserve" name="Dashboard_Eyebrow">
+    <value>Operasyon istihbaratı</value>
+  </data>
+  <data xml:space="preserve" name="Dashboard_Kpi_ActiveRepairOrders">
+    <value>Aktif iş emirleri · Güncel</value>
+  </data>
+  <data xml:space="preserve" name="Dashboard_Kpi_AppointmentsScheduled">
+    <value>Planlanan randevular · {0}</value>
+  </data>
+  <data xml:space="preserve" name="Dashboard_Kpi_CommerciallyClosableJobs">
+    <value>Ticari olarak kapatılabilir işler · Güncel</value>
+  </data>
+  <data xml:space="preserve" name="Dashboard_Kpi_CommerciallyClosed">
+    <value>Ticari olarak kapatılan · {0}</value>
+  </data>
+  <data xml:space="preserve" name="Dashboard_Kpi_CriticalFindings">
+    <value>Kritik bulgular · {0}</value>
+  </data>
+  <data xml:space="preserve" name="Dashboard_Kpi_DecisionApprovalRate">
+    <value>Karar onay oranı · Seçilen dönem</value>
+  </data>
+  <data xml:space="preserve" name="Dashboard_Kpi_EstimatesAwaitingDecision">
+    <value>Karar bekleyen teklifler · Güncel</value>
+  </data>
+  <data xml:space="preserve" name="Dashboard_Kpi_EstimatesPresented">
+    <value>Sunulan teklifler · {0}</value>
+  </data>
+  <data xml:space="preserve" name="Dashboard_Kpi_InspectionsCompleted">
+    <value>Tamamlanan muayeneler · {0}</value>
+  </data>
+  <data xml:space="preserve" name="Dashboard_Kpi_InvoicedAmounts">
+    <value>Faturalanan tutarlar · {0}</value>
+  </data>
+  <data xml:space="preserve" name="Dashboard_Kpi_InvoicesIssued">
+    <value>Kesilen faturalar · {0}</value>
+  </data>
+  <data xml:space="preserve" name="Dashboard_Kpi_OpenDvi">
+    <value>Açık DVI · Güncel</value>
+  </data>
+  <data xml:space="preserve" name="Dashboard_Kpi_OutstandingInvoices">
+    <value>Ödenmemiş faturalar · Güncel</value>
+  </data>
+  <data xml:space="preserve" name="Dashboard_Kpi_RecordedPayments">
+    <value>Kaydedilen ödemeler · {0}</value>
+  </data>
+  <data xml:space="preserve" name="Dashboard_Kpi_RepairOrdersCompleted">
+    <value>Tamamlanan iş emirleri · {0}</value>
+  </data>
+  <data xml:space="preserve" name="Dashboard_Kpi_RepairOrdersOpened">
+    <value>Açılan iş emirleri · {0}</value>
+  </data>
+  <data xml:space="preserve" name="Dashboard_Kpi_TechniciansInProgress">
+    <value>Çalışan teknisyenler · Güncel</value>
+  </data>
+  <data xml:space="preserve" name="Dashboard_Kpi_UnassignedJobs">
+    <value>Atanmamış işler · Güncel</value>
+  </data>
+  <data xml:space="preserve" name="Dashboard_Kpi_UrgentJobs">
+    <value>Acil işler · Güncel</value>
+  </data>
+  <data xml:space="preserve" name="Dashboard_Link_Appointments">
+    <value>Randevular →</value>
+  </data>
+  <data xml:space="preserve" name="Dashboard_Link_OperationsBoard">
+    <value>Operasyon panosu →</value>
+  </data>
+  <data xml:space="preserve" name="Dashboard_Link_ReviewJobs">
+    <value>İşleri incele →</value>
+  </data>
+  <data xml:space="preserve" name="Dashboard_Link_ViewEstimates">
+    <value>Teklifleri görüntüle →</value>
+  </data>
+  <data xml:space="preserve" name="Dashboard_Link_ViewInspections">
+    <value>Muayeneleri görüntüle →</value>
+  </data>
+  <data xml:space="preserve" name="Dashboard_Link_ViewInvoices">
+    <value>Faturaları görüntüle →</value>
+  </data>
+  <data xml:space="preserve" name="Dashboard_Link_ViewRepairOrders">
+    <value>İş emirlerini görüntüle →</value>
+  </data>
+  <data xml:space="preserve" name="Dashboard_NoActivityInPeriod">
+    <value>Bu dönemde aktivite yok</value>
+  </data>
+  <data xml:space="preserve" name="Dashboard_NoOutstandingInvoices">
+    <value>Ödenmemiş fatura yok</value>
+  </data>
+  <data xml:space="preserve" name="Dashboard_OperationsReport">
+    <value>Operasyon raporu</value>
+  </data>
+  <data xml:space="preserve" name="Dashboard_Section_CommercialHealth">
+    <value>Ticari sağlık</value>
+  </data>
+  <data xml:space="preserve" name="Dashboard_Section_CommercialHealth_Description">
+    <value>Seçilen raporlama dönemi için finansal aktivite.</value>
+  </data>
+  <data xml:space="preserve" name="Dashboard_Section_CurrentSnapshot">
+    <value>Güncel atölye özeti</value>
+  </data>
+  <data xml:space="preserve" name="Dashboard_Section_CurrentSnapshot_Description">
+    <value>Anlık operasyonel durum — seçilen dönemle sınırlı değildir.</value>
+  </data>
+  <data xml:space="preserve" name="Dashboard_Section_PeriodPerformance">
+    <value>Seçilen dönem performansı</value>
+  </data>
+  <data xml:space="preserve" name="Dashboard_Section_PeriodPerformance_Description">
+    <value>{0} (işletme yerel tarihleri)</value>
+  </data>
+  <data xml:space="preserve" name="Dashboard_Title">
+    <value>Yönetici paneli</value>
+  </data>
+  <data xml:space="preserve" name="Error_DevelopmentMode">
+    <value>Geliştirme Modu</value>
+  </data>
+  <data xml:space="preserve" name="Error_DevelopmentMode_Swap">
+    <value>&lt;strong&gt;Geliştirme&lt;/strong&gt; ortamına geçildiğinde oluşan hata hakkında daha ayrıntılı bilgi görüntülenir.</value>
+  </data>
+  <data xml:space="preserve" name="Error_DevelopmentMode_Warning">
+    <value>&lt;strong&gt;Geliştirme ortamı dağıtılan uygulamalarda etkinleştirilmemelidir.&lt;/strong&gt; İstisnalardan hassas bilgilerin son kullanıcılara gösterilmesine yol açabilir. Yerel hata ayıklama için &lt;strong&gt;ASPNETCORE_ENVIRONMENT&lt;/strong&gt; ortam değişkenini &lt;strong&gt;Development&lt;/strong&gt; olarak ayarlayın ve uygulamayı yeniden başlatın.</value>
+  </data>
+  <data xml:space="preserve" name="Error_Heading">
+    <value>Hata.</value>
+  </data>
+  <data xml:space="preserve" name="Error_RequestId">
+    <value>İstek kimliği:</value>
+  </data>
+  <data xml:space="preserve" name="Error_Subheading">
+    <value>İsteğiniz işlenirken bir hata oluştu.</value>
+  </data>
+  <data xml:space="preserve" name="Error_Title">
+    <value>Hata</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_AddFromCatalog">
+    <value>Katalogdan ekle</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_AddItem">
+    <value>Kalem ekle</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_AddLineItem">
+    <value>Kalem ekle</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_AllEstimates">
+    <value>Tüm teklifler</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_ApprovalRecorded">
+    <value>Onay kaydedildi</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_AwaitingDecision">
+    <value>Bu teklif müşteri kararı bekliyor. Aşağıdan güvenli müşteri bağlantısı oluşturabilir veya atölye personeli olarak telefon/yüz yüze kararı kaydedebilirsiniz.</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_BackToEstimate">
+    <value>Teklife dön</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_CopyLink">
+    <value>Bağlantıyı kopyala</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_CountInView">
+    <value>Görünümde {0} teklif</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_CreateInvoiceFromEstimate">
+    <value>Tekliften fatura oluştur</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_CreateSecureLink">
+    <value>Güvenli bağlantı oluştur</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_Currency">
+    <value>Para birimi</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_CustomerMessage">
+    <value>Müşteri mesajı</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_DeclineRecorded">
+    <value>Red kaydedildi</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_EditDescription">
+    <value>{0} — taslak düzenleme</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_EditDraft">
+    <value>Taslağı düzenle</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_EditTitle">
+    <value>Teklifi düzenle</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_Estimate">
+    <value>Teklif</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_EstimateTotal">
+    <value>Teklif toplamı</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_ExpiresAt">
+    <value>Son geçerlilik {0}</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_Eyebrow">
+    <value>Teklif</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_InspectionFindings">
+    <value>Kontrol bulguları (bağlam)</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_InspectionFindingsReadOnly">
+    <value>Kontrol bulguları (salt okunur)</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_InvoiceCreated">
+    <value>bu tekliften oluşturuldu.</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_JobContext">
+    <value>İş bağlamı</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_LastAccessed">
+    <value>Son erişim</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_LatestInspection">
+    <value>Son kontrol</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_LineItems">
+    <value>Kalemler</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_LinkUrl">
+    <value>Bağlantı URL'si</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_NoActiveParts">
+    <value>Bu teklif para birimine uyan aktif parça yok.</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_NoActiveServices">
+    <value>Bu teklif para birimine uyan aktif hizmet yok.</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_NoEstimates">
+    <value>Teklif yok</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_NoFilters">
+    <value>Mevcut filtrelere uyan teklif yok.</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_NoLineItems">
+    <value>Kalem yok</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_NoLineItemsDesc">
+    <value>Bu teklif taslak durumundayken kalem ekleyin.</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_PartFromCatalog">
+    <value>Katalogdan parça</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_PortalApproval">
+    <value>(müşteri portalı onayı)</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_PortalDecision">
+    <value>Müşteri portalı kararı</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_PortalDecline">
+    <value>(müşteri portalı reddi)</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_PresentForApproval">
+    <value>Onay için sun</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_RecordApproval">
+    <value>Müşteri onayını kaydet</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_RecordDecline">
+    <value>Müşteri reddini kaydet</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_RevokeLink">
+    <value>Bağlantıyı iptal et</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_RotateLink">
+    <value>Bağlantıyı yenile</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_SaveMessage">
+    <value>Mesajı kaydet</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_SearchPlaceholder">
+    <value>Teklif, iş emri, müşteri</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_SecureCustomerLink">
+    <value>Güvenli müşteri bağlantısı</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_ServiceFromCatalog">
+    <value>Katalogdan hizmet</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_ShareCreatedPageTitle">
+    <value>Güvenli müşteri bağlantısı</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_ShareCreatedTitle">
+    <value>Güvenli müşteri bağlantısı oluşturuldu</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_ShareDescription">
+    <value>Bu bağlantı yalnızca bir kez gösterilir. Şimdi kopyalayın ve müşterinize gönderin.</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_ShareRotatedPageTitle">
+    <value>Yenilenen güvenli bağlantı</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_ShareRotatedTitle">
+    <value>Yeni güvenli müşteri bağlantısı</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_ShareStatus">
+    <value>Paylaşım durumu</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_ShareWarning">
+    <value>Aşağıdaki güvenli bağlantı özel bir erişim anahtarı içerir. Bu sayfadan ayrıldıktan sonra tekrar gösterilmez.</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_ShareWithCustomer">
+    <value>Müşteriyle paylaş</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_StaffApproval">
+    <value>(atölye personeli tarafından kaydedilen onay)</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_StaffDecline">
+    <value>(atölye personeli tarafından kaydedilen red)</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_StockInfo">
+    <value>{0} için gösterilen stok yalnızca bilgilendirme amaçlıdır.</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_Title">
+    <value>Teklifler</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_ViewDetails">
+    <value>Detayları görüntüle</value>
+  </data>
+  <data xml:space="preserve" name="Estimates_ViewDvi">
+    <value>KDV görüntüle</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Appointment_CannotModifyCancelled">
+    <value>Appointment Cannotmodifycancelled</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Appointment_ConcurrencyConflict">
+    <value>Appointment Concurrencyconflict</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Appointment_CustomerNotFound">
+    <value>Appointment Customernotfound</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Appointment_CustomerVehicleMismatch">
+    <value>Appointment Customervehiclemismatch</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Appointment_Generic">
+    <value>Appointment Generic</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Appointment_InvalidInput">
+    <value>Appointment Invalidinput</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Appointment_PastStartNotAllowed">
+    <value>Appointment Paststartnotallowed</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Appointment_VehicleNotFound">
+    <value>Appointment Vehiclenotfound</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Appointment_VehicleOverlap">
+    <value>Appointment Vehicleoverlap</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Appointment_WorkshopLocationNotFound">
+    <value>Appointment Workshoplocationnotfound</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Catalog_DuplicateCode">
+    <value>Catalog Duplicatecode</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Catalog_DuplicateSku">
+    <value>Catalog Duplicatesku</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Catalog_Generic">
+    <value>Catalog Generic</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Catalog_HasPositiveStock">
+    <value>Catalog Haspositivestock</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Catalog_ItemNotFound">
+    <value>Catalog Itemnotfound</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Catalog_Unauthorized">
+    <value>Catalog Unauthorized</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Customer_Generic">
+    <value>Customer Generic</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Customer_InvalidInput">
+    <value>Customer Invalidinput</value>
+  </data>
+  <data xml:space="preserve" name="Failure_EstimateShare_ActiveShareExists">
+    <value>Estimateshare Activeshareexists</value>
+  </data>
+  <data xml:space="preserve" name="Failure_EstimateShare_Generic">
+    <value>Estimateshare Generic</value>
+  </data>
+  <data xml:space="preserve" name="Failure_EstimateShare_InvalidInput">
+    <value>Estimateshare Invalidinput</value>
+  </data>
+  <data xml:space="preserve" name="Failure_EstimateShare_NotEligible">
+    <value>Estimateshare Noteligible</value>
+  </data>
+  <data xml:space="preserve" name="Failure_EstimateShare_NotFound">
+    <value>Estimateshare Notfound</value>
+  </data>
+  <data xml:space="preserve" name="Failure_EstimateShare_Unauthorized">
+    <value>Estimateshare Unauthorized</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Estimate_ConcurrencyConflict">
+    <value>Estimate Concurrencyconflict</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Estimate_EmptyEstimate">
+    <value>Estimate Emptyestimate</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Estimate_Generic">
+    <value>Estimate Generic</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Estimate_InvalidInput">
+    <value>Estimate Invalidinput</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Estimate_InvalidLifecycleTransition">
+    <value>Estimate Invalidlifecycletransition</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Estimate_ItemBelongsToAnotherEstimate">
+    <value>Estimate Itembelongstoanotherestimate</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Estimate_ItemLimitExceeded">
+    <value>Estimate Itemlimitexceeded</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Estimate_ItemNotFound">
+    <value>Estimate Itemnotfound</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Estimate_NotFound">
+    <value>Estimate Notfound</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Estimate_RepairOrderNotEligible">
+    <value>Estimate Repairordernoteligible</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Estimate_RepairOrderNotFound">
+    <value>Estimate Repairordernotfound</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Estimate_Unauthorized">
+    <value>Estimate Unauthorized</value>
+  </data>
+  <data xml:space="preserve" name="Failure_InspectionMedia_Generic">
+    <value>Inspectionmedia Generic</value>
+  </data>
+  <data xml:space="preserve" name="Failure_InspectionMedia_InvalidInput">
+    <value>Inspectionmedia Invalidinput</value>
+  </data>
+  <data xml:space="preserve" name="Failure_InspectionMedia_InvalidLifecycleTransition">
+    <value>Inspectionmedia Invalidlifecycletransition</value>
+  </data>
+  <data xml:space="preserve" name="Failure_InspectionMedia_PhotoLimitExceeded">
+    <value>Inspectionmedia Photolimitexceeded</value>
+  </data>
+  <data xml:space="preserve" name="Failure_InspectionMedia_UnsupportedMediaType">
+    <value>Inspectionmedia Unsupportedmediatype</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Inspection_ChecklistRequired">
+    <value>Inspection Checklistrequired</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Inspection_ConcurrencyConflict">
+    <value>Inspection Concurrencyconflict</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Inspection_DuplicateItemSubmission">
+    <value>Inspection Duplicateitemsubmission</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Inspection_EmptyInspection">
+    <value>Inspection Emptyinspection</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Inspection_Generic">
+    <value>Inspection Generic</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Inspection_InvalidLifecycleTransition">
+    <value>Inspection Invalidlifecycletransition</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Inspection_ItemNotFound">
+    <value>Inspection Itemnotfound</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Inspection_ItemsNotFullyInspected">
+    <value>Inspection Itemsnotfullyinspected</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Inspection_OrganizationUnresolved">
+    <value>Inspection Organizationunresolved</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Inspection_PhotoRequired">
+    <value>Inspection Photorequired</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Inspection_RepairOrderNotEligible">
+    <value>Inspection Repairordernoteligible</value>
+  </data>
+  <data xml:space="preserve" name="Failure_InvalidInput">
+    <value>Invalidinput</value>
+  </data>
+  <data xml:space="preserve" name="Failure_InvalidReportingDateRange">
+    <value>Invalidreportingdaterange</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Inventory_ConcurrencyConflict">
+    <value>Inventory Concurrencyconflict</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Inventory_Generic">
+    <value>Inventory Generic</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Inventory_InsufficientStock">
+    <value>Inventory Insufficientstock</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Inventory_InvalidInput">
+    <value>Inventory Invalidinput</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Inventory_LocationInactive">
+    <value>Inventory Locationinactive</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Inventory_PartInactive">
+    <value>Inventory Partinactive</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Inventory_Unauthorized">
+    <value>Inventory Unauthorized</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Invoice_ConcurrencyConflict">
+    <value>Invoice Concurrencyconflict</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Invoice_CurrentInvoiceExists">
+    <value>Invoice Currentinvoiceexists</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Invoice_EmptyInvoice">
+    <value>Invoice Emptyinvoice</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Invoice_EstimateNotEligible">
+    <value>Invoice Estimatenoteligible</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Invoice_EstimateNotFound">
+    <value>Invoice Estimatenotfound</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Invoice_Generic">
+    <value>Invoice Generic</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Invoice_InvalidInput">
+    <value>Invoice Invalidinput</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Invoice_InvalidLifecycleTransition">
+    <value>Invoice Invalidlifecycletransition</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Invoice_ItemLimitExceeded">
+    <value>Invoice Itemlimitexceeded</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Invoice_ItemNotFound">
+    <value>Invoice Itemnotfound</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Invoice_NotFound">
+    <value>Invoice Notfound</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Invoice_RepairOrderNotEligible">
+    <value>Invoice Repairordernoteligible</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Invoice_RepairOrderNotFound">
+    <value>Invoice Repairordernotfound</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Invoice_SourceEstimateInvoiceExists">
+    <value>Invoice Sourceestimateinvoiceexists</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Invoice_Unauthorized">
+    <value>Invoice Unauthorized</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Operations_AssignmentNotFound">
+    <value>Operations Assignmentnotfound</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Operations_DuplicateActiveAssignment">
+    <value>Operations Duplicateactiveassignment</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Operations_Generic">
+    <value>Operations Generic</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Operations_LocationMismatch">
+    <value>Operations Locationmismatch</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Operations_StaffInactive">
+    <value>Operations Staffinactive</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Operations_StaffMemberNotFound">
+    <value>Operations Staffmembernotfound</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Operations_TechnicianNotEligible">
+    <value>Operations Techniciannoteligible</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Operations_TerminalRepairOrder">
+    <value>Operations Terminalrepairorder</value>
+  </data>
+  <data xml:space="preserve" name="Failure_OrganizationUnavailable">
+    <value>Organizationunavailable</value>
+  </data>
+  <data xml:space="preserve" name="Failure_OrganizationUnresolved">
+    <value>Organizationunresolved</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Payment_CommerciallyClosed">
+    <value>Payment Commerciallyclosed</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Payment_ConcurrencyConflict">
+    <value>Payment Concurrencyconflict</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Payment_Generic">
+    <value>Payment Generic</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Payment_InvalidInput">
+    <value>Payment Invalidinput</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Payment_InvalidLifecycleTransition">
+    <value>Payment Invalidlifecycletransition</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Payment_Overpayment">
+    <value>Payment Overpayment</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Payment_Unauthorized">
+    <value>Payment Unauthorized</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Portal_ConcurrencyConflict">
+    <value>Portal Concurrencyconflict</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Portal_Generic">
+    <value>Portal Generic</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Portal_InvalidLifecycleTransition">
+    <value>Portal Invalidlifecycletransition</value>
+  </data>
+  <data xml:space="preserve" name="Failure_RepairOrder_AppointmentNotFound">
+    <value>Repairorder Appointmentnotfound</value>
+  </data>
+  <data xml:space="preserve" name="Failure_RepairOrder_ConcurrencyConflict">
+    <value>Repairorder Concurrencyconflict</value>
+  </data>
+  <data xml:space="preserve" name="Failure_RepairOrder_CustomerNotFound">
+    <value>Repairorder Customernotfound</value>
+  </data>
+  <data xml:space="preserve" name="Failure_RepairOrder_CustomerVehicleMismatch">
+    <value>Repairorder Customervehiclemismatch</value>
+  </data>
+  <data xml:space="preserve" name="Failure_RepairOrder_DuplicateAppointment">
+    <value>Repairorder Duplicateappointment</value>
+  </data>
+  <data xml:space="preserve" name="Failure_RepairOrder_Generic">
+    <value>Repairorder Generic</value>
+  </data>
+  <data xml:space="preserve" name="Failure_RepairOrder_InvalidLifecycleTransition">
+    <value>Repairorder Invalidlifecycletransition</value>
+  </data>
+  <data xml:space="preserve" name="Failure_RepairOrder_NotFound">
+    <value>Repairorder Notfound</value>
+  </data>
+  <data xml:space="preserve" name="Failure_RepairOrder_OrganizationUnresolved">
+    <value>Repairorder Organizationunresolved</value>
+  </data>
+  <data xml:space="preserve" name="Failure_RepairOrder_VehicleNotFound">
+    <value>Repairorder Vehiclenotfound</value>
+  </data>
+  <data xml:space="preserve" name="Failure_RepairOrder_WorkshopLocationNotFound">
+    <value>Repairorder Workshoplocationnotfound</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Team_Generic">
+    <value>Team Generic</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Team_InvalidInput">
+    <value>Team Invalidinput</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Team_LinkedUserAlreadyAssigned">
+    <value>Team Linkeduseralreadyassigned</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Team_LinkedUserNotMember">
+    <value>Team Linkedusernotmember</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Team_WorkshopLocationNotFound">
+    <value>Team Workshoplocationnotfound</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Vehicle_CustomerNotFound">
+    <value>Vehicle Customernotfound</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Vehicle_Generic">
+    <value>Vehicle Generic</value>
+  </data>
+  <data xml:space="preserve" name="Failure_Vehicle_InvalidInput">
+    <value>Vehicle Invalidinput</value>
+  </data>
+  <data xml:space="preserve" name="Field_Active">
+    <value>Aktif</value>
+  </data>
+  <data xml:space="preserve" name="Field_Amount">
+    <value>Tutar</value>
+  </data>
+  <data xml:space="preserve" name="Field_BusinessName">
+    <value>İşletme adı</value>
+  </data>
+  <data xml:space="preserve" name="Field_Code">
+    <value>Kod</value>
+  </data>
+  <data xml:space="preserve" name="Field_Color">
+    <value>Renk</value>
+  </data>
+  <data xml:space="preserve" name="Field_CommercialNotes">
+    <value>Ticari notlar</value>
+  </data>
+  <data xml:space="preserve" name="Field_ConfirmPassword">
+    <value>Şifreyi onayla</value>
+  </data>
+  <data xml:space="preserve" name="Field_ContactEmail">
+    <value>İletişim e-postası</value>
+  </data>
+  <data xml:space="preserve" name="Field_Currency">
+    <value>Para birimi</value>
+  </data>
+  <data xml:space="preserve" name="Field_CurrentCustomer">
+    <value>Mevcut müşteri</value>
+  </data>
+  <data xml:space="preserve" name="Field_Customer">
+    <value>Müşteri</value>
+  </data>
+  <data xml:space="preserve" name="Field_CustomerConcern">
+    <value>Müşteri şikayeti</value>
+  </data>
+  <data xml:space="preserve" name="Field_CustomerMessage">
+    <value>Müşteri mesajı</value>
+  </data>
+  <data xml:space="preserve" name="Field_Date">
+    <value>Tarih</value>
+  </data>
+  <data xml:space="preserve" name="Field_DefaultUnitPrice">
+    <value>Varsayılan birim fiyat</value>
+  </data>
+  <data xml:space="preserve" name="Field_Description">
+    <value>Açıklama</value>
+  </data>
+  <data xml:space="preserve" name="Field_DisplayName">
+    <value>Görünen ad</value>
+  </data>
+  <data xml:space="preserve" name="Field_Email">
+    <value>E-posta</value>
+  </data>
+  <data xml:space="preserve" name="Field_EndTime">
+    <value>Bitiş saati</value>
+  </data>
+  <data xml:space="preserve" name="Field_FirstLocationName">
+    <value>İlk lokasyon adı</value>
+  </data>
+  <data xml:space="preserve" name="Field_InternalNotes">
+    <value>Dahili notlar</value>
+  </data>
+  <data xml:space="preserve" name="Field_JobTitle">
+    <value>Ünvan</value>
+  </data>
+  <data xml:space="preserve" name="Field_LicensePlate">
+    <value>Plaka</value>
+  </data>
+  <data xml:space="preserve" name="Field_LinkToExistingLogin">
+    <value>Mevcut girişe bağla</value>
+  </data>
+  <data xml:space="preserve" name="Field_Location">
+    <value>Lokasyon</value>
+  </data>
+  <data xml:space="preserve" name="Field_LocationCode">
+    <value>Lokasyon kodu</value>
+  </data>
+  <data xml:space="preserve" name="Field_Make">
+    <value>Marka</value>
+  </data>
+  <data xml:space="preserve" name="Field_Model">
+    <value>Model</value>
+  </data>
+  <data xml:space="preserve" name="Field_ModelYear">
+    <value>Model yılı</value>
+  </data>
+  <data xml:space="preserve" name="Field_MovementType">
+    <value>Hareket türü</value>
+  </data>
+  <data xml:space="preserve" name="Field_Name">
+    <value>Ad</value>
+  </data>
+  <data xml:space="preserve" name="Field_NewCustomer">
+    <value>Yeni müşteri</value>
+  </data>
+  <data xml:space="preserve" name="Field_Note">
+    <value>Not</value>
+  </data>
+  <data xml:space="preserve" name="Field_Notes">
+    <value>Notlar</value>
+  </data>
+  <data xml:space="preserve" name="Field_Odometer">
+    <value>Kilometre</value>
+  </data>
+  <data xml:space="preserve" name="Field_OwnerName">
+    <value>Sahip adı</value>
+  </data>
+  <data xml:space="preserve" name="Field_Part">
+    <value>Parça</value>
+  </data>
+  <data xml:space="preserve" name="Field_Password">
+    <value>Şifre</value>
+  </data>
+  <data xml:space="preserve" name="Field_PaymentMethod">
+    <value>Ödeme yöntemi</value>
+  </data>
+  <data xml:space="preserve" name="Field_Phone">
+    <value>Telefon</value>
+  </data>
+  <data xml:space="preserve" name="Field_PhoneNumber">
+    <value>Telefon numarası</value>
+  </data>
+  <data xml:space="preserve" name="Field_Position">
+    <value>Pozisyon</value>
+  </data>
+  <data xml:space="preserve" name="Field_Quantity">
+    <value>Miktar</value>
+  </data>
+  <data xml:space="preserve" name="Field_ReasonOptional">
+    <value>Gerekçe (isteğe bağlı)</value>
+  </data>
+  <data xml:space="preserve" name="Field_Reference">
+    <value>Referans</value>
+  </data>
+  <data xml:space="preserve" name="Field_Sku">
+    <value>SKU</value>
+  </data>
+  <data xml:space="preserve" name="Field_StartTime">
+    <value>Başlangıç saati</value>
+  </data>
+  <data xml:space="preserve" name="Field_Status">
+    <value>Durum</value>
+  </data>
+  <data xml:space="preserve" name="Field_TimeZone">
+    <value>Saat dilimi</value>
+  </data>
+  <data xml:space="preserve" name="Field_Type">
+    <value>Tür</value>
+  </data>
+  <data xml:space="preserve" name="Field_UnitPrice">
+    <value>Birim fiyat</value>
+  </data>
+  <data xml:space="preserve" name="Field_Vehicle">
+    <value>Araç</value>
+  </data>
+  <data xml:space="preserve" name="Field_VinChassis">
+    <value>Şasi / VIN</value>
+  </data>
+  <data xml:space="preserve" name="Field_WorkshopLocation">
+    <value>Atölye lokasyonu</value>
+  </data>
+  <data xml:space="preserve" name="Inspections_AllInspections">
+    <value>Tüm kontroller</value>
+  </data>
+  <data xml:space="preserve" name="Inspections_Attention">
+    <value>Dikkat</value>
+  </data>
+  <data xml:space="preserve" name="Inspections_CaptionOptional">
+    <value>Başlık (isteğe bağlı)</value>
+  </data>
+  <data xml:space="preserve" name="Inspections_CompleteInspection">
+    <value>Kontrolü tamamla</value>
+  </data>
+  <data xml:space="preserve" name="Inspections_CompletedReadOnly">
+    <value>Bu kontrol tamamlandı ve değiştirilemez.</value>
+  </data>
+  <data xml:space="preserve" name="Inspections_Condition">
+    <value>Durum</value>
+  </data>
+  <data xml:space="preserve" name="Inspections_ConditionAria">
+    <value>{0} için durum</value>
+  </data>
+  <data xml:space="preserve" name="Inspections_CountInView">
+    <value>Görünümde {0} kontrol</value>
+  </data>
+  <data xml:space="preserve" name="Inspections_Critical">
+    <value>Kritik</value>
+  </data>
+  <data xml:space="preserve" name="Inspections_Eyebrow">
+    <value>Dijital araç kontrolü</value>
+  </data>
+  <data xml:space="preserve" name="Inspections_Good">
+    <value>İyi</value>
+  </data>
+  <data xml:space="preserve" name="Inspections_Inspected">
+    <value>Kontrol edildi</value>
+  </data>
+  <data xml:space="preserve" name="Inspections_Item">
+    <value>Kalem</value>
+  </data>
+  <data xml:space="preserve" name="Inspections_JobContext">
+    <value>İş bağlamı</value>
+  </data>
+  <data xml:space="preserve" name="Inspections_Monitor">
+    <value>İzle</value>
+  </data>
+  <data xml:space="preserve" name="Inspections_NoFilters">
+    <value>Mevcut filtrelere uyan kontrol yok.</value>
+  </data>
+  <data xml:space="preserve" name="Inspections_NoInspections">
+    <value>Kontrol yok</value>
+  </data>
+  <data xml:space="preserve" name="Inspections_Notes">
+    <value>Notlar</value>
+  </data>
+  <data xml:space="preserve" name="Inspections_NotesAria">
+    <value>{0} için notlar</value>
+  </data>
+  <data xml:space="preserve" name="Inspections_PhotoAlt">
+    <value>{0} için fotoğraf kanıtı</value>
+  </data>
+  <data xml:space="preserve" name="Inspections_PhotoCount">
+    <value>{0} fotoğraf</value>
+  </data>
+  <data xml:space="preserve" name="Inspections_PhotoEvidence">
+    <value>Fotoğraf kanıtı</value>
+  </data>
+  <data xml:space="preserve" name="Inspections_PhotoLabel">
+    <value>Fotoğraf (JPEG, PNG, WebP, en fazla 8 MB)</value>
+  </data>
+  <data xml:space="preserve" name="Inspections_RepairOrder">
+    <value>İş emri</value>
+  </data>
+  <data xml:space="preserve" name="Inspections_SaveInspection">
+    <value>Kontrolü kaydet</value>
+  </data>
+  <data xml:space="preserve" name="Inspections_SearchPlaceholder">
+    <value>İş emri, müşteri, araç</value>
+  </data>
+  <data xml:space="preserve" name="Inspections_StartInspection">
+    <value>Kontrole başla</value>
+  </data>
+  <data xml:space="preserve" name="Inspections_Started">
+    <value>Başlangıç</value>
+  </data>
+  <data xml:space="preserve" name="Inspections_Title">
+    <value>Dijital araç kontrolleri</value>
+  </data>
+  <data xml:space="preserve" name="Inspections_TotalItems">
+    <value>Toplam kalem</value>
+  </data>
+  <data xml:space="preserve" name="Inspections_UploadPhoto">
+    <value>Fotoğraf yükle</value>
+  </data>
+  <data xml:space="preserve" name="Inspections_ViewRepairOrder">
+    <value>İş emrini görüntüle</value>
+  </data>
+  <data xml:space="preserve" name="Inventory_AdjustDescription">
+    <value>Stok hareketi kaydedin. Bu, eldeki bakiye defterini günceller — çevrimiçi ödeme işlemi değildir.</value>
+  </data>
+  <data xml:space="preserve" name="Inventory_AdjustStock">
+    <value>Stok düzelt</value>
+  </data>
+  <data xml:space="preserve" name="Inventory_AdjustTitle">
+    <value>Stok düzelt</value>
+  </data>
+  <data xml:space="preserve" name="Inventory_BackToInventory">
+    <value>Stoka dön</value>
+  </data>
+  <data xml:space="preserve" name="Inventory_BalanceAfter">
+    <value>Sonraki bakiye</value>
+  </data>
+  <data xml:space="preserve" name="Inventory_CountInView">
+    <value>{0} bakiye satırı</value>
+  </data>
+  <data xml:space="preserve" name="Inventory_Delta">
+    <value>Değişim</value>
+  </data>
+  <data xml:space="preserve" name="Inventory_HistoryTitle">
+    <value>Stok geçmişi</value>
+  </data>
+  <data xml:space="preserve" name="Inventory_LowZeroStock">
+    <value>Yalnızca düşük / sıfır stok</value>
+  </data>
+  <data xml:space="preserve" name="Inventory_Movement">
+    <value>Hareket</value>
+  </data>
+  <data xml:space="preserve" name="Inventory_NoBalances">
+    <value>Stok bakiyesi yok</value>
+  </data>
+  <data xml:space="preserve" name="Inventory_NoBalancesDesc">
+    <value>Mevcut filtrelere uyan stok bakiyesi yok.</value>
+  </data>
+  <data xml:space="preserve" name="Inventory_NoMovements">
+    <value>Kayıtlı hareket yok</value>
+  </data>
+  <data xml:space="preserve" name="Inventory_NoMovementsDesc">
+    <value>Bu parça ve lokasyon için stok hareketi kaydedilmedi.</value>
+  </data>
+  <data xml:space="preserve" name="Inventory_OnHand">
+    <value>Eldeki</value>
+  </data>
+  <data xml:space="preserve" name="Inventory_OnHandLabel">
+    <value>Eldeki: {0}</value>
+  </data>
+  <data xml:space="preserve" name="Inventory_Part">
+    <value>Parça</value>
+  </data>
+  <data xml:space="preserve" name="Inventory_PartAndLocation">
+    <value>Parça ve lokasyon</value>
+  </data>
+  <data xml:space="preserve" name="Inventory_QuantityHelp">
+    <value>Pozitif miktar girin. Azaltmalar hareket türüne göre uygulanır.</value>
+  </data>
+  <data xml:space="preserve" name="Inventory_Reason">
+    <value>Gerekçe</value>
+  </data>
+  <data xml:space="preserve" name="Inventory_ReasonHelp">
+    <value>Denetim izi için gerekli bağlam (giriş, düzeltme, kullanım vb.).</value>
+  </data>
+  <data xml:space="preserve" name="Inventory_RecordAdjustment">
+    <value>Düzeltmeyi kaydet</value>
+  </data>
+  <data xml:space="preserve" name="Inventory_Title">
+    <value>Stok</value>
+  </data>
+  <data xml:space="preserve" name="Inventory_WhenUtc">
+    <value>Zaman</value>
+  </data>
+  <data xml:space="preserve" name="Invoices_AddItem">
+    <value>Kalem ekle</value>
+  </data>
+  <data xml:space="preserve" name="Invoices_AddLineItem">
+    <value>Kalem ekle</value>
+  </data>
+  <data xml:space="preserve" name="Invoices_AllInvoices">
+    <value>Tüm faturalar</value>
+  </data>
+  <data xml:space="preserve" name="Invoices_CommercialNotes">
+    <value>Ticari notlar</value>
+  </data>
+  <data xml:space="preserve" name="Invoices_CommerciallyClosedReadOnly">
+    <value>Bu iş emri ticari olarak kapatıldı. Faturalama salt okunurdur.</value>
+  </data>
+  <data xml:space="preserve" name="Invoices_CountInView">
+    <value>Görünümde {0} fatura</value>
+  </data>
+  <data xml:space="preserve" name="Invoices_EditDescription">
+    <value>{0} — taslak düzenleme</value>
+  </data>
+  <data xml:space="preserve" name="Invoices_EditDraft">
+    <value>Taslağı düzenle</value>
+  </data>
+  <data xml:space="preserve" name="Invoices_EditTitle">
+    <value>Faturayı düzenle</value>
+  </data>
+  <data xml:space="preserve" name="Invoices_Eyebrow">
+    <value>Fatura</value>
+  </data>
+  <data xml:space="preserve" name="Invoices_InvoiceTotal">
+    <value>Fatura toplamı</value>
+  </data>
+  <data xml:space="preserve" name="Invoices_IssueInvoice">
+    <value>Faturayı kes</value>
+  </data>
+  <data xml:space="preserve" name="Invoices_LineItems">
+    <value>Kalemler</value>
+  </data>
+  <data xml:space="preserve" name="Invoices_NoFilters">
+    <value>Mevcut filtrelere uyan fatura yok.</value>
+  </data>
+  <data xml:space="preserve" name="Invoices_NoInvoices">
+    <value>Fatura yok</value>
+  </data>
+  <data xml:space="preserve" name="Invoices_NoLineItems">
+    <value>Kalem yok</value>
+  </data>
+  <data xml:space="preserve" name="Invoices_NoLineItemsDesc">
+    <value>Bu fatura taslak durumundayken kalem ekleyin.</value>
+  </data>
+  <data xml:space="preserve" name="Invoices_NoPayments">
+    <value>Kayıtlı ödeme yok</value>
+  </data>
+  <data xml:space="preserve" name="Invoices_NoPaymentsDesc">
+    <value>Personel kaydettikten sonra ödeme defteri kayıtları burada görünür.</value>
+  </data>
+  <data xml:space="preserve" name="Invoices_RecordPayment">
+    <value>Ödeme kaydet</value>
+  </data>
+  <data xml:space="preserve" name="Invoices_RecordPaymentNote">
+    <value>WorkshopOS'ta ödeme defteri kaydı oluşturur. Kart veya çevrimiçi ödeme işlemez.</value>
+  </data>
+  <data xml:space="preserve" name="Invoices_SaveNotes">
+    <value>Notları kaydet</value>
+  </data>
+  <data xml:space="preserve" name="Invoices_SearchPlaceholder">
+    <value>Fatura, iş emri, müşteri</value>
+  </data>
+  <data xml:space="preserve" name="Invoices_SourceEstimate">
+    <value>Kaynak teklif</value>
+  </data>
+  <data xml:space="preserve" name="Invoices_Summary">
+    <value>Fatura özeti</value>
+  </data>
+  <data xml:space="preserve" name="Invoices_Title">
+    <value>Faturalar</value>
+  </data>
+  <data xml:space="preserve" name="Invoices_VoidInvoice">
+    <value>Faturayı iptal et</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Cta_Create">
+    <value>Atölyenizi başlatın</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Cta_Heading">
+    <value>Atölyenizi güvenle yönetmeye hazır mısınız?</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Cta_Lead">
+    <value>Organizasyonunuzu oluşturun, ekibinizi davet edin ve dakikalar içinde iş emirlerini yönetmeye başlayın.</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Cta_SignIn">
+    <value>Giriş yap</value>
+  </data>
+  <data xml:space="preserve" name="Landing_FeatureStrip_Estimates">
+    <value>Featurestrip Estimates</value>
+  </data>
+  <data xml:space="preserve" name="Landing_FeatureStrip_Inspections">
+    <value>Featurestrip Inspections</value>
+  </data>
+  <data xml:space="preserve" name="Landing_FeatureStrip_Inventory">
+    <value>Featurestrip Inventory</value>
+  </data>
+  <data xml:space="preserve" name="Landing_FeatureStrip_Invoicing">
+    <value>Featurestrip Invoicing</value>
+  </data>
+  <data xml:space="preserve" name="Landing_FeatureStrip_RepairOrders">
+    <value>Featurestrip Repairorders</value>
+  </data>
+  <data xml:space="preserve" name="Landing_FeatureStrip_Reporting">
+    <value>Featurestrip Reporting</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Feature_Billing_Desc">
+    <value>Feature Billing Desc</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Feature_Billing_Title">
+    <value>Feature Billing Title</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Feature_Catalog_Desc">
+    <value>Feature Catalog Desc</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Feature_Catalog_Title">
+    <value>Feature Catalog Title</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Feature_Dvi_Desc">
+    <value>Feature Dvi Desc</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Feature_Dvi_Title">
+    <value>Feature Dvi Title</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Feature_Estimate_Desc">
+    <value>Feature Estimate Desc</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Feature_Estimate_Title">
+    <value>Feature Estimate Title</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Feature_Operations_Desc">
+    <value>Feature Operations Desc</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Feature_Operations_Title">
+    <value>Feature Operations Title</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Feature_Reporting_Desc">
+    <value>Feature Reporting Desc</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Feature_Reporting_Title">
+    <value>Feature Reporting Title</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Features_Eyebrow">
+    <value>Features Eyebrow</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Features_Heading">
+    <value>Features Heading</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Features_Lead">
+    <value>Features Lead</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Flow_Eyebrow">
+    <value>Flow Eyebrow</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Flow_Heading">
+    <value>Flow Heading</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Flow_Lead">
+    <value>Flow Lead</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Flow_Step1_Desc">
+    <value>Flow Step1 Desc</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Flow_Step1_Title">
+    <value>Flow Step1 Title</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Flow_Step2_Desc">
+    <value>Flow Step2 Desc</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Flow_Step2_Title">
+    <value>Flow Step2 Title</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Flow_Step3_Desc">
+    <value>Flow Step3 Desc</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Flow_Step3_Title">
+    <value>Flow Step3 Title</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Flow_Step4_Desc">
+    <value>Flow Step4 Desc</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Flow_Step4_Title">
+    <value>Flow Step4 Title</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Hero_ChartLabel">
+    <value>Hero Chartlabel</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Hero_Eyebrow">
+    <value>Otomotiv atölye zekâsı</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Hero_Float_Appointment_Meta">
+    <value>Hero Float Appointment Meta</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Hero_Float_Appointment_Title">
+    <value>Hero Float Appointment Title</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Hero_Float_Inspection_Meta">
+    <value>Hero Float Inspection Meta</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Hero_Float_Inspection_Title">
+    <value>Hero Float Inspection Title</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Hero_Float_Parts_Meta">
+    <value>Hero Float Parts Meta</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Hero_Float_Parts_Title">
+    <value>Hero Float Parts Title</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Hero_GlassTitle">
+    <value>Hero Glasstitle</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Hero_HeadingAccent">
+    <value>sahanızı</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Hero_HeadingPrefix">
+    <value>Atölye </value>
+  </data>
+  <data xml:space="preserve" name="Landing_Hero_HeadingSuffix">
+    <value> hassasiyet ve güvenle yönetin.</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Hero_Kpi_ActiveRos">
+    <value>Hero Kpi Activeros</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Hero_Kpi_Unassigned">
+    <value>Hero Kpi Unassigned</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Hero_Kpi_Urgent">
+    <value>Hero Kpi Urgent</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Hero_Lead">
+    <value>WorkshopOS; randevular, iş emirleri, dijital araç kontrolleri, teklifler, stok, faturalama ve yönetim raporlamasını tek platformda birleştirir — operasyonel kontrol ve ticari netlik isteyen çok lokasyonlu otomotiv işletmeleri için tasarlandı.</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Hero_PreviewNote">
+    <value>Hero Previewnote</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Hero_SignIn">
+    <value>Giriş yap</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Hero_StartWorkshop">
+    <value>Atölyenizi başlatın</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Hero_Stat_Commercial_Desc">
+    <value>Hero Stat Commercial Desc</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Hero_Stat_Commercial_Title">
+    <value>Hero Stat Commercial Title</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Hero_Stat_Intelligence_Desc">
+    <value>Hero Stat Intelligence Desc</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Hero_Stat_Intelligence_Title">
+    <value>Hero Stat Intelligence Title</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Hero_Stat_Operations_Desc">
+    <value>Hero Stat Operations Desc</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Hero_Stat_Operations_Title">
+    <value>Hero Stat Operations Title</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Hero_StatusDviOpen">
+    <value>Hero Statusdviopen</value>
+  </data>
+  <data xml:space="preserve" name="Landing_PageTitle">
+    <value>Modern otomotiv atölyeleri için atölye yönetimi</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Trust_Eyebrow">
+    <value>Trust Eyebrow</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Trust_Heading">
+    <value>Trust Heading</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Trust_Lead">
+    <value>Trust Lead</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Trust_MultiLocation_Desc">
+    <value>Trust Multilocation Desc</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Trust_MultiLocation_Title">
+    <value>Trust Multilocation Title</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Trust_MultiTenant_Desc">
+    <value>Trust Multitenant Desc</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Trust_MultiTenant_Title">
+    <value>Trust Multitenant Title</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Trust_Portal_Desc">
+    <value>Trust Portal Desc</value>
+  </data>
+  <data xml:space="preserve" name="Landing_Trust_Portal_Title">
+    <value>Trust Portal Title</value>
+  </data>
+  <data xml:space="preserve" name="Language_SwitcherLabel">
+    <value>Dil</value>
+  </data>
+  <data xml:space="preserve" name="Layout_BrandTagline">
+    <value>Otomotiv atölye zekâsı</value>
+  </data>
+  <data xml:space="preserve" name="Layout_CloseNavigation">
+    <value>Gezintiyi kapat</value>
+  </data>
+  <data xml:space="preserve" name="Layout_CustomerPortal">
+    <value>Müşteri portalı</value>
+  </data>
+  <data xml:space="preserve" name="Layout_FooterCopy">
+    <value>© 2026 WorkshopOS. Otomotiv atölye zekâsı.</value>
+  </data>
+  <data xml:space="preserve" name="Layout_GetStarted">
+    <value>Başlayın</value>
+  </data>
+  <data xml:space="preserve" name="Layout_Menu">
+    <value>Menü</value>
+  </data>
+  <data xml:space="preserve" name="Layout_MobileNavigation">
+    <value>Mobil gezinti</value>
+  </data>
+  <data xml:space="preserve" name="Layout_Navigation">
+    <value>Gezinti</value>
+  </data>
+  <data xml:space="preserve" name="Layout_OpenNavigation">
+    <value>Gezintiyi aç</value>
+  </data>
+  <data xml:space="preserve" name="Layout_PortalFooter">
+    <value>© 2026 WorkshopOS. Otomotiv atölye zekâsı.</value>
+  </data>
+  <data xml:space="preserve" name="Layout_PrimaryNavigation">
+    <value>Ana gezinti</value>
+  </data>
+  <data xml:space="preserve" name="Layout_PublicNavigation">
+    <value>Genel site gezintisi</value>
+  </data>
+  <data xml:space="preserve" name="Layout_SignIn">
+    <value>Giriş yap</value>
+  </data>
+  <data xml:space="preserve" name="Layout_SignOut">
+    <value>Çıkış yap</value>
+  </data>
+  <data xml:space="preserve" name="Layout_SignedIn">
+    <value>Oturum açık</value>
+  </data>
+  <data xml:space="preserve" name="Layout_SkipToMain">
+    <value>Ana içeriğe geç</value>
+  </data>
+  <data xml:space="preserve" name="Login_CreateWorkshop">
+    <value>Yeni atölye oluştur</value>
+  </data>
+  <data xml:space="preserve" name="Login_Description">
+    <value>Atölye çalışma alanınıza erişmek için giriş yapın.</value>
+  </data>
+  <data xml:space="preserve" name="Login_EmailPlaceholder">
+    <value>siz@atolye.com</value>
+  </data>
+  <data xml:space="preserve" name="Login_Submit">
+    <value>Giriş yap</value>
+  </data>
+  <data xml:space="preserve" name="Login_Title">
+    <value>Giriş yap</value>
+  </data>
+  <data xml:space="preserve" name="Login_WelcomeBack">
+    <value>Tekrar hoş geldiniz</value>
+  </data>
+  <data xml:space="preserve" name="Message_Login_InvalidCredentials">
+    <value>E-posta veya şifre hatalı.</value>
+  </data>
+  <data xml:space="preserve" name="Message_Onboarding_Failed">
+    <value>Bu bilgilerle hesap oluşturulamadı. Bilgileri kontrol edip tekrar deneyin.</value>
+  </data>
+  <data xml:space="preserve" name="Message_Onboarding_InvalidInput">
+    <value>Lütfen girdiğiniz bilgileri kontrol edin.</value>
+  </data>
+  <data xml:space="preserve" name="Nav_Appointments">
+    <value>Randevular</value>
+  </data>
+  <data xml:space="preserve" name="Nav_Commercial">
+    <value>Ticari</value>
+  </data>
+  <data xml:space="preserve" name="Nav_CommercialReport">
+    <value>Ticari rapor</value>
+  </data>
+  <data xml:space="preserve" name="Nav_Customers">
+    <value>Müşteriler</value>
+  </data>
+  <data xml:space="preserve" name="Nav_Dashboard">
+    <value>Genel Bakış</value>
+  </data>
+  <data xml:space="preserve" name="Nav_Estimates">
+    <value>Teklifler</value>
+  </data>
+  <data xml:space="preserve" name="Nav_Inspections">
+    <value>Kontroller</value>
+  </data>
+  <data xml:space="preserve" name="Nav_Inventory">
+    <value>Stok</value>
+  </data>
+  <data xml:space="preserve" name="Nav_Invoices">
+    <value>Faturalar</value>
+  </data>
+  <data xml:space="preserve" name="Nav_MyWork">
+    <value>İşlerim</value>
+  </data>
+  <data xml:space="preserve" name="Nav_OperationsBoard">
+    <value>Operasyon panosu</value>
+  </data>
+  <data xml:space="preserve" name="Nav_OperationsReport">
+    <value>Operasyon raporu</value>
+  </data>
+  <data xml:space="preserve" name="Nav_Organization">
+    <value>Organizasyon</value>
+  </data>
+  <data xml:space="preserve" name="Nav_Overview">
+    <value>Genel bakış</value>
+  </data>
+  <data xml:space="preserve" name="Nav_PartsCatalog">
+    <value>Parça kataloğu</value>
+  </data>
+  <data xml:space="preserve" name="Nav_RepairOrders">
+    <value>İş emirleri</value>
+  </data>
+  <data xml:space="preserve" name="Nav_ServiceCatalog">
+    <value>Servis kataloğu</value>
+  </data>
+  <data xml:space="preserve" name="Nav_Team">
+    <value>Ekip</value>
+  </data>
+  <data xml:space="preserve" name="Nav_Vehicles">
+    <value>Araçlar</value>
+  </data>
+  <data xml:space="preserve" name="Nav_WorkshopFloor">
+    <value>Atölye sahnesi</value>
+  </data>
+  <data xml:space="preserve" name="Onboarding_Complete_EnterDashboard">
+    <value>Panelinize girin</value>
+  </data>
+  <data xml:space="preserve" name="Onboarding_Complete_FirstLocation">
+    <value>İlk lokasyon</value>
+  </data>
+  <data xml:space="preserve" name="Onboarding_Complete_Heading">
+    <value>Çalışma alanınız hazır</value>
+  </data>
+  <data xml:space="preserve" name="Onboarding_Complete_Help">
+    <value>Tüm operasyon modüllerine panelinizden erişebilirsiniz. Operasyon panosunu keşfederek veya ekibinizi davet ederek başlayın.</value>
+  </data>
+  <data xml:space="preserve" name="Onboarding_Complete_Organization">
+    <value>Organizasyon</value>
+  </data>
+  <data xml:space="preserve" name="Onboarding_Complete_Subtitle">
+    <value>WorkshopOS'a hoş geldiniz. Premium otomotiv operasyon platformunuz yapılandırıldı ve sizi bekliyor.</value>
+  </data>
+  <data xml:space="preserve" name="Onboarding_Complete_Title">
+    <value>Çalışma alanı hazır</value>
+  </data>
+  <data xml:space="preserve" name="Onboarding_Complete_ViewOperationsBoard">
+    <value>Operasyon panosunu görüntüle</value>
+  </data>
+  <data xml:space="preserve" name="Onboarding_Complete_YourRole">
+    <value>Rolünüz</value>
+  </data>
+  <data xml:space="preserve" name="Onboarding_CreateWorkshop">
+    <value>Atölye oluştur</value>
+  </data>
+  <data xml:space="preserve" name="Onboarding_Description">
+    <value>Sahip hesabınızı ve ilk atölye lokasyonunuzu kurun. Premium çalışma alanınız sizi bekliyor.</value>
+  </data>
+  <data xml:space="preserve" name="Onboarding_Heading">
+    <value>Atölyenizi oluşturun</value>
+  </data>
+  <data xml:space="preserve" name="Onboarding_Placeholder_Currency">
+    <value>TRY</value>
+  </data>
+  <data xml:space="preserve" name="Onboarding_Placeholder_LocationCode">
+    <value>ANA</value>
+  </data>
+  <data xml:space="preserve" name="Onboarding_Placeholder_LocationName">
+    <value>Ana atölye</value>
+  </data>
+  <data xml:space="preserve" name="Onboarding_Placeholder_OrganizationName">
+    <value>ör. Apex Oto Servis</value>
+  </data>
+  <data xml:space="preserve" name="Onboarding_Placeholder_TimeZone">
+    <value>Europe/Istanbul</value>
+  </data>
+  <data xml:space="preserve" name="Onboarding_Section_OrganizationLocation">
+    <value>Organizasyon ve lokasyon</value>
+  </data>
+  <data xml:space="preserve" name="Onboarding_Section_OwnerAccount">
+    <value>Sahip hesabı</value>
+  </data>
+  <data xml:space="preserve" name="Onboarding_SignInInstead">
+    <value>Bunun yerine giriş yap</value>
+  </data>
+  <data xml:space="preserve" name="Onboarding_Title">
+    <value>Atölyenizi oluşturun</value>
+  </data>
+  <data xml:space="preserve" name="Operations_ActiveJobs">
+    <value>Aktif işler · Güncel</value>
+  </data>
+  <data xml:space="preserve" name="Operations_Description">
+    <value>Aktif iş emri kuyruğu</value>
+  </data>
+  <data xml:space="preserve" name="Operations_DraftIntake">
+    <value>Taslak / kabul</value>
+  </data>
+  <data xml:space="preserve" name="Operations_InProgress">
+    <value>Devam eden · Güncel</value>
+  </data>
+  <data xml:space="preserve" name="Operations_InProgressColumn">
+    <value>Devam ediyor</value>
+  </data>
+  <data xml:space="preserve" name="Operations_NoRepairOrders">
+    <value>İş emri yok</value>
+  </data>
+  <data xml:space="preserve" name="Operations_NoRepairOrdersColumn">
+    <value>Bu sütunda iş emri yok.</value>
+  </data>
+  <data xml:space="preserve" name="Operations_OtherActiveStatuses">
+    <value>Diğer aktif durumlar</value>
+  </data>
+  <data xml:space="preserve" name="Operations_RepairOrderList">
+    <value>İş emri listesi</value>
+  </data>
+  <data xml:space="preserve" name="Operations_TechnicianLabel">
+    <value>Teknisyen:</value>
+  </data>
+  <data xml:space="preserve" name="Operations_Title">
+    <value>Atölye operasyonları</value>
+  </data>
+  <data xml:space="preserve" name="Operations_TruncatedWarning">
+    <value>İlk 200 eşleşme gösteriliyor. Daha spesifik sonuçlar için filtreleri daraltın.</value>
+  </data>
+  <data xml:space="preserve" name="Operations_Unassigned">
+    <value>Atanmamış · Güncel</value>
+  </data>
+  <data xml:space="preserve" name="Operations_UnassignedFilter">
+    <value>Atanmamış</value>
+  </data>
+  <data xml:space="preserve" name="Operations_Urgent">
+    <value>Acil · Güncel</value>
+  </data>
+  <data xml:space="preserve" name="Organization_Description">
+    <value>Bu oturum için kullanılacak atölye çalışma alanını seçin.</value>
+  </data>
+  <data xml:space="preserve" name="Organization_Eyebrow">
+    <value>Çalışma alanı</value>
+  </data>
+  <data xml:space="preserve" name="Organization_Section_Available">
+    <value>Kullanılabilir çalışma alanları</value>
+  </data>
+  <data xml:space="preserve" name="Organization_Title">
+    <value>Organizasyon seç</value>
+  </data>
+  <data xml:space="preserve" name="PartCatalog_AddPart">
+    <value>Parça ekle</value>
+  </data>
+  <data xml:space="preserve" name="PartCatalog_Count">
+    <value>{0} parça</value>
+  </data>
+  <data xml:space="preserve" name="PartCatalog_CreateDescription">
+    <value>Teklif, faturalama ve stok takibi için parça SKU'su ekleyin.</value>
+  </data>
+  <data xml:space="preserve" name="PartCatalog_CreateTitle">
+    <value>Parça oluştur</value>
+  </data>
+  <data xml:space="preserve" name="PartCatalog_DeactivateHelp">
+    <value>Stokta bulunan parçalar devre dışı bırakılamaz.</value>
+  </data>
+  <data xml:space="preserve" name="PartCatalog_EditTitle">
+    <value>Parçayı düzenle</value>
+  </data>
+  <data xml:space="preserve" name="PartCatalog_Eyebrow">
+    <value>Parça kataloğu</value>
+  </data>
+  <data xml:space="preserve" name="PartCatalog_NoFilters">
+    <value>Mevcut filtrelere uyan parça yok.</value>
+  </data>
+  <data xml:space="preserve" name="PartCatalog_NoParts">
+    <value>Parça yok</value>
+  </data>
+  <data xml:space="preserve" name="PartCatalog_PriceChangeHelp">
+    <value>Katalog fiyatını değiştirmek mevcut teklif kalemlerini etkilemez.</value>
+  </data>
+  <data xml:space="preserve" name="PartCatalog_SearchPlaceholder">
+    <value>SKU, ad veya açıklama</value>
+  </data>
+  <data xml:space="preserve" name="PartCatalog_Section_Availability">
+    <value>Kullanılabilirlik</value>
+  </data>
+  <data xml:space="preserve" name="PartCatalog_Section_Identity">
+    <value>Parça kimliği</value>
+  </data>
+  <data xml:space="preserve" name="PartCatalog_Section_Pricing">
+    <value>Fiyatlandırma</value>
+  </data>
+  <data xml:space="preserve" name="PartCatalog_Title">
+    <value>Parça kataloğu</value>
+  </data>
+  <data xml:space="preserve" name="Portal_AccessTitle">
+    <value>Güvenli teklif erişimi - WorkshopOS</value>
+  </data>
+  <data xml:space="preserve" name="Portal_ApproveEstimate">
+    <value>Teklifi onayla</value>
+  </data>
+  <data xml:space="preserve" name="Portal_ContactWorkshop">
+    <value>Bu güvenli bağlantı geçersiz veya artık kullanılamıyor. Yeni teklif bağlantısı için atölyenizle iletişime geçin.</value>
+  </data>
+  <data xml:space="preserve" name="Portal_DecisionHelp">
+    <value>Bu teklif için onayınızı veya reddinizi gönderin. Bu dijital imza değildir.</value>
+  </data>
+  <data xml:space="preserve" name="Portal_DeclineEstimate">
+    <value>Teklifi reddet</value>
+  </data>
+  <data xml:space="preserve" name="Portal_EndSession">
+    <value>Güvenli oturumu sonlandır</value>
+  </data>
+  <data xml:space="preserve" name="Portal_EstimateDeclined">
+    <value>Bu teklif reddedildi.</value>
+  </data>
+  <data xml:space="preserve" name="Portal_EstimateTitle">
+    <value>Teklif {0}</value>
+  </data>
+  <data xml:space="preserve" name="Portal_EstimateTotal">
+    <value>Teklif toplamı</value>
+  </data>
+  <data xml:space="preserve" name="Portal_InvalidLink">
+    <value>Bu güvenli bağlantı geçersiz veya artık kullanılamıyor.</value>
+  </data>
+  <data xml:space="preserve" name="Portal_JavaScriptRequired">
+    <value>Bu güvenli teklif bağlantısını güvenle açmak için JavaScript gereklidir. Lütfen JavaScript'i etkinleştirin ve bağlantıyı tekrar açın.</value>
+  </data>
+  <data xml:space="preserve" name="Portal_MessageFromWorkshop">
+    <value>Atölyeden mesaj</value>
+  </data>
+  <data xml:space="preserve" name="Portal_OpeningLink">
+    <value>Güvenli teklif bağlantınız açılıyor…</value>
+  </data>
+  <data xml:space="preserve" name="Portal_PortalDecision">
+    <value>Müşteri portalı kararı: {0}</value>
+  </data>
+  <data xml:space="preserve" name="Portal_PresentedAt">
+    <value>Sunulma {0}</value>
+  </data>
+  <data xml:space="preserve" name="Portal_RecommendedWork">
+    <value>Önerilen işler</value>
+  </data>
+  <data xml:space="preserve" name="Portal_RepairOrder">
+    <value>İş emri {0}</value>
+  </data>
+  <data xml:space="preserve" name="Portal_SecureLinkUnavailable">
+    <value>Güvenli bağlantı kullanılamıyor</value>
+  </data>
+  <data xml:space="preserve" name="Portal_ThankYouApproved">
+    <value>Teşekkürler. Bu teklif onaylandı.</value>
+  </data>
+  <data xml:space="preserve" name="Portal_UnavailableTitle">
+    <value>Teklif erişimi kullanılamıyor - WorkshopOS</value>
+  </data>
+  <data xml:space="preserve" name="Portal_Unit">
+    <value>Birim</value>
+  </data>
+  <data xml:space="preserve" name="Portal_Vehicle">
+    <value>Araç</value>
+  </data>
+  <data xml:space="preserve" name="Portal_YourDecision">
+    <value>Kararınız</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_AssignTechnician">
+    <value>Teknisyen ata</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_AssignedAt">
+    <value>(atanma {0})</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_AssignedUnassignedAt">
+    <value>(atanma {0}, kaldırılma {1})</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_AssignmentHistory">
+    <value>Atama geçmişi</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_Billing">
+    <value>Faturalama</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_CloseCommercially">
+    <value>Ticari olarak kapat</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_CommercialStatus">
+    <value>Ticari durum</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_CommerciallyClosed">
+    <value>Ticari olarak kapatıldı</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_CountInView">
+    <value>Görünümde {0} iş emri</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_Create">
+    <value>İş emri oluştur</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_CreateDescription">
+    <value>Gelen veya plansız kabul. Müşteri ve araç CRM'de kayıtlı olmalıdır.</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_CreateEstimate">
+    <value>Teklif oluştur</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_CreateInspection">
+    <value>Kontrol oluştur</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_CreateInvoice">
+    <value>Fatura oluştur</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_CreateTitle">
+    <value>İş emri oluştur</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_CurrentInvoice">
+    <value>Güncel fatura</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_DigitalInspections">
+    <value>Dijital araç kontrolleri</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_EditIntake">
+    <value>Kabulü düzenle</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_EditIntakeDescription">
+    <value>Müşteri, araç ve randevu bağlantısı burada değiştirilemez.</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_EditIntakeTitle">
+    <value>Servis kabulünü düzenle</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_EstimateCount">
+    <value>Teklif sayısı</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_Estimates">
+    <value>Teklifler</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_Eyebrow">
+    <value>İş emri</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_Inspection">
+    <value>Kontrol</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_InspectionCount">
+    <value>Kontrol sayısı</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_JobAssignment">
+    <value>İş ataması</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_JobIdentity">
+    <value>İş kimliği</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_LatestEstimate">
+    <value>Son teklif</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_LatestInspection">
+    <value>Son kontrol</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_MarkMyWorkComplete">
+    <value>İşimi tamamlandı olarak işaretle</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_NoFilters">
+    <value>Mevcut filtrelere uyan iş emri yok.</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_NoMatching">
+    <value>Eşleşen iş emri yok</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_NoYet">
+    <value>Henüz iş emri yok</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_NoYetDesc">
+    <value>Atölye işlerini takip etmek için iş emri oluşturun.</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_OpenedMeta">
+    <value>Açılış {0} UTC</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_ReassignTo">
+    <value>Yeniden ata</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_Remaining">
+    <value>kalan</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_SaveIntake">
+    <value>Kabulü kaydet</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_SearchPlaceholder">
+    <value>Numara, müşteri, araç</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_ServiceIntake">
+    <value>Servis kabulü</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_StartMyWork">
+    <value>İşime başla</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_StartWork">
+    <value>İşe başla</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_Title">
+    <value>İş emirleri</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_UnassignTechnician">
+    <value>Teknisyen atamasını kaldır</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_UpdatePriority">
+    <value>Önceliği güncelle</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_ViewAllEstimates">
+    <value>Tüm teklifleri görüntüle</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_ViewAllInvoices">
+    <value>Tüm faturaları görüntüle</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_ViewAppointment">
+    <value>Randevuyu görüntüle</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_ViewEstimate">
+    <value>Teklifi görüntüle</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_ViewInspection">
+    <value>Kontrolü görüntüle</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_ViewInvoice">
+    <value>Faturayı görüntüle</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_WalkInHelp">
+    <value>Gelen kabul için müşteri ve aracın CRM'de kayıtlı olması gerekir.</value>
+  </data>
+  <data xml:space="preserve" name="RepairOrders_WorkshopOperations">
+    <value>Atölye operasyonları</value>
+  </data>
+  <data xml:space="preserve" name="Reporting_Filter_Apply">
+    <value>Filtreleri uygula</value>
+  </data>
+  <data xml:space="preserve" name="Reporting_Filter_From">
+    <value>Başlangıç</value>
+  </data>
+  <data xml:space="preserve" name="Reporting_Filter_Location">
+    <value>Lokasyon</value>
+  </data>
+  <data xml:space="preserve" name="Reporting_Filter_Presets">
+    <value>Hazır aralıklar:</value>
+  </data>
+  <data xml:space="preserve" name="Reporting_Filter_To">
+    <value>Bitiş</value>
+  </data>
+  <data xml:space="preserve" name="Reports_ActiveAssigned">
+    <value>Aktif atanan</value>
+  </data>
+  <data xml:space="preserve" name="Reports_ActiveRo">
+    <value>Aktif iş emri</value>
+  </data>
+  <data xml:space="preserve" name="Reports_AppointmentsPeriod">
+    <value>Randevular · {0}</value>
+  </data>
+  <data xml:space="preserve" name="Reports_AppointmentsPeriodShort">
+    <value>Randevular · dönem</value>
+  </data>
+  <data xml:space="preserve" name="Reports_AppointmentsScheduledHelp">
+    <value>Seçilen dönem içinde planlanan başlangıç.</value>
+  </data>
+  <data xml:space="preserve" name="Reports_AssignedCurrent">
+    <value>Atanmış · Güncel</value>
+  </data>
+  <data xml:space="preserve" name="Reports_AssignmentActive">
+    <value>Atama (aktif işler)</value>
+  </data>
+  <data xml:space="preserve" name="Reports_CheckedIn">
+    <value>Giriş yapıldı</value>
+  </data>
+  <data xml:space="preserve" name="Reports_CommercialLink">
+    <value>Ticari rapor</value>
+  </data>
+  <data xml:space="preserve" name="Reports_CommercialLinkSuffix">
+    <value>finansal metrikler için.</value>
+  </data>
+  <data xml:space="preserve" name="Reports_CommercialTitle">
+    <value>Ticari rapor</value>
+  </data>
+  <data xml:space="preserve" name="Reports_CommerciallyClosedJobs">
+    <value>Ticari olarak kapatılan işler</value>
+  </data>
+  <data xml:space="preserve" name="Reports_CompletedPeriod">
+    <value>Tamamlanan · dönem</value>
+  </data>
+  <data xml:space="preserve" name="Reports_Confirmed">
+    <value>Onaylandı</value>
+  </data>
+  <data xml:space="preserve" name="Reports_CriticalFindings">
+    <value>Kritik bulgular (tamamlanan kontroller)</value>
+  </data>
+  <data xml:space="preserve" name="Reports_CurrentOutstanding">
+    <value>Güncel ödenmemiş tutarlar</value>
+  </data>
+  <data xml:space="preserve" name="Reports_DecisionApprovalRate">
+    <value>Karar onay oranı</value>
+  </data>
+  <data xml:space="preserve" name="Reports_DecisionSource">
+    <value>Karar kaynağı · {0}</value>
+  </data>
+  <data xml:space="preserve" name="Reports_DviPeriod">
+    <value>KDV · {0}</value>
+  </data>
+  <data xml:space="preserve" name="Reports_EstimateFunnel">
+    <value>Teklif karar hunisi · {0}</value>
+  </data>
+  <data xml:space="preserve" name="Reports_InProgress">
+    <value>Devam eden</value>
+  </data>
+  <data xml:space="preserve" name="Reports_InspectionsCompleted">
+    <value>Tamamlanan kontroller</value>
+  </data>
+  <data xml:space="preserve" name="Reports_InvoiceState">
+    <value>Fatura durumu · Güncel</value>
+  </data>
+  <data xml:space="preserve" name="Reports_InvoicedAmounts">
+    <value>Faturalanan tutarlar · {0}</value>
+  </data>
+  <data xml:space="preserve" name="Reports_InvoicesIssued">
+    <value>Kesilen faturalar</value>
+  </data>
+  <data xml:space="preserve" name="Reports_LocationBreakdown">
+    <value>Lokasyon dağılımı</value>
+  </data>
+  <data xml:space="preserve" name="Reports_NoActiveRo">
+    <value>Aktif iş emri yok.</value>
+  </data>
+  <data xml:space="preserve" name="Reports_NoActiveTechnicians">
+    <value>Aktif teknisyen yok.</value>
+  </data>
+  <data xml:space="preserve" name="Reports_NoOutstanding">
+    <value>Ödenmemiş fatura yok</value>
+  </data>
+  <data xml:space="preserve" name="Reports_NoShow">
+    <value>Gelmedi</value>
+  </data>
+  <data xml:space="preserve" name="Reports_OpenDvi">
+    <value>Açık KDV</value>
+  </data>
+  <data xml:space="preserve" name="Reports_OpenDviCurrent">
+    <value>Açık KDV · Güncel</value>
+  </data>
+  <data xml:space="preserve" name="Reports_OperationsTitle">
+    <value>Operasyon raporu</value>
+  </data>
+  <data xml:space="preserve" name="Reports_OutstandingInvoices">
+    <value>Ödenmemiş faturalar</value>
+  </data>
+  <data xml:space="preserve" name="Reports_PartiallyPaid">
+    <value>Kısmen ödendi</value>
+  </data>
+  <data xml:space="preserve" name="Reports_PaymentsDisclaimer">
+    <value>Kayıtlı ödemeler atölye tarafından girilen ödeme defteri kayıtlarını yansıtır; muhasebe gelir tahakkuku değildir.</value>
+  </data>
+  <data xml:space="preserve" name="Reports_PortalApprovals">
+    <value>Portal onayları</value>
+  </data>
+  <data xml:space="preserve" name="Reports_PortalDeclines">
+    <value>Portal redleri</value>
+  </data>
+  <data xml:space="preserve" name="Reports_Presented">
+    <value>Sunuldu</value>
+  </data>
+  <data xml:space="preserve" name="Reports_RecordedPayments">
+    <value>Kayıtlı ödemeler · {0}</value>
+  </data>
+  <data xml:space="preserve" name="Reports_RoPriorityActive">
+    <value>İş emri önceliği (aktif)</value>
+  </data>
+  <data xml:space="preserve" name="Reports_RoStatusActive">
+    <value>İş emri durumu (aktif)</value>
+  </data>
+  <data xml:space="preserve" name="Reports_Scheduled">
+    <value>Planlandı</value>
+  </data>
+  <data xml:space="preserve" name="Reports_StaffApprovals">
+    <value>Personel kayıtlı onaylar</value>
+  </data>
+  <data xml:space="preserve" name="Reports_StaffDeclines">
+    <value>Personel kayıtlı redler</value>
+  </data>
+  <data xml:space="preserve" name="Reports_TechnicianWorkload">
+    <value>Teknisyen iş yükü</value>
+  </data>
+  <data xml:space="preserve" name="Reports_TotalScheduled">
+    <value>Toplam planlanan: {0}</value>
+  </data>
+  <data xml:space="preserve" name="Reports_UnassignedCurrent">
+    <value>Atanmamış · Güncel</value>
+  </data>
+  <data xml:space="preserve" name="Reports_WorkCompletedPeriod">
+    <value>Tamamlanan iş · {0}</value>
+  </data>
+  <data xml:space="preserve" name="ServiceCatalog_AddService">
+    <value>Hizmet ekle</value>
+  </data>
+  <data xml:space="preserve" name="ServiceCatalog_Count">
+    <value>{0} hizmet</value>
+  </data>
+  <data xml:space="preserve" name="ServiceCatalog_CreateDescription">
+    <value>Teklif ve faturalama için kullanılabilir atölye hizmetlerini tanımlayın.</value>
+  </data>
+  <data xml:space="preserve" name="ServiceCatalog_CreateTitle">
+    <value>Hizmet oluştur</value>
+  </data>
+  <data xml:space="preserve" name="ServiceCatalog_EditTitle">
+    <value>Hizmeti düzenle</value>
+  </data>
+  <data xml:space="preserve" name="ServiceCatalog_Eyebrow">
+    <value>Hizmet kataloğu</value>
+  </data>
+  <data xml:space="preserve" name="ServiceCatalog_NoFilters">
+    <value>Mevcut filtrelere uyan hizmet yok.</value>
+  </data>
+  <data xml:space="preserve" name="ServiceCatalog_NoServices">
+    <value>Hizmet yok</value>
+  </data>
+  <data xml:space="preserve" name="ServiceCatalog_PriceChangeHelp">
+    <value>Katalog fiyatını değiştirmek mevcut teklif kalemlerini etkilemez.</value>
+  </data>
+  <data xml:space="preserve" name="ServiceCatalog_SearchPlaceholder">
+    <value>Kod, ad veya açıklama</value>
+  </data>
+  <data xml:space="preserve" name="ServiceCatalog_Section_Availability">
+    <value>Kullanılabilirlik</value>
+  </data>
+  <data xml:space="preserve" name="ServiceCatalog_Section_Identity">
+    <value>Hizmet kimliği</value>
+  </data>
+  <data xml:space="preserve" name="ServiceCatalog_Section_Pricing">
+    <value>Fiyatlandırma</value>
+  </data>
+  <data xml:space="preserve" name="ServiceCatalog_Title">
+    <value>Hizmet kataloğu</value>
+  </data>
+  <data xml:space="preserve" name="Status_Active">
+    <value>Aktif</value>
+  </data>
+  <data xml:space="preserve" name="Status_Appointment_Cancelled">
+    <value>İptal edildi</value>
+  </data>
+  <data xml:space="preserve" name="Status_Appointment_CheckedIn">
+    <value>Giriş yapıldı</value>
+  </data>
+  <data xml:space="preserve" name="Status_Appointment_Completed">
+    <value>Tamamlandı</value>
+  </data>
+  <data xml:space="preserve" name="Status_Appointment_Confirmed">
+    <value>Onaylandı</value>
+  </data>
+  <data xml:space="preserve" name="Status_Appointment_NoShow">
+    <value>Gelmedi</value>
+  </data>
+  <data xml:space="preserve" name="Status_Appointment_Scheduled">
+    <value>Planlandı</value>
+  </data>
+  <data xml:space="preserve" name="Status_Estimate_Approved">
+    <value>Onaylandı</value>
+  </data>
+  <data xml:space="preserve" name="Status_Estimate_Declined">
+    <value>Reddedildi</value>
+  </data>
+  <data xml:space="preserve" name="Status_Estimate_Draft">
+    <value>Taslak</value>
+  </data>
+  <data xml:space="preserve" name="Status_Estimate_Sent">
+    <value>Gönderildi</value>
+  </data>
+  <data xml:space="preserve" name="Status_Inactive">
+    <value>Pasif</value>
+  </data>
+  <data xml:space="preserve" name="Status_InspectionCondition_Attention">
+    <value>Dikkat</value>
+  </data>
+  <data xml:space="preserve" name="Status_InspectionCondition_Critical">
+    <value>Kritik</value>
+  </data>
+  <data xml:space="preserve" name="Status_InspectionCondition_Good">
+    <value>İyi</value>
+  </data>
+  <data xml:space="preserve" name="Status_InspectionCondition_Monitor">
+    <value>İzle</value>
+  </data>
+  <data xml:space="preserve" name="Status_InspectionCondition_NotChecked">
+    <value>Kontrol edilmedi</value>
+  </data>
+  <data xml:space="preserve" name="Status_Inspection_Cancelled">
+    <value>İptal edildi</value>
+  </data>
+  <data xml:space="preserve" name="Status_Inspection_Completed">
+    <value>Tamamlandı</value>
+  </data>
+  <data xml:space="preserve" name="Status_Inspection_Draft">
+    <value>Taslak</value>
+  </data>
+  <data xml:space="preserve" name="Status_Inspection_InProgress">
+    <value>Devam ediyor</value>
+  </data>
+  <data xml:space="preserve" name="Status_Invoice_Draft">
+    <value>Taslak</value>
+  </data>
+  <data xml:space="preserve" name="Status_Invoice_Issued">
+    <value>Kesildi</value>
+  </data>
+  <data xml:space="preserve" name="Status_Invoice_Voided">
+    <value>İptal edildi</value>
+  </data>
+  <data xml:space="preserve" name="Status_Payment_Paid">
+    <value>Ödendi</value>
+  </data>
+  <data xml:space="preserve" name="Status_Payment_PartiallyPaid">
+    <value>Kısmen ödendi</value>
+  </data>
+  <data xml:space="preserve" name="Status_Payment_Unpaid">
+    <value>Ödenmedi</value>
+  </data>
+  <data xml:space="preserve" name="Status_Priority_High">
+    <value>Yüksek</value>
+  </data>
+  <data xml:space="preserve" name="Status_Priority_Low">
+    <value>Düşük</value>
+  </data>
+  <data xml:space="preserve" name="Status_Priority_Normal">
+    <value>Normal</value>
+  </data>
+  <data xml:space="preserve" name="Status_Priority_Urgent">
+    <value>Acil</value>
+  </data>
+  <data xml:space="preserve" name="Status_RepairOrder_Approved">
+    <value>Onaylandı</value>
+  </data>
+  <data xml:space="preserve" name="Status_RepairOrder_AwaitingApproval">
+    <value>Onay bekliyor</value>
+  </data>
+  <data xml:space="preserve" name="Status_RepairOrder_Cancelled">
+    <value>İptal edildi</value>
+  </data>
+  <data xml:space="preserve" name="Status_RepairOrder_Completed">
+    <value>Tamamlandı</value>
+  </data>
+  <data xml:space="preserve" name="Status_RepairOrder_Diagnosis">
+    <value>Teşhis</value>
+  </data>
+  <data xml:space="preserve" name="Status_RepairOrder_Draft">
+    <value>Taslak</value>
+  </data>
+  <data xml:space="preserve" name="Status_RepairOrder_InProgress">
+    <value>Devam ediyor</value>
+  </data>
+  <data xml:space="preserve" name="Status_RepairOrder_QualityControl">
+    <value>Kalite kontrol</value>
+  </data>
+  <data xml:space="preserve" name="Status_RepairOrder_ReadyForPickup">
+    <value>Teslime hazır</value>
+  </data>
+  <data xml:space="preserve" name="Status_TechnicianWork_Assigned">
+    <value>Atandı</value>
+  </data>
+  <data xml:space="preserve" name="Status_TechnicianWork_InProgress">
+    <value>Devam ediyor</value>
+  </data>
+  <data xml:space="preserve" name="Status_TechnicianWork_WorkCompleted">
+    <value>İş tamamlandı</value>
+  </data>
+  <data xml:space="preserve" name="Team_Actions">
+    <value>İşlemler</value>
+  </data>
+  <data xml:space="preserve" name="Team_AddStaff">
+    <value>Personel profili ekle</value>
+  </data>
+  <data xml:space="preserve" name="Team_CreateDescription">
+    <value>Operasyonel personel kaydı oluşturun. Giriş erişimi organizasyon üyeliği ile ayrı yönetilir.</value>
+  </data>
+  <data xml:space="preserve" name="Team_CreateStaff">
+    <value>Personel profili oluştur</value>
+  </data>
+  <data xml:space="preserve" name="Team_CreateTitle">
+    <value>Personel profili ekle</value>
+  </data>
+  <data xml:space="preserve" name="Team_Deactivate">
+    <value>Pasifleştir</value>
+  </data>
+  <data xml:space="preserve" name="Team_Description">
+    <value>Personel profilleri, giriş erişimi ve atölye lokasyon atamaları.</value>
+  </data>
+  <data xml:space="preserve" name="Team_EditTitle">
+    <value>Personel profilini düzenle</value>
+  </data>
+  <data xml:space="preserve" name="Team_InactivityHelp">
+    <value>Personel pasifliği giriş erişimini askıya almaz.</value>
+  </data>
+  <data xml:space="preserve" name="Team_Locations">
+    <value>Lokasyonlar</value>
+  </data>
+  <data xml:space="preserve" name="Team_LoginAccess">
+    <value>Giriş erişimi</value>
+  </data>
+  <data xml:space="preserve" name="Team_LoginLinkage">
+    <value>Giriş bağlantısı</value>
+  </data>
+  <data xml:space="preserve" name="Team_LoginLinkageHelp">
+    <value>Mevcut organizasyon üyeliği girişine isteğe bağlı bağlantı. Personel pozisyonu erişim sağlamaz.</value>
+  </data>
+  <data xml:space="preserve" name="Team_MembershipNote">
+    <value>Üyelik rolleri yetkilendirmeyi kontrol eder. Personel pozisyonu erişim sağlamaz.</value>
+  </data>
+  <data xml:space="preserve" name="Team_NotLinked">
+    <value>Bağlı değil</value>
+  </data>
+  <data xml:space="preserve" name="Team_OperationalStatus">
+    <value>Operasyonel durum</value>
+  </data>
+  <data xml:space="preserve" name="Team_OrganizationAccess">
+    <value>Organizasyon erişimi</value>
+  </data>
+  <data xml:space="preserve" name="Team_PageTitle">
+    <value>Atölye ekibi</value>
+  </data>
+  <data xml:space="preserve" name="Team_Position">
+    <value>Pozisyon</value>
+  </data>
+  <data xml:space="preserve" name="Team_Role">
+    <value>Rol</value>
+  </data>
+  <data xml:space="preserve" name="Team_SetRole">
+    <value>Rol ata</value>
+  </data>
+  <data xml:space="preserve" name="Team_SetStatus">
+    <value>Durum ata</value>
+  </data>
+  <data xml:space="preserve" name="Team_StaffProfile">
+    <value>Personel profili</value>
+  </data>
+  <data xml:space="preserve" name="Team_StaffProfiles">
+    <value>Personel profilleri</value>
+  </data>
+  <data xml:space="preserve" name="Team_Title">
+    <value>Ekip</value>
+  </data>
+  <data xml:space="preserve" name="Team_User">
+    <value>Kullanıcı</value>
+  </data>
+  <data xml:space="preserve" name="Team_WorkshopLocations">
+    <value>Atölye lokasyonları</value>
+  </data>
+  <data xml:space="preserve" name="Validation_PasswordsDoNotMatch">
+    <value>Şifreler eşleşmiyor.</value>
+  </data>
+  <data xml:space="preserve" name="Vehicles_Column_Plate">
+    <value>Plaka</value>
+  </data>
+  <data xml:space="preserve" name="Vehicles_Create">
+    <value>Araç oluştur</value>
+  </data>
+  <data xml:space="preserve" name="Vehicles_CreateDescription">
+    <value>Bir araç kaydedin ve isteğe bağlı olarak bir müşteriye bağlayın.</value>
+  </data>
+  <data xml:space="preserve" name="Vehicles_CreateTitle">
+    <value>Araç oluştur</value>
+  </data>
+  <data xml:space="preserve" name="Vehicles_DetailEyebrow">
+    <value>Araç</value>
+  </data>
+  <data xml:space="preserve" name="Vehicles_EditTitle">
+    <value>Aracı düzenle</value>
+  </data>
+  <data xml:space="preserve" name="Vehicles_Empty_Description">
+    <value>Mevcut filtrelere uyan araç bulunamadı.</value>
+  </data>
+  <data xml:space="preserve" name="Vehicles_Empty_Title">
+    <value>Araç yok</value>
+  </data>
+  <data xml:space="preserve" name="Vehicles_Eyebrow">
+    <value>Araçlar</value>
+  </data>
+  <data xml:space="preserve" name="Vehicles_ListCount">
+    <value>Görünümde {0} araç</value>
+  </data>
+  <data xml:space="preserve" name="Vehicles_ListCountForCustomer">
+    <value>Araçlar gösteriliyor:</value>
+  </data>
+  <data xml:space="preserve" name="Vehicles_ListCountSuffix">
+    <value>— {0} araç</value>
+  </data>
+  <data xml:space="preserve" name="Vehicles_ReassignCustomer">
+    <value>Müşteriyi yeniden ata</value>
+  </data>
+  <data xml:space="preserve" name="Vehicles_ReassignTitle">
+    <value>Müşteriyi yeniden ata</value>
+  </data>
+  <data xml:space="preserve" name="Vehicles_Related_Appointments">
+    <value>Randevular</value>
+  </data>
+  <data xml:space="preserve" name="Vehicles_Related_AppointmentsSummary">
+    <value>{0} yaklaşan randevu</value>
+  </data>
+  <data xml:space="preserve" name="Vehicles_Related_AppointmentsSummaryNext">
+    <value>{0} yaklaşan randevu — sonraki {1} UTC</value>
+  </data>
+  <data xml:space="preserve" name="Vehicles_Related_LatestRepairOrder">
+    <value>Son: {0}</value>
+  </data>
+  <data xml:space="preserve" name="Vehicles_Related_RepairOrdersSummary">
+    <value>{0} iş emri</value>
+  </data>
+  <data xml:space="preserve" name="Vehicles_Related_RepairOrdersSummaryLastOpened">
+    <value>{0} iş emri — son açılış {1}</value>
+  </data>
+  <data xml:space="preserve" name="Vehicles_Related_ServiceHistory">
+    <value>Servis geçmişi</value>
+  </data>
+  <data xml:space="preserve" name="Vehicles_Related_ViewAppointments">
+    <value>Randevuları görüntüle</value>
+  </data>
+  <data xml:space="preserve" name="Vehicles_Related_ViewRepairOrders">
+    <value>İş emirlerini görüntüle</value>
+  </data>
+  <data xml:space="preserve" name="Vehicles_SearchPlaceholder">
+    <value>Marka, model, plaka, şasi veya müşteri</value>
+  </data>
+  <data xml:space="preserve" name="Vehicles_Section_CurrentCustomer">
+    <value>Mevcut müşteri</value>
+  </data>
+  <data xml:space="preserve" name="Vehicles_Section_CurrentOwnership">
+    <value>Mevcut sahiplik</value>
+  </data>
+  <data xml:space="preserve" name="Vehicles_Section_Identity">
+    <value>Araç kimliği</value>
+  </data>
+  <data xml:space="preserve" name="Vehicles_Section_NewCustomer">
+    <value>Yeni müşteri</value>
+  </data>
+  <data xml:space="preserve" name="Vehicles_Section_Ownership">
+    <value>Müşteri sahipliği</value>
+  </data>
+  <data xml:space="preserve" name="Vehicles_Title">
+    <value>Araçlar</value>
+  </data>
+  <data xml:space="preserve" name="Work_ContinueInspection">
+    <value>Kontrole devam et</value>
+  </data>
+  <data xml:space="preserve" name="Work_Description">
+    <value>Size atanan iş emirleri ve aktif teknisyen görevleri.</value>
+  </data>
+  <data xml:space="preserve" name="Work_Eyebrow">
+    <value>Atölye sahası</value>
+  </data>
+  <data xml:space="preserve" name="Work_JobStatus">
+    <value>İş durumu</value>
+  </data>
+  <data xml:space="preserve" name="Work_NoAssignmentsDesc">
+    <value>Şu anda size atanmış iş emri yok.</value>
+  </data>
+  <data xml:space="preserve" name="Work_NoAssignmentsTitle">
+    <value>Aktif atama yok</value>
+  </data>
+  <data xml:space="preserve" name="Work_NoProfileDesc">
+    <value>Hesabınız aktif bir teknisyen personel profiline bağlı değil. Girişinizi bağlamak için atölye yöneticinize başvurun.</value>
+  </data>
+  <data xml:space="preserve" name="Work_NoProfileTitle">
+    <value>Teknisyen profili bağlı değil</value>
+  </data>
+  <data xml:space="preserve" name="Work_OperationsBoard">
+    <value>Operasyon panosu</value>
+  </data>
+  <data xml:space="preserve" name="Work_RepairOrder">
+    <value>İş emri</value>
+  </data>
+  <data xml:space="preserve" name="Work_StartInspection">
+    <value>Kontrole başla</value>
+  </data>
+  <data xml:space="preserve" name="Work_Title">
+    <value>İşlerim</value>
+  </data>
+  <data xml:space="preserve" name="Work_YourWork">
+    <value>Sizin işiniz</value>
+  </data>
+  <data name="Language_English" xml:space="preserve">
+    <value>EN</value>
+  </data>
+  <data name="Language_Turkish" xml:space="preserve">
+    <value>TR</value>
+  </data>
+  <data name="Login_Email" xml:space="preserve">
+    <value>E-posta</value>
+  </data>
+  <data name="Login_Password" xml:space="preserve">
+    <value>Şifre</value>
+  </data>
+  <data name="Login_RememberMe" xml:space="preserve">
+    <value>Beni hatırla</value>
+  </data>
+<data name="Common_Processing" xml:space="preserve"><value>İşleniyor...</value></data><data name="Reporting_Filter_Preset_7D" xml:space="preserve"><value>7G</value></data><data name="Reporting_Filter_Preset_30D" xml:space="preserve"><value>30G</value></data><data name="Reporting_Filter_Preset_90D" xml:space="preserve"><value>90G</value></data><data name="Reporting_Filter_Preset_1Y" xml:space="preserve"><value>1Y</value></data><data name="Account_MenuHeading" xml:space="preserve"><value>Hesap</value></data><data name="Account_MyProfile" xml:space="preserve"><value>Profilim</value></data><data name="Account_Profile_Title" xml:space="preserve"><value>Profilim</value></data><data name="Account_Profile_Eyebrow" xml:space="preserve"><value>Hesap</value></data><data name="Account_Profile_Description" xml:space="preserve"><value>Personel hesap bilgilerinizi görüntüleyin ve güncelleyin.</value></data><data name="Account_Settings" xml:space="preserve"><value>Ayarlar</value></data><data name="Account_Settings_Title" xml:space="preserve"><value>Ayarlar</value></data><data name="Account_Settings_Eyebrow" xml:space="preserve"><value>Tercihler</value></data><data name="Account_Settings_Description" xml:space="preserve"><value>Dil, çalışma alanı bağlamı ve hesap tercihlerinizi yönetin.</value></data><data name="Account_Security" xml:space="preserve"><value>Güvenlik</value></data><data name="Account_Security_Title" xml:space="preserve"><value>Güvenlik</value></data><data name="Account_Security_Eyebrow" xml:space="preserve"><value>Hesap güvenliği</value></data><data name="Account_Security_Description" xml:space="preserve"><value>Şifrenizi güncelleyin ve hesap güvenlik ayarlarınızı yönetin.</value></data><data name="Account_Security_SettingsLead" xml:space="preserve"><value>Atölye hesabınızı güçlü bir şifre ile koruyun.</value></data><data name="Account_ChangePassword" xml:space="preserve"><value>Şifre değiştir</value></data><data name="Account_UpdatePassword" xml:space="preserve"><value>Şifreyi güncelle</value></data><data name="Account_CurrentPassword" xml:space="preserve"><value>Mevcut şifre</value></data><data name="Account_NewPassword" xml:space="preserve"><value>Yeni şifre</value></data><data name="Account_ConfirmPassword" xml:space="preserve"><value>Yeni şifreyi onayla</value></data><data name="Account_SwitchWorkspace" xml:space="preserve"><value>Atölye değiştir</value></data><data name="Account_Identity" xml:space="preserve"><value>Kimlik</value></data><data name="Account_Email" xml:space="preserve"><value>E-posta</value></data><data name="Account_Organization" xml:space="preserve"><value>Organizasyon</value></data><data name="Account_Role" xml:space="preserve"><value>Rol</value></data><data name="Account_MembershipStatus" xml:space="preserve"><value>Üyelik durumu</value></data><data name="Account_Language" xml:space="preserve"><value>Dil</value></data><data name="Account_Language_Description" xml:space="preserve"><value>Atölye çalışma alanı için arayüz dilini seçin.</value></data><data name="Account_RegionalContext" xml:space="preserve"><value>Bölgesel bağlam</value></data><data name="Account_TimeZone" xml:space="preserve"><value>Saat dilimi</value></data><data name="Account_Workspace" xml:space="preserve"><value>Çalışma alanı</value></data><data name="Account_SavePhone" xml:space="preserve"><value>Telefonu kaydet</value></data><data name="Account_PhoneUpdated" xml:space="preserve"><value>Telefon numarası güncellendi.</value></data><data name="Account_PasswordChanged" xml:space="preserve"><value>Şifre başarıyla güncellendi.</value></data><data name="Account_InvalidCurrentPassword" xml:space="preserve"><value>Mevcut şifre hatalı.</value></data><data name="Role_Owner" xml:space="preserve"><value>Sahip</value></data><data name="Role_Administrator" xml:space="preserve"><value>Yönetici</value></data><data name="Role_ServiceAdvisor" xml:space="preserve"><value>Servis danışmanı</value></data><data name="Role_Technician" xml:space="preserve"><value>Teknisyen</value></data><data name="Role_Viewer" xml:space="preserve"><value>Görüntüleyici</value></data><data name="MembershipStatus_Active" xml:space="preserve"><value>Aktif</value></data><data name="MembershipStatus_Suspended" xml:space="preserve"><value>Askıya alındı</value></data><data name="MembershipStatus_Revoked" xml:space="preserve"><value>İptal edildi</value></data><data name="Operations_AssignmentFilter" xml:space="preserve"><value>Atama</value></data></root>

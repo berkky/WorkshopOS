@@ -1,34 +1,34 @@
 @model WorkshopOS.Web.Models.Catalog.PartCatalogListViewModel
 @{
-    ViewData["Title"] = "Parts catalog";
+    ViewData["Title"] = Localizer["PartCatalog_Title"].Value;
 }
 
 <header class="wos-page-header">
     <div>
-        <h1 class="wos-page-title">Parts catalog</h1>
-        <p class="wos-page-description">@Model.TotalCount part(s)</p>
+        <h1 class="wos-page-title">@Localizer["PartCatalog_Title"]</h1>
+        <p class="wos-page-description">@string.Format(Localizer["PartCatalog_Count"].Value, Model.TotalCount)</p>
     </div>
     @if (Model.CanManageCatalog)
     {
         <div class="wos-page-actions">
-            <a class="btn btn-wos-primary" asp-action="Create">Add part</a>
+            <a class="btn btn-wos-primary" asp-action="Create">@Localizer["PartCatalog_AddPart"]</a>
         </div>
     }
 </header>
 
 <form method="get" class="wos-filter-bar row g-3 align-items-end mb-4">
     <div class="col-md-5">
-        <label class="form-label">Search</label>
-        <input name="search" value="@Model.Search" class="form-control" placeholder="SKU, name, or description" />
+        <label class="form-label">@Localizer["Common_Search"]</label>
+        <input name="search" value="@Model.Search" class="form-control" placeholder="@Localizer["PartCatalog_SearchPlaceholder"]" />
     </div>
     <div class="col-md-2">
-        <button type="submit" class="btn btn-outline-secondary w-100">Search</button>
+        <button type="submit" class="btn btn-outline-secondary w-100">@Localizer["Common_Search"]</button>
     </div>
 </form>
 
 @if (Model.Parts.Count == 0)
 {
-    @await Html.PartialAsync("_EmptyState", new EmptyStateViewModel { Title = "No parts", Description = "No parts match the current filters." })
+    @await Html.PartialAsync("_EmptyState", new EmptyStateViewModel { Title = Localizer["PartCatalog_NoParts"].Value, Description = Localizer["PartCatalog_NoFilters"].Value })
 }
 else
 {
@@ -36,10 +36,10 @@ else
         <table class="table table-hover mb-0 align-middle">
             <thead>
                 <tr>
-                    <th>SKU</th>
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th>Status</th>
+                    <th>@Localizer["Common_Sku"]</th>
+                    <th>@Localizer["Common_Name"]</th>
+                    <th>@Localizer["Common_Price"]</th>
+                    <th>@Localizer["Common_Status"]</th>
                     <th></th>
                 </tr>
             </thead>
@@ -54,7 +54,7 @@ else
                     <td class="text-end">
                         @if (Model.CanManageCatalog)
                         {
-                            <a asp-action="Edit" asp-route-partCatalogItemId="@part.PartCatalogItemId" class="btn btn-sm btn-outline-primary">Edit</a>
+                            <a asp-action="Edit" asp-route-partCatalogItemId="@part.PartCatalogItemId" class="btn btn-sm btn-outline-primary">@Localizer["Common_Edit"]</a>
                         }
                     </td>
                 </tr>

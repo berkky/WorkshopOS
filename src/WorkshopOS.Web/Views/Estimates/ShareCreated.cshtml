@@ -1,31 +1,31 @@
 @model WorkshopOS.Web.Models.CustomerPortal.EstimateShareCreatedViewModel
 @{
-    ViewData["Title"] = Model.IsRotation ? "Rotated secure link" : "Secure customer link";
+    ViewData["Title"] = Model.IsRotation ? Localizer["Estimates_ShareRotatedPageTitle"].Value : Localizer["Estimates_ShareCreatedPageTitle"].Value;
 }
 
 @await Html.PartialAsync("_PageHeader", new PageHeaderViewModel
 {
-    Eyebrow = "Estimates",
-    Title = Model.IsRotation ? "New secure customer link" : "Secure customer link created",
-    Description = "This link is shown once. Copy it now and send it to your customer."
+    Eyebrow = Localizer["Estimates_Title"].Value,
+    Title = Model.IsRotation ? Localizer["Estimates_ShareRotatedTitle"].Value : Localizer["Estimates_ShareCreatedTitle"].Value,
+    Description = Localizer["Estimates_ShareDescription"].Value
 })
 
 <div class="alert alert-warning">
-    The secure link below contains a private access token. It will not be shown again after you leave this page.
+    @Localizer["Estimates_ShareWarning"]
 </div>
 
 <section class="wos-form-section mb-4">
-    <h2 class="wos-form-section-title">Secure customer link</h2>
+    <h2 class="wos-form-section-title">@Localizer["Estimates_SecureCustomerLink"]</h2>
     <div class="wos-field wos-field-full">
-        <label class="wos-field-label" for="share-link">Link URL</label>
+        <label class="wos-field-label" for="share-link">@Localizer["Estimates_LinkUrl"]</label>
         <div class="input-group">
             <input id="share-link" class="form-control" readonly value="" />
-            <button type="button" class="btn btn-outline-secondary" id="copy-share-link">Copy link</button>
+            <button type="button" class="btn btn-outline-secondary" id="copy-share-link">@Localizer["Estimates_CopyLink"]</button>
         </div>
-        <p class="wos-field-help mt-2 mb-0">Expires @Model.ExpiresAtUtc.ToString("u")</p>
+        <p class="wos-field-help mt-2 mb-0">@string.Format(Localizer["Estimates_ExpiresAt"].Value, UiFormatting.FormatDateTime(Model.ExpiresAtUtc))</p>
     </div>
     <div class="wos-form-actions border-0 pt-3 mt-0">
-        <a asp-action="Details" asp-route-estimateId="@Model.EstimateId" class="btn btn-wos-quiet">Back to estimate</a>
+        <a asp-action="Details" asp-route-estimateId="@Model.EstimateId" class="btn btn-wos-quiet">@Localizer["Estimates_BackToEstimate"]</a>
     </div>
 </section>
 

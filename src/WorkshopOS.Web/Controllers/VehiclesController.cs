@@ -4,6 +4,7 @@ using WorkshopOS.Application.Customers;
 using WorkshopOS.Application.RepairOrders;
 using WorkshopOS.Application.Vehicles;
 using WorkshopOS.Infrastructure.Authorization;
+using WorkshopOS.Web.Localization;
 using WorkshopOS.Web.Models.Vehicles;
 
 namespace WorkshopOS.Web.Controllers;
@@ -16,17 +17,20 @@ public sealed class VehiclesController : Controller
     private readonly ICustomerManagementService _customerManagementService;
     private readonly IRepairOrderManagementService _repairOrderManagementService;
     private readonly IAuthorizationService _authorizationService;
+    private readonly IWebFailureMessages _messages;
 
     public VehiclesController(
         IVehicleManagementService vehicleManagementService,
         ICustomerManagementService customerManagementService,
         IRepairOrderManagementService repairOrderManagementService,
-        IAuthorizationService authorizationService)
+        IAuthorizationService authorizationService,
+        IWebFailureMessages messages)
     {
         _vehicleManagementService = vehicleManagementService;
         _customerManagementService = customerManagementService;
         _repairOrderManagementService = repairOrderManagementService;
         _authorizationService = authorizationService;
+        _messages = messages;
     }
 
     [HttpGet("")]
@@ -112,7 +116,7 @@ public sealed class VehiclesController : Controller
 
         if (!result.Success)
         {
-            ModelState.AddModelError(string.Empty, MapFailure(result.FailureReason));
+            ModelState.AddModelError(string.Empty, _messages.Vehicle(result.FailureReason));
             viewModel.CustomerOptions = await LoadCustomerOptionsAsync();
             return View(viewModel);
         }
@@ -213,7 +217,7 @@ public sealed class VehiclesController : Controller
                 return NotFound();
             }
 
-            ModelState.AddModelError(string.Empty, MapFailure(result.FailureReason));
+            ModelState.AddModelError(string.Empty, _messages.Vehicle(result.FailureReason));
             return View(viewModel);
         }
 
@@ -260,7 +264,7 @@ public sealed class VehiclesController : Controller
                 return NotFound();
             }
 
-            ModelState.AddModelError(string.Empty, MapFailure(result.FailureReason));
+            ModelState.AddModelError(string.Empty, _messages.Vehicle(result.FailureReason));
             var details = await _vehicleManagementService.GetVehicleDetailsAsync(vehicleId);
             if (details is not null)
             {
@@ -294,15 +298,4 @@ public sealed class VehiclesController : Controller
     private static string FormatVehicleSummary(string make, string model, int? modelYear) =>
         modelYear.HasValue ? $"{make} {model} ({modelYear})" : $"{make} {model}";
 
-    private static string MapFailure(VehicleOperationFailureReason? reason) =>
-        reason switch
-        {
-            VehicleOperationFailureReason.InvalidInput =>
-                "Please check the vehicle details and try again.",
-            VehicleOperationFailureReason.CustomerNotFound =>
-                "The selected customer was not found in the current organization.",
-            VehicleOperationFailureReason.OrganizationUnresolved =>
-                "Organization context is not available.",
-            _ => "Unable to save vehicle record.",
-        };
 }

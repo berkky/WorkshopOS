@@ -5,36 +5,36 @@
 @if (!Model.RepairOrderId.HasValue)
 {
     <section class="wos-form-section">
-        <h2 class="wos-form-section-title">Job assignment</h2>
+        <h2 class="wos-form-section-title">@Localizer["RepairOrders_JobAssignment"]</h2>
         <div class="wos-form-grid">
             <div class="wos-field wos-field-full">
                 <label asp-for="WorkshopLocationId" class="wos-field-label"></label>
                 <select asp-for="WorkshopLocationId" class="form-select" asp-items="@(new SelectList(Model.LocationOptions, nameof(WorkshopOS.Application.Team.WorkshopLocationOption.WorkshopLocationId), nameof(WorkshopOS.Application.Team.WorkshopLocationOption.Name)))">
-                    <option value="">Select location</option>
+                    <option value="">@Localizer["Common_SelectLocation"]</option>
                 </select>
                 <span asp-validation-for="WorkshopLocationId" class="wos-field-error"></span>
             </div>
             <div class="wos-field">
                 <label asp-for="CustomerId" class="wos-field-label"></label>
                 <select asp-for="CustomerId" class="form-select" asp-items="@(new SelectList(Model.CustomerOptions, nameof(WorkshopOS.Web.Models.Appointments.CustomerOptionViewModel.CustomerId), nameof(WorkshopOS.Web.Models.Appointments.CustomerOptionViewModel.DisplayName)))">
-                    <option value="">Select customer</option>
+                    <option value="">@Localizer["Common_SelectCustomer"]</option>
                 </select>
                 <span asp-validation-for="CustomerId" class="wos-field-error"></span>
             </div>
             <div class="wos-field">
                 <label asp-for="VehicleId" class="wos-field-label"></label>
                 <select asp-for="VehicleId" class="form-select" asp-items="@(new SelectList(Model.VehicleOptions, nameof(WorkshopOS.Web.Models.Appointments.VehicleOptionViewModel.VehicleId), nameof(WorkshopOS.Web.Models.Appointments.VehicleOptionViewModel.Summary)))">
-                    <option value="">Select vehicle</option>
+                    <option value="">@Localizer["Common_SelectVehicle"]</option>
                 </select>
                 <span asp-validation-for="VehicleId" class="wos-field-error"></span>
             </div>
         </div>
-        <p class="wos-field-help mb-0 mt-3">Walk-in intake requires an existing customer and vehicle in CRM.</p>
+        <p class="wos-field-help mb-0 mt-3">@Localizer["RepairOrders_WalkInHelp"]</p>
     </section>
 }
 
 <section class="wos-form-section">
-    <h2 class="wos-form-section-title">Service intake</h2>
+    <h2 class="wos-form-section-title">@Localizer["RepairOrders_ServiceIntake"]</h2>
     <div class="wos-form-grid">
         <div class="wos-field wos-field-full">
             <label asp-for="CustomerConcern" class="wos-field-label"></label>

@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using WorkshopOS.Application.Vehicles;
+using WorkshopOS.Web;
 
 namespace WorkshopOS.Web.Models.Vehicles;
 
@@ -46,30 +47,30 @@ public sealed class VehicleFormViewModel
 
     [Required]
     [MaxLength(VehicleInputValidator.MaxMakeLength)]
-    [Display(Name = "Make")]
+    [Display(Name = "Field_Make")]
     public string Make { get; set; } = string.Empty;
 
     [Required]
     [MaxLength(VehicleInputValidator.MaxModelLength)]
-    [Display(Name = "Model")]
+    [Display(Name = "Field_Model")]
     public string Model { get; set; } = string.Empty;
 
-    [Display(Name = "Model year")]
+    [Display(Name = "Field_ModelYear")]
     public int? ModelYear { get; set; }
 
     [MaxLength(VehicleInputValidator.MaxVinLength)]
-    [Display(Name = "VIN / chassis")]
+    [Display(Name = "Field_VinChassis")]
     public string? Vin { get; set; }
 
     [MaxLength(VehicleInputValidator.MaxRegistrationPlateLength)]
-    [Display(Name = "License plate")]
+    [Display(Name = "Field_LicensePlate")]
     public string? RegistrationPlate { get; set; }
 
     [MaxLength(VehicleInputValidator.MaxColorLength)]
-    [Display(Name = "Color")]
+    [Display(Name = "Field_Color")]
     public string? Color { get; set; }
 
-    [Display(Name = "Current customer")]
+    [Display(Name = "Field_CurrentCustomer")]
     public Guid? CurrentCustomerId { get; set; }
 
     public IReadOnlyList<CustomerOptionViewModel> CustomerOptions { get; set; } =
@@ -84,7 +85,7 @@ public sealed class VehicleReassignViewModel
 
     public string? CurrentCustomerDisplayName { get; set; }
 
-    [Display(Name = "New customer")]
+    [Display(Name = "Field_NewCustomer")]
     public Guid? NewCurrentCustomerId { get; set; }
 
     public IReadOnlyList<CustomerOptionViewModel> CustomerOptions { get; set; } =

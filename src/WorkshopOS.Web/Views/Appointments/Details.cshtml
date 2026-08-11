@@ -1,13 +1,13 @@
 @model WorkshopOS.Web.Models.Appointments.AppointmentDetailsViewModel
 @using Microsoft.AspNetCore.Html
 @{
-    ViewData["Title"] = "Appointment details";
+    ViewData["Title"] = Localizer["Appointments_DetailsTitle"].Value;
     var scheduleTitle = $"{Model.ScheduledStartLocal:g} – {Model.ScheduledEndLocal:t}";
 }
 
 @await Html.PartialAsync("_DetailWorkspaceHeader", new DetailWorkspaceHeaderViewModel
 {
-    Eyebrow = "Appointment",
+    Eyebrow = Localizer["Appointments_Eyebrow"].Value,
     Title = scheduleTitle,
     Meta = new HtmlString($"""
         {Model.CustomerDisplayName} · {Model.VehicleSummary}
@@ -19,56 +19,56 @@
 <div class="wos-action-cluster mb-4">
     @if (Model.CanManageAppointments && Model.Status != WorkshopOS.Domain.Appointments.AppointmentStatus.Cancelled)
     {
-        <a asp-action="Edit" asp-route-appointmentId="@Model.AppointmentId" class="btn btn-outline-secondary">Edit</a>
-        <a asp-action="Reschedule" asp-route-appointmentId="@Model.AppointmentId" class="btn btn-outline-secondary">Reschedule</a>
+        <a asp-action="Edit" asp-route-appointmentId="@Model.AppointmentId" class="btn btn-outline-secondary">@Localizer["Common_Edit"]</a>
+        <a asp-action="Reschedule" asp-route-appointmentId="@Model.AppointmentId" class="btn btn-outline-secondary">@Localizer["Appointments_Reschedule"]</a>
         <form asp-action="Cancel" asp-route-appointmentId="@Model.AppointmentId" method="post" class="d-inline">
             @Html.AntiForgeryToken()
-            <button type="submit" class="btn btn-outline-warning">Cancel appointment</button>
+            <button type="submit" class="btn btn-outline-warning">@Localizer["Appointments_CancelAppointment"]</button>
         </form>
     }
-    <a asp-action="Calendar" class="btn btn-outline-secondary">Calendar</a>
-    <a asp-action="Index" class="btn btn-wos-quiet">Back to list</a>
+    <a asp-action="Calendar" class="btn btn-outline-secondary">@Localizer["Common_Calendar"]</a>
+    <a asp-action="Index" class="btn btn-wos-quiet">@Localizer["Common_BackToList"]</a>
 </div>
 
 <div class="wos-detail-grid">
     <section class="wos-detail-panel">
-        <h2 class="wos-detail-panel-title">Schedule</h2>
+        <h2 class="wos-detail-panel-title">@Localizer["Common_Schedule"]</h2>
         <dl class="wos-dl">
             <div class="wos-dl-row">
-                <dt>Status</dt>
+                <dt>@Localizer["Common_Status"]</dt>
                 <dd><partial name="_StatusBadge" model="StatusPresentation.ForAppointment(Model.Status)" /></dd>
             </div>
             <div class="wos-dl-row">
-                <dt>Start</dt>
-                <dd>@Model.ScheduledStartLocal.ToString("g") (@Model.TimeZoneId)</dd>
+                <dt>@Localizer["Common_Start"]</dt>
+                <dd>@UiFormatting.FormatDateTime(Model.ScheduledStartLocal) (@Model.TimeZoneId)</dd>
             </div>
             <div class="wos-dl-row">
-                <dt>End</dt>
-                <dd>@Model.ScheduledEndLocal.ToString("g")</dd>
+                <dt>@Localizer["Common_End"]</dt>
+                <dd>@UiFormatting.FormatDateTime(Model.ScheduledEndLocal)</dd>
             </div>
             <div class="wos-dl-row">
-                <dt>Location</dt>
+                <dt>@Localizer["Common_Location"]</dt>
                 <dd>@Model.WorkshopLocationName</dd>
             </div>
             <div class="wos-dl-row">
-                <dt>Created</dt>
-                <dd>@Model.CreatedAtUtc.ToString("u")</dd>
+                <dt>@Localizer["Common_Created"]</dt>
+                <dd>@UiFormatting.FormatDateTime(Model.CreatedAtUtc)</dd>
             </div>
             <div class="wos-dl-row">
-                <dt>Updated</dt>
-                <dd>@Model.UpdatedAtUtc.ToString("u")</dd>
+                <dt>@Localizer["Common_Updated"]</dt>
+                <dd>@UiFormatting.FormatDateTime(Model.UpdatedAtUtc)</dd>
             </div>
         </dl>
     </section>
     <section class="wos-detail-panel">
-        <h2 class="wos-detail-panel-title">Customer &amp; vehicle</h2>
+        <h2 class="wos-detail-panel-title">@Localizer["Appointments_CustomerAndVehicle"]</h2>
         <dl class="wos-dl">
             <div class="wos-dl-row">
-                <dt>Customer</dt>
+                <dt>@Localizer["Common_Customer"]</dt>
                 <dd><a asp-controller="Customers" asp-action="Details" asp-route-customerId="@Model.CustomerId">@Model.CustomerDisplayName</a></dd>
             </div>
             <div class="wos-dl-row">
-                <dt>Vehicle</dt>
+                <dt>@Localizer["Common_Vehicle"]</dt>
                 <dd><a asp-controller="Vehicles" asp-action="Details" asp-route-vehicleId="@Model.VehicleId">@Model.VehicleSummary</a></dd>
             </div>
         </dl>
@@ -78,7 +78,7 @@
 @if (!string.IsNullOrWhiteSpace(Model.CustomerConcern))
 {
     <section class="wos-workspace-section">
-        <h2 class="wos-section-title">Customer concern</h2>
+        <h2 class="wos-section-title">@Localizer["Field_CustomerConcern"]</h2>
         <div class="wos-note-block">@Model.CustomerConcern</div>
     </section>
 }
@@ -86,30 +86,30 @@
 @if (!string.IsNullOrWhiteSpace(Model.InternalNotes))
 {
     <section class="wos-workspace-section">
-        <h2 class="wos-section-title">Internal notes</h2>
+        <h2 class="wos-section-title">@Localizer["Field_InternalNotes"]</h2>
         <div class="wos-note-block">@Model.InternalNotes</div>
     </section>
 }
 
 <section class="wos-workspace-section">
-    <h2 class="wos-section-title">Repair order</h2>
+    <h2 class="wos-section-title">@Localizer["Appointments_RepairOrder"]</h2>
     @if (Model.LinkedRepairOrderId.HasValue)
     {
         <p>
-            Linked repair order:
-            <a asp-controller="RepairOrders" asp-action="Details" asp-route-repairOrderId="@Model.LinkedRepairOrderId" class="btn btn-sm btn-outline-primary ms-2">View repair order</a>
+            @Localizer["Appointments_LinkedRepairOrder"]
+            <a asp-controller="RepairOrders" asp-action="Details" asp-route-repairOrderId="@Model.LinkedRepairOrderId" class="btn btn-sm btn-outline-primary ms-2">@Localizer["Appointments_ViewRepairOrder"]</a>
         </p>
     }
     else if (Model.CanManageRepairOrders)
     {
-        <p class="wos-page-description mb-3">Convert this appointment into a repair order when the customer arrives.</p>
+        <p class="wos-page-description mb-3">@Localizer["Appointments_ConvertToRepairOrder"]</p>
         <form asp-controller="RepairOrders" asp-action="CreateFromAppointment" asp-route-appointmentId="@Model.AppointmentId" method="post" class="d-inline">
             @Html.AntiForgeryToken()
-            <button type="submit" class="btn btn-wos-primary">Create repair order</button>
+            <button type="submit" class="btn btn-wos-primary">@Localizer["RepairOrders_Create"]</button>
         </form>
     }
     else
     {
-        @await Html.PartialAsync("_EmptyState", new EmptyStateViewModel { Title = "No repair order linked", Description = "A repair order has not been created from this appointment yet." })
+        @await Html.PartialAsync("_EmptyState", new EmptyStateViewModel { Title = Localizer["Appointments_NoRepairOrderLinked"].Value, Description = Localizer["Appointments_NoRepairOrderLinkedDesc"].Value })
     }
 </section>

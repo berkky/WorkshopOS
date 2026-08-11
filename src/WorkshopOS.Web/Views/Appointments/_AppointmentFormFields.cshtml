@@ -3,12 +3,12 @@
 <partial name="_FormValidationSummary" />
 
 <section class="wos-form-section">
-    <h2 class="wos-form-section-title">Customer &amp; vehicle</h2>
+    <h2 class="wos-form-section-title">@Localizer["Appointments_CustomerAndVehicle"]</h2>
     <div class="wos-form-grid">
         <div class="wos-field">
             <label asp-for="CustomerId" class="wos-field-label"></label>
             <select asp-for="CustomerId" class="form-select">
-                <option value="">Select customer</option>
+                <option value="">@Localizer["Common_SelectCustomer"]</option>
                 @foreach (var customer in Model.CustomerOptions)
                 {
                     <option value="@customer.CustomerId">@customer.DisplayName</option>
@@ -19,7 +19,7 @@
         <div class="wos-field">
             <label asp-for="VehicleId" class="wos-field-label"></label>
             <select asp-for="VehicleId" class="form-select">
-                <option value="">Select vehicle</option>
+                <option value="">@Localizer["Common_SelectVehicle"]</option>
                 @foreach (var vehicle in Model.VehicleOptions)
                 {
                     <option value="@vehicle.VehicleId">@vehicle.Summary</option>
@@ -31,11 +31,11 @@
 </section>
 
 <section class="wos-form-section">
-    <h2 class="wos-form-section-title">Workshop location</h2>
+    <h2 class="wos-form-section-title">@Localizer["Field_WorkshopLocation"]</h2>
     <div class="wos-field wos-field-full">
         <label asp-for="WorkshopLocationId" class="wos-field-label"></label>
         <select asp-for="WorkshopLocationId" class="form-select">
-            <option value="">Select location</option>
+            <option value="">@Localizer["Common_SelectLocation"]</option>
             @foreach (var location in Model.LocationOptions)
             {
                 <option value="@location.WorkshopLocationId">@location.Name</option>
@@ -48,7 +48,7 @@
 @if (!Model.AppointmentId.HasValue)
 {
     <section class="wos-form-section">
-        <h2 class="wos-form-section-title">Schedule</h2>
+        <h2 class="wos-form-section-title">@Localizer["Common_Schedule"]</h2>
         <div class="wos-form-grid">
             <div class="wos-field">
                 <label asp-for="LocalDate" class="wos-field-label"></label>
@@ -68,12 +68,12 @@
                 <span asp-validation-for="EndTime" class="wos-field-error"></span>
             </div>
         </div>
-        <p class="wos-field-help mt-3 mb-0">Times use the workshop location timezone. Overlap rules are enforced server-side.</p>
+        <p class="wos-field-help mt-3 mb-0">@Localizer["Appointments_ScheduleHelp"]</p>
     </section>
 }
 
 <section class="wos-form-section">
-    <h2 class="wos-form-section-title">Job context</h2>
+    <h2 class="wos-form-section-title">@Localizer["Appointments_JobContext"]</h2>
     <div class="wos-form-grid">
         <div class="wos-field wos-field-full">
             <label asp-for="CustomerConcern" class="wos-field-label"></label>
@@ -84,7 +84,7 @@
             <label asp-for="InternalNotes" class="wos-field-label"></label>
             <textarea asp-for="InternalNotes" class="form-control" rows="3"></textarea>
             <span asp-validation-for="InternalNotes" class="wos-field-error"></span>
-            <p class="wos-field-help">Staff-only notes for scheduling and intake context.</p>
+            <p class="wos-field-help">@Localizer["Appointments_InternalNotesHelp"]</p>
         </div>
     </div>
 </section>

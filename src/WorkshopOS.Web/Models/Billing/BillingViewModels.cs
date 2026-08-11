@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using WorkshopOS.Web;
 using WorkshopOS.Application.Billing;
 using WorkshopOS.Application.Team;
 using WorkshopOS.Domain.Billing;
@@ -159,20 +160,20 @@ public sealed class InvoiceItemFormViewModel
 
     public Guid? InvoiceItemId { get; set; }
 
-    [Display(Name = "Type")]
+    [Display(Name = "Field_Type")]
     public InvoiceItemType Type { get; set; } = InvoiceItemType.Service;
 
     [Required]
     [MaxLength(InvoiceInputValidator.MaxDescriptionLength)]
-    [Display(Name = "Description")]
+    [Display(Name = "Field_Description")]
     public string Description { get; set; } = string.Empty;
 
     [Required]
-    [Display(Name = "Quantity")]
+    [Display(Name = "Field_Quantity")]
     public decimal Quantity { get; set; } = 1;
 
     [Required]
-    [Display(Name = "Unit price")]
+    [Display(Name = "Field_UnitPrice")]
     public decimal UnitPrice { get; set; }
 }
 
@@ -181,7 +182,7 @@ public sealed class InvoiceCommercialNotesFormViewModel
     public Guid InvoiceId { get; set; }
 
     [MaxLength(InvoiceInputValidator.MaxCommercialNotesLength)]
-    [Display(Name = "Commercial notes")]
+    [Display(Name = "Field_CommercialNotes")]
     public string? CommercialNotes { get; set; }
 }
 
@@ -190,17 +191,17 @@ public sealed class RecordPaymentFormViewModel
     public Guid InvoiceId { get; set; }
 
     [Required]
-    [Display(Name = "Amount")]
+    [Display(Name = "Field_Amount")]
     public decimal Amount { get; set; }
 
-    [Display(Name = "Payment method")]
+    [Display(Name = "Field_PaymentMethod")]
     public PaymentMethod PaymentMethod { get; set; } = PaymentMethod.Cash;
 
     [MaxLength(InvoiceInputValidator.MaxReferenceLength)]
-    [Display(Name = "Reference")]
+    [Display(Name = "Field_Reference")]
     public string? Reference { get; set; }
 
     [MaxLength(InvoiceInputValidator.MaxNoteLength)]
-    [Display(Name = "Note")]
+    [Display(Name = "Field_Note")]
     public string? Note { get; set; }
 }

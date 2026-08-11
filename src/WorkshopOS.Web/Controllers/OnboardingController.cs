@@ -10,6 +10,7 @@ using WorkshopOS.Infrastructure.Authorization;
 using WorkshopOS.Infrastructure.Identity;
 using WorkshopOS.Infrastructure.Persistence;
 using WorkshopOS.Infrastructure.Tenancy;
+using WorkshopOS.Web.Localization;
 using WorkshopOS.Web.Models.Onboarding;
 
 namespace WorkshopOS.Web.Controllers;
@@ -22,19 +23,22 @@ public sealed class OnboardingController : Controller
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly OrganizationResolutionService _organizationResolutionService;
     private readonly AppDbContext _dbContext;
+    private readonly IWebFailureMessages _messages;
 
     public OnboardingController(
         IOwnerOnboardingService ownerOnboardingService,
         SignInManager<ApplicationUser> signInManager,
         UserManager<ApplicationUser> userManager,
         OrganizationResolutionService organizationResolutionService,
-        AppDbContext dbContext)
+        AppDbContext dbContext,
+        IWebFailureMessages messages)
     {
         _ownerOnboardingService = ownerOnboardingService;
         _signInManager = signInManager;
         _userManager = userManager;
         _organizationResolutionService = organizationResolutionService;
         _dbContext = dbContext;
+        _messages = messages;
     }
 
     [AllowAnonymous]
@@ -93,8 +97,8 @@ public sealed class OnboardingController : Controller
             ModelState.AddModelError(
                 string.Empty,
                 result.FailureCategory == OwnerOnboardingFailureCategory.InvalidInput
-                    ? "Lütfen girdiğiniz bilgileri kontrol edin."
-                    : "Bu bilgilerle hesap oluşturulamadı. Bilgileri kontrol edip tekrar deneyin.");
+                    ? _messages.OnboardingInvalidInput()
+                    : _messages.OnboardingFailed());
             return View(model);
         }
 
@@ -103,7 +107,7 @@ public sealed class OnboardingController : Controller
         {
             model.Password = string.Empty;
             model.ConfirmPassword = string.Empty;
-            ModelState.AddModelError(string.Empty, "Bu bilgilerle hesap oluşturulamadı. Bilgileri kontrol edip tekrar deneyin.");
+            ModelState.AddModelError(string.Empty, _messages.OnboardingFailed());
             return View(model);
         }
 

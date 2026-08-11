@@ -6,6 +6,7 @@ using WorkshopOS.Application.Inspections;
 using WorkshopOS.Application.Team;
 using WorkshopOS.Domain.Inspections;
 using WorkshopOS.Infrastructure.Authorization;
+using WorkshopOS.Web.Localization;
 using WorkshopOS.Web.Models.Inspections;
 
 namespace WorkshopOS.Web.Controllers;
@@ -16,15 +17,18 @@ public sealed class InspectionsController : Controller
     private readonly IInspectionManagementService _inspectionManagementService;
     private readonly IInspectionMediaService _inspectionMediaService;
     private readonly ITeamManagementService _teamManagementService;
+    private readonly IWebFailureMessages _messages;
 
     public InspectionsController(
         IInspectionManagementService inspectionManagementService,
         IInspectionMediaService inspectionMediaService,
-        ITeamManagementService teamManagementService)
+        ITeamManagementService teamManagementService,
+        IWebFailureMessages messages)
     {
         _inspectionManagementService = inspectionManagementService;
         _inspectionMediaService = inspectionMediaService;
         _teamManagementService = teamManagementService;
+        _messages = messages;
     }
 
     [HttpGet("/inspections")]
@@ -98,7 +102,7 @@ public sealed class InspectionsController : Controller
                 return Forbid();
             }
 
-            TempData["InspectionError"] = MapFailure(result.FailureReason);
+            TempData["InspectionError"] = _messages.Inspection(result.FailureReason);
             return RedirectToAction("Details", "RepairOrders", new { repairOrderId });
         }
 
@@ -152,7 +156,7 @@ public sealed class InspectionsController : Controller
 
         if (editableItems.Count == 0)
         {
-            TempData["InspectionError"] = "At least one checklist item update is required.";
+            TempData["InspectionError"] = _messages.InspectionChecklistRequired();
             return RedirectToAction(nameof(Details), new { inspectionId });
         }
 
@@ -215,7 +219,7 @@ public sealed class InspectionsController : Controller
 
         if (photo is null || photo.Length == 0)
         {
-            TempData["InspectionError"] = "A photo file is required.";
+            TempData["InspectionError"] = _messages.InspectionPhotoRequired();
             return RedirectToAction(nameof(Details), new { inspectionId });
         }
 
@@ -286,7 +290,7 @@ public sealed class InspectionsController : Controller
             return Forbid();
         }
 
-        TempData["InspectionError"] = MapMediaFailure(failureReason);
+        TempData["InspectionError"] = _messages.InspectionMedia(failureReason);
         return RedirectToAction(nameof(Details), new { inspectionId });
     }
 
@@ -305,7 +309,7 @@ public sealed class InspectionsController : Controller
             return Forbid();
         }
 
-        TempData["InspectionError"] = MapFailure(result.FailureReason);
+        TempData["InspectionError"] = _messages.Inspection(result.FailureReason);
         return RedirectToAction(nameof(Details), new { inspectionId });
     }
 
@@ -382,19 +386,6 @@ public sealed class InspectionsController : Controller
         };
     }
 
-    private static string MapMediaFailure(InspectionMediaOperationFailureReason? failureReason) =>
-        failureReason switch
-        {
-            InspectionMediaOperationFailureReason.UnsupportedMediaType =>
-                "Only JPEG, PNG, and WebP photos are supported.",
-            InspectionMediaOperationFailureReason.PhotoLimitExceeded =>
-                "The photo limit for this inspection item or inspection has been reached.",
-            InspectionMediaOperationFailureReason.InvalidInput =>
-                "The uploaded photo is invalid or exceeds the maximum size.",
-            InspectionMediaOperationFailureReason.InvalidLifecycleTransition =>
-                "Photos can only be added or removed while the inspection is in progress.",
-            _ => "The photo operation could not be completed.",
-        };
 
     private Guid? GetActorUserId()
     {
@@ -402,26 +393,4 @@ public sealed class InspectionsController : Controller
         return Guid.TryParse(value, out var userId) ? userId : null;
     }
 
-    private static string MapFailure(InspectionOperationFailureReason? failureReason) =>
-        failureReason switch
-        {
-            InspectionOperationFailureReason.OrganizationUnresolved =>
-                "Organization context is not resolved for this request.",
-            InspectionOperationFailureReason.InvalidInput => "One or more fields are invalid.",
-            InspectionOperationFailureReason.RepairOrderNotEligible =>
-                "Inspections cannot be created for completed or cancelled repair orders.",
-            InspectionOperationFailureReason.InvalidLifecycleTransition =>
-                "That workflow action is not allowed for the current inspection status.",
-            InspectionOperationFailureReason.ItemsNotFullyInspected =>
-                "Every checklist item must be inspected before completion.",
-            InspectionOperationFailureReason.EmptyInspection =>
-                "This inspection has no checklist items and cannot be completed.",
-            InspectionOperationFailureReason.ConcurrencyConflict =>
-                "The inspection could not be updated due to a concurrent change. Please try again.",
-            InspectionOperationFailureReason.ItemNotFound =>
-                "One or more checklist items could not be found for this inspection.",
-            InspectionOperationFailureReason.DuplicateItemSubmission =>
-                "Duplicate checklist item identifiers were submitted.",
-            _ => "The inspection operation could not be completed.",
-        };
 }

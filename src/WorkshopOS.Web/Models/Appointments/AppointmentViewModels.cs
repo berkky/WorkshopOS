@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using WorkshopOS.Web;
 using WorkshopOS.Application.Appointments;
 using WorkshopOS.Application.Team;
 using WorkshopOS.Domain.Appointments;
@@ -108,36 +109,36 @@ public sealed class AppointmentFormViewModel
     public Guid? AppointmentId { get; set; }
 
     [Required]
-    [Display(Name = "Workshop location")]
+    [Display(Name = "Field_WorkshopLocation")]
     public Guid WorkshopLocationId { get; set; }
 
     [Required]
-    [Display(Name = "Customer")]
+    [Display(Name = "Field_Customer")]
     public Guid CustomerId { get; set; }
 
     [Required]
-    [Display(Name = "Vehicle")]
+    [Display(Name = "Field_Vehicle")]
     public Guid VehicleId { get; set; }
 
     [Required]
-    [Display(Name = "Date")]
+    [Display(Name = "Field_Date")]
     [DataType(DataType.Date)]
     public DateOnly LocalDate { get; set; } = DateOnly.FromDateTime(DateTime.Today);
 
     [Required]
-    [Display(Name = "Start time")]
+    [Display(Name = "Field_StartTime")]
     public TimeOnly StartTime { get; set; } = new(9, 0);
 
     [Required]
-    [Display(Name = "End time")]
+    [Display(Name = "Field_EndTime")]
     public TimeOnly EndTime { get; set; } = new(10, 0);
 
     [MaxLength(AppointmentInputValidator.MaxCustomerConcernLength)]
-    [Display(Name = "Customer concern")]
+    [Display(Name = "Field_CustomerConcern")]
     public string? CustomerConcern { get; set; }
 
     [MaxLength(AppointmentInputValidator.MaxInternalNotesLength)]
-    [Display(Name = "Internal notes")]
+    [Display(Name = "Field_InternalNotes")]
     public string? InternalNotes { get; set; }
 
     public IReadOnlyList<WorkshopLocationOption> LocationOptions { get; set; } =
@@ -157,20 +158,20 @@ public sealed class AppointmentRescheduleViewModel
     public string Summary { get; set; } = string.Empty;
 
     [Required]
-    [Display(Name = "Workshop location")]
+    [Display(Name = "Field_WorkshopLocation")]
     public Guid WorkshopLocationId { get; set; }
 
     [Required]
-    [Display(Name = "Date")]
+    [Display(Name = "Field_Date")]
     [DataType(DataType.Date)]
     public DateOnly LocalDate { get; set; }
 
     [Required]
-    [Display(Name = "Start time")]
+    [Display(Name = "Field_StartTime")]
     public TimeOnly StartTime { get; set; }
 
     [Required]
-    [Display(Name = "End time")]
+    [Display(Name = "Field_EndTime")]
     public TimeOnly EndTime { get; set; }
 
     public IReadOnlyList<WorkshopLocationOption> LocationOptions { get; set; } =

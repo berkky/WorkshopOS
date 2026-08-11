@@ -1,10 +1,10 @@
 @{
-    ViewData["Title"] = "Access Denied";
+    ViewData["Title"] = Localizer["AccessDenied_Title"];
 }
 
 <div class="wos-access-denied">
     <div class="wos-access-denied-icon" aria-hidden="true">!</div>
-    <h1 class="wos-page-title">Access denied</h1>
-    <p class="wos-page-description">You do not have permission to access this resource.</p>
-    <a asp-controller="Dashboard" asp-action="Index" class="btn btn-wos-primary mt-3">Return to dashboard</a>
+    <h1 class="wos-page-title">@Localizer["AccessDenied_Heading"]</h1>
+    <p class="wos-page-description">@Localizer["AccessDenied_Description"]</p>
+    <a asp-controller="Dashboard" asp-action="Index" class="btn btn-wos-primary mt-3">@Localizer["AccessDenied_ReturnDashboard"]</a>
 </div>

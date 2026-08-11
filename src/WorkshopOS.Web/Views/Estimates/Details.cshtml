@@ -10,7 +10,7 @@
 
 @await Html.PartialAsync("_DetailWorkspaceHeader", new DetailWorkspaceHeaderViewModel
 {
-    Eyebrow = "Estimate",
+    Eyebrow = Localizer["Estimates_Eyebrow"].Value,
     Title = Model.Number,
     Meta = new HtmlString($"""
         {Model.CustomerDisplayName} · {Model.VehicleSummary} · {Model.Total} {Model.CurrencyCode}
@@ -22,9 +22,9 @@
 <div class="wos-action-cluster mb-4">
     @if (Model.CanEditItems)
     {
-        <a asp-action="Edit" asp-route-estimateId="@Model.EstimateId" class="btn btn-outline-secondary">Edit draft</a>
+        <a asp-action="Edit" asp-route-estimateId="@Model.EstimateId" class="btn btn-outline-secondary">@Localizer["Estimates_EditDraft"]</a>
     }
-    <a asp-action="Index" class="btn btn-wos-quiet">All estimates</a>
+    <a asp-action="Index" class="btn btn-wos-quiet">@Localizer["Estimates_AllEstimates"]</a>
 </div>
 
 @if (TempData["EstimateError"] is string estimateError)
@@ -35,58 +35,58 @@
 @if (isSent)
 {
     <div class="alert alert-info">
-        This estimate is awaiting customer decision. You may create a secure customer link below, or record a phone/in-person decision as workshop staff.
+        @Localizer["Estimates_AwaitingDecision"]
     </div>
 }
 
 <div class="wos-detail-grid mb-4">
     <section class="wos-detail-panel">
-        <h2 class="wos-detail-panel-title">Job context</h2>
+        <h2 class="wos-detail-panel-title">@Localizer["Appointments_JobContext"]</h2>
         <dl class="wos-dl">
             <div class="wos-dl-row">
-                <dt>Status</dt>
+                <dt>@Localizer["Common_Status"]</dt>
                 <dd><partial name="_StatusBadge" model="StatusPresentation.ForEstimate(Model.Status)" /></dd>
             </div>
             <div class="wos-dl-row">
-                <dt>Customer</dt>
+                <dt>@Localizer["Common_Customer"]</dt>
                 <dd>@Model.CustomerDisplayName</dd>
             </div>
             <div class="wos-dl-row">
-                <dt>Vehicle</dt>
+                <dt>@Localizer["Common_Vehicle"]</dt>
                 <dd>@Model.VehicleSummary</dd>
             </div>
             <div class="wos-dl-row">
-                <dt>Location</dt>
+                <dt>@Localizer["Common_Location"]</dt>
                 <dd>@Model.WorkshopLocationName</dd>
             </div>
             <div class="wos-dl-row">
-                <dt>Currency</dt>
+                <dt>@Localizer["Estimates_Currency"]</dt>
                 <dd>@Model.CurrencyCode</dd>
             </div>
             <div class="wos-dl-row">
-                <dt>Total</dt>
+                <dt>@Localizer["Common_Total"]</dt>
                 <dd>@Model.Total @Model.CurrencyCode</dd>
             </div>
             @if (Model.SentAtUtc.HasValue)
             {
                 <div class="wos-dl-row">
-                    <dt>Presented</dt>
-                    <dd>@Model.SentAtUtc.Value.ToString("u")</dd>
+                    <dt>@Localizer["Common_Presented"]</dt>
+                    <dd>@UiFormatting.FormatDateTime(Model.SentAtUtc.Value)</dd>
                 </div>
             }
             @if (Model.ApprovedAtUtc.HasValue)
             {
                 <div class="wos-dl-row">
-                    <dt>Approval recorded</dt>
+                    <dt>@Localizer["Estimates_ApprovalRecorded"]</dt>
                     <dd>
-                        @Model.ApprovedAtUtc.Value.ToString("u")
+                        @UiFormatting.FormatDateTime(Model.ApprovedAtUtc.Value)
                         @if (Model.Share?.PortalDecision == WorkshopOS.Domain.Estimates.EstimateShareDecision.Approved)
                         {
-                            <span class="text-muted">(customer portal approval)</span>
+                            <span class="text-muted">@Localizer["Estimates_PortalApproval"]</span>
                         }
                         else
                         {
-                            <span class="text-muted">(approval recorded by workshop staff)</span>
+                            <span class="text-muted">@Localizer["Estimates_StaffApproval"]</span>
                         }
                     </dd>
                 </div>
@@ -94,16 +94,16 @@
             @if (Model.DeclinedAtUtc.HasValue)
             {
                 <div class="wos-dl-row">
-                    <dt>Decline recorded</dt>
+                    <dt>@Localizer["Estimates_DeclineRecorded"]</dt>
                     <dd>
-                        @Model.DeclinedAtUtc.Value.ToString("u")
+                        @UiFormatting.FormatDateTime(Model.DeclinedAtUtc.Value)
                         @if (Model.Share?.PortalDecision == WorkshopOS.Domain.Estimates.EstimateShareDecision.Declined)
                         {
-                            <span class="text-muted">(customer portal decline)</span>
+                            <span class="text-muted">@Localizer["Estimates_PortalDecline"]</span>
                         }
                         else
                         {
-                            <span class="text-muted">(decline recorded by workshop staff)</span>
+                            <span class="text-muted">@Localizer["Estimates_StaffDecline"]</span>
                         }
                     </dd>
                 </div>
@@ -113,10 +113,10 @@
     <section class="wos-detail-panel">
         @if (Model.InspectionFindings.Count > 0 && Model.LatestInspectionId.HasValue)
         {
-            <h2 class="h5">Inspection findings (context)</h2>
+            <h2 class="h5">@Localizer["Estimates_InspectionFindings"]</h2>
             <p class="small text-muted">
                 Latest inspection
-                <a asp-controller="Inspections" asp-action="Details" asp-route-inspectionId="@Model.LatestInspectionId">view DVI</a>
+                <a asp-controller="Inspections" asp-action="Details" asp-route-inspectionId="@Model.LatestInspectionId">@Localizer["Estimates_ViewDvi"]</a>
             </p>
             <ul class="list-unstyled small">
                 @foreach (var finding in Model.InspectionFindings)
@@ -134,7 +134,7 @@
         }
         @if (!string.IsNullOrWhiteSpace(Model.CustomerMessage))
         {
-            <h2 class="wos-detail-panel-title mt-3">Customer message</h2>
+            <h2 class="wos-detail-panel-title mt-3">@Localizer["Estimates_CustomerMessage"]</h2>
             <div class="wos-note-block">@Model.CustomerMessage</div>
         }
     </section>
@@ -148,9 +148,9 @@
 @if (Model.LinkedInvoiceId.HasValue)
 {
     <div class="alert alert-light border">
-        Invoice
+        @Localizer["Invoices_Eyebrow"]
         <a asp-controller="Invoices" asp-action="Details" asp-route-invoiceId="@Model.LinkedInvoiceId">@Model.LinkedInvoiceNumber</a>
-        was created from this estimate.
+        @Localizer["Estimates_InvoiceCreated"]
     </div>
 }
 
@@ -158,39 +158,39 @@
 {
     <form asp-controller="Invoices" asp-action="CreateFromEstimate" asp-route-estimateId="@Model.EstimateId" method="post" class="mb-4">
         @Html.AntiForgeryToken()
-        <button type="submit" class="btn btn-outline-primary">Create invoice from estimate</button>
+        <button type="submit" class="btn btn-outline-primary">@Localizer["Estimates_CreateInvoiceFromEstimate"]</button>
     </form>
 }
 
 @if (Model.CanManageShares && Model.Share is not null)
 {
-    <h2 class="h5 mt-2">Share with customer</h2>
+    <h2 class="h5 mt-2">@Localizer["Estimates_ShareWithCustomer"]</h2>
     <dl class="row">
-        <dt class="col-sm-3">Share status</dt>
+        <dt class="col-sm-3">@Localizer["Estimates_ShareStatus"]</dt>
         <dd class="col-sm-9">@Model.Share.Status</dd>
         @if (Model.Share.CreatedAtUtc.HasValue)
         {
-            <dt class="col-sm-3">Created</dt>
-            <dd class="col-sm-9">@Model.Share.CreatedAtUtc.Value.ToString("u")</dd>
+            <dt class="col-sm-3">@Localizer["Common_Created"]</dt>
+            <dd class="col-sm-9">@UiFormatting.FormatDateTime(Model.Share.CreatedAtUtc.Value)</dd>
         }
         @if (Model.Share.ExpiresAtUtc.HasValue)
         {
-            <dt class="col-sm-3">Expires</dt>
-            <dd class="col-sm-9">@Model.Share.ExpiresAtUtc.Value.ToString("u")</dd>
+            <dt class="col-sm-3">@Localizer["Common_Expires"]</dt>
+            <dd class="col-sm-9">@UiFormatting.FormatDateTime(Model.Share.ExpiresAtUtc.Value)</dd>
         }
         @if (Model.Share.LastAccessedAtUtc.HasValue)
         {
-            <dt class="col-sm-3">Last accessed</dt>
-            <dd class="col-sm-9">@Model.Share.LastAccessedAtUtc.Value.ToString("u")</dd>
+            <dt class="col-sm-3">@Localizer["Estimates_LastAccessed"]</dt>
+            <dd class="col-sm-9">@UiFormatting.FormatDateTime(Model.Share.LastAccessedAtUtc.Value)</dd>
         }
         @if (Model.Share.PortalDecision.HasValue)
         {
-            <dt class="col-sm-3">Customer portal decision</dt>
+            <dt class="col-sm-3">@Localizer["Estimates_PortalDecision"]</dt>
             <dd class="col-sm-9">
                 @Model.Share.PortalDecision
                 @if (Model.Share.PortalDecisionAtUtc.HasValue)
                 {
-                    <span>— @Model.Share.PortalDecisionAtUtc.Value.ToString("u")</span>
+                    <span>— @UiFormatting.FormatDateTime(Model.Share.PortalDecisionAtUtc.Value)</span>
                 }
             </dd>
         }
@@ -201,30 +201,30 @@
         {
             <form asp-action="CreateShare" asp-route-estimateId="@Model.EstimateId" method="post">
                 @Html.AntiForgeryToken()
-                <button type="submit" class="btn btn-outline-primary">Create secure link</button>
+                <button type="submit" class="btn btn-outline-primary">@Localizer["Estimates_CreateSecureLink"]</button>
             </form>
         }
         @if (Model.Share.CanRotate)
         {
             <form asp-action="RotateShare" asp-route-estimateId="@Model.EstimateId" method="post">
                 @Html.AntiForgeryToken()
-                <button type="submit" class="btn btn-outline-secondary">Rotate link</button>
+                <button type="submit" class="btn btn-outline-secondary">@Localizer["Estimates_RotateLink"]</button>
             </form>
         }
         @if (Model.Share.CanRevoke)
         {
             <form asp-action="RevokeShare" asp-route-estimateId="@Model.EstimateId" method="post">
                 @Html.AntiForgeryToken()
-                <button type="submit" class="btn btn-outline-warning">Revoke link</button>
+                <button type="submit" class="btn btn-outline-warning">@Localizer["Estimates_RevokeLink"]</button>
             </form>
         }
     </div>
 }
 
-<h2 class="wos-section-title">Line items</h2>
+<h2 class="wos-section-title">@Localizer["Estimates_LineItems"]</h2>
 @if (Model.Items.Count == 0)
 {
-    @await Html.PartialAsync("_EmptyState", new EmptyStateViewModel { Title = "No line items", Description = "Add line items while this estimate is in draft." })
+    @await Html.PartialAsync("_EmptyState", new EmptyStateViewModel { Title = Localizer["Estimates_NoLineItems"].Value, Description = Localizer["Estimates_NoLineItemsDesc"].Value })
 }
 else
 {
@@ -232,11 +232,11 @@ else
     <table class="table table-striped mb-0">
         <thead>
             <tr>
-                <th>Type</th>
-                <th>Description</th>
-                <th>Qty</th>
-                <th>Unit price</th>
-                <th>Line total</th>
+                <th>@Localizer["Common_Type"]</th>
+                <th>@Localizer["Common_Description"]</th>
+                <th>@Localizer["Common_Quantity"]</th>
+                <th>@Localizer["Common_UnitPrice"]</th>
+                <th>@Localizer["Common_LineTotal"]</th>
             </tr>
         </thead>
         <tbody>
@@ -253,7 +253,7 @@ else
         </tbody>
         <tfoot>
             <tr>
-                <th colspan="4" class="text-end">Estimate total</th>
+                <th colspan="4" class="text-end">@Localizer["Estimates_EstimateTotal"]</th>
                 <th>@Model.Total @Model.CurrencyCode</th>
             </tr>
         </tfoot>
@@ -268,14 +268,14 @@ else
         {
             <form asp-action="RecordApproval" asp-route-estimateId="@Model.EstimateId" method="post">
                 @Html.AntiForgeryToken()
-                <button type="submit" class="btn btn-success">Record customer approval</button>
+                <button type="submit" class="btn btn-success">@Localizer["Estimates_RecordApproval"]</button>
             </form>
         }
         @if (Model.CanRecordDecline)
         {
             <form asp-action="RecordDecline" asp-route-estimateId="@Model.EstimateId" method="post">
                 @Html.AntiForgeryToken()
-                <button type="submit" class="btn btn-outline-warning">Record customer decline</button>
+                <button type="submit" class="btn btn-outline-warning">@Localizer["Estimates_RecordDecline"]</button>
             </form>
         }
     </div>

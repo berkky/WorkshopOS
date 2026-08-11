@@ -91,6 +91,23 @@ public sealed class DesignSystemUxTests
     }
 
     [Fact]
+    public void AuthenticatedTheme_UsesDarkFirstTokenContract()
+    {
+        var tokens = File.ReadAllText(Path.Combine(WebRoot, "wwwroot/css/workshopos-tokens.css"));
+        var components = File.ReadAllText(Path.Combine(WebRoot, "wwwroot/css/workshopos-components.css"));
+        var shell = File.ReadAllText(Path.Combine(WebRoot, "wwwroot/css/workshopos-shell.css"));
+
+        Assert.Contains("body.wos-app-body", tokens);
+        Assert.Contains("--wos-bg-deep", tokens);
+        Assert.Contains("--wos-surface-glass", tokens);
+        Assert.Contains("--wos-border-accent", tokens);
+        Assert.Contains("--wos-cyan", tokens);
+        Assert.Contains("wos-preset-chip", components);
+        Assert.Contains("wos-filter-bar", components);
+        Assert.DoesNotContain("#eef0f4", shell);
+    }
+
+    [Fact]
     public void AuthenticatedAppShell_UsesPremiumShellContract()
     {
         var shell = ReadView("Views/Shared/_AppShell.cshtml");

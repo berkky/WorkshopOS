@@ -1,12 +1,12 @@
 @model WorkshopOS.Web.Models.Inventory.InventoryHistoryViewModel
 @{
-    ViewData["Title"] = "Inventory history";
+    ViewData["Title"] = Localizer["Inventory_HistoryTitle"].Value;
 }
 
 @await Html.PartialAsync("_PageHeader", new PageHeaderViewModel
 {
-    Eyebrow = "Inventory",
-    Title = "Inventory history",
+    Eyebrow = Localizer["Inventory_Title"].Value,
+    Title = Localizer["Inventory_HistoryTitle"].Value,
     Description = $"{Model.PartSku} — {Model.PartName} at {Model.WorkshopLocationName}"
 })
 
@@ -14,8 +14,8 @@
 {
     @await Html.PartialAsync("_EmptyState", new EmptyStateViewModel
     {
-        Title = "No movements recorded",
-        Description = "No inventory movements have been recorded for this part and location."
+        Title = Localizer["Inventory_NoMovements"].Value,
+        Description = Localizer["Inventory_NoMovementsDesc"].Value
     })
 }
 else
@@ -24,22 +24,22 @@ else
         <table class="table table-hover mb-0">
             <thead>
                 <tr>
-                    <th>When (UTC)</th>
-                    <th>Type</th>
-                    <th>Delta</th>
-                    <th>Balance after</th>
-                    <th>Reason</th>
+                    <th>@Localizer["Inventory_WhenUtc"]</th>
+                    <th>@Localizer["Common_Type"]</th>
+                    <th>@Localizer["Inventory_Delta"]</th>
+                    <th>@Localizer["Inventory_BalanceAfter"]</th>
+                    <th>@Localizer["Inventory_Reason"]</th>
                 </tr>
             </thead>
             <tbody>
             @foreach (var movement in Model.Movements)
             {
                 <tr>
-                    <td>@movement.OccurredAtUtc.ToString("u")</td>
+                    <td>@UiFormatting.FormatDateTime(movement.OccurredAtUtc)</td>
                     <td>@movement.MovementType</td>
                     <td>@movement.QuantityDelta</td>
                     <td>@movement.BalanceAfter</td>
-                    <td>@(string.IsNullOrWhiteSpace(movement.Reason) ? "—" : movement.Reason)</td>
+                    <td>@(string.IsNullOrWhiteSpace(movement.Reason) ? Localizer["Common_NoValue"].Value : movement.Reason)</td>
                 </tr>
             }
             </tbody>
@@ -48,5 +48,5 @@ else
 }
 
 <div class="mt-4">
-    <a asp-action="Index" class="btn btn-wos-quiet">Back to inventory</a>
+    <a asp-action="Index" class="btn btn-wos-quiet">@Localizer["Inventory_BackToInventory"]</a>
 </div>

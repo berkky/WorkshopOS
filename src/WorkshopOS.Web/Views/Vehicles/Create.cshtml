@@ -1,21 +1,21 @@
 @model WorkshopOS.Web.Models.Vehicles.VehicleFormViewModel
 @{
-    ViewData["Title"] = "Create vehicle";
+    ViewData["Title"] = Localizer["Vehicles_CreateTitle"];
 }
 
 @await Html.PartialAsync("_PageHeader", new PageHeaderViewModel
 {
-    Eyebrow = "Vehicles",
-    Title = "Create vehicle",
-    Description = "Register a vehicle and optionally link it to a customer."
+    Eyebrow = Localizer["Vehicles_Eyebrow"].Value,
+    Title = Localizer["Vehicles_CreateTitle"].Value,
+    Description = Localizer["Vehicles_CreateDescription"].Value
 })
 
 <form asp-action="Create" method="post" class="wos-form-shell">
     @Html.AntiForgeryToken()
     <partial name="_VehicleFormFields" model="Model" />
     <div class="wos-form-actions">
-        <button type="submit" class="btn btn-wos-primary">Create vehicle</button>
-        <a asp-action="Index" class="btn btn-wos-quiet">Cancel</a>
+        <button type="submit" class="btn btn-wos-primary">@Localizer["Vehicles_Create"]</button>
+        <a asp-action="Index" class="btn btn-wos-quiet">@Localizer["Common_Cancel"]</a>
     </div>
 </form>
 

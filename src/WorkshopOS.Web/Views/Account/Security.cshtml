@@ -1,0 +1,46 @@
+@model WorkshopOS.Web.Models.Account.ChangePasswordViewModel
+@{
+    ViewData["Title"] = Localizer["Account_Security_Title"].Value;
+}
+
+<header class="wos-page-header">
+    <div>
+        <p class="wos-page-eyebrow">@Localizer["Account_Security_Eyebrow"]</p>
+        <h1 class="wos-page-title">@Localizer["Account_Security_Title"]</h1>
+        <p class="wos-page-description">@Localizer["Account_Security_Description"]</p>
+    </div>
+    <div class="wos-page-actions">
+        <a class="btn btn-outline-secondary btn-sm" asp-controller="Account" asp-action="Settings">@Localizer["Account_Settings"]</a>
+    </div>
+</header>
+
+<section class="wos-settings-section wos-form-shell">
+    <h2 class="wos-settings-section-title">@Localizer["Account_ChangePassword"]</h2>
+    <form asp-action="Security" method="post">
+        @Html.AntiForgeryToken()
+        <partial name="_FormValidationSummary" />
+        <div class="wos-field">
+            <label asp-for="CurrentPassword" class="wos-field-label"></label>
+            <input asp-for="CurrentPassword" class="form-control" autocomplete="current-password" />
+            <span asp-validation-for="CurrentPassword" class="text-danger"></span>
+        </div>
+        <div class="wos-field">
+            <label asp-for="NewPassword" class="wos-field-label"></label>
+            <input asp-for="NewPassword" class="form-control" autocomplete="new-password" />
+            <span asp-validation-for="NewPassword" class="text-danger"></span>
+        </div>
+        <div class="wos-field">
+            <label asp-for="ConfirmPassword" class="wos-field-label"></label>
+            <input asp-for="ConfirmPassword" class="form-control" autocomplete="new-password" />
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+        </div>
+        <div class="wos-form-actions">
+            <button type="submit" class="btn btn-wos-primary">@Localizer["Account_UpdatePassword"]</button>
+            <a class="btn btn-wos-quiet" asp-controller="Account" asp-action="Profile">@Localizer["Common_Cancel"]</a>
+        </div>
+    </form>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -3,8 +3,8 @@
 @if (Model.Count == 0)
 {
     <div class="wos-empty wos-card mb-3">
-        <div class="wos-empty-title">No repair orders</div>
-        <p class="mb-0">No repair orders in this column.</p>
+        <div class="wos-empty-title">@Localizer["Operations_NoRepairOrders"]</div>
+        <p class="mb-0">@Localizer["Operations_NoRepairOrdersColumn"]</p>
     </div>
 }
 else
@@ -19,10 +19,10 @@ else
                     <div class="small text-muted mt-2">@item.CustomerDisplayName · @item.VehicleSummary</div>
                     <div class="small">@item.WorkshopLocationName</div>
                     <div class="small text-muted">
-                        Technician:
+                        @Localizer["Operations_TechnicianLabel"]
                         @if (string.IsNullOrWhiteSpace(item.AssignedTechnicianDisplayName))
                         {
-                            <span class="text-warning">Unassigned</span>
+                            <span class="text-warning">@Localizer["Common_Unassigned"]</span>
                         }
                         else
                         {

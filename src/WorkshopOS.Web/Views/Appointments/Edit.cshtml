@@ -1,21 +1,21 @@
 @model WorkshopOS.Web.Models.Appointments.AppointmentFormViewModel
 @{
-    ViewData["Title"] = "Edit appointment";
+    ViewData["Title"] = Localizer["Appointments_EditTitle"].Value;
 }
 
 @await Html.PartialAsync("_PageHeader", new PageHeaderViewModel
 {
-    Eyebrow = "Appointments",
-    Title = "Edit appointment",
-    Description = "Update scheduling context and notes for this appointment."
+    Eyebrow = Localizer["Common_Appointments"].Value,
+    Title = Localizer["Appointments_EditTitle"].Value,
+    Description = Localizer["Appointments_EditDescription"].Value
 })
 
 <form asp-action="Edit" asp-route-appointmentId="@Model.AppointmentId" method="post" class="wos-form-shell">
     @Html.AntiForgeryToken()
     <partial name="_AppointmentFormFields" model="Model" />
     <div class="wos-form-actions">
-        <button type="submit" class="btn btn-wos-primary">Save changes</button>
-        <a asp-action="Details" asp-route-appointmentId="@Model.AppointmentId" class="btn btn-wos-quiet">Cancel</a>
+        <button type="submit" class="btn btn-wos-primary">@Localizer["Common_SaveChanges"]</button>
+        <a asp-action="Details" asp-route-appointmentId="@Model.AppointmentId" class="btn btn-wos-quiet">@Localizer["Common_Cancel"]</a>
     </div>
 </form>
 

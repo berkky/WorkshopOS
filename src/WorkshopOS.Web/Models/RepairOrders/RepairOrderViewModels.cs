@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using WorkshopOS.Web;
 using WorkshopOS.Application.RepairOrders;
 using WorkshopOS.Application.Team;
 using WorkshopOS.Application.Billing;
@@ -60,27 +61,27 @@ public sealed class RepairOrderFormViewModel
     public Guid? RepairOrderId { get; set; }
 
     [Required]
-    [Display(Name = "Workshop location")]
+    [Display(Name = "Field_WorkshopLocation")]
     public Guid WorkshopLocationId { get; set; }
 
     [Required]
-    [Display(Name = "Customer")]
+    [Display(Name = "Field_Customer")]
     public Guid CustomerId { get; set; }
 
     [Required]
-    [Display(Name = "Vehicle")]
+    [Display(Name = "Field_Vehicle")]
     public Guid VehicleId { get; set; }
 
     [MaxLength(RepairOrderInputValidator.MaxCustomerConcernLength)]
-    [Display(Name = "Customer concern")]
+    [Display(Name = "Field_CustomerConcern")]
     public string? CustomerConcern { get; set; }
 
     [MaxLength(RepairOrderInputValidator.MaxInternalNotesLength)]
-    [Display(Name = "Internal notes")]
+    [Display(Name = "Field_InternalNotes")]
     public string? InternalNotes { get; set; }
 
     [Range(RepairOrderInputValidator.MinOdometer, RepairOrderInputValidator.MaxOdometer)]
-    [Display(Name = "Odometer")]
+    [Display(Name = "Field_Odometer")]
     public int? Odometer { get; set; }
 
     public IReadOnlyList<WorkshopLocationOption> LocationOptions { get; set; } =

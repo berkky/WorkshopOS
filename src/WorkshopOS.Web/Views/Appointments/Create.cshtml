@@ -1,15 +1,15 @@
 @model WorkshopOS.Web.Models.Appointments.AppointmentFormViewModel
 @{
-    ViewData["Title"] = Model.AppointmentId.HasValue ? "Edit appointment" : "Create appointment";
+    ViewData["Title"] = Model.AppointmentId.HasValue ? Localizer["Appointments_EditTitle"].Value : Localizer["Appointments_CreateTitle"].Value;
 }
 
 @await Html.PartialAsync("_PageHeader", new PageHeaderViewModel
 {
-    Eyebrow = "Appointments",
+    Eyebrow = Localizer["Common_Appointments"].Value,
     Title = ViewData["Title"]!.ToString()!,
     Description = Model.AppointmentId.HasValue
-        ? "Update scheduling context and notes for this appointment."
-        : "Schedule a customer visit with location, date, and time."
+        ? Localizer["Appointments_EditDescription"].Value
+        : Localizer["Appointments_CreateDescription"].Value
 })
 
 <form asp-action="@(Model.AppointmentId.HasValue ? "Edit" : "Create")"
@@ -19,14 +19,14 @@
     @Html.AntiForgeryToken()
     <partial name="_AppointmentFormFields" model="Model" />
     <div class="wos-form-actions">
-        <button type="submit" class="btn btn-wos-primary">@(Model.AppointmentId.HasValue ? "Save changes" : "Create appointment")</button>
+        <button type="submit" class="btn btn-wos-primary">@(Model.AppointmentId.HasValue ? Localizer["Common_SaveChanges"].Value : Localizer["Appointments_Create"].Value)</button>
         @if (Model.AppointmentId.HasValue)
         {
-            <a asp-action="Details" asp-route-appointmentId="@Model.AppointmentId" class="btn btn-wos-quiet">Cancel</a>
+            <a asp-action="Details" asp-route-appointmentId="@Model.AppointmentId" class="btn btn-wos-quiet">@Localizer["Common_Cancel"]</a>
         }
         else
         {
-            <a asp-action="Index" class="btn btn-wos-quiet">Cancel</a>
+            <a asp-action="Index" class="btn btn-wos-quiet">@Localizer["Common_Cancel"]</a>
         }
     </div>
 </form>

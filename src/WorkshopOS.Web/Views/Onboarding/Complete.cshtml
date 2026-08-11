@@ -1,30 +1,30 @@
 @model WorkshopOS.Web.Models.Onboarding.OnboardingCompleteViewModel
 @{
-    ViewData["Title"] = "Workspace ready";
+    ViewData["Title"] = Localizer["Onboarding_Complete_Title"];
 }
 
 <div class="wos-complete-shell">
     <div class="wos-complete-card">
         <img class="wos-complete-visual" src="~/images/workshopos/onboarding-success.svg" alt="" width="160" height="140" />
-        <h1>Your workspace is ready</h1>
-        <p class="wos-complete-subtitle">Welcome to WorkshopOS. Your premium automotive operations platform is configured and waiting.</p>
+        <h1>@Localizer["Onboarding_Complete_Heading"]</h1>
+        <p class="wos-complete-subtitle">@Localizer["Onboarding_Complete_Subtitle"]</p>
 
         <dl class="wos-complete-summary">
-            <dt>Organization</dt>
+            <dt>@Localizer["Onboarding_Complete_Organization"]</dt>
             <dd>@Model.OrganizationName</dd>
 
-            <dt>First location</dt>
+            <dt>@Localizer["Onboarding_Complete_FirstLocation"]</dt>
             <dd>@Model.WorkshopLocationName</dd>
 
-            <dt>Your role</dt>
+            <dt>@Localizer["Onboarding_Complete_YourRole"]</dt>
             <dd>@Model.MembershipRole</dd>
         </dl>
 
-        <p class="text-muted small mb-4">All operational modules are available from your dashboard. Start by exploring the operations board or inviting your team.</p>
+        <p class="text-muted small mb-4">@Localizer["Onboarding_Complete_Help"]</p>
 
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-            <a class="btn btn-wos-primary btn-lg" asp-controller="Dashboard" asp-action="Index">Enter your dashboard</a>
-            <a class="btn btn-wos-secondary" asp-controller="Operations" asp-action="Index">View operations board</a>
+            <a class="btn btn-wos-primary btn-lg" asp-controller="Dashboard" asp-action="Index">@Localizer["Onboarding_Complete_EnterDashboard"]</a>
+            <a class="btn btn-wos-secondary" asp-controller="Operations" asp-action="Index">@Localizer["Onboarding_Complete_ViewOperationsBoard"]</a>
         </div>
     </div>
 </div>

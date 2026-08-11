@@ -1,6 +1,8 @@
 :root {
-  /* Surfaces */
+  /* Surfaces — public / light defaults */
   --wos-bg: #eef0f4;
+  --wos-bg-deep: #e4e7ed;
+  --wos-bg-panel: #f4f5f8;
   --wos-bg-ambient: radial-gradient(ellipse 120% 80% at 50% -20%, rgba(59, 108, 245, 0.08), transparent 60%),
     radial-gradient(ellipse 80% 50% at 100% 0%, rgba(20, 184, 166, 0.05), transparent 50%),
     #eef0f4;
@@ -13,6 +15,8 @@
 
   /* Text */
   --wos-text: #0c0e14;
+  --wos-text-primary: #0c0e14;
+  --wos-text-secondary: #5c6370;
   --wos-text-muted: #5c6370;
   --wos-text-subtle: #8b929e;
   --wos-text-on-dark: #f0f2f5;
@@ -20,7 +24,9 @@
 
   /* Borders */
   --wos-border: rgba(12, 14, 20, 0.08);
+  --wos-border-subtle: rgba(12, 14, 20, 0.06);
   --wos-border-strong: rgba(12, 14, 20, 0.14);
+  --wos-border-accent: rgba(59, 108, 245, 0.25);
   --wos-border-dark: rgba(255, 255, 255, 0.08);
 
   /* Brand */
@@ -28,20 +34,26 @@
   --wos-primary-hover: #2d5ae0;
   --wos-primary-soft: rgba(59, 108, 245, 0.1);
   --wos-primary-glow: rgba(59, 108, 245, 0.35);
+  --wos-accent: #3b6cf5;
+  --wos-accent-soft: rgba(59, 108, 245, 0.12);
+  --wos-accent-cobalt: #3b6cf5;
   --wos-accent-teal: #14b8a6;
   --wos-accent-teal-soft: rgba(20, 184, 166, 0.12);
   --wos-accent-amber: #d4a012;
   --wos-accent-amber-soft: rgba(212, 160, 18, 0.1);
+  --wos-cyan: #22d3ee;
+  --wos-cyan-soft: rgba(34, 211, 238, 0.12);
+  --wos-glow: rgba(59, 108, 245, 0.2);
 
   /* Semantic */
-  --wos-success: #0d9f4f;
-  --wos-success-soft: rgba(13, 159, 79, 0.1);
-  --wos-warning: #c47d0e;
-  --wos-warning-soft: rgba(196, 125, 14, 0.1);
-  --wos-danger: #dc2626;
-  --wos-danger-soft: rgba(220, 38, 38, 0.08);
-  --wos-info: #0284c7;
-  --wos-info-soft: rgba(2, 132, 199, 0.1);
+  --wos-success: #22c55e;
+  --wos-success-soft: rgba(34, 197, 94, 0.12);
+  --wos-warning: #eab308;
+  --wos-warning-soft: rgba(234, 179, 8, 0.12);
+  --wos-danger: #ef4444;
+  --wos-danger-soft: rgba(239, 68, 68, 0.1);
+  --wos-info: #38bdf8;
+  --wos-info-soft: rgba(56, 189, 248, 0.12);
 
   /* Radii */
   --wos-radius-sm: 0.5rem;
@@ -49,6 +61,7 @@
   --wos-radius-lg: 1rem;
   --wos-radius-xl: 1.25rem;
   --wos-radius-2xl: 1.5rem;
+  --wos-radius-full: 999px;
 
   /* Shadows */
   --wos-shadow-xs: 0 1px 2px rgba(12, 14, 20, 0.04);
@@ -57,6 +70,7 @@
   --wos-shadow-lg: 0 20px 48px rgba(12, 14, 20, 0.12), 0 8px 16px rgba(12, 14, 20, 0.06);
   --wos-shadow-xl: 0 32px 64px rgba(12, 14, 20, 0.16), 0 12px 24px rgba(12, 14, 20, 0.08);
   --wos-shadow-glow: 0 0 40px rgba(59, 108, 245, 0.15);
+  --wos-shadow-panel: 0 4px 24px rgba(12, 14, 20, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.6);
   --wos-shadow-card-hover: 0 16px 40px rgba(12, 14, 20, 0.1), 0 0 0 1px rgba(59, 108, 245, 0.08);
 
   /* Spacing */
@@ -80,5 +94,61 @@
 
   /* Transitions */
   --wos-ease: cubic-bezier(0.4, 0, 0.2, 1);
-  --wos-duration: 0.2s;
+  --wos-duration: 0.18s;
+}
+
+/* STEP 35 — Authenticated dark-first semantic tokens */
+body.wos-app-body {
+  color-scheme: dark;
+
+  --wos-bg-deep: #070a10;
+  --wos-bg: #0b0f17;
+  --wos-bg-panel: rgba(12, 17, 28, 0.72);
+  --wos-bg-ambient:
+    radial-gradient(ellipse 90% 55% at 12% -8%, rgba(59, 108, 245, 0.14), transparent 58%),
+    radial-gradient(ellipse 70% 45% at 88% 0%, rgba(34, 211, 238, 0.06), transparent 52%),
+    radial-gradient(ellipse 60% 40% at 50% 100%, rgba(30, 58, 138, 0.12), transparent 55%),
+    linear-gradient(165deg, #070a10 0%, #0b0f17 38%, #0d1220 100%);
+
+  --wos-surface: rgba(16, 22, 34, 0.82);
+  --wos-surface-muted: rgba(20, 26, 40, 0.65);
+  --wos-surface-elevated: rgba(24, 30, 46, 0.92);
+  --wos-surface-glass: rgba(14, 19, 30, 0.55);
+
+  --wos-text: #e8ecf4;
+  --wos-text-primary: #f0f3f8;
+  --wos-text-secondary: #9aa3b5;
+  --wos-text-muted: #8d96a8;
+  --wos-text-subtle: #5c6578;
+
+  --wos-border: rgba(255, 255, 255, 0.07);
+  --wos-border-subtle: rgba(255, 255, 255, 0.05);
+  --wos-border-strong: rgba(255, 255, 255, 0.12);
+  --wos-border-accent: rgba(59, 108, 245, 0.32);
+
+  --wos-primary-soft: rgba(59, 108, 245, 0.14);
+  --wos-accent-soft: rgba(59, 108, 245, 0.14);
+  --wos-primary-glow: rgba(59, 108, 245, 0.42);
+  --wos-glow: rgba(34, 211, 238, 0.12);
+  --wos-cyan-soft: rgba(34, 211, 238, 0.1);
+
+  --wos-success: #34d399;
+  --wos-success-soft: rgba(52, 211, 153, 0.12);
+  --wos-warning: #fbbf24;
+  --wos-warning-soft: rgba(251, 191, 36, 0.12);
+  --wos-danger: #f87171;
+  --wos-danger-soft: rgba(248, 113, 113, 0.1);
+  --wos-info: #38bdf8;
+  --wos-info-soft: rgba(56, 189, 248, 0.12);
+
+  --wos-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.28);
+  --wos-shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.28), 0 1px 0 rgba(255, 255, 255, 0.04) inset;
+  --wos-shadow-md: 0 12px 32px rgba(0, 0, 0, 0.35), 0 1px 0 rgba(255, 255, 255, 0.05) inset;
+  --wos-shadow-lg: 0 24px 56px rgba(0, 0, 0, 0.42), 0 1px 0 rgba(255, 255, 255, 0.06) inset;
+  --wos-shadow-xl: 0 32px 72px rgba(0, 0, 0, 0.5);
+  --wos-shadow-glow: 0 0 48px rgba(59, 108, 245, 0.18);
+  --wos-shadow-panel: 0 8px 32px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --wos-shadow-card-hover: 0 16px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(59, 108, 245, 0.2);
+
+  --wos-focus-ring: 0 0 0 3px rgba(59, 108, 245, 0.35), 0 0 20px rgba(59, 108, 245, 0.12);
 }

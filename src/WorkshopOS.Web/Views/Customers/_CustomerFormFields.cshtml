@@ -3,7 +3,7 @@
 <partial name="_FormValidationSummary" />
 
 <section class="wos-form-section">
-    <h2 class="wos-form-section-title">Customer identity</h2>
+    <h2 class="wos-form-section-title">@Localizer["Customers_Section_Identity"]</h2>
     <div class="wos-form-grid">
         <div class="wos-field wos-field-full">
             <label asp-for="DisplayName" class="wos-field-label"></label>
@@ -14,7 +14,7 @@
 </section>
 
 <section class="wos-form-section">
-    <h2 class="wos-form-section-title">Contact details</h2>
+    <h2 class="wos-form-section-title">@Localizer["Customers_Section_ContactDetails"]</h2>
     <div class="wos-form-grid wos-form-grid-2">
         <div class="wos-field">
             <label asp-for="Email" class="wos-field-label"></label>
@@ -30,19 +30,19 @@
 </section>
 
 <section class="wos-form-section">
-    <h2 class="wos-form-section-title">Notes</h2>
+    <h2 class="wos-form-section-title">@Localizer["Common_Notes"]</h2>
     <div class="wos-field wos-field-full">
         <label asp-for="Notes" class="wos-field-label"></label>
         <textarea asp-for="Notes" class="form-control" rows="4"></textarea>
         <span asp-validation-for="Notes" class="wos-field-error"></span>
-        <p class="wos-field-help">Internal notes visible to workshop staff only.</p>
+        <p class="wos-field-help">@Localizer["Customers_NotesHelp"]</p>
     </div>
 </section>
 
 @if (Model.CustomerId.HasValue)
 {
     <section class="wos-form-section">
-        <h2 class="wos-form-section-title">Account status</h2>
+        <h2 class="wos-form-section-title">@Localizer["Customers_Section_AccountStatus"]</h2>
         <div class="wos-choice-group">
             <div class="form-check">
                 <input asp-for="IsActive" class="form-check-input" />

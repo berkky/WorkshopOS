@@ -1,6 +1,6 @@
 @model WorkshopOS.Web.Models.Vehicles.VehicleListViewModel
 @{
-    ViewData["Title"] = "Vehicles";
+    ViewData["Title"] = Localizer["Vehicles_Title"];
     var paginationRouteValues = new Dictionary<string, string>();
     if (!string.IsNullOrWhiteSpace(Model.Search))
     {
@@ -14,18 +14,18 @@
 
 <header class="wos-page-header">
     <div>
-        <h1 class="wos-page-title">Vehicles</h1>
+        <h1 class="wos-page-title">@Localizer["Vehicles_Title"]</h1>
         @if (Model.CurrentCustomerId.HasValue && !string.IsNullOrWhiteSpace(Model.CurrentCustomerDisplayName))
         {
             <p class="wos-page-description">
-                Showing vehicles for
+                @Localizer["Vehicles_ListCountForCustomer"]
                 <a asp-controller="Customers" asp-action="Details" asp-route-customerId="@Model.CurrentCustomerId">@Model.CurrentCustomerDisplayName</a>
-                — @Model.TotalCount vehicle(s)
+                @Localizer["Vehicles_ListCountSuffix", Model.TotalCount]
             </p>
         }
         else
         {
-            <p class="wos-page-description">@Model.TotalCount vehicle(s) in current view</p>
+            <p class="wos-page-description">@Localizer["Vehicles_ListCount", Model.TotalCount]</p>
         }
     </div>
     @if (Model.CanManageVehicles)
@@ -33,7 +33,7 @@
         <div class="wos-page-actions">
             <a class="btn btn-wos-primary"
                asp-action="Create"
-               asp-route-currentCustomerId="@Model.CurrentCustomerId">Create vehicle</a>
+               asp-route-currentCustomerId="@Model.CurrentCustomerId">@Localizer["Vehicles_Create"]</a>
         </div>
     }
 </header>
@@ -44,17 +44,17 @@
         <input type="hidden" name="currentCustomerId" value="@Model.CurrentCustomerId" />
     }
     <div class="col-md-6">
-        <label class="form-label">Search</label>
-        <input name="search" value="@Model.Search" class="form-control" placeholder="Make, model, plate, VIN, or customer" />
+        <label class="form-label">@Localizer["Common_Search"]</label>
+        <input name="search" value="@Model.Search" class="form-control" placeholder="@Localizer["Vehicles_SearchPlaceholder"]" />
     </div>
     <div class="col-md-2">
-        <button type="submit" class="btn btn-outline-secondary w-100">Search</button>
+        <button type="submit" class="btn btn-outline-secondary w-100">@Localizer["Common_Search"]</button>
     </div>
 </form>
 
 @if (Model.Vehicles.Count == 0)
 {
-    @await Html.PartialAsync("_EmptyState", new EmptyStateViewModel { Title = "No vehicles", Description = "No vehicles match the current filters." })
+    @await Html.PartialAsync("_EmptyState", new EmptyStateViewModel { Title = Localizer["Vehicles_Empty_Title"].Value, Description = Localizer["Vehicles_Empty_Description"].Value })
 }
 else
 {
@@ -62,10 +62,10 @@ else
         <table class="table table-hover mb-0">
             <thead>
                 <tr>
-                    <th>Vehicle</th>
-                    <th>Plate</th>
-                    <th>VIN</th>
-                    <th>Customer</th>
+                    <th>@Localizer["Common_Vehicle"]</th>
+                    <th>@Localizer["Vehicles_Column_Plate"]</th>
+                    <th>@Localizer["Field_VinChassis"]</th>
+                    <th>@Localizer["Common_Customer"]</th>
                     <th></th>
                 </tr>
             </thead>
@@ -74,11 +74,11 @@ else
             {
                 <tr>
                     <td>@vehicle.Make @vehicle.Model@(vehicle.ModelYear.HasValue ? $" ({vehicle.ModelYear})" : "")</td>
-                    <td>@(vehicle.RegistrationPlate ?? "—")</td>
-                    <td>@(vehicle.Vin ?? "—")</td>
-                    <td>@(vehicle.CurrentCustomerDisplayName ?? "Unassigned")</td>
+                    <td>@(vehicle.RegistrationPlate ?? Localizer["Common_NotAvailable"].Value)</td>
+                    <td>@(vehicle.Vin ?? Localizer["Common_NotAvailable"].Value)</td>
+                    <td>@(vehicle.CurrentCustomerDisplayName ?? Localizer["Common_Unassigned"].Value)</td>
                     <td class="text-end">
-                        <a asp-action="Details" asp-route-vehicleId="@vehicle.VehicleId" class="btn btn-sm btn-outline-primary">View</a>
+                        <a asp-action="Details" asp-route-vehicleId="@vehicle.VehicleId" class="btn btn-sm btn-outline-primary">@Localizer["Common_View"]</a>
                     </td>
                 </tr>
             }
@@ -92,8 +92,8 @@ else
             <a asp-action="Details" asp-route-vehicleId="@vehicle.VehicleId" class="wos-list-card">
                 <div class="wos-list-card-title">@vehicle.Make @vehicle.Model@(vehicle.ModelYear.HasValue ? $" ({vehicle.ModelYear})" : "")</div>
                 <div class="wos-list-card-meta">
-                    <span>@(vehicle.RegistrationPlate ?? "No plate")</span>
-                    <span>@(vehicle.CurrentCustomerDisplayName ?? "Unassigned")</span>
+                    <span>@(vehicle.RegistrationPlate ?? Localizer["Common_NoPlate"].Value)</span>
+                    <span>@(vehicle.CurrentCustomerDisplayName ?? Localizer["Common_Unassigned"].Value)</span>
                 </div>
             </a>
         }

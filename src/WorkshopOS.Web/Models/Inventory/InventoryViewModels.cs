@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using WorkshopOS.Web;
 using WorkshopOS.Application.Inventory;
 using WorkshopOS.Application.Team;
 using WorkshopOS.Domain.Inventory;
@@ -47,23 +48,23 @@ public sealed class InventoryRowViewModel
 public sealed class InventoryAdjustFormViewModel
 {
     [Required]
-    [Display(Name = "Part")]
+    [Display(Name = "Field_Part")]
     public Guid PartCatalogItemId { get; set; }
 
     [Required]
-    [Display(Name = "Location")]
+    [Display(Name = "Field_Location")]
     public Guid WorkshopLocationId { get; set; }
 
     [Required]
-    [Display(Name = "Movement type")]
+    [Display(Name = "Field_MovementType")]
     public PartInventoryMovementType MovementType { get; set; } = PartInventoryMovementType.ManualIncrease;
 
     [Required]
-    [Display(Name = "Quantity")]
+    [Display(Name = "Field_Quantity")]
     public decimal Quantity { get; set; } = 1;
 
     [MaxLength(InventoryInputValidator.MaxReasonLength)]
-    [Display(Name = "Reason (optional)")]
+    [Display(Name = "Field_ReasonOptional")]
     public string? Reason { get; set; }
 }
 

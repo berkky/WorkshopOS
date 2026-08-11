@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using WorkshopOS.Web;
 using WorkshopOS.Application.EstimateSharing;
 using WorkshopOS.Application.Estimates;
 using WorkshopOS.Application.Team;
@@ -161,20 +162,20 @@ public sealed class EstimateItemFormViewModel
 
     public Guid? EstimateItemId { get; set; }
 
-    [Display(Name = "Type")]
+    [Display(Name = "Field_Type")]
     public EstimateItemType Type { get; set; } = EstimateItemType.Service;
 
     [Required]
     [MaxLength(EstimateInputValidator.MaxDescriptionLength)]
-    [Display(Name = "Description")]
+    [Display(Name = "Field_Description")]
     public string Description { get; set; } = string.Empty;
 
     [Required]
-    [Display(Name = "Quantity")]
+    [Display(Name = "Field_Quantity")]
     public decimal Quantity { get; set; } = 1;
 
     [Required]
-    [Display(Name = "Unit price")]
+    [Display(Name = "Field_UnitPrice")]
     public decimal UnitPrice { get; set; }
 }
 
@@ -183,6 +184,6 @@ public sealed class EstimateCustomerMessageFormViewModel
     public Guid EstimateId { get; set; }
 
     [MaxLength(EstimateInputValidator.MaxCustomerMessageLength)]
-    [Display(Name = "Customer message")]
+    [Display(Name = "Field_CustomerMessage")]
     public string? CustomerMessage { get; set; }
 }

@@ -1,0 +1,73 @@
+@model WorkshopOS.Web.Models.Account.ProfileViewModel
+@{
+    ViewData["Title"] = Localizer["Account_Profile_Title"].Value;
+}
+
+<header class="wos-page-header">
+    <div>
+        <p class="wos-page-eyebrow">@Localizer["Account_Profile_Eyebrow"]</p>
+        <h1 class="wos-page-title">@Localizer["Account_Profile_Title"]</h1>
+        <p class="wos-page-description">@Localizer["Account_Profile_Description"]</p>
+    </div>
+    <div class="wos-page-actions">
+        <a class="btn btn-outline-secondary btn-sm" asp-controller="Account" asp-action="Settings">@Localizer["Account_Settings"]</a>
+    </div>
+</header>
+
+<div class="wos-account-hero">
+    <div class="wos-account-hero-inner">
+        <span class="wos-account-avatar wos-account-avatar-xl" aria-hidden="true">@Model.Initials</span>
+        <div>
+            <h2 class="wos-account-hero-title">@(Model.DisplayName ?? Model.Email)</h2>
+            <p class="wos-account-hero-meta">@Model.Email</p>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-7">
+        <section class="wos-settings-section">
+            <h2 class="wos-settings-section-title">@Localizer["Account_Identity"]</h2>
+            <form asp-action="Profile" method="post" class="wos-form-shell">
+                @Html.AntiForgeryToken()
+                <div class="wos-settings-row">
+                    <div class="wos-settings-row-label">@Localizer["Account_Email"]</div>
+                    <div class="wos-settings-row-value">@Model.Email</div>
+                </div>
+                <div class="wos-field mt-4">
+                    <label asp-for="PhoneNumber" class="wos-field-label"></label>
+                    <input asp-for="PhoneNumber" class="form-control" autocomplete="tel" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="wos-form-actions">
+                    <button type="submit" class="btn btn-wos-primary">@Localizer["Account_SavePhone"]</button>
+                </div>
+            </form>
+        </section>
+    </div>
+    <div class="col-lg-5">
+        <section class="wos-settings-section">
+            <h2 class="wos-settings-section-title">@Localizer["Account_Workspace"]</h2>
+            <div class="wos-settings-row">
+                <div class="wos-settings-row-label">@Localizer["Account_Organization"]</div>
+                <div class="wos-settings-row-value">@(Model.OrganizationName ?? Localizer["Common_NotAvailable"].Value)</div>
+            </div>
+            <div class="wos-settings-row">
+                <div class="wos-settings-row-label">@Localizer["Account_Role"]</div>
+                <div class="wos-settings-row-value">@(Model.MembershipRoleLabel ?? Localizer["Common_NotAvailable"].Value)</div>
+            </div>
+            <div class="wos-settings-row">
+                <div class="wos-settings-row-label">@Localizer["Account_MembershipStatus"]</div>
+                <div class="wos-settings-row-value">@(Model.MembershipStatusLabel ?? Localizer["Common_NotAvailable"].Value)</div>
+            </div>
+            <div class="wos-settings-row">
+                <div class="wos-settings-row-label">@Localizer["Account_TimeZone"]</div>
+                <div class="wos-settings-row-value">@(Model.OrganizationTimeZoneId ?? Localizer["Common_NotAvailable"].Value)</div>
+            </div>
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

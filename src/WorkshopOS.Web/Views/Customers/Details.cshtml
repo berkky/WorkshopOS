@@ -6,10 +6,10 @@
 
 @await Html.PartialAsync("_DetailWorkspaceHeader", new DetailWorkspaceHeaderViewModel
 {
-    Eyebrow = "Customer",
+    Eyebrow = Localizer["Customers_DetailEyebrow"].Value,
     Title = Model.DisplayName,
     Meta = new HtmlString($"""
-        {(string.IsNullOrWhiteSpace(Model.Email) ? "No email on file" : Model.Email)}
+        {(string.IsNullOrWhiteSpace(Model.Email) ? Localizer["Customers_NoEmailOnFile"].Value : Model.Email)}
         {(string.IsNullOrWhiteSpace(Model.Phone) ? "" : $" · {Model.Phone}")}
         """),
     StatusBadges = await Html.PartialAsync("_StatusBadge", StatusPresentation.ForActive(Model.IsActive))
@@ -18,53 +18,53 @@
 <div class="wos-action-cluster mb-4">
     @if (Model.CanManageCustomers)
     {
-        <a asp-action="Edit" asp-route-customerId="@Model.CustomerId" class="btn btn-outline-secondary">Edit</a>
+        <a asp-action="Edit" asp-route-customerId="@Model.CustomerId" class="btn btn-outline-secondary">@Localizer["Common_Edit"]</a>
         @if (Model.IsActive)
         {
             <form asp-action="Deactivate" asp-route-customerId="@Model.CustomerId" method="post" class="d-inline">
                 @Html.AntiForgeryToken()
-                <button type="submit" class="btn btn-outline-warning">Deactivate</button>
+                <button type="submit" class="btn btn-outline-warning">@Localizer["Common_Deactivate"]</button>
             </form>
         }
         else
         {
             <form asp-action="Activate" asp-route-customerId="@Model.CustomerId" method="post" class="d-inline">
                 @Html.AntiForgeryToken()
-                <button type="submit" class="btn btn-outline-success">Activate</button>
+                <button type="submit" class="btn btn-outline-success">@Localizer["Common_Activate"]</button>
             </form>
         }
     }
-    <a asp-action="Index" class="btn btn-wos-quiet">Back to list</a>
+    <a asp-action="Index" class="btn btn-wos-quiet">@Localizer["Common_BackToList"]</a>
 </div>
 
 <div class="wos-detail-grid">
     <section class="wos-detail-panel">
-        <h2 class="wos-detail-panel-title">Customer information</h2>
+        <h2 class="wos-detail-panel-title">@Localizer["Customers_Information"]</h2>
         <dl class="wos-dl">
             <div class="wos-dl-row">
-                <dt>Status</dt>
+                <dt>@Localizer["Common_Status"]</dt>
                 <dd><partial name="_StatusBadge" model="StatusPresentation.ForActive(Model.IsActive)" /></dd>
             </div>
             <div class="wos-dl-row">
-                <dt>Created</dt>
-                <dd>@Model.CreatedAtUtc.ToString("u")</dd>
+                <dt>@Localizer["Common_Created"]</dt>
+                <dd>@UiFormatting.FormatDateTime(Model.CreatedAtUtc)</dd>
             </div>
             <div class="wos-dl-row">
-                <dt>Updated</dt>
-                <dd>@Model.UpdatedAtUtc.ToString("u")</dd>
+                <dt>@Localizer["Common_Updated"]</dt>
+                <dd>@UiFormatting.FormatDateTime(Model.UpdatedAtUtc)</dd>
             </div>
         </dl>
     </section>
     <section class="wos-detail-panel">
-        <h2 class="wos-detail-panel-title">Contact information</h2>
+        <h2 class="wos-detail-panel-title">@Localizer["Customers_ContactInformation"]</h2>
         <dl class="wos-dl">
             <div class="wos-dl-row">
-                <dt>Email</dt>
-                <dd>@(Model.Email ?? "—")</dd>
+                <dt>@Localizer["Common_Email"]</dt>
+                <dd>@(Model.Email ?? Localizer["Common_NotAvailable"].Value)</dd>
             </div>
             <div class="wos-dl-row">
-                <dt>Phone</dt>
-                <dd>@(Model.Phone ?? "—")</dd>
+                <dt>@Localizer["Common_Phone"]</dt>
+                <dd>@(Model.Phone ?? Localizer["Common_NotAvailable"].Value)</dd>
             </div>
         </dl>
     </section>
@@ -73,7 +73,7 @@
 @if (!string.IsNullOrWhiteSpace(Model.Notes))
 {
     <section class="wos-workspace-section">
-        <h2 class="wos-section-title">Notes</h2>
+        <h2 class="wos-section-title">@Localizer["Common_Notes"]</h2>
         <div class="wos-note-block">@Model.Notes</div>
     </section>
 }
@@ -81,25 +81,25 @@
 <div class="wos-related-modules">
     @await Html.PartialAsync("_RelatedModule", new RelatedModuleViewModel
     {
-        Title = "Vehicles",
-        Summary = $"{Model.VehicleCount} vehicle(s) currently linked.",
-        PrimaryLinkText = "View vehicles",
+        Title = Localizer["Customers_Related_Vehicles"].Value,
+        Summary = Localizer["Customers_Related_VehiclesSummary", Model.VehicleCount].Value,
+        PrimaryLinkText = Localizer["Customers_Related_ViewVehicles"].Value,
         PrimaryLinkUrl = Url.Action("Index", "Vehicles", new { currentCustomerId = Model.CustomerId })!,
-        SecondaryLinkText = Model.CanManageCustomers ? "Add vehicle" : null,
+        SecondaryLinkText = Model.CanManageCustomers ? Localizer["Customers_Related_AddVehicle"].Value : null,
         SecondaryLinkUrl = Model.CanManageCustomers ? Url.Action("Create", "Vehicles", new { currentCustomerId = Model.CustomerId }) : null
     })
     @await Html.PartialAsync("_RelatedModule", new RelatedModuleViewModel
     {
-        Title = "Appointments",
-        Summary = $"{Model.UpcomingAppointmentCount} upcoming appointment(s).",
-        PrimaryLinkText = "View appointments",
+        Title = Localizer["Customers_Related_Appointments"].Value,
+        Summary = Localizer["Customers_Related_AppointmentsSummary", Model.UpcomingAppointmentCount].Value,
+        PrimaryLinkText = Localizer["Customers_Related_ViewAppointments"].Value,
         PrimaryLinkUrl = Url.Action("Index", "Appointments", new { customerId = Model.CustomerId })!
     })
     @await Html.PartialAsync("_RelatedModule", new RelatedModuleViewModel
     {
-        Title = "Repair orders",
-        Summary = $"{Model.RepairOrderCount} repair order(s).",
-        PrimaryLinkText = "View repair orders",
+        Title = Localizer["Customers_Related_RepairOrders"].Value,
+        Summary = Localizer["Customers_Related_RepairOrdersSummary", Model.RepairOrderCount].Value,
+        PrimaryLinkText = Localizer["Customers_Related_ViewRepairOrders"].Value,
         PrimaryLinkUrl = Url.Action("Index", "RepairOrders", new { customerId = Model.CustomerId })!
     })
 </div>
@@ -107,15 +107,15 @@
 @if (Model.RecentRepairOrders.Count > 0)
 {
     <section class="wos-workspace-section">
-        <h2 class="wos-section-title">Recent repair orders</h2>
+        <h2 class="wos-section-title">@Localizer["Customers_RecentRepairOrders"]</h2>
         <div class="wos-table-wrap">
             <table class="table table-striped mb-0">
                 <thead>
                     <tr>
-                        <th>Number</th>
-                        <th>Vehicle</th>
-                        <th>Status</th>
-                        <th>Opened</th>
+                        <th>@Localizer["Common_Number"]</th>
+                        <th>@Localizer["Common_Vehicle"]</th>
+                        <th>@Localizer["Common_Status"]</th>
+                        <th>@Localizer["Common_Opened"]</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -126,9 +126,9 @@
                         <td>@repairOrder.Number</td>
                         <td>@repairOrder.VehicleSummary</td>
                         <td><partial name="_StatusBadge" model="StatusPresentation.ForRepairOrder(repairOrder.Status)" /></td>
-                        <td>@repairOrder.OpenedAtUtc.ToString("u")</td>
+                        <td>@UiFormatting.FormatDateTime(repairOrder.OpenedAtUtc)</td>
                         <td class="text-end">
-                            <a asp-controller="RepairOrders" asp-action="Details" asp-route-repairOrderId="@repairOrder.RepairOrderId" class="btn btn-sm btn-outline-primary">View</a>
+                            <a asp-controller="RepairOrders" asp-action="Details" asp-route-repairOrderId="@repairOrder.RepairOrderId" class="btn btn-sm btn-outline-primary">@Localizer["Common_View"]</a>
                         </td>
                     </tr>
                 }

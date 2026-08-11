@@ -13,17 +13,17 @@
     }
     if (Model.CommerciallyClosed)
     {
-        badgeBuilder.AppendHtml(" <span class=\"wos-badge wos-badge-success\">Commercially closed</span>");
+        badgeBuilder.AppendHtml($" <span class=\"wos-badge wos-badge-success\">{Localizer["RepairOrders_CommerciallyClosed"].Value}</span>");
     }
 }
 
 @await Html.PartialAsync("_DetailWorkspaceHeader", new DetailWorkspaceHeaderViewModel
 {
-    Eyebrow = "Repair order",
+    Eyebrow = Localizer["RepairOrders_Eyebrow"].Value,
     Title = Model.Number,
     Meta = new HtmlString($"""
         <span>{Model.WorkshopLocationName}</span>
-        · Opened {Model.OpenedAtUtc:u} UTC
+        · Opened {UiFormatting.FormatDateTime(Model.OpenedAtUtc)}
         · <a href="{Url.Action("Details", "Customers", new { customerId = Model.CustomerId })}">{Model.CustomerDisplayName}</a>
         · <a href="{Url.Action("Details", "Vehicles", new { vehicleId = Model.VehicleId })}">{Model.VehicleSummary}</a>
         """),
@@ -33,130 +33,130 @@
 <div class="wos-action-cluster mb-4">
     @if (Model.CanEditIntake)
     {
-        <a asp-action="Edit" asp-route-repairOrderId="@Model.RepairOrderId" class="btn btn-outline-secondary">Edit intake</a>
+        <a asp-action="Edit" asp-route-repairOrderId="@Model.RepairOrderId" class="btn btn-outline-secondary">@Localizer["RepairOrders_EditIntake"]</a>
     }
     @if (Model.CanStartWork)
     {
         <form asp-action="Start" asp-route-repairOrderId="@Model.RepairOrderId" method="post" class="d-inline">
             @Html.AntiForgeryToken()
-            <button type="submit" class="btn btn-wos-primary">Start work</button>
+            <button type="submit" class="btn btn-wos-primary">@Localizer["RepairOrders_StartWork"]</button>
         </form>
     }
     @if (Model.CanComplete)
     {
         <form asp-action="Complete" asp-route-repairOrderId="@Model.RepairOrderId" method="post" class="d-inline">
             @Html.AntiForgeryToken()
-            <button type="submit" class="btn btn-success">Complete</button>
+            <button type="submit" class="btn btn-success">@Localizer["Common_Complete"]</button>
         </form>
     }
     @if (Model.CanCancel)
     {
         <form asp-action="Cancel" asp-route-repairOrderId="@Model.RepairOrderId" method="post" class="d-inline">
             @Html.AntiForgeryToken()
-            <button type="submit" class="btn btn-outline-warning">Cancel</button>
+            <button type="submit" class="btn btn-outline-warning">@Localizer["Common_Cancel"]</button>
         </form>
     }
     @if (Model.CanStartOwnWork)
     {
         <form asp-controller="Work" asp-action="Start" asp-route-repairOrderId="@Model.RepairOrderId" method="post" class="d-inline">
             @Html.AntiForgeryToken()
-            <button type="submit" class="btn btn-wos-primary">Start my work</button>
+            <button type="submit" class="btn btn-wos-primary">@Localizer["RepairOrders_StartMyWork"]</button>
         </form>
     }
     @if (Model.CanCompleteOwnWork)
     {
         <form asp-controller="Work" asp-action="Complete" asp-route-repairOrderId="@Model.RepairOrderId" method="post" class="d-inline">
             @Html.AntiForgeryToken()
-            <button type="submit" class="btn btn-success">Mark my work complete</button>
+            <button type="submit" class="btn btn-success">@Localizer["RepairOrders_MarkMyWorkComplete"]</button>
         </form>
     }
-    <a asp-action="Index" class="btn btn-wos-quiet">Back to list</a>
+    <a asp-action="Index" class="btn btn-wos-quiet">@Localizer["Common_BackToList"]</a>
 </div>
 
 <div class="wos-detail-grid">
     <section class="wos-detail-panel">
-        <h2 class="wos-detail-panel-title">Job identity</h2>
+        <h2 class="wos-detail-panel-title">@Localizer["RepairOrders_JobIdentity"]</h2>
         <dl class="wos-dl">
             <div class="wos-dl-row">
-                <dt>Status</dt>
+                <dt>@Localizer["Common_Status"]</dt>
                 <dd><partial name="_StatusBadge" model="StatusPresentation.ForRepairOrder(Model.Status)" /></dd>
             </div>
             <div class="wos-dl-row">
-                <dt>Priority</dt>
+                <dt>@Localizer["Common_Priority"]</dt>
                 <dd><partial name="_StatusBadge" model="StatusPresentation.ForRepairOrderPriority(Model.Priority)" /></dd>
             </div>
             <div class="wos-dl-row">
-                <dt>Location</dt>
+                <dt>@Localizer["Common_Location"]</dt>
                 <dd>@Model.WorkshopLocationName</dd>
             </div>
             <div class="wos-dl-row">
-                <dt>Opened</dt>
-                <dd>@Model.OpenedAtUtc.ToString("u")</dd>
+                <dt>@Localizer["Common_Opened"]</dt>
+                <dd>@UiFormatting.FormatDateTime(Model.OpenedAtUtc)</dd>
             </div>
             @if (Model.CompletedAtUtc.HasValue)
             {
                 <div class="wos-dl-row">
-                    <dt>Completed</dt>
-                    <dd>@Model.CompletedAtUtc.Value.ToString("u")</dd>
+                    <dt>@Localizer["Common_Completed"]</dt>
+                    <dd>@UiFormatting.FormatDateTime(Model.CompletedAtUtc.Value)</dd>
                 </div>
             }
             @if (Model.AppointmentId.HasValue)
             {
                 <div class="wos-dl-row">
-                    <dt>Appointment</dt>
+                    <dt>@Localizer["Appointments_Eyebrow"]</dt>
                     <dd>
-                        <a asp-controller="Appointments" asp-action="Details" asp-route-appointmentId="@Model.AppointmentId">View appointment</a>
+                        <a asp-controller="Appointments" asp-action="Details" asp-route-appointmentId="@Model.AppointmentId">@Localizer["RepairOrders_ViewAppointment"]</a>
                     </dd>
                 </div>
             }
             @if (Model.Odometer.HasValue)
             {
                 <div class="wos-dl-row">
-                    <dt>Odometer</dt>
+                    <dt>@Localizer["Field_Odometer"]</dt>
                     <dd>@Model.Odometer.Value</dd>
                 </div>
             }
         </dl>
     </section>
     <section class="wos-detail-panel">
-        <h2 class="wos-detail-panel-title">Customer &amp; vehicle</h2>
+        <h2 class="wos-detail-panel-title">@Localizer["Appointments_CustomerAndVehicle"]</h2>
         <dl class="wos-dl">
             <div class="wos-dl-row">
-                <dt>Customer</dt>
+                <dt>@Localizer["Common_Customer"]</dt>
                 <dd>
                     <a asp-controller="Customers" asp-action="Details" asp-route-customerId="@Model.CustomerId">@Model.CustomerDisplayName</a>
                 </dd>
             </div>
             <div class="wos-dl-row">
-                <dt>Vehicle</dt>
+                <dt>@Localizer["Common_Vehicle"]</dt>
                 <dd>
                     <a asp-controller="Vehicles" asp-action="Details" asp-route-vehicleId="@Model.VehicleId">@Model.VehicleSummary</a>
                 </dd>
             </div>
             <div class="wos-dl-row">
-                <dt>Technician</dt>
+                <dt>@Localizer["Common_Technician"]</dt>
                 <dd>
                     @if (string.IsNullOrWhiteSpace(Model.AssignedTechnicianDisplayName))
                     {
-                        <span class="text-muted">Unassigned</span>
+                        <span class="text-muted">@Localizer["Common_Unassigned"]</span>
                     }
                     else
                     {
                         @Model.AssignedTechnicianDisplayName
                         @if (Model.AssignedTechnicianIsInactive)
                         {
-                            <span class="text-muted">(inactive)</span>
+                            <span class="text-muted">@Localizer["Common_Inactive"]</span>
                         }
                     }
                 </dd>
             </div>
             <div class="wos-dl-row">
-                <dt>Created</dt>
-                <dd>@Model.CreatedAtUtc.ToString("u")</dd>
+                <dt>@Localizer["Common_Created"]</dt>
+                <dd>@UiFormatting.FormatDateTime(Model.CreatedAtUtc)</dd>
             </div>
             <div class="wos-dl-row">
-                <dt>Updated</dt>
-                <dd>@Model.UpdatedAtUtc.ToString("u")</dd>
+                <dt>@Localizer["Common_Updated"]</dt>
+                <dd>@UiFormatting.FormatDateTime(Model.UpdatedAtUtc)</dd>
             </div>
         </dl>
     </section>
@@ -165,7 +165,7 @@
 @if (!string.IsNullOrWhiteSpace(Model.CustomerConcern))
 {
     <section class="wos-workspace-section">
-        <h2 class="wos-section-title">Customer concern</h2>
+        <h2 class="wos-section-title">@Localizer["Field_CustomerConcern"]</h2>
         <div class="wos-note-block">@Model.CustomerConcern</div>
     </section>
 }
@@ -173,7 +173,7 @@
 @if (!string.IsNullOrWhiteSpace(Model.InternalNotes))
 {
     <section class="wos-workspace-section">
-        <h2 class="wos-section-title">Internal notes</h2>
+        <h2 class="wos-section-title">@Localizer["Field_InternalNotes"]</h2>
         <div class="wos-note-block">@Model.InternalNotes</div>
     </section>
 }
@@ -184,21 +184,21 @@
 }
 
 <section class="wos-workspace-section">
-    <h2 class="wos-section-title">Digital vehicle inspections</h2>
+    <h2 class="wos-section-title">@Localizer["RepairOrders_DigitalInspections"]</h2>
     <dl class="wos-dl mb-3">
         <div class="wos-dl-row">
-            <dt>Inspection count</dt>
+            <dt>@Localizer["RepairOrders_InspectionCount"]</dt>
             <dd>@Model.InspectionCount</dd>
         </div>
         @if (Model.LatestInspectionStatus.HasValue)
         {
             <div class="wos-dl-row">
-                <dt>Latest inspection</dt>
+                <dt>@Localizer["RepairOrders_LatestInspection"]</dt>
                 <dd>
                     <partial name="_StatusBadge" model="StatusPresentation.ForInspection(Model.LatestInspectionStatus.Value)" />
                     @if (Model.LatestInspectionId.HasValue)
                     {
-                        <a asp-controller="Inspections" asp-action="Details" asp-route-inspectionId="@Model.LatestInspectionId" class="ms-2">View inspection</a>
+                        <a asp-controller="Inspections" asp-action="Details" asp-route-inspectionId="@Model.LatestInspectionId" class="ms-2">@Localizer["RepairOrders_ViewInspection"]</a>
                     }
                 </dd>
             </div>
@@ -209,7 +209,7 @@
     {
         <form asp-controller="Inspections" asp-action="Create" asp-route-repairOrderId="@Model.RepairOrderId" method="post" class="mb-3">
             @Html.AntiForgeryToken()
-            <button type="submit" class="btn btn-outline-primary">Create inspection</button>
+            <button type="submit" class="btn btn-outline-primary">@Localizer["RepairOrders_CreateInspection"]</button>
         </form>
     }
 
@@ -219,10 +219,10 @@
             <table class="table table-striped mb-0">
                 <thead>
                     <tr>
-                        <th>Status</th>
-                        <th>Progress</th>
-                        <th>Created</th>
-                        <th>Completed</th>
+                        <th>@Localizer["Common_Status"]</th>
+                        <th>@Localizer["Common_Progress"]</th>
+                        <th>@Localizer["Common_Created"]</th>
+                        <th>@Localizer["Common_Completed"]</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -232,10 +232,10 @@
                     <tr>
                         <td><partial name="_StatusBadge" model="StatusPresentation.ForInspection(inspection.Status)" /></td>
                         <td>@inspection.InspectedItems / @inspection.TotalItems</td>
-                        <td>@inspection.CreatedAtUtc.ToString("u")</td>
-                        <td>@(inspection.CompletedAtUtc.HasValue ? inspection.CompletedAtUtc.Value.ToString("u") : "—")</td>
+                        <td>@UiFormatting.FormatDateTime(inspection.CreatedAtUtc)</td>
+                        <td>@(inspection.CompletedAtUtc.HasValue ? UiFormatting.FormatDateTime(inspection.CompletedAtUtc.Value) : Localizer["Common_NoValue"].Value)</td>
                         <td class="text-end">
-                            <a asp-controller="Inspections" asp-action="Details" asp-route-inspectionId="@inspection.InspectionId" class="btn btn-sm btn-outline-secondary">View</a>
+                            <a asp-controller="Inspections" asp-action="Details" asp-route-inspectionId="@inspection.InspectionId" class="btn btn-sm btn-outline-secondary">@Localizer["Common_View"]</a>
                         </td>
                     </tr>
                 }
@@ -246,11 +246,11 @@
             @foreach (var inspection in Model.Inspections)
             {
                 <a asp-controller="Inspections" asp-action="Details" asp-route-inspectionId="@inspection.InspectionId" class="wos-list-card">
-                    <div class="wos-list-card-title">Inspection</div>
+                    <div class="wos-list-card-title">@Localizer["RepairOrders_Inspection"]</div>
                     <div class="wos-list-card-meta">
                         <span><partial name="_StatusBadge" model="StatusPresentation.ForInspection(inspection.Status)" /></span>
-                        <span>@inspection.InspectedItems / @inspection.TotalItems items</span>
-                        <span>@inspection.CreatedAtUtc.ToString("u")</span>
+                        <span>@inspection.InspectedItems / @inspection.TotalItems @Localizer["Common_Items"]</span>
+                        <span>@UiFormatting.FormatDateTime(inspection.CreatedAtUtc)</span>
                     </div>
                 </a>
             }
@@ -264,16 +264,16 @@
 }
 
 <section class="wos-workspace-section">
-    <h2 class="wos-section-title">Estimates</h2>
+    <h2 class="wos-section-title">@Localizer["RepairOrders_Estimates"]</h2>
     <dl class="wos-dl mb-3">
         <div class="wos-dl-row">
-            <dt>Estimate count</dt>
+            <dt>@Localizer["RepairOrders_EstimateCount"]</dt>
             <dd>@Model.EstimateCount</dd>
         </div>
         @if (Model.LatestEstimateStatus.HasValue)
         {
             <div class="wos-dl-row">
-                <dt>Latest estimate</dt>
+                <dt>@Localizer["RepairOrders_LatestEstimate"]</dt>
                 <dd>
                     <partial name="_StatusBadge" model="StatusPresentation.ForEstimate(Model.LatestEstimateStatus.Value)" />
                     @if (Model.LatestEstimateTotal.HasValue && !string.IsNullOrWhiteSpace(Model.LatestEstimateCurrencyCode))
@@ -282,7 +282,7 @@
                     }
                     @if (Model.LatestEstimateId.HasValue)
                     {
-                        <a asp-controller="Estimates" asp-action="Details" asp-route-estimateId="@Model.LatestEstimateId" class="ms-2">View estimate</a>
+                        <a asp-controller="Estimates" asp-action="Details" asp-route-estimateId="@Model.LatestEstimateId" class="ms-2">@Localizer["RepairOrders_ViewEstimate"]</a>
                     }
                 </dd>
             </div>
@@ -293,11 +293,11 @@
     {
         <form asp-controller="Estimates" asp-action="Create" asp-route-repairOrderId="@Model.RepairOrderId" method="post" class="mb-3">
             @Html.AntiForgeryToken()
-            <button type="submit" class="btn btn-outline-primary">Create estimate</button>
+            <button type="submit" class="btn btn-outline-primary">@Localizer["RepairOrders_CreateEstimate"]</button>
         </form>
     }
 
-    <a asp-controller="Estimates" asp-action="Index" asp-route-repairOrderId="@Model.RepairOrderId" class="btn btn-sm btn-outline-secondary mb-3">View all estimates</a>
+    <a asp-controller="Estimates" asp-action="Index" asp-route-repairOrderId="@Model.RepairOrderId" class="btn btn-sm btn-outline-secondary mb-3">@Localizer["RepairOrders_ViewAllEstimates"]</a>
 
     @if (Model.Estimates.Count > 0)
     {
@@ -305,11 +305,11 @@
             <table class="table table-striped mb-0">
                 <thead>
                     <tr>
-                        <th>Number</th>
-                        <th>Status</th>
-                        <th>Total</th>
-                        <th>Created</th>
-                        <th>Presented</th>
+                        <th>@Localizer["Common_Number"]</th>
+                        <th>@Localizer["Common_Status"]</th>
+                        <th>@Localizer["Common_Total"]</th>
+                        <th>@Localizer["Common_Created"]</th>
+                        <th>@Localizer["Common_Presented"]</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -320,10 +320,10 @@
                         <td>@estimate.Number</td>
                         <td><partial name="_StatusBadge" model="StatusPresentation.ForEstimate(estimate.Status)" /></td>
                         <td>@estimate.Total @estimate.CurrencyCode</td>
-                        <td>@estimate.CreatedAtUtc.ToString("u")</td>
-                        <td>@(estimate.SentAtUtc.HasValue ? estimate.SentAtUtc.Value.ToString("u") : "—")</td>
+                        <td>@UiFormatting.FormatDateTime(estimate.CreatedAtUtc)</td>
+                        <td>@(estimate.SentAtUtc.HasValue ? UiFormatting.FormatDateTime(estimate.SentAtUtc.Value) : Localizer["Common_NoValue"].Value)</td>
                         <td class="text-end">
-                            <a asp-controller="Estimates" asp-action="Details" asp-route-estimateId="@estimate.EstimateId" class="btn btn-sm btn-outline-secondary">View</a>
+                            <a asp-controller="Estimates" asp-action="Details" asp-route-estimateId="@estimate.EstimateId" class="btn btn-sm btn-outline-secondary">@Localizer["Common_View"]</a>
                         </td>
                     </tr>
                 }
@@ -339,19 +339,19 @@
 }
 
 <section class="wos-workspace-section">
-    <h2 class="wos-section-title">Billing</h2>
+    <h2 class="wos-section-title">@Localizer["RepairOrders_Billing"]</h2>
     <dl class="wos-dl mb-3">
         @if (Model.CommerciallyClosed)
         {
             <div class="wos-dl-row">
-                <dt>Commercial status</dt>
-                <dd><span class="wos-badge wos-badge-success">Commercially closed</span></dd>
+                <dt>@Localizer["RepairOrders_CommercialStatus"]</dt>
+                <dd><span class="wos-badge wos-badge-success">@Localizer["RepairOrders_CommerciallyClosed"]</span></dd>
             </div>
         }
         @if (Model.CurrentInvoiceStatus.HasValue)
         {
             <div class="wos-dl-row">
-                <dt>Current invoice</dt>
+                <dt>@Localizer["RepairOrders_CurrentInvoice"]</dt>
                 <dd>
                     @Model.CurrentInvoiceNumber —
                     <partial name="_StatusBadge" model="StatusPresentation.ForInvoice(Model.CurrentInvoiceStatus.Value)" />
@@ -361,8 +361,8 @@
                     }
                     @if (Model.InvoiceTotal.HasValue && Model.CurrentInvoiceId.HasValue)
                     {
-                        <span class="ms-1">@Model.InvoiceTotal @Model.InvoiceRemainingBalance remaining</span>
-                        <a asp-controller="Invoices" asp-action="Details" asp-route-invoiceId="@Model.CurrentInvoiceId" class="ms-2">View invoice</a>
+                        <span class="ms-1">@Model.InvoiceTotal @Model.InvoiceRemainingBalance @Localizer["RepairOrders_Remaining"]</span>
+                        <a asp-controller="Invoices" asp-action="Details" asp-route-invoiceId="@Model.CurrentInvoiceId" class="ms-2">@Localizer["RepairOrders_ViewInvoice"]</a>
                     }
                 </dd>
             </div>
@@ -373,7 +373,7 @@
     {
         <form asp-controller="Invoices" asp-action="Create" asp-route-repairOrderId="@Model.RepairOrderId" method="post" class="mb-3">
             @Html.AntiForgeryToken()
-            <button type="submit" class="btn btn-outline-primary">Create invoice</button>
+            <button type="submit" class="btn btn-outline-primary">@Localizer["RepairOrders_CreateInvoice"]</button>
         </form>
     }
 
@@ -381,11 +381,11 @@
     {
         <form asp-controller="Invoices" asp-action="CloseCommercially" asp-route-repairOrderId="@Model.RepairOrderId" method="post" class="mb-3">
             @Html.AntiForgeryToken()
-            <button type="submit" class="btn btn-success">Close commercially</button>
+            <button type="submit" class="btn btn-success">@Localizer["RepairOrders_CloseCommercially"]</button>
         </form>
     }
 
-    <a asp-controller="Invoices" asp-action="Index" asp-route-repairOrderId="@Model.RepairOrderId" class="btn btn-sm btn-outline-secondary mb-3">View all invoices</a>
+    <a asp-controller="Invoices" asp-action="Index" asp-route-repairOrderId="@Model.RepairOrderId" class="btn btn-sm btn-outline-secondary mb-3">@Localizer["RepairOrders_ViewAllInvoices"]</a>
 
     @if (Model.Invoices.Count > 0)
     {
@@ -393,12 +393,12 @@
             <table class="table table-striped mb-0">
                 <thead>
                     <tr>
-                        <th>Number</th>
-                        <th>Status</th>
-                        <th>Payment</th>
-                        <th>Total</th>
-                        <th>Created</th>
-                        <th>Issued</th>
+                        <th>@Localizer["Common_Number"]</th>
+                        <th>@Localizer["Common_Status"]</th>
+                        <th>@Localizer["Common_Payment"]</th>
+                        <th>@Localizer["Common_Total"]</th>
+                        <th>@Localizer["Common_Created"]</th>
+                        <th>@Localizer["Common_Issued"]</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -410,10 +410,10 @@
                         <td><partial name="_StatusBadge" model="StatusPresentation.ForInvoice(invoice.Status)" /></td>
                         <td><partial name="_StatusBadge" model="StatusPresentation.ForPaymentState(invoice.PaymentState)" /></td>
                         <td>@invoice.Total @invoice.CurrencyCode</td>
-                        <td>@invoice.CreatedAtUtc.ToString("u")</td>
-                        <td>@(invoice.IssuedAtUtc.HasValue ? invoice.IssuedAtUtc.Value.ToString("u") : "—")</td>
+                        <td>@UiFormatting.FormatDateTime(invoice.CreatedAtUtc)</td>
+                        <td>@(invoice.IssuedAtUtc.HasValue ? UiFormatting.FormatDateTime(invoice.IssuedAtUtc.Value) : Localizer["Common_NoValue"].Value)</td>
                         <td class="text-end">
-                            <a asp-controller="Invoices" asp-action="Details" asp-route-invoiceId="@invoice.InvoiceId" class="btn btn-sm btn-outline-secondary">View</a>
+                            <a asp-controller="Invoices" asp-action="Details" asp-route-invoiceId="@invoice.InvoiceId" class="btn btn-sm btn-outline-secondary">@Localizer["Common_View"]</a>
                         </td>
                     </tr>
                 }
@@ -424,7 +424,7 @@
 </section>
 
 <section class="wos-workspace-section">
-    <h2 class="wos-section-title">Workshop operations</h2>
+    <h2 class="wos-section-title">@Localizer["RepairOrders_WorkshopOperations"]</h2>
 
     @if (Model.CanManageOperations)
     {
@@ -438,11 +438,11 @@
             <form asp-controller="Operations" asp-action="ChangePriority" asp-route-repairOrderId="@Model.RepairOrderId" method="post" class="row g-2 align-items-end mb-3 wos-filter-bar">
                 @Html.AntiForgeryToken()
                 <div class="col-auto">
-                    <label class="form-label">Priority</label>
+                    <label class="form-label">@Localizer["Common_Priority"]</label>
                     <select name="priority" class="form-select" asp-for="Priority" asp-items="Html.GetEnumSelectList<WorkshopOS.Domain.RepairOrders.RepairOrderPriority>()"></select>
                 </div>
                 <div class="col-auto">
-                    <button type="submit" class="btn btn-outline-secondary">Update priority</button>
+                    <button type="submit" class="btn btn-outline-secondary">@Localizer["RepairOrders_UpdatePriority"]</button>
                 </div>
             </form>
         }
@@ -452,9 +452,9 @@
             <form asp-controller="Operations" asp-action="Assign" asp-route-repairOrderId="@Model.RepairOrderId" method="post" class="row g-2 align-items-end mb-3 wos-filter-bar">
                 @Html.AntiForgeryToken()
                 <div class="col-auto">
-                    <label class="form-label">Assign technician</label>
+                    <label class="form-label">@Localizer["RepairOrders_AssignTechnician"]</label>
                     <select name="staffMemberId" class="form-select">
-                        <option value="">Select technician</option>
+                        <option value="">@Localizer["Common_SelectTechnician"]</option>
                         @foreach (var technician in Model.EligibleTechnicians)
                         {
                             <option value="@technician.StaffMemberId">@technician.DisplayName</option>
@@ -462,7 +462,7 @@
                     </select>
                 </div>
                 <div class="col-auto">
-                    <button type="submit" class="btn btn-wos-primary">Assign</button>
+                    <button type="submit" class="btn btn-wos-primary">@Localizer["Common_Assign"]</button>
                 </div>
             </form>
         }
@@ -472,9 +472,9 @@
             <form asp-controller="Operations" asp-action="Reassign" asp-route-repairOrderId="@Model.RepairOrderId" method="post" class="row g-2 align-items-end mb-3 wos-filter-bar">
                 @Html.AntiForgeryToken()
                 <div class="col-auto">
-                    <label class="form-label">Reassign to</label>
+                    <label class="form-label">@Localizer["RepairOrders_ReassignTo"]</label>
                     <select name="newStaffMemberId" class="form-select">
-                        <option value="">Select technician</option>
+                        <option value="">@Localizer["Common_SelectTechnician"]</option>
                         @foreach (var technician in Model.EligibleTechnicians)
                         {
                             <option value="@technician.StaffMemberId">@technician.DisplayName</option>
@@ -482,7 +482,7 @@
                     </select>
                 </div>
                 <div class="col-auto">
-                    <button type="submit" class="btn btn-outline-secondary">Reassign</button>
+                    <button type="submit" class="btn btn-outline-secondary">@Localizer["Common_Reassign"]</button>
                 </div>
             </form>
         }
@@ -491,22 +491,22 @@
         {
             <form asp-controller="Operations" asp-action="Unassign" asp-route-repairOrderId="@Model.RepairOrderId" method="post" class="mb-3">
                 @Html.AntiForgeryToken()
-                <button type="submit" class="btn btn-outline-warning">Unassign technician</button>
+                <button type="submit" class="btn btn-outline-warning">@Localizer["RepairOrders_UnassignTechnician"]</button>
             </form>
         }
     }
 
     @if (Model.AssignmentHistory.Count > 0)
     {
-        <h3 class="h6 mt-3">Assignment history</h3>
+        <h3 class="h6 mt-3">@Localizer["RepairOrders_AssignmentHistory"]</h3>
         <ul class="list-unstyled small">
             @foreach (var entry in Model.AssignmentHistory)
             {
                 <li>
                     @entry.TechnicianDisplayName — <partial name="_StatusBadge" model="StatusPresentation.ForTechnicianWork(entry.WorkStatus)" />
                     @(entry.UnassignedAtUtc.HasValue
-                        ? $" (assigned {entry.AssignedAtUtc:u}, unassigned {entry.UnassignedAtUtc.Value:u})"
-                        : $" (assigned {entry.AssignedAtUtc:u})")
+                        ? $" (assigned {UiFormatting.FormatDateTime(entry.AssignedAtUtc)}, unassigned {UiFormatting.FormatDateTime(entry.UnassignedAtUtc.Value)})"
+                        : $" (assigned {UiFormatting.FormatDateTime(entry.AssignedAtUtc)})")
                 </li>
             }
         </ul>

@@ -1,6 +1,6 @@
 ﻿<!DOCTYPE html>
 
-<html lang="en">
+<html lang="@WorkshopCultures.ToHtmlLang(CultureInfo.CurrentUICulture.Name)">
 
 <head>
 
@@ -26,9 +26,9 @@
 
 </head>
 
-<body class="wos-public-body">
+<body class="wos-public-body" data-wos-processing-text="@Localizer["Common_Processing"]">
 
-<a class="wos-skip-link" href="#main-content">Skip to main content</a>
+<a class="wos-skip-link" href="#main-content">@Localizer["Layout_SkipToMain"]</a>
 
 <header class="wos-public-header">
 
@@ -42,11 +42,13 @@
 
         </a>
 
-        <nav class="wos-public-nav" aria-label="Public navigation">
+        <nav class="wos-public-nav" aria-label="@Localizer["Layout_PublicNavigation"]">
 
-            <a class="btn btn-sm btn-wos-quiet" asp-controller="Account" asp-action="Login">Sign in</a>
+            <partial name="_LanguageSwitcher" />
 
-            <a class="btn btn-sm btn-wos-primary" asp-controller="Onboarding" asp-action="Index">Get started</a>
+            <a class="btn btn-sm btn-wos-quiet" asp-controller="Account" asp-action="Login">@Localizer["Layout_SignIn"]</a>
+
+            <a class="btn btn-sm btn-wos-primary" asp-controller="Onboarding" asp-action="Index">@Localizer["Layout_GetStarted"]</a>
 
         </nav>
 
@@ -68,13 +70,13 @@
 
         <div class="wos-public-footer-links">
 
-            <a asp-controller="Account" asp-action="Login">Sign in</a>
+            <a asp-controller="Account" asp-action="Login">@Localizer["Layout_SignIn"]</a>
 
-            <a asp-controller="Onboarding" asp-action="Index">Get started</a>
+            <a asp-controller="Onboarding" asp-action="Index">@Localizer["Layout_GetStarted"]</a>
 
         </div>
 
-        <div class="wos-public-footer-copy">&copy; 2026 WorkshopOS. Automotive workshop intelligence.</div>
+        <div class="wos-public-footer-copy">@Localizer["Layout_FooterCopy"]</div>
 
     </div>
 
@@ -91,4 +93,3 @@
 </body>
 
 </html>
-

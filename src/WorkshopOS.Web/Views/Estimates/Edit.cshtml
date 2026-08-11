@@ -5,10 +5,10 @@
 
 @await Html.PartialAsync("_PageHeader", new PageHeaderViewModel
 {
-    Eyebrow = "Estimates",
-    Title = "Edit estimate",
-    Description = $"{Model.Number} — draft editing",
-    Actions = new Microsoft.AspNetCore.Html.HtmlString($"""<a href="{Url.Action("Details", new { estimateId = Model.EstimateId })}" class="btn btn-wos-quiet">View details</a>""")
+    Eyebrow = Localizer["Estimates_Title"].Value,
+    Title = Localizer["Estimates_EditTitle"].Value,
+    Description = string.Format(Localizer["Estimates_EditDescription"].Value, Model.Number),
+    Actions = new Microsoft.AspNetCore.Html.HtmlString($"""<a href="{Url.Action("Details", new { estimateId = Model.EstimateId })}" class="btn btn-wos-quiet">@Localizer["Estimates_ViewDetails"]</a>""")
 })
 
 @if (TempData["EstimateError"] is string estimateError)
@@ -19,10 +19,10 @@
 @if (Model.InspectionFindings.Count > 0 && Model.LatestInspectionId.HasValue)
 {
     <section class="wos-form-section mb-4">
-        <h2 class="wos-form-section-title">Inspection findings (read-only)</h2>
+        <h2 class="wos-form-section-title">@Localizer["Estimates_InspectionFindingsReadOnly"]</h2>
         <p class="wos-field-help">
             Latest inspection
-            <a asp-controller="Inspections" asp-action="Details" asp-route-inspectionId="@Model.LatestInspectionId">View DVI</a>
+            <a asp-controller="Inspections" asp-action="Details" asp-route-inspectionId="@Model.LatestInspectionId">@Localizer["Estimates_ViewDvi"]</a>
         </p>
         <ul class="mb-0 small">
             @foreach (var finding in Model.InspectionFindings)
@@ -34,28 +34,28 @@
 }
 
 <section class="wos-form-section mb-4">
-    <h2 class="wos-form-section-title">Customer message</h2>
+    <h2 class="wos-form-section-title">@Localizer["Estimates_CustomerMessage"]</h2>
     <form asp-action="UpdateCustomerMessage" asp-route-estimateId="@Model.EstimateId" method="post">
         @Html.AntiForgeryToken()
         <div class="wos-field wos-field-full">
             <textarea name="CustomerMessage" class="form-control" rows="3" maxlength="2000">@Model.CustomerMessage</textarea>
         </div>
         <div class="wos-form-actions border-0 pt-3 mt-0">
-            <button type="submit" class="btn btn-outline-secondary btn-sm">Save message</button>
+            <button type="submit" class="btn btn-outline-secondary btn-sm">@Localizer["Estimates_SaveMessage"]</button>
         </div>
     </form>
 </section>
 
-<h2 class="wos-section-title">Line items</h2>
+<h2 class="wos-section-title">@Localizer["Estimates_LineItems"]</h2>
 <div class="wos-table-wrap mb-4">
 <table class="table table-striped mb-0 align-middle">
     <thead>
         <tr>
-            <th>Type</th>
-            <th>Description</th>
-            <th>Qty</th>
-            <th>Unit price</th>
-            <th>Line total</th>
+            <th>@Localizer["Common_Type"]</th>
+            <th>@Localizer["Common_Description"]</th>
+            <th>@Localizer["Common_Quantity"]</th>
+            <th>@Localizer["Common_UnitPrice"]</th>
+            <th>@Localizer["Common_LineTotal"]</th>
             <th></th>
         </tr>
     </thead>
@@ -85,10 +85,10 @@
             </td>
             <td>@item.LineTotal</td>
             <td class="text-end">
-                <button type="submit" class="btn btn-sm btn-outline-primary" form="edit-item-@item.EstimateItemId">Update</button>
+                <button type="submit" class="btn btn-sm btn-outline-primary" form="edit-item-@item.EstimateItemId">@Localizer["Common_Update"]</button>
                 <form asp-action="RemoveItem" asp-route-estimateId="@Model.EstimateId" asp-route-itemId="@item.EstimateItemId" method="post" class="d-inline">
                     @Html.AntiForgeryToken()
-                    <button type="submit" class="btn btn-sm btn-outline-danger">Remove</button>
+                    <button type="submit" class="btn btn-sm btn-outline-danger">@Localizer["Common_Remove"]</button>
                 </form>
             </td>
         </tr>
@@ -96,21 +96,21 @@
     </tbody>
     <tfoot>
         <tr>
-            <th colspan="4" class="text-end">Estimate total</th>
+            <th colspan="4" class="text-end">@Localizer["Estimates_EstimateTotal"]</th>
             <th colspan="2">@Model.Total @Model.CurrencyCode</th>
         </tr>
     </tfoot>
 </table>
 </div>
 
-<h2 class="wos-section-title">Add line item</h2>
+<h2 class="wos-section-title">@Localizer["Estimates_AddLineItem"]</h2>
 <form asp-action="AddItem" asp-route-estimateId="@Model.EstimateId" method="post" class="wos-filter-bar row g-2 mb-4">
     @Html.AntiForgeryToken()
     <div class="col-md-2">
         <select name="Type" class="form-select" asp-items="Html.GetEnumSelectList<WorkshopOS.Domain.Estimates.EstimateItemType>()"></select>
     </div>
     <div class="col-md-3">
-        <input name="Description" class="form-control" placeholder="Description" required maxlength="500" />
+        <input name="Description" class="form-control" placeholder="@Localizer["Common_Description"]" required maxlength="500" />
     </div>
     <div class="col-md-2">
         <input name="Quantity" type="number" step="0.001" min="0.001" class="form-control" value="1" required />
@@ -119,18 +119,18 @@
         <input name="UnitPrice" type="number" step="0.01" min="0" class="form-control" value="0" required />
     </div>
     <div class="col-md-2">
-        <button type="submit" class="btn btn-primary w-100">Add item</button>
+        <button type="submit" class="btn btn-primary w-100">@Localizer["Estimates_AddItem"]</button>
     </div>
 </form>
 
-<h2 class="wos-section-title">Add from catalog</h2>
+<h2 class="wos-section-title">@Localizer["Estimates_AddFromCatalog"]</h2>
 <div class="row g-3 mb-4">
     <div class="col-lg-6">
         <section class="wos-form-section h-100">
-            <h3 class="wos-form-section-title">Service from catalog</h3>
+            <h3 class="wos-form-section-title">@Localizer["Estimates_ServiceFromCatalog"]</h3>
                 @if (Model.ServiceCatalogOptions.Count == 0)
                 {
-                    <p class="text-muted small mb-0">No active services match this estimate currency.</p>
+                    <p class="text-muted small mb-0">@Localizer["Estimates_NoActiveServices"]</p>
                 }
                 else
                 {
@@ -138,7 +138,7 @@
                         @Html.AntiForgeryToken()
                         <div class="col-md-7">
                             <select name="serviceCatalogItemId" class="form-select" required>
-                                <option value="">Select service</option>
+                                <option value="">@Localizer["Common_SelectService"]</option>
                                 @foreach (var option in Model.ServiceCatalogOptions)
                                 {
                                     <option value="@option.Id">@option.Label (@option.DefaultUnitPrice @option.CurrencyCode)</option>
@@ -149,7 +149,7 @@
                             <input name="quantity" type="number" step="0.001" min="0.001" class="form-control" value="1" required />
                         </div>
                         <div class="col-md-2">
-                            <button type="submit" class="btn btn-outline-primary w-100">Add</button>
+                            <button type="submit" class="btn btn-outline-primary w-100">@Localizer["Common_Add"]</button>
                         </div>
                     </form>
                 }
@@ -157,10 +157,10 @@
     </div>
     <div class="col-lg-6">
         <section class="wos-form-section h-100">
-            <h3 class="wos-form-section-title">Part from catalog</h3>
+            <h3 class="wos-form-section-title">@Localizer["Estimates_PartFromCatalog"]</h3>
                 @if (Model.PartCatalogOptions.Count == 0)
                 {
-                    <p class="text-muted small mb-0">No active parts match this estimate currency.</p>
+                    <p class="text-muted small mb-0">@Localizer["Estimates_NoActiveParts"]</p>
                 }
                 else
                 {
@@ -168,7 +168,7 @@
                         @Html.AntiForgeryToken()
                         <div class="col-md-7">
                             <select name="partCatalogItemId" class="form-select" required>
-                                <option value="">Select part</option>
+                                <option value="">@Localizer["Common_SelectPart"]</option>
                                 @foreach (var option in Model.PartCatalogOptions)
                                 {
                                     <option value="@option.Id">@option.Label (@option.DefaultUnitPrice @option.CurrencyCode, stock: @option.StockOnHand)</option>
@@ -179,10 +179,10 @@
                             <input name="quantity" type="number" step="0.001" min="0.001" class="form-control" value="1" required />
                         </div>
                         <div class="col-md-2">
-                            <button type="submit" class="btn btn-outline-primary w-100">Add</button>
+                            <button type="submit" class="btn btn-outline-primary w-100">@Localizer["Common_Add"]</button>
                         </div>
                     </form>
-                    <p class="wos-field-help mb-0 mt-2">Stock shown for @Model.WorkshopLocationName is informational only.</p>
+                    <p class="wos-field-help mb-0 mt-2">@string.Format(Localizer["Estimates_StockInfo"].Value, Model.WorkshopLocationName)</p>
                 }
         </section>
     </div>
@@ -192,6 +192,6 @@
 {
     <form asp-action="Present" asp-route-estimateId="@Model.EstimateId" method="post">
         @Html.AntiForgeryToken()
-        <button type="submit" class="btn btn-success">Present for approval</button>
+        <button type="submit" class="btn btn-success">@Localizer["Estimates_PresentForApproval"]</button>
     </form>
 }

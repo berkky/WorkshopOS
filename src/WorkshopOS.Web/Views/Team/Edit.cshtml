@@ -1,12 +1,12 @@
 @model WorkshopOS.Web.Models.Team.StaffMemberFormViewModel
 @{
-    ViewData["Title"] = "Edit staff profile";
+    ViewData["Title"] = Localizer["Team_EditTitle"].Value;
 }
 
 @await Html.PartialAsync("_PageHeader", new PageHeaderViewModel
 {
-    Eyebrow = "Team",
-    Title = "Edit staff profile",
+    Eyebrow = Localizer["Team_Title"].Value,
+    Title = Localizer["Team_EditTitle"].Value,
     Description = Model.DisplayName
 })
 
@@ -14,8 +14,8 @@
     @Html.AntiForgeryToken()
     <partial name="_StaffMemberFormFields" model="Model" />
     <div class="wos-form-actions">
-        <button type="submit" class="btn btn-wos-primary">Save changes</button>
-        <a asp-action="Index" class="btn btn-wos-quiet">Cancel</a>
+        <button type="submit" class="btn btn-wos-primary">@Localizer["Common_SaveChanges"]</button>
+        <a asp-action="Index" class="btn btn-wos-quiet">@Localizer["Common_Cancel"]</a>
     </div>
 </form>
 

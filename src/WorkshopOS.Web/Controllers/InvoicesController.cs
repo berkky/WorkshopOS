@@ -5,6 +5,7 @@ using WorkshopOS.Application.Billing;
 using WorkshopOS.Application.Team;
 using WorkshopOS.Domain.Billing;
 using WorkshopOS.Infrastructure.Authorization;
+using WorkshopOS.Web.Localization;
 using WorkshopOS.Web.Models.Billing;
 
 namespace WorkshopOS.Web.Controllers;
@@ -16,17 +17,20 @@ public sealed class InvoicesController : Controller
     private readonly IPaymentManagementService _paymentManagementService;
     private readonly ITeamManagementService _teamManagementService;
     private readonly IAuthorizationService _authorizationService;
+    private readonly IWebFailureMessages _messages;
 
     public InvoicesController(
         IInvoiceManagementService invoiceManagementService,
         IPaymentManagementService paymentManagementService,
         ITeamManagementService teamManagementService,
-        IAuthorizationService authorizationService)
+        IAuthorizationService authorizationService,
+        IWebFailureMessages messages)
     {
         _invoiceManagementService = invoiceManagementService;
         _paymentManagementService = paymentManagementService;
         _teamManagementService = teamManagementService;
         _authorizationService = authorizationService;
+        _messages = messages;
     }
 
     [HttpGet("/invoices")]
@@ -109,7 +113,7 @@ public sealed class InvoicesController : Controller
                 return Forbid();
             }
 
-            TempData["InvoiceError"] = MapFailure(result.FailureReason);
+            TempData["InvoiceError"] = _messages.Invoice(result.FailureReason);
             return RedirectToAction("Details", "RepairOrders", new { repairOrderId });
         }
 
@@ -144,7 +148,7 @@ public sealed class InvoicesController : Controller
                 return Forbid();
             }
 
-            TempData["InvoiceError"] = MapFailure(result.FailureReason);
+            TempData["InvoiceError"] = _messages.Invoice(result.FailureReason);
             return RedirectToAction("Details", "Estimates", new { estimateId });
         }
 
@@ -214,7 +218,7 @@ public sealed class InvoicesController : Controller
 
         if (!result.Success)
         {
-            TempData["InvoiceError"] = MapFailure(result.FailureReason);
+            TempData["InvoiceError"] = _messages.Invoice(result.FailureReason);
         }
 
         return RedirectToAction(nameof(Edit), new { invoiceId });
@@ -245,7 +249,7 @@ public sealed class InvoicesController : Controller
 
         if (!result.Success)
         {
-            TempData["InvoiceError"] = MapFailure(result.FailureReason);
+            TempData["InvoiceError"] = _messages.Invoice(result.FailureReason);
         }
 
         return RedirectToAction(nameof(Edit), new { invoiceId });
@@ -269,7 +273,7 @@ public sealed class InvoicesController : Controller
 
         if (!result.Success)
         {
-            TempData["InvoiceError"] = MapFailure(result.FailureReason);
+            TempData["InvoiceError"] = _messages.Invoice(result.FailureReason);
         }
 
         return RedirectToAction(nameof(Edit), new { invoiceId });
@@ -295,7 +299,7 @@ public sealed class InvoicesController : Controller
 
         if (!result.Success)
         {
-            TempData["InvoiceError"] = MapFailure(result.FailureReason);
+            TempData["InvoiceError"] = _messages.Invoice(result.FailureReason);
         }
 
         return RedirectToAction(nameof(Edit), new { invoiceId });
@@ -315,7 +319,7 @@ public sealed class InvoicesController : Controller
         var result = await _invoiceManagementService.IssueInvoiceAsync(actorUserId.Value, invoiceId);
         if (!result.Success)
         {
-            TempData["InvoiceError"] = MapFailure(result.FailureReason);
+            TempData["InvoiceError"] = _messages.Invoice(result.FailureReason);
             return RedirectToAction(nameof(Edit), new { invoiceId });
         }
 
@@ -339,7 +343,7 @@ public sealed class InvoicesController : Controller
         var result = await _invoiceManagementService.VoidInvoiceAsync(actorUserId.Value, invoiceId);
         if (!result.Success)
         {
-            TempData["InvoiceError"] = MapFailure(result.FailureReason);
+            TempData["InvoiceError"] = _messages.Invoice(result.FailureReason);
             if (details?.CanEditItems == true)
             {
                 return RedirectToAction(nameof(Edit), new { invoiceId });
@@ -380,7 +384,7 @@ public sealed class InvoicesController : Controller
 
         if (!result.Success)
         {
-            TempData["InvoiceError"] = MapPaymentFailure(result.FailureReason);
+            TempData["InvoiceError"] = _messages.Payment(result.FailureReason);
         }
 
         return RedirectToAction(nameof(Details), new { invoiceId });
@@ -403,7 +407,7 @@ public sealed class InvoicesController : Controller
 
         if (!result.Success)
         {
-            TempData["InvoiceError"] = MapFailure(result.FailureReason);
+            TempData["InvoiceError"] = _messages.Invoice(result.FailureReason);
         }
 
         return RedirectToAction("Details", "RepairOrders", new { repairOrderId });
@@ -473,59 +477,5 @@ public sealed class InvoicesController : Controller
         return Guid.TryParse(value, out var userId) ? userId : null;
     }
 
-    private static string MapFailure(InvoiceOperationFailureReason? reason) =>
-        reason switch
-        {
-            InvoiceOperationFailureReason.OrganizationUnresolved => "Organization context is not resolved.",
-            InvoiceOperationFailureReason.InvoiceNotFound => "Invoice was not found.",
-            InvoiceOperationFailureReason.RepairOrderNotFound => "Repair order was not found.",
-            InvoiceOperationFailureReason.EstimateNotFound => "Estimate was not found.",
-            InvoiceOperationFailureReason.Unauthorized => "You are not authorized to manage billing.",
-            InvoiceOperationFailureReason.InvalidInput => "One or more invoice fields are invalid.",
-            InvoiceOperationFailureReason.RepairOrderNotEligible =>
-                "Invoices cannot be created for cancelled repair orders.",
-            InvoiceOperationFailureReason.EstimateNotEligible =>
-                "Only approved estimates can be converted to invoices.",
-            InvoiceOperationFailureReason.InvalidLifecycleTransition =>
-                "This invoice cannot be changed in its current status.",
-            InvoiceOperationFailureReason.EmptyInvoice =>
-                "At least one line item is required before issuing an invoice.",
-            InvoiceOperationFailureReason.ConcurrencyConflict =>
-                "The invoice was updated by another operation. Refresh and try again.",
-            InvoiceOperationFailureReason.ItemNotFound => "Invoice line item was not found.",
-            InvoiceOperationFailureReason.ItemLimitExceeded =>
-                "This invoice has reached the maximum number of line items.",
-            InvoiceOperationFailureReason.CurrentInvoiceExists =>
-                "This repair order already has an active invoice.",
-            InvoiceOperationFailureReason.SourceEstimateInvoiceExists =>
-                "An active invoice already exists for this estimate.",
-            InvoiceOperationFailureReason.HasPayments =>
-                "Issued invoices with payments cannot be voided.",
-            InvoiceOperationFailureReason.CommerciallyClosed =>
-                "This repair order is commercially closed and billing cannot be changed.",
-            InvoiceOperationFailureReason.RepairOrderNotCompleted =>
-                "Only completed repair orders can be commercially closed.",
-            InvoiceOperationFailureReason.InvoiceNotPaid =>
-                "The current invoice must be fully paid before commercial close.",
-            InvoiceOperationFailureReason.AlreadyCommerciallyClosed =>
-                "This repair order is already commercially closed.",
-            _ => "The invoice operation could not be completed.",
-        };
 
-    private static string MapPaymentFailure(PaymentOperationFailureReason? reason) =>
-        reason switch
-        {
-            PaymentOperationFailureReason.OrganizationUnresolved => "Organization context is not resolved.",
-            PaymentOperationFailureReason.Unauthorized => "You are not authorized to record payments.",
-            PaymentOperationFailureReason.InvalidInput => "The payment details are invalid.",
-            PaymentOperationFailureReason.InvoiceNotFound => "Invoice was not found.",
-            PaymentOperationFailureReason.InvalidLifecycleTransition =>
-                "Payments can only be recorded against issued invoices.",
-            PaymentOperationFailureReason.Overpayment => "Payment amount would exceed the invoice balance.",
-            PaymentOperationFailureReason.ConcurrencyConflict =>
-                "The payment could not be recorded due to a concurrent update. Try again.",
-            PaymentOperationFailureReason.CommerciallyClosed =>
-                "This repair order is commercially closed and payments cannot be recorded.",
-            _ => "The payment could not be recorded.",
-        };
 }

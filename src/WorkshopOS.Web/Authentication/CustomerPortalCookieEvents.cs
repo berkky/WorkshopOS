@@ -1,7 +1,9 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
 using WorkshopOS.Application.CustomerPortal;
+using WorkshopOS.Infrastructure.Persistence;
 using WorkshopOS.Infrastructure.Tenancy;
 using WorkshopOS.Web.Authentication;
 
@@ -33,7 +35,13 @@ public sealed class CustomerPortalCookieEvents : CookieAuthenticationEvents
 
         var organizationContextMutator = context.HttpContext.RequestServices
             .GetRequiredService<IOrganizationContextMutator>();
-        organizationContextMutator.Resolve(validation.OrganizationId);
+        var dbContext = context.HttpContext.RequestServices.GetRequiredService<AppDbContext>();
+        var timeZoneId = await dbContext.Organizations
+            .AsNoTracking()
+            .Where(organization => organization.Id == validation.OrganizationId)
+            .Select(organization => organization.TimeZoneId)
+            .SingleAsync(context.HttpContext.RequestAborted);
+        organizationContextMutator.Resolve(validation.OrganizationId, timeZoneId);
     }
 
     private static async Task RejectAsync(CookieValidatePrincipalContext context)

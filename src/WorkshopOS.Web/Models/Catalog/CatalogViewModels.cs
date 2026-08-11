@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using WorkshopOS.Web;
 using WorkshopOS.Application.Catalog;
 
 namespace WorkshopOS.Web.Models.Catalog;
@@ -41,23 +42,23 @@ public sealed class ServiceCatalogFormViewModel
 
     [Required]
     [MaxLength(CatalogInputValidator.MaxCodeLength)]
-    [Display(Name = "Code")]
+    [Display(Name = "Field_Code")]
     public string Code { get; set; } = string.Empty;
 
     [Required]
     [MaxLength(CatalogInputValidator.MaxNameLength)]
-    [Display(Name = "Name")]
+    [Display(Name = "Field_Name")]
     public string Name { get; set; } = string.Empty;
 
     [MaxLength(CatalogInputValidator.MaxDescriptionLength)]
-    [Display(Name = "Description")]
+    [Display(Name = "Field_Description")]
     public string? Description { get; set; }
 
     [Required]
-    [Display(Name = "Default unit price")]
+    [Display(Name = "Field_DefaultUnitPrice")]
     public decimal DefaultUnitPrice { get; set; }
 
-    [Display(Name = "Active")]
+    [Display(Name = "Field_Active")]
     public bool IsActive { get; set; } = true;
 }
 
@@ -99,23 +100,23 @@ public sealed class PartCatalogFormViewModel
 
     [Required]
     [MaxLength(CatalogInputValidator.MaxSkuLength)]
-    [Display(Name = "SKU")]
+    [Display(Name = "Field_Sku")]
     public string Sku { get; set; } = string.Empty;
 
     [Required]
     [MaxLength(CatalogInputValidator.MaxNameLength)]
-    [Display(Name = "Name")]
+    [Display(Name = "Field_Name")]
     public string Name { get; set; } = string.Empty;
 
     [MaxLength(CatalogInputValidator.MaxDescriptionLength)]
-    [Display(Name = "Description")]
+    [Display(Name = "Field_Description")]
     public string? Description { get; set; }
 
     [Required]
-    [Display(Name = "Default unit price")]
+    [Display(Name = "Field_DefaultUnitPrice")]
     public decimal DefaultUnitPrice { get; set; }
 
-    [Display(Name = "Active")]
+    [Display(Name = "Field_Active")]
     public bool IsActive { get; set; } = true;
 }
 

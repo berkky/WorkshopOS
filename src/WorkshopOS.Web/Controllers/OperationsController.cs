@@ -6,6 +6,7 @@ using WorkshopOS.Application.RepairOrders;
 using WorkshopOS.Application.Team;
 using WorkshopOS.Domain.RepairOrders;
 using WorkshopOS.Infrastructure.Authorization;
+using WorkshopOS.Web.Localization;
 using WorkshopOS.Web.Models.Operations;
 
 namespace WorkshopOS.Web.Controllers;
@@ -17,15 +18,18 @@ public sealed class OperationsController : Controller
     private readonly IWorkshopOperationsService _workshopOperationsService;
     private readonly ITeamManagementService _teamManagementService;
     private readonly IAuthorizationService _authorizationService;
+    private readonly IWebFailureMessages _messages;
 
     public OperationsController(
         IWorkshopOperationsService workshopOperationsService,
         ITeamManagementService teamManagementService,
-        IAuthorizationService authorizationService)
+        IAuthorizationService authorizationService,
+        IWebFailureMessages messages)
     {
         _workshopOperationsService = workshopOperationsService;
         _teamManagementService = teamManagementService;
         _authorizationService = authorizationService;
+        _messages = messages;
     }
 
     [HttpGet("")]
@@ -215,7 +219,7 @@ public sealed class OperationsController : Controller
             return Forbid();
         }
 
-        TempData["OperationsError"] = MapFailure(result.FailureReason);
+        TempData["OperationsError"] = _messages.Operations(result.FailureReason);
         return RedirectToAction("Details", "RepairOrders", new { repairOrderId });
     }
 
@@ -237,23 +241,4 @@ public sealed class OperationsController : Controller
             LatestEstimateStatus = item.LatestEstimateStatus,
         };
 
-    private static string MapFailure(WorkshopOperationFailureReason? reason) =>
-        reason switch
-        {
-            WorkshopOperationFailureReason.TerminalRepairOrder =>
-                "That repair order is in a terminal state.",
-            WorkshopOperationFailureReason.StaffMemberNotFound =>
-                "The selected technician is not available.",
-            WorkshopOperationFailureReason.TechnicianNotEligible =>
-                "The selected staff member is not an eligible technician.",
-            WorkshopOperationFailureReason.LocationMismatch =>
-                "The technician is not assigned to this workshop location.",
-            WorkshopOperationFailureReason.DuplicateActiveAssignment =>
-                "This repair order already has an active technician assignment.",
-            WorkshopOperationFailureReason.AssignmentNotFound =>
-                "No active technician assignment was found.",
-            WorkshopOperationFailureReason.StaffInactive =>
-                "The selected technician is inactive.",
-            _ => "The operation could not be completed.",
-        };
 }

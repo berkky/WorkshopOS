@@ -12,7 +12,7 @@
     var canManageTeam = (await AuthorizationService.AuthorizeAsync(User, null, PolicyNames.OrganizationManager)).Succeeded;
 }
 <!DOCTYPE html>
-<html lang="en">
+<html lang="@WorkshopCultures.ToHtmlLang(CultureInfo.CurrentUICulture.Name)">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -24,16 +24,16 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/WorkshopOS.Web.styles.css" asp-append-version="true" />
 </head>
-<body class="wos-app-body">
-<a class="wos-skip-link" href="#main-content">Skip to main content</a>
+<body class="wos-app-body" data-wos-processing-text="@Localizer["Common_Processing"]">
+<a class="wos-skip-link" href="#main-content">@Localizer["Layout_SkipToMain"]</a>
 <div class="wos-app">
-    <aside class="wos-sidebar" aria-label="Primary navigation">
+    <aside class="wos-sidebar" aria-label="@Localizer["Layout_PrimaryNavigation"]">
         <div class="wos-sidebar-brand">
             <a asp-controller="Dashboard" asp-action="Index">
                 <span class="wos-sidebar-brand-mark" aria-hidden="true">W</span>
                 <span>
                     WorkshopOS
-                    <small>Workshop intelligence</small>
+                    <small>@Localizer["Layout_BrandTagline"]</small>
                 </span>
             </a>
         </div>
@@ -41,56 +41,46 @@
             @if (canViewReporting)
             {
                 <div class="wos-nav-section">
-                    <div class="wos-nav-section-label">Overview</div>
-                    <a class="wos-nav-link @(IsActive("Dashboard") ? "is-active" : "")" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
-                    <a class="wos-nav-link @(IsActive("Reports", "Operations") ? "is-active" : "")" asp-controller="Reports" asp-action="Operations">Operations report</a>
-                    <a class="wos-nav-link @(IsActive("Reports", "Commercial") ? "is-active" : "")" asp-controller="Reports" asp-action="Commercial">Commercial report</a>
+                    <div class="wos-nav-section-label">@Localizer["Nav_Overview"]</div>
+                    <a class="wos-nav-link @(IsActive("Dashboard") ? "is-active" : "")" asp-controller="Dashboard" asp-action="Index">@Localizer["Nav_Dashboard"]</a>
+                    <a class="wos-nav-link @(IsActive("Reports", "Operations") ? "is-active" : "")" asp-controller="Reports" asp-action="Operations">@Localizer["Nav_OperationsReport"]</a>
+                    <a class="wos-nav-link @(IsActive("Reports", "Commercial") ? "is-active" : "")" asp-controller="Reports" asp-action="Commercial">@Localizer["Nav_CommercialReport"]</a>
                 </div>
             }
             <div class="wos-nav-section">
-                <div class="wos-nav-section-label">Workshop floor</div>
-                <a class="wos-nav-link @(IsActive("Operations") ? "is-active" : "")" asp-controller="Operations" asp-action="Index">Operations board</a>
-                <a class="wos-nav-link @(IsActive("Work") ? "is-active" : "")" asp-controller="Work" asp-action="MyJobs">My work</a>
-                <a class="wos-nav-link @(IsActive("Appointments") ? "is-active" : "")" asp-controller="Appointments" asp-action="Index">Appointments</a>
-                <a class="wos-nav-link @(IsActive("RepairOrders") ? "is-active" : "")" asp-controller="RepairOrders" asp-action="Index">Repair orders</a>
-                <a class="wos-nav-link @(IsActive("Inspections") ? "is-active" : "")" asp-controller="Inspections" asp-action="Index">Inspections</a>
+                <div class="wos-nav-section-label">@Localizer["Nav_WorkshopFloor"]</div>
+                <a class="wos-nav-link @(IsActive("Operations") ? "is-active" : "")" asp-controller="Operations" asp-action="Index">@Localizer["Nav_OperationsBoard"]</a>
+                <a class="wos-nav-link @(IsActive("Work") ? "is-active" : "")" asp-controller="Work" asp-action="MyJobs">@Localizer["Nav_MyWork"]</a>
+                <a class="wos-nav-link @(IsActive("Appointments") ? "is-active" : "")" asp-controller="Appointments" asp-action="Index">@Localizer["Nav_Appointments"]</a>
+                <a class="wos-nav-link @(IsActive("RepairOrders") ? "is-active" : "")" asp-controller="RepairOrders" asp-action="Index">@Localizer["Nav_RepairOrders"]</a>
+                <a class="wos-nav-link @(IsActive("Inspections") ? "is-active" : "")" asp-controller="Inspections" asp-action="Index">@Localizer["Nav_Inspections"]</a>
             </div>
             <div class="wos-nav-section">
-                <div class="wos-nav-section-label">Customers</div>
-                <a class="wos-nav-link @(IsActive("Customers") ? "is-active" : "")" asp-controller="Customers" asp-action="Index">Customers</a>
-                <a class="wos-nav-link @(IsActive("Vehicles") ? "is-active" : "")" asp-controller="Vehicles" asp-action="Index">Vehicles</a>
+                <div class="wos-nav-section-label">@Localizer["Nav_Customers"]</div>
+                <a class="wos-nav-link @(IsActive("Customers") ? "is-active" : "")" asp-controller="Customers" asp-action="Index">@Localizer["Nav_Customers"]</a>
+                <a class="wos-nav-link @(IsActive("Vehicles") ? "is-active" : "")" asp-controller="Vehicles" asp-action="Index">@Localizer["Nav_Vehicles"]</a>
             </div>
             <div class="wos-nav-section">
-                <div class="wos-nav-section-label">Commercial</div>
-                <a class="wos-nav-link @(IsActive("Estimates") ? "is-active" : "")" asp-controller="Estimates" asp-action="Index">Estimates</a>
+                <div class="wos-nav-section-label">@Localizer["Nav_Commercial"]</div>
+                <a class="wos-nav-link @(IsActive("Estimates") ? "is-active" : "")" asp-controller="Estimates" asp-action="Index">@Localizer["Nav_Estimates"]</a>
                 @if (canManageCatalog)
                 {
-                    <a class="wos-nav-link @(IsActive("ServiceCatalog") ? "is-active" : "")" asp-controller="ServiceCatalog" asp-action="Index">Service catalog</a>
-                    <a class="wos-nav-link @(IsActive("PartCatalog") ? "is-active" : "")" asp-controller="PartCatalog" asp-action="Index">Parts catalog</a>
+                    <a class="wos-nav-link @(IsActive("ServiceCatalog") ? "is-active" : "")" asp-controller="ServiceCatalog" asp-action="Index">@Localizer["Nav_ServiceCatalog"]</a>
+                    <a class="wos-nav-link @(IsActive("PartCatalog") ? "is-active" : "")" asp-controller="PartCatalog" asp-action="Index">@Localizer["Nav_PartsCatalog"]</a>
                 }
-                <a class="wos-nav-link @(IsActive("Inventory") ? "is-active" : "")" asp-controller="Inventory" asp-action="Index">Inventory</a>
-                <a class="wos-nav-link @(IsActive("Invoices") ? "is-active" : "")" asp-controller="Invoices" asp-action="Index">Invoices</a>
+                <a class="wos-nav-link @(IsActive("Inventory") ? "is-active" : "")" asp-controller="Inventory" asp-action="Index">@Localizer["Nav_Inventory"]</a>
+                <a class="wos-nav-link @(IsActive("Invoices") ? "is-active" : "")" asp-controller="Invoices" asp-action="Index">@Localizer["Nav_Invoices"]</a>
             </div>
             @if (canManageTeam)
             {
                 <div class="wos-nav-section">
-                    <div class="wos-nav-section-label">Organization</div>
-                    <a class="wos-nav-link @(IsActive("Team") ? "is-active" : "")" asp-controller="Team" asp-action="Index">Team</a>
+                    <div class="wos-nav-section-label">@Localizer["Nav_Organization"]</div>
+                    <a class="wos-nav-link @(IsActive("Team") ? "is-active" : "")" asp-controller="Team" asp-action="Index">@Localizer["Nav_Team"]</a>
                 </div>
             }
         </nav>
         <div class="wos-sidebar-footer">
-            @if (!string.IsNullOrWhiteSpace(User.Identity?.Name))
-            {
-                <div class="wos-sidebar-user">
-                    <div class="wos-sidebar-user-label">Signed in</div>
-                    <div class="wos-sidebar-user-email">@User.Identity!.Name</div>
-                </div>
-            }
-            <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
-                @Html.AntiForgeryToken()
-                <button type="submit" class="btn btn-sm btn-wos-quiet px-0">Sign out</button>
-            </form>
+            <partial name="_AccountCenter" />
         </div>
     </aside>
 
@@ -100,9 +90,12 @@
                 <span class="wos-sidebar-brand-mark" aria-hidden="true">W</span>
                 WorkshopOS
             </a>
-            <button class="btn btn-outline-secondary btn-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#wosMobileNav" aria-controls="wosMobileNav" aria-label="Open navigation menu">
-                Menu
-            </button>
+            <div class="d-flex align-items-center gap-2">
+                <partial name="_AccountCenter" />
+                <button class="btn btn-outline-secondary btn-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#wosMobileNav" aria-controls="wosMobileNav" aria-label="@Localizer["Layout_OpenNavigation"]">
+                    @Localizer["Layout_Menu"]
+                </button>
+            </div>
         </header>
 
         <main id="main-content" class="wos-content" role="main">
@@ -114,27 +107,33 @@
 
 <div class="offcanvas offcanvas-start wos-offcanvas-nav" tabindex="-1" id="wosMobileNav" aria-labelledby="wosMobileNavLabel">
     <div class="offcanvas-header">
-        <h2 class="offcanvas-title h5" id="wosMobileNavLabel">Navigation</h2>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close navigation"></button>
+        <h2 class="offcanvas-title h5" id="wosMobileNavLabel">@Localizer["Layout_Navigation"]</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="@Localizer["Layout_CloseNavigation"]"></button>
     </div>
     <div class="offcanvas-body">
-        <nav aria-label="Mobile navigation">
+        <nav aria-label="@Localizer["Layout_MobileNavigation"]">
             @if (canViewReporting)
             {
-                <a class="wos-nav-link @(IsActive("Dashboard") ? "is-active" : "")" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
-                <a class="wos-nav-link" asp-controller="Reports" asp-action="Operations">Operations report</a>
-                <a class="wos-nav-link" asp-controller="Reports" asp-action="Commercial">Commercial report</a>
+                <a class="wos-nav-link @(IsActive("Dashboard") ? "is-active" : "")" asp-controller="Dashboard" asp-action="Index">@Localizer["Nav_Dashboard"]</a>
+                <a class="wos-nav-link" asp-controller="Reports" asp-action="Operations">@Localizer["Nav_OperationsReport"]</a>
+                <a class="wos-nav-link" asp-controller="Reports" asp-action="Commercial">@Localizer["Nav_CommercialReport"]</a>
             }
-            <a class="wos-nav-link" asp-controller="Operations" asp-action="Index">Operations board</a>
-            <a class="wos-nav-link" asp-controller="Work" asp-action="MyJobs">My work</a>
-            <a class="wos-nav-link" asp-controller="Appointments" asp-action="Index">Appointments</a>
-            <a class="wos-nav-link" asp-controller="RepairOrders" asp-action="Index">Repair orders</a>
-            <a class="wos-nav-link" asp-controller="Inspections" asp-action="Index">Inspections</a>
-            <a class="wos-nav-link" asp-controller="Customers" asp-action="Index">Customers</a>
-            <a class="wos-nav-link" asp-controller="Vehicles" asp-action="Index">Vehicles</a>
-            <a class="wos-nav-link" asp-controller="Estimates" asp-action="Index">Estimates</a>
-            <a class="wos-nav-link" asp-controller="Inventory" asp-action="Index">Inventory</a>
-            <a class="wos-nav-link" asp-controller="Invoices" asp-action="Index">Invoices</a>
+            <a class="wos-nav-link" asp-controller="Operations" asp-action="Index">@Localizer["Nav_OperationsBoard"]</a>
+            <a class="wos-nav-link" asp-controller="Work" asp-action="MyJobs">@Localizer["Nav_MyWork"]</a>
+            <a class="wos-nav-link" asp-controller="Appointments" asp-action="Index">@Localizer["Nav_Appointments"]</a>
+            <a class="wos-nav-link" asp-controller="RepairOrders" asp-action="Index">@Localizer["Nav_RepairOrders"]</a>
+            <a class="wos-nav-link" asp-controller="Inspections" asp-action="Index">@Localizer["Nav_Inspections"]</a>
+            <a class="wos-nav-link" asp-controller="Customers" asp-action="Index">@Localizer["Nav_Customers"]</a>
+            <a class="wos-nav-link" asp-controller="Vehicles" asp-action="Index">@Localizer["Nav_Vehicles"]</a>
+            <a class="wos-nav-link" asp-controller="Estimates" asp-action="Index">@Localizer["Nav_Estimates"]</a>
+            <a class="wos-nav-link" asp-controller="Inventory" asp-action="Index">@Localizer["Nav_Inventory"]</a>
+            <a class="wos-nav-link" asp-controller="Invoices" asp-action="Index">@Localizer["Nav_Invoices"]</a>
+            <div class="wos-offcanvas-account mt-4 pt-4">
+                <div class="wos-nav-section-label">@Localizer["Account_MenuHeading"]</div>
+                <a class="wos-nav-link" asp-controller="Account" asp-action="Profile">@Localizer["Account_MyProfile"]</a>
+                <a class="wos-nav-link" asp-controller="Account" asp-action="Settings">@Localizer["Account_Settings"]</a>
+                <a class="wos-nav-link" asp-controller="Account" asp-action="Security">@Localizer["Account_Security"]</a>
+            </div>
         </nav>
     </div>
 </div>

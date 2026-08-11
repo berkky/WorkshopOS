@@ -1,8 +1,10 @@
+using System.Globalization;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Threading.RateLimiting;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using WorkshopOS.Infrastructure;
@@ -15,7 +17,11 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using WorkshopOS.Web.Authentication;
 using WorkshopOS.Web.Health;
+using WorkshopOS.Web.Localization;
 using WorkshopOS.Web.Middleware;
+using WorkshopOS.Web.Presentation;
+using WorkshopOS.Web.Services;
+using WorkshopOS.Web;
 
 namespace WorkshopOS.Web;
 
@@ -197,7 +203,40 @@ internal static class DependencyInjection
                     }));
         });
 
-        services.AddControllersWithViews();
+        services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+        services
+            .AddControllersWithViews()
+            .AddViewLocalization()
+            .AddDataAnnotationsLocalization(options =>
+            {
+                options.DataAnnotationLocalizerProvider = (_, factory) =>
+                    factory.Create(typeof(SharedResource));
+            });
+
+        services.Configure<RequestLocalizationOptions>(options =>
+        {
+            var supportedCultures = new[]
+            {
+                WorkshopCultures.EnglishCulture,
+                WorkshopCultures.TurkishCulture,
+            };
+
+            options.DefaultRequestCulture = new RequestCulture(WorkshopCultures.English);
+            options.SupportedCultures = supportedCultures;
+            options.SupportedUICultures = supportedCultures;
+            options.ApplyCurrentCultureToResponseHeaders = true;
+            options.RequestCultureProviders =
+            [
+                new CookieRequestCultureProvider(),
+                new AcceptLanguageHeaderRequestCultureProvider(),
+            ];
+        });
+
+        services.AddScoped<IStatusPresentation, LocalizedStatusPresentation>();
+        services.AddScoped<IWorkshopUiFormatting, WorkshopUiFormatting>();
+        services.AddScoped<IAccountCenterService, AccountCenterService>();
+        services.AddScoped<IWebFailureMessages, WebFailureMessages>();
 
         services.AddHealthChecks()
             .AddCheck<PostgreSqlReadinessHealthCheck>("postgresql", tags: ["ready"]);
@@ -216,6 +255,12 @@ internal static class DependencyInjection
         app.UseHttpsRedirection();
         app.UseMiddleware<SecurityHeadersMiddleware>();
         app.UseRouting();
+
+        var localizationOptions = app.Services
+            .GetRequiredService<Microsoft.Extensions.Options.IOptions<RequestLocalizationOptions>>()
+            .Value;
+        app.UseRequestLocalization(localizationOptions);
+
         app.UseRateLimiter();
         app.UseAuthentication();
         app.UseMiddleware<OrganizationResolutionMiddleware>();

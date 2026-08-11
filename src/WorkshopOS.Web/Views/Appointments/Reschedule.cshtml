@@ -1,12 +1,12 @@
 @model WorkshopOS.Web.Models.Appointments.AppointmentRescheduleViewModel
 @{
-    ViewData["Title"] = "Reschedule appointment";
+    ViewData["Title"] = Localizer["Appointments_RescheduleTitle"].Value;
 }
 
 @await Html.PartialAsync("_PageHeader", new PageHeaderViewModel
 {
-    Eyebrow = "Appointments",
-    Title = "Reschedule appointment",
+    Eyebrow = Localizer["Common_Appointments"].Value,
+    Title = Localizer["Appointments_RescheduleTitle"].Value,
     Description = Model.Summary
 })
 
@@ -15,7 +15,7 @@
     <partial name="_FormValidationSummary" />
 
     <section class="wos-form-section">
-        <h2 class="wos-form-section-title">Workshop location</h2>
+        <h2 class="wos-form-section-title">@Localizer["Field_WorkshopLocation"]</h2>
         <div class="wos-field wos-field-full">
             <label asp-for="WorkshopLocationId" class="wos-field-label"></label>
             <select asp-for="WorkshopLocationId" class="form-select">
@@ -28,7 +28,7 @@
     </section>
 
     <section class="wos-form-section">
-        <h2 class="wos-form-section-title">New schedule</h2>
+        <h2 class="wos-form-section-title">@Localizer["Appointments_NewSchedule"]</h2>
         <div class="wos-form-grid">
             <div class="wos-field">
                 <label asp-for="LocalDate" class="wos-field-label"></label>
@@ -48,12 +48,12 @@
                 <span asp-validation-for="EndTime" class="wos-field-error"></span>
             </div>
         </div>
-        <p class="wos-field-help mt-3 mb-0">Overlap and timezone rules are enforced server-side.</p>
+        <p class="wos-field-help mt-3 mb-0">@Localizer["Appointments_RescheduleHelp"]</p>
     </section>
 
     <div class="wos-form-actions">
-        <button type="submit" class="btn btn-wos-primary">Reschedule</button>
-        <a asp-action="Details" asp-route-appointmentId="@Model.AppointmentId" class="btn btn-wos-quiet">Cancel</a>
+        <button type="submit" class="btn btn-wos-primary">@Localizer["Appointments_Reschedule"]</button>
+        <a asp-action="Details" asp-route-appointmentId="@Model.AppointmentId" class="btn btn-wos-quiet">@Localizer["Common_Cancel"]</a>
     </div>
 </form>
 

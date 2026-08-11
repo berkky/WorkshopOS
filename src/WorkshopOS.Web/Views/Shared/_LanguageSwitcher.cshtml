@@ -1,0 +1,22 @@
+@{
+    var currentCulture = CultureInfo.CurrentUICulture.Name;
+    var returnUrl = $"{Context.Request.Path}{Context.Request.QueryString}";
+}
+<nav class="wos-lang-switcher" aria-label="@Localizer["Language_SwitcherLabel"]">
+    @foreach (var culture in new[] { WorkshopCultures.English, WorkshopCultures.Turkish })
+    {
+        var isActive = string.Equals(currentCulture, culture, StringComparison.OrdinalIgnoreCase);
+        var labelKey = culture == WorkshopCultures.English ? "Language_English" : "Language_Turkish";
+        <form asp-controller="Culture" asp-action="SetCulture" method="post" class="wos-lang-switcher-form">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="culture" value="@culture" />
+            <input type="hidden" name="returnUrl" value="@returnUrl" />
+            <button type="submit"
+                    class="wos-lang-switcher-btn@(isActive ? " is-active" : "")"
+                    lang="@WorkshopCultures.ToHtmlLang(culture)"
+                    aria-current="@(isActive ? "true" : null)">
+                @Localizer[labelKey]
+            </button>
+        </form>
+    }
+</nav>

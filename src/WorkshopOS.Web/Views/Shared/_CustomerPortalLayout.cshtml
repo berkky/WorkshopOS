@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="@WorkshopCultures.ToHtmlLang(CultureInfo.CurrentUICulture.Name)">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,15 +11,18 @@
     <link rel="stylesheet" href="~/css/workshopos-public.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
-<body class="wos-public-body portal-body">
-<a class="wos-skip-link" href="#main-content">Skip to main content</a>
+<body class="wos-public-body portal-body" data-wos-processing-text="@Localizer["Common_Processing"]">
+<a class="wos-skip-link" href="#main-content">@Localizer["Layout_SkipToMain"]</a>
 <header class="wos-public-header">
     <div class="wos-public-header-inner" style="max-width: 960px;">
         <a class="wos-public-brand" href="#">
             <span class="wos-public-brand-mark" aria-hidden="true">W</span>
             WorkshopOS
         </a>
-        <span class="text-muted small fw-semibold">Customer portal</span>
+        <div class="d-flex align-items-center gap-3">
+            <partial name="_LanguageSwitcher" />
+            <span class="text-muted small fw-semibold">@Localizer["Layout_CustomerPortal"]</span>
+        </div>
     </div>
 </header>
 <main id="main-content" class="container portal-shell py-4 py-md-5" role="main">
@@ -27,7 +30,7 @@
 </main>
 <footer class="wos-public-footer">
     <div class="wos-public-footer-inner" style="max-width: 960px;">
-        <div class="wos-public-footer-copy">Secure estimate review · Powered by WorkshopOS</div>
+        <div class="wos-public-footer-copy">@Localizer["Layout_PortalFooter"]</div>
     </div>
 </footer>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

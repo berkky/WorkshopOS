@@ -1,5 +1,7 @@
 using System.Security.Claims;
+using Microsoft.EntityFrameworkCore;
 using WorkshopOS.Infrastructure.Identity;
+using WorkshopOS.Infrastructure.Persistence;
 using WorkshopOS.Infrastructure.Tenancy;
 
 namespace WorkshopOS.Web.Middleware;
@@ -16,7 +18,8 @@ public sealed class OrganizationResolutionMiddleware
     public async Task InvokeAsync(
         HttpContext httpContext,
         OrganizationResolutionService resolutionService,
-        IOrganizationContextMutator organizationContextMutator)
+        IOrganizationContextMutator organizationContextMutator,
+        AppDbContext dbContext)
     {
         if (httpContext.User.Identity?.IsAuthenticated == true)
         {
@@ -37,7 +40,12 @@ public sealed class OrganizationResolutionMiddleware
 
                 if (organizationId.HasValue)
                 {
-                    organizationContextMutator.Resolve(organizationId.Value);
+                    var timeZoneId = await dbContext.Organizations
+                        .AsNoTracking()
+                        .Where(organization => organization.Id == organizationId.Value)
+                        .Select(organization => organization.TimeZoneId)
+                        .SingleAsync(httpContext.RequestAborted);
+                    organizationContextMutator.Resolve(organizationId.Value, timeZoneId);
                 }
             }
         }

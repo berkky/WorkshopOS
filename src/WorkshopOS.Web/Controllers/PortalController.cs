@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using WorkshopOS.Application.CustomerPortal;
 using WorkshopOS.Web.Authentication;
+using WorkshopOS.Web.Localization;
 using WorkshopOS.Web.Models.CustomerPortal;
 
 namespace WorkshopOS.Web.Controllers;
@@ -13,10 +14,13 @@ namespace WorkshopOS.Web.Controllers;
 public sealed class PortalController : Controller
 {
     private readonly ICustomerEstimatePortalService _portalService;
+    private readonly IWebFailureMessages _messages;
 
-    public PortalController(ICustomerEstimatePortalService portalService)
+    public PortalController(ICustomerEstimatePortalService portalService,
+        IWebFailureMessages messages)
     {
         _portalService = portalService;
+        _messages = messages;
     }
 
     [AllowAnonymous]
@@ -116,7 +120,7 @@ public sealed class PortalController : Controller
         var result = await _portalService.RecordApprovalAsync(publicId);
         if (!result.Success)
         {
-            TempData["PortalError"] = MapFailure(result.FailureReason);
+            TempData["PortalError"] = _messages.Portal(result.FailureReason);
         }
 
         return RedirectToAction(nameof(Estimate));
@@ -137,7 +141,7 @@ public sealed class PortalController : Controller
         var result = await _portalService.RecordDeclineAsync(publicId);
         if (!result.Success)
         {
-            TempData["PortalError"] = MapFailure(result.FailureReason);
+            TempData["PortalError"] = _messages.Portal(result.FailureReason);
         }
 
         return RedirectToAction(nameof(Estimate));
@@ -208,13 +212,4 @@ public sealed class PortalController : Controller
                 .ToList(),
         };
 
-    private static string MapFailure(CustomerPortalOperationFailureReason? reason) =>
-        reason switch
-        {
-            CustomerPortalOperationFailureReason.InvalidLifecycleTransition =>
-                "This estimate can no longer be approved or declined.",
-            CustomerPortalOperationFailureReason.ConcurrencyConflict =>
-                "Your decision could not be recorded because the estimate was updated. Refresh and try again.",
-            _ => "This secure link is invalid or no longer available.",
-        };
 }

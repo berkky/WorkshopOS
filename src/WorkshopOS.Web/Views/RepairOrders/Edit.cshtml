@@ -1,21 +1,21 @@
 @model WorkshopOS.Web.Models.RepairOrders.RepairOrderFormViewModel
 @{
-    ViewData["Title"] = "Edit service intake";
+    ViewData["Title"] = Localizer["RepairOrders_EditIntakeTitle"].Value;
 }
 
 @await Html.PartialAsync("_PageHeader", new PageHeaderViewModel
 {
-    Eyebrow = "Repair orders",
-    Title = "Edit service intake",
-    Description = "Customer, vehicle, and appointment link cannot be changed here."
+    Eyebrow = Localizer["RepairOrders_Title"].Value,
+    Title = Localizer["RepairOrders_EditIntakeTitle"].Value,
+    Description = Localizer["RepairOrders_EditIntakeDescription"].Value
 })
 
 <form asp-action="Edit" asp-route-repairOrderId="@Model.RepairOrderId" method="post" class="wos-form-shell">
     @Html.AntiForgeryToken()
     <partial name="_RepairOrderFormFields" model="Model" />
     <div class="wos-form-actions">
-        <button type="submit" class="btn btn-wos-primary">Save intake</button>
-        <a asp-action="Details" asp-route-repairOrderId="@Model.RepairOrderId" class="btn btn-wos-quiet">Cancel</a>
+        <button type="submit" class="btn btn-wos-primary">@Localizer["RepairOrders_SaveIntake"]</button>
+        <a asp-action="Details" asp-route-repairOrderId="@Model.RepairOrderId" class="btn btn-wos-quiet">@Localizer["Common_Cancel"]</a>
     </div>
 </form>
 

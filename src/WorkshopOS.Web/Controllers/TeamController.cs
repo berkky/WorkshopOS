@@ -7,6 +7,7 @@ using WorkshopOS.Domain.Organizations;
 using WorkshopOS.Domain.Staff;
 using WorkshopOS.Infrastructure.Authorization;
 using WorkshopOS.Infrastructure.Tenancy;
+using WorkshopOS.Web.Localization;
 using WorkshopOS.Web.Models.Team;
 
 namespace WorkshopOS.Web.Controllers;
@@ -18,15 +19,18 @@ public sealed class TeamController : Controller
     private readonly ITeamManagementService _teamManagementService;
     private readonly IOrganizationMembershipManagementService _membershipManagementService;
     private readonly IAuthorizationService _authorizationService;
+    private readonly IWebFailureMessages _messages;
 
     public TeamController(
         ITeamManagementService teamManagementService,
         IOrganizationMembershipManagementService membershipManagementService,
-        IAuthorizationService authorizationService)
+        IAuthorizationService authorizationService,
+        IWebFailureMessages messages)
     {
         _teamManagementService = teamManagementService;
         _membershipManagementService = membershipManagementService;
         _authorizationService = authorizationService;
+        _messages = messages;
     }
 
     [HttpGet("")]
@@ -93,7 +97,7 @@ public sealed class TeamController : Controller
 
         if (!result.Success)
         {
-            ModelState.AddModelError(string.Empty, MapTeamFailure(result.FailureReason));
+            ModelState.AddModelError(string.Empty, _messages.Team(result.FailureReason));
             await PopulateStaffFormOptionsAsync(model);
             return View(model);
         }
@@ -151,7 +155,7 @@ public sealed class TeamController : Controller
 
         if (!result.Success)
         {
-            ModelState.AddModelError(string.Empty, MapTeamFailure(result.FailureReason));
+            ModelState.AddModelError(string.Empty, _messages.Team(result.FailureReason));
             await PopulateStaffFormOptionsAsync(model);
             return View(model);
         }
@@ -289,17 +293,4 @@ public sealed class TeamController : Controller
         return Guid.TryParse(userIdValue, out var userId) ? userId : null;
     }
 
-    private static string MapTeamFailure(TeamManagementFailureReason? reason) =>
-        reason switch
-        {
-            TeamManagementFailureReason.LinkedUserNotMember =>
-                "Selected login user is not a member of this organization.",
-            TeamManagementFailureReason.LinkedUserAlreadyAssigned =>
-                "Selected login user is already linked to another staff profile.",
-            TeamManagementFailureReason.WorkshopLocationNotFound =>
-                "One or more workshop locations are invalid for this organization.",
-            TeamManagementFailureReason.InvalidInput =>
-                "Please check the staff profile details and try again.",
-            _ => "Unable to save staff profile.",
-        };
 }
