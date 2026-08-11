@@ -1,39 +1,51 @@
 @model WorkshopOS.Web.Models.Vehicles.VehicleListViewModel
 @{
     ViewData["Title"] = "Vehicles";
+    var paginationRouteValues = new Dictionary<string, string>();
+    if (!string.IsNullOrWhiteSpace(Model.Search))
+    {
+        paginationRouteValues["search"] = Model.Search;
+    }
+    if (Model.CurrentCustomerId.HasValue)
+    {
+        paginationRouteValues["currentCustomerId"] = Model.CurrentCustomerId.Value.ToString();
+    }
 }
 
-<div class="d-flex justify-content-between align-items-center mb-3">
+<header class="wos-page-header">
     <div>
-        <h1 class="display-6">Vehicles</h1>
+        <h1 class="wos-page-title">Vehicles</h1>
         @if (Model.CurrentCustomerId.HasValue && !string.IsNullOrWhiteSpace(Model.CurrentCustomerDisplayName))
         {
-            <p class="text-muted mb-0">
+            <p class="wos-page-description">
                 Showing vehicles for
                 <a asp-controller="Customers" asp-action="Details" asp-route-customerId="@Model.CurrentCustomerId">@Model.CurrentCustomerDisplayName</a>
-                <text> — @Model.TotalCount vehicle(s)</text>
+                — @Model.TotalCount vehicle(s)
             </p>
         }
         else
         {
-            <p class="text-muted mb-0">@Model.TotalCount vehicle(s) in current view</p>
+            <p class="wos-page-description">@Model.TotalCount vehicle(s) in current view</p>
         }
     </div>
     @if (Model.CanManageVehicles)
     {
-        <a class="btn btn-primary"
-           asp-action="Create"
-           asp-route-currentCustomerId="@Model.CurrentCustomerId">Create vehicle</a>
+        <div class="wos-page-actions">
+            <a class="btn btn-wos-primary"
+               asp-action="Create"
+               asp-route-currentCustomerId="@Model.CurrentCustomerId">Create vehicle</a>
+        </div>
     }
-</div>
+</header>
 
-<form asp-action="Index" method="get" class="row g-2 mb-3">
+<form asp-action="Index" method="get" class="wos-filter-bar row g-3 align-items-end mb-4">
     @if (Model.CurrentCustomerId.HasValue)
     {
         <input type="hidden" name="currentCustomerId" value="@Model.CurrentCustomerId" />
     }
     <div class="col-md-6">
-        <input name="search" value="@Model.Search" class="form-control" placeholder="Search make, model, plate, VIN, or customer" />
+        <label class="form-label">Search</label>
+        <input name="search" value="@Model.Search" class="form-control" placeholder="Make, model, plate, VIN, or customer" />
     </div>
     <div class="col-md-2">
         <button type="submit" class="btn btn-outline-secondary w-100">Search</button>
@@ -42,53 +54,57 @@
 
 @if (Model.Vehicles.Count == 0)
 {
-    <div class="alert alert-light border">No vehicles match the current filters.</div>
+    @await Html.PartialAsync("_EmptyState", new EmptyStateViewModel { Title = "No vehicles", Description = "No vehicles match the current filters." })
 }
 else
 {
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Vehicle</th>
-                <th>Plate</th>
-                <th>VIN</th>
-                <th>Customer</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
+    <div class="wos-table-wrap wos-desktop-table">
+        <table class="table table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>Vehicle</th>
+                    <th>Plate</th>
+                    <th>VIN</th>
+                    <th>Customer</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var vehicle in Model.Vehicles)
+            {
+                <tr>
+                    <td>@vehicle.Make @vehicle.Model@(vehicle.ModelYear.HasValue ? $" ({vehicle.ModelYear})" : "")</td>
+                    <td>@(vehicle.RegistrationPlate ?? "—")</td>
+                    <td>@(vehicle.Vin ?? "—")</td>
+                    <td>@(vehicle.CurrentCustomerDisplayName ?? "Unassigned")</td>
+                    <td class="text-end">
+                        <a asp-action="Details" asp-route-vehicleId="@vehicle.VehicleId" class="btn btn-sm btn-outline-primary">View</a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="wos-mobile-list">
         @foreach (var vehicle in Model.Vehicles)
         {
-            <tr>
-                <td>@vehicle.Make @vehicle.Model@(vehicle.ModelYear.HasValue ? $" ({vehicle.ModelYear})" : "")</td>
-                <td>@(vehicle.RegistrationPlate ?? "—")</td>
-                <td>@(vehicle.Vin ?? "—")</td>
-                <td>@(vehicle.CurrentCustomerDisplayName ?? "Unassigned")</td>
-                <td class="text-end">
-                    <a asp-action="Details" asp-route-vehicleId="@vehicle.VehicleId" class="btn btn-sm btn-outline-primary">View</a>
-                </td>
-            </tr>
+            <a asp-action="Details" asp-route-vehicleId="@vehicle.VehicleId" class="wos-list-card">
+                <div class="wos-list-card-title">@vehicle.Make @vehicle.Model@(vehicle.ModelYear.HasValue ? $" ({vehicle.ModelYear})" : "")</div>
+                <div class="wos-list-card-meta">
+                    <span>@(vehicle.RegistrationPlate ?? "No plate")</span>
+                    <span>@(vehicle.CurrentCustomerDisplayName ?? "Unassigned")</span>
+                </div>
+            </a>
         }
-        </tbody>
-    </table>
+    </div>
 
-    @if ((int)Math.Ceiling(Model.TotalCount / (double)Model.PageSize) > 1)
+    @await Html.PartialAsync("_Pagination", new PaginationViewModel
     {
-        var totalPages = (int)Math.Ceiling(Model.TotalCount / (double)Model.PageSize);
-        <nav>
-            <ul class="pagination">
-                @for (var pageNumber = 1; pageNumber <= totalPages; pageNumber++)
-                {
-                    <li class="page-item @(pageNumber == Model.Page ? "active" : null)">
-                        <a class="page-link"
-                           asp-action="Index"
-                           asp-route-search="@Model.Search"
-                           asp-route-currentCustomerId="@Model.CurrentCustomerId"
-                           asp-route-page="@pageNumber"
-                           asp-route-pageSize="@Model.PageSize">@pageNumber</a>
-                    </li>
-                }
-            </ul>
-        </nav>
-    }
+        Action = "Index",
+        Page = Model.Page,
+        PageSize = Model.PageSize,
+        TotalCount = Model.TotalCount,
+        RouteValues = paginationRouteValues
+    })
 }

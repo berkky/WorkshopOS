@@ -1,23 +1,26 @@
 @model WorkshopOS.Web.Models.Billing.InvoiceDetailsViewModel
+@using Microsoft.AspNetCore.Html
 @{
     ViewData["Title"] = Model.Number;
 }
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <div>
-        <h1 class="display-6">@Model.Number</h1>
-        <p class="text-muted mb-0">
-            Repair order
-            <a asp-controller="RepairOrders" asp-action="Details" asp-route-repairOrderId="@Model.RepairOrderId">@Model.RepairOrderNumber</a>
-        </p>
-    </div>
-    <div>
-        @if (Model.CanEditItems && Model.CanManageBilling)
-        {
-            <a asp-action="Edit" asp-route-invoiceId="@Model.InvoiceId" class="btn btn-outline-secondary">Edit draft</a>
-        }
-        <a asp-action="Index" class="btn btn-link">All invoices</a>
-    </div>
+@await Html.PartialAsync("_DetailWorkspaceHeader", new DetailWorkspaceHeaderViewModel
+{
+    Eyebrow = "Invoice",
+    Title = Model.Number,
+    Meta = new HtmlString($"""
+        {Model.CustomerDisplayName} · {Model.VehicleSummary}
+        · <a href="{Url.Action("Details", "RepairOrders", new { repairOrderId = Model.RepairOrderId })}">RO {Model.RepairOrderNumber}</a>
+        """),
+    StatusBadges = await Html.PartialAsync("_StatusBadge", StatusPresentation.ForInvoice(Model.Status))
+})
+
+<div class="wos-action-cluster mb-4">
+    @if (Model.CanEditItems && Model.CanManageBilling)
+    {
+        <a asp-action="Edit" asp-route-invoiceId="@Model.InvoiceId" class="btn btn-outline-secondary">Edit draft</a>
+    }
+    <a asp-action="Index" class="btn btn-wos-quiet">All invoices</a>
 </div>
 
 @if (TempData["InvoiceError"] is string invoiceError)
@@ -30,60 +33,83 @@
     <div class="alert alert-info">This repair order has been commercially closed. Billing is read-only.</div>
 }
 
-<div class="row mb-4">
-    <div class="col-md-6">
-        <h2 class="h5">Invoice summary</h2>
-        <dl class="row">
-            <dt class="col-sm-4">Status</dt>
-            <dd class="col-sm-8">@Model.Status</dd>
-            <dt class="col-sm-4">Payment</dt>
-            <dd class="col-sm-8">@Model.PaymentState</dd>
-            <dt class="col-sm-4">Customer</dt>
-            <dd class="col-sm-8">@Model.CustomerDisplayName</dd>
-            <dt class="col-sm-4">Vehicle</dt>
-            <dd class="col-sm-8">@Model.VehicleSummary</dd>
-            <dt class="col-sm-4">Location</dt>
-            <dd class="col-sm-8">@Model.WorkshopLocationName</dd>
+<div class="wos-detail-grid mb-4">
+    <section class="wos-detail-panel">
+        <h2 class="wos-detail-panel-title">Invoice summary</h2>
+        <dl class="wos-dl">
+            <div class="wos-dl-row">
+                <dt>Status</dt>
+                <dd><partial name="_StatusBadge" model="StatusPresentation.ForInvoice(Model.Status)" /></dd>
+            </div>
+            <div class="wos-dl-row">
+                <dt>Payment</dt>
+                <dd><partial name="_StatusBadge" model="StatusPresentation.ForPaymentState(Model.PaymentState)" /></dd>
+            </div>
+            <div class="wos-dl-row">
+                <dt>Customer</dt>
+                <dd>@Model.CustomerDisplayName</dd>
+            </div>
+            <div class="wos-dl-row">
+                <dt>Vehicle</dt>
+                <dd>@Model.VehicleSummary</dd>
+            </div>
+            <div class="wos-dl-row">
+                <dt>Location</dt>
+                <dd>@Model.WorkshopLocationName</dd>
+            </div>
             @if (Model.SourceEstimateId.HasValue)
             {
-                <dt class="col-sm-4">Source estimate</dt>
-                <dd class="col-sm-8">
-                    <a asp-controller="Estimates" asp-action="Details" asp-route-estimateId="@Model.SourceEstimateId">@Model.SourceEstimateNumber</a>
-                </dd>
+                <div class="wos-dl-row">
+                    <dt>Source estimate</dt>
+                    <dd>
+                        <a asp-controller="Estimates" asp-action="Details" asp-route-estimateId="@Model.SourceEstimateId">@Model.SourceEstimateNumber</a>
+                    </dd>
+                </div>
             }
-            <dt class="col-sm-4">Total</dt>
-            <dd class="col-sm-8">@Model.Total @Model.CurrencyCode</dd>
-            <dt class="col-sm-4">Paid</dt>
-            <dd class="col-sm-8">@Model.AmountPaid @Model.CurrencyCode</dd>
-            <dt class="col-sm-4">Balance</dt>
-            <dd class="col-sm-8">@Model.RemainingBalance @Model.CurrencyCode</dd>
+            <div class="wos-dl-row">
+                <dt>Total</dt>
+                <dd>@Model.Total @Model.CurrencyCode</dd>
+            </div>
+            <div class="wos-dl-row">
+                <dt>Paid</dt>
+                <dd>@Model.AmountPaid @Model.CurrencyCode</dd>
+            </div>
+            <div class="wos-dl-row">
+                <dt>Balance</dt>
+                <dd>@Model.RemainingBalance @Model.CurrencyCode</dd>
+            </div>
             @if (Model.IssuedAtUtc.HasValue)
             {
-                <dt class="col-sm-4">Issued</dt>
-                <dd class="col-sm-8">@Model.IssuedAtUtc.Value.ToString("u")</dd>
+                <div class="wos-dl-row">
+                    <dt>Issued</dt>
+                    <dd>@Model.IssuedAtUtc.Value.ToString("u")</dd>
+                </div>
             }
             @if (Model.VoidedAtUtc.HasValue)
             {
-                <dt class="col-sm-4">Voided</dt>
-                <dd class="col-sm-8">@Model.VoidedAtUtc.Value.ToString("u")</dd>
+                <div class="wos-dl-row">
+                    <dt>Voided</dt>
+                    <dd>@Model.VoidedAtUtc.Value.ToString("u")</dd>
+                </div>
             }
         </dl>
         @if (!string.IsNullOrWhiteSpace(Model.CommercialNotes))
         {
-            <h3 class="h6">Commercial notes</h3>
-            <p class="border rounded p-3 bg-light">@Model.CommercialNotes</p>
+            <h3 class="wos-detail-panel-title mt-4">Commercial notes</h3>
+            <div class="wos-note-block">@Model.CommercialNotes</div>
         }
-    </div>
+    </section>
 </div>
 
-<h2 class="h5">Line items</h2>
+<h2 class="wos-section-title">Line items</h2>
 @if (Model.Items.Count == 0)
 {
-    <p class="text-muted">No line items.</p>
+    @await Html.PartialAsync("_EmptyState", new EmptyStateViewModel { Title = "No line items", Description = "Add line items while this invoice is in draft." })
 }
 else
 {
-    <table class="table table-sm table-striped mb-4">
+    <div class="wos-table-wrap">
+    <table class="table table-striped mb-0">
         <thead>
             <tr>
                 <th>Type</th>
@@ -112,16 +138,18 @@ else
             </tr>
         </tfoot>
     </table>
+    </div>
 }
 
-<h2 class="h5">Payments</h2>
+<h2 class="wos-section-title">Payments</h2>
 @if (Model.Payments.Count == 0)
 {
-    <p class="text-muted">No payments recorded.</p>
+    @await Html.PartialAsync("_EmptyState", new EmptyStateViewModel { Title = "No payments recorded", Description = "Payment ledger entries appear here after staff record them." })
 }
 else
 {
-    <table class="table table-sm table-striped mb-4">
+    <div class="wos-table-wrap">
+    <table class="table table-striped mb-4">
         <thead>
             <tr>
                 <th>Recorded</th>
@@ -144,29 +172,37 @@ else
         }
         </tbody>
     </table>
+    </div>
 }
 
 @if (Model.CanManageBilling && Model.CanRecordPayment)
 {
-    <h2 class="h5">Record payment</h2>
-    <form asp-action="RecordPayment" asp-route-invoiceId="@Model.InvoiceId" method="post" class="row g-2 mb-4">
-        @Html.AntiForgeryToken()
-        <div class="col-md-2">
-            <input name="Amount" type="number" step="0.01" min="0.01" class="form-control" placeholder="Amount" required />
-        </div>
-        <div class="col-md-2">
-            <select name="PaymentMethod" class="form-select" asp-items="Html.GetEnumSelectList<WorkshopOS.Domain.Billing.PaymentMethod>()"></select>
-        </div>
-        <div class="col-md-2">
-            <input name="Reference" class="form-control" placeholder="Reference" maxlength="100" />
-        </div>
-        <div class="col-md-3">
-            <input name="Note" class="form-control" placeholder="Note" maxlength="500" />
-        </div>
-        <div class="col-md-2">
-            <button type="submit" class="btn btn-primary w-100">Record payment</button>
-        </div>
-    </form>
+    <div class="wos-payment-entry">
+        <h2 class="wos-payment-entry-title">Record payment</h2>
+        <p class="wos-payment-entry-note">Records a payment ledger entry in WorkshopOS. This does not process card or online payments.</p>
+        <form asp-action="RecordPayment" asp-route-invoiceId="@Model.InvoiceId" method="post" class="wos-filter-bar row g-3 align-items-end">
+            @Html.AntiForgeryToken()
+            <div class="col-md-2">
+                <label class="form-label">Amount</label>
+                <input name="Amount" type="number" step="0.01" min="0.01" class="form-control" placeholder="0.00" required />
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">Method</label>
+                <select name="PaymentMethod" class="form-select" asp-items="Html.GetEnumSelectList<WorkshopOS.Domain.Billing.PaymentMethod>()"></select>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">Reference</label>
+                <input name="Reference" class="form-control" placeholder="Optional" maxlength="100" />
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Note</label>
+                <input name="Note" class="form-control" placeholder="Optional" maxlength="500" />
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-wos-primary w-100">Record payment</button>
+            </div>
+        </form>
+    </div>
 }
 
 @if (Model.CanManageBilling)

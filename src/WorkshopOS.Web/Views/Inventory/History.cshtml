@@ -3,40 +3,50 @@
     ViewData["Title"] = "Inventory history";
 }
 
-<div class="mb-3">
-    <h1 class="display-6">Inventory history</h1>
-    <p class="text-muted mb-0">@Model.PartSku — @Model.PartName at @Model.WorkshopLocationName</p>
-</div>
+@await Html.PartialAsync("_PageHeader", new PageHeaderViewModel
+{
+    Eyebrow = "Inventory",
+    Title = "Inventory history",
+    Description = $"{Model.PartSku} — {Model.PartName} at {Model.WorkshopLocationName}"
+})
 
 @if (Model.Movements.Count == 0)
 {
-    <div class="alert alert-light border">No movements recorded for this part and location.</div>
+    @await Html.PartialAsync("_EmptyState", new EmptyStateViewModel
+    {
+        Title = "No movements recorded",
+        Description = "No inventory movements have been recorded for this part and location."
+    })
 }
 else
 {
-    <table class="table table-sm table-striped">
-        <thead>
-            <tr>
-                <th>When (UTC)</th>
-                <th>Type</th>
-                <th>Delta</th>
-                <th>Balance after</th>
-                <th>Reason</th>
-            </tr>
-        </thead>
-        <tbody>
-        @foreach (var movement in Model.Movements)
-        {
-            <tr>
-                <td>@movement.OccurredAtUtc.ToString("u")</td>
-                <td>@movement.MovementType</td>
-                <td>@movement.QuantityDelta</td>
-                <td>@movement.BalanceAfter</td>
-                <td>@movement.Reason</td>
-            </tr>
-        }
-        </tbody>
-    </table>
+    <div class="wos-table-wrap">
+        <table class="table table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>When (UTC)</th>
+                    <th>Type</th>
+                    <th>Delta</th>
+                    <th>Balance after</th>
+                    <th>Reason</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var movement in Model.Movements)
+            {
+                <tr>
+                    <td>@movement.OccurredAtUtc.ToString("u")</td>
+                    <td>@movement.MovementType</td>
+                    <td>@movement.QuantityDelta</td>
+                    <td>@movement.BalanceAfter</td>
+                    <td>@(string.IsNullOrWhiteSpace(movement.Reason) ? "—" : movement.Reason)</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
 }
 
-<a asp-action="Index" class="btn btn-link">Back to inventory</a>
+<div class="mt-4">
+    <a asp-action="Index" class="btn btn-wos-quiet">Back to inventory</a>
+</div>

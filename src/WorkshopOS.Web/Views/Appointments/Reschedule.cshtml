@@ -3,39 +3,60 @@
     ViewData["Title"] = "Reschedule appointment";
 }
 
-<h1 class="display-6">Reschedule appointment</h1>
-<p class="text-muted">@Model.Summary</p>
+@await Html.PartialAsync("_PageHeader", new PageHeaderViewModel
+{
+    Eyebrow = "Appointments",
+    Title = "Reschedule appointment",
+    Description = Model.Summary
+})
 
-<form asp-action="Reschedule" asp-route-appointmentId="@Model.AppointmentId" method="post">
+<form asp-action="Reschedule" asp-route-appointmentId="@Model.AppointmentId" method="post" class="wos-form-shell">
     @Html.AntiForgeryToken()
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <partial name="_FormValidationSummary" />
 
-    <div class="mb-3">
-        <label asp-for="WorkshopLocationId" class="form-label"></label>
-        <select asp-for="WorkshopLocationId" class="form-select">
-            @foreach (var location in Model.LocationOptions)
-            {
-                <option value="@location.WorkshopLocationId">@location.Name</option>
-            }
-        </select>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="LocalDate" class="form-label"></label>
-        <input asp-for="LocalDate" class="form-control" type="date" />
-    </div>
-
-    <div class="row">
-        <div class="col-md-6 mb-3">
-            <label asp-for="StartTime" class="form-label"></label>
-            <input asp-for="StartTime" class="form-control" type="time" />
+    <section class="wos-form-section">
+        <h2 class="wos-form-section-title">Workshop location</h2>
+        <div class="wos-field wos-field-full">
+            <label asp-for="WorkshopLocationId" class="wos-field-label"></label>
+            <select asp-for="WorkshopLocationId" class="form-select">
+                @foreach (var location in Model.LocationOptions)
+                {
+                    <option value="@location.WorkshopLocationId">@location.Name</option>
+                }
+            </select>
         </div>
-        <div class="col-md-6 mb-3">
-            <label asp-for="EndTime" class="form-label"></label>
-            <input asp-for="EndTime" class="form-control" type="time" />
-        </div>
-    </div>
+    </section>
 
-    <button type="submit" class="btn btn-primary">Reschedule</button>
-    <a asp-action="Details" asp-route-appointmentId="@Model.AppointmentId" class="btn btn-link">Cancel</a>
+    <section class="wos-form-section">
+        <h2 class="wos-form-section-title">New schedule</h2>
+        <div class="wos-form-grid">
+            <div class="wos-field">
+                <label asp-for="LocalDate" class="wos-field-label"></label>
+                <input asp-for="LocalDate" class="form-control" type="date" />
+                <span asp-validation-for="LocalDate" class="wos-field-error"></span>
+            </div>
+        </div>
+        <div class="wos-date-time-group mt-3">
+            <div class="wos-field">
+                <label asp-for="StartTime" class="wos-field-label"></label>
+                <input asp-for="StartTime" class="form-control" type="time" />
+                <span asp-validation-for="StartTime" class="wos-field-error"></span>
+            </div>
+            <div class="wos-field">
+                <label asp-for="EndTime" class="wos-field-label"></label>
+                <input asp-for="EndTime" class="form-control" type="time" />
+                <span asp-validation-for="EndTime" class="wos-field-error"></span>
+            </div>
+        </div>
+        <p class="wos-field-help mt-3 mb-0">Overlap and timezone rules are enforced server-side.</p>
+    </section>
+
+    <div class="wos-form-actions">
+        <button type="submit" class="btn btn-wos-primary">Reschedule</button>
+        <a asp-action="Details" asp-route-appointmentId="@Model.AppointmentId" class="btn btn-wos-quiet">Cancel</a>
+    </div>
 </form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -3,30 +3,48 @@
     ViewData["Title"] = "Reassign customer";
 }
 
-<h1 class="display-6">Reassign customer</h1>
-<p class="text-muted">@Model.VehicleSummary</p>
+@await Html.PartialAsync("_PageHeader", new PageHeaderViewModel
+{
+    Eyebrow = "Vehicles",
+    Title = "Reassign customer",
+    Description = Model.VehicleSummary
+})
 
-<dl class="row mb-3">
-    <dt class="col-sm-3">Current customer</dt>
-    <dd class="col-sm-9">@(Model.CurrentCustomerDisplayName ?? "Unassigned")</dd>
-</dl>
-
-<form asp-action="ReassignCustomer" asp-route-vehicleId="@Model.VehicleId" method="post">
+<form asp-action="ReassignCustomer" asp-route-vehicleId="@Model.VehicleId" method="post" class="wos-form-shell">
     @Html.AntiForgeryToken()
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <partial name="_FormValidationSummary" />
 
-    <div class="mb-3">
-        <label asp-for="NewCurrentCustomerId" class="form-label"></label>
-        <select asp-for="NewCurrentCustomerId" class="form-select">
-            <option value="">Unassigned</option>
-            @foreach (var customer in Model.CustomerOptions)
-            {
-                <option value="@customer.CustomerId">@customer.DisplayName</option>
-            }
-        </select>
-        <span asp-validation-for="NewCurrentCustomerId" class="text-danger"></span>
+    <section class="wos-form-section">
+        <h2 class="wos-form-section-title">Current ownership</h2>
+        <dl class="wos-dl">
+            <div class="wos-dl-row">
+                <dt>Current customer</dt>
+                <dd>@(Model.CurrentCustomerDisplayName ?? "Unassigned")</dd>
+            </div>
+        </dl>
+    </section>
+
+    <section class="wos-form-section">
+        <h2 class="wos-form-section-title">New customer</h2>
+        <div class="wos-field wos-field-full">
+            <label asp-for="NewCurrentCustomerId" class="wos-field-label"></label>
+            <select asp-for="NewCurrentCustomerId" class="form-select">
+                <option value="">Unassigned</option>
+                @foreach (var customer in Model.CustomerOptions)
+                {
+                    <option value="@customer.CustomerId">@customer.DisplayName</option>
+                }
+            </select>
+            <span asp-validation-for="NewCurrentCustomerId" class="wos-field-error"></span>
+        </div>
+    </section>
+
+    <div class="wos-form-actions">
+        <button type="submit" class="btn btn-wos-primary">Reassign</button>
+        <a asp-action="Details" asp-route-vehicleId="@Model.VehicleId" class="btn btn-wos-quiet">Cancel</a>
     </div>
-
-    <button type="submit" class="btn btn-primary">Reassign</button>
-    <a asp-action="Details" asp-route-vehicleId="@Model.VehicleId" class="btn btn-link">Cancel</a>
 </form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

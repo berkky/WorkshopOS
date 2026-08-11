@@ -45,14 +45,26 @@ Commercially honest scope boundaries for WorkshopOS v1.0.0-rc1.
 
 ## Platform
 
-- Native **Windows runtime not executed** in verification cycle.
-- `win-x64` publish not verified (RID restore unavailable without environment mutation).
+- Native **Windows runtime not executed** in verification cycle (cross-publish verified; harness ready — see [windows-native-validation.md](../release/windows-native-validation.md)).
+- `win-x64` framework-dependent and self-contained cross-publish **verified** from macOS (STEP 26/28).
+- Health probes: `/health/live` (liveness) and `/health/ready` (PostgreSQL readiness) — STEP 27.
+- Repair orders index uses **server-side pagination** (default 20, max 100) — STEP 27.
 - DM Sans typography is **self-hosted locally** under SIL OFL 1.1 (no runtime Google Fonts dependency).
 
 ## Visual QA
 
-- Independent browser screenshots at 375/768/1280/1440: **not captured**.
-- Authenticated staff UI visual acceptance: **pending** manual review in demo environment.
+- Independent browser screenshots at 375/768/1280/1440: **not captured** (STEP 29 used 1440×1000 desktop and 390×844 mobile authenticated matrix).
+- Authenticated staff UI visual acceptance: **PASS (STEP 29)** — real-browser walkthrough on `workshopos_test` with disposable synthetic data and post-QA cleanup; see [manual-visual-qa.md](../release/manual-visual-qa.md).
+
+## Release engineering blockers (STEP 28)
+
+The following remain **true blockers** before commercial distribution:
+
+1. **Native Windows execution evidence** — harness ready; requires trusted Windows runner
+2. **Final commercial brand clearance** — WorkshopOS is internal working name only
+3. **Final proprietary LICENSE / legal terms** — pending counsel review
+4. **Monitored security contact** — see `SECURITY.md` publication readiness
+5. **Canonical release commit/tag** — not authorized
 
 ## Distribution
 

@@ -1,0 +1,17 @@
+# Cross-platform line-ending policy (minimal; no mass normalization in STEP 26).
+* text=auto
+
+# Binary assets
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.ttf binary
+*.woff binary
+*.woff2 binary
+*.eot binary
+*.pdf binary
+*.zip binary
+*.snk binary

@@ -1,0 +1,84 @@
+name: Validate
+
+on:
+  push:
+    branches:
+      - release/technical-rc-validation
+  workflow_dispatch:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  linux-test:
+    name: Linux build and test
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: workshopos
+          POSTGRES_PASSWORD: workshopos
+          POSTGRES_DB: workshopos_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U workshopos -d workshopos_test"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      ConnectionStrings__WorkshopOSTest: Host=localhost;Port=5432;Database=workshopos_test;Username=workshopos;Password=workshopos
+      WORKSHOPOS_DESIGNTIME_CONNECTION: Host=localhost;Port=5432;Database=workshopos_test;Username=workshopos;Password=workshopos
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+      - run: dotnet tool restore
+      - run: dotnet restore WorkshopOS.slnx
+      - run: dotnet build WorkshopOS.slnx --no-restore
+      - run: dotnet build WorkshopOS.slnx -c Release --no-restore -warnaserror
+      - run: dotnet test WorkshopOS.slnx --no-build
+      - run: dotnet ef migrations has-pending-model-changes --project src/WorkshopOS.Infrastructure --startup-project src/WorkshopOS.Infrastructure
+      - run: dotnet list WorkshopOS.slnx package --vulnerable
+
+  macos-smoke:
+    name: macOS publish smoke
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+      - run: dotnet restore WorkshopOS.slnx
+      - run: dotnet publish src/WorkshopOS.Web/WorkshopOS.Web.csproj -c Release -o ./publish/macos
+      - name: Liveness smoke
+        run: |
+          export ASPNETCORE_URLS=http://127.0.0.1:5928
+          export ConnectionStrings__WorkshopOS=Host=127.0.0.1;Port=1;Database=invalid;Username=x;Password=x;Timeout=1
+          ./publish/macos/WorkshopOS.Web &
+          pid=$!
+          sleep 5
+          curl -fsS http://127.0.0.1:5928/health/live
+          curl -fsS -o /dev/null -w "%{http_code}" http://127.0.0.1:5928/ | grep 200
+          curl -fsS -o /dev/null -w "%{http_code}" http://127.0.0.1:5928/account/login | grep 200
+          kill $pid
+
+  windows-native:
+    name: Windows native smoke
+    runs-on: windows-latest
+    env:
+      ConnectionStrings__WorkshopOS: Host=127.0.0.1;Port=1;Database=workshopos_ci_unused;Username=workshopos_ci;Timeout=1
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+      - run: dotnet restore src/WorkshopOS.Web/WorkshopOS.Web.csproj -r win-x64
+      - run: dotnet build src/WorkshopOS.Web/WorkshopOS.Web.csproj -c Release -r win-x64 --no-restore -warnaserror
+      - run: dotnet publish src/WorkshopOS.Web/WorkshopOS.Web.csproj -c Release -r win-x64 --self-contained false --no-restore -o ./publish/win-x64
+      - name: Native harness (mandatory probes)
+        shell: pwsh
+        run: ./scripts/release/Test-WorkshopOS-Windows.ps1 -PublishPath ./publish/win-x64

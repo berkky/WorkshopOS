@@ -5,21 +5,28 @@
 
 ---
 
-## Product naming status (STEP 24.1)
+## Product naming status (STEP 24.1 – 24.5)
 
 | Item | Status |
 |------|--------|
-| **Working / internal name** | **WorkshopOS** (current repository product name) |
-| **Commercial / market brand** | **PENDING CLEARANCE** |
-| **Legally cleared for commercial use** | **NO** — exact-name collision signal in automotive/workshop software market |
+| **Working / internal name** | **WorkshopOS** (current repository product name — unchanged) |
+| **Commercial / market brand** | **NOT SELECTED** |
+| **Round I (STEP 24.2)** | **REJECTED** after preliminary external commercial screening |
+| **Round II (STEP 24.3–24.4)** | **REJECTED** after independent external commercial screening |
+| **Round III (STEP 24.4–24.5)** | **REJECTED** after independent preliminary external commercial screening |
+| **Automated Cursor naming** | **FROZEN** — no further AI naming rounds in repository |
+| **Next candidate set** | **CLEARANCE-FIRST PROCESS REQUIRED** — see [final-commercial-brand-brief.md](../release/final-commercial-brand-brief.md) |
+| **Rejected-name register** | [rejected-commercial-brand-register.md](../release/rejected-commercial-brand-register.md) |
+| **Counsel handoff** | [brand-counsel-handoff.md](../release/brand-counsel-handoff.md) |
+| **Legally cleared for commercial use** | **NO** |
 | **Trademark registration claimed** | **NO** |
-| **Final market brand decision** | **OWNER / LEGAL CLEARANCE DECISION PENDING** |
+| **Final market brand decision** | **OWNER / TRADEMARK COUNSEL PENDING** |
 
-**Important:** Treat **WorkshopOS** as the **current internal/working product name** until brand clearance is complete. Do not state that WorkshopOS is trademarked, registered, or legally available for commercial use.
+**Important:** Treat **WorkshopOS** as the **internal working name only** until a new candidate passes the clearance-first pipeline, receives counsel review, and the owner authorizes rebrand.
 
-External finding (STEP 24.1): independent market research identified active automotive/workshop software products already using the exact name **WorkshopOS**, including exact-name websites. This is **not** legal trademark clearance — it is a commercial risk signal requiring owner/counsel follow-up.
+External finding (STEP 24.1): independent market research identified active automotive/workshop software products already using the exact name **WorkshopOS**. Rounds I–III produced **no cleared finalist**. All rejected names are recorded in the master rejected register. **No candidate is legally cleared** by this repository.
 
-See: [brand-clearance-checklist.md](../release/brand-clearance-checklist.md)
+See: [final-commercial-brand-brief.md](../release/final-commercial-brand-brief.md) · [brand-counsel-handoff.md](../release/brand-counsel-handoff.md) · [rejected-commercial-brand-register.md](../release/rejected-commercial-brand-register.md) · [brand-clearance-checklist.md](../release/brand-clearance-checklist.md)
 
 ---
 
@@ -118,6 +125,13 @@ White-label, co-branding, and trademark modification are **not** included in the
 ## Related documents
 
 - [brand-clearance-checklist.md](../release/brand-clearance-checklist.md)
+- [final-commercial-brand-brief.md](../release/final-commercial-brand-brief.md)
+- [rejected-commercial-brand-register.md](../release/rejected-commercial-brand-register.md)
+- [brand-counsel-handoff.md](../release/brand-counsel-handoff.md)
+- [commercial-brand-candidate-template.md](../release/commercial-brand-candidate-template.md)
+- [commercial-brand-naming-sprint.md](../release/commercial-brand-naming-sprint.md) — Round I history
+- [commercial-brand-naming-round-2.md](../release/commercial-brand-naming-round-2.md) — Round II history
+- [commercial-brand-naming-round-3.md](../release/commercial-brand-naming-round-3.md) — Round III history
 - [commercial-rebrand-playbook.md](../release/commercial-rebrand-playbook.md)
 - [rebrand-impact-matrix.md](../release/rebrand-impact-matrix.md)
 - [commercial-packaging.md](commercial-packaging.md)

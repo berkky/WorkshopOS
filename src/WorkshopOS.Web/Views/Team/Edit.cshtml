@@ -3,12 +3,20 @@
     ViewData["Title"] = "Edit staff profile";
 }
 
-<h1 class="display-6">Edit staff profile</h1>
+@await Html.PartialAsync("_PageHeader", new PageHeaderViewModel
+{
+    Eyebrow = "Team",
+    Title = "Edit staff profile",
+    Description = Model.DisplayName
+})
 
-<form asp-action="Edit" asp-route-staffId="@Model.StaffMemberId" method="post">
+<form asp-action="Edit" asp-route-staffId="@Model.StaffMemberId" method="post" class="wos-form-shell wos-form-shell-wide">
+    @Html.AntiForgeryToken()
     <partial name="_StaffMemberFormFields" model="Model" />
-    <button type="submit" class="btn btn-primary">Save changes</button>
-    <a asp-action="Index" class="btn btn-link">Cancel</a>
+    <div class="wos-form-actions">
+        <button type="submit" class="btn btn-wos-primary">Save changes</button>
+        <a asp-action="Index" class="btn btn-wos-quiet">Cancel</a>
+    </div>
 </form>
 
 @section Scripts {

@@ -3,16 +3,23 @@
     ViewData["Title"] = "Team";
 }
 
-<h1 class="display-6">Workshop team</h1>
-<p class="text-muted">Staff profiles, login access, and workshop location assignments.</p>
+<header class="wos-page-header">
+    <div>
+        <h1 class="wos-page-title">Workshop team</h1>
+        <p class="wos-page-description">Staff profiles, login access, and workshop location assignments.</p>
+    </div>
+    @if (Model.CanManageTeam)
+    {
+        <div class="wos-page-actions">
+            <a class="btn btn-wos-primary" asp-action="Create">Add staff profile</a>
+        </div>
+    }
+</header>
 
-@if (Model.CanManageTeam)
-{
-    <a class="btn btn-primary mb-3" asp-action="Create">Add staff profile</a>
-}
-
-<h2 class="h5 mt-4">Staff profiles</h2>
-<table class="table table-striped">
+<section class="wos-workspace-section">
+    <h2 class="wos-section-title">Staff profiles</h2>
+    <div class="wos-table-wrap">
+    <table class="table table-hover mb-0">
     <thead>
         <tr>
             <th>Name</th>
@@ -51,11 +58,15 @@
         </tr>
     }
     </tbody>
-</table>
+    </table>
+    </div>
+</section>
 
-<h2 class="h5 mt-4">Organization access</h2>
-<p class="text-muted">Membership roles control authorization. Staff position does not grant access.</p>
-<table class="table table-striped">
+<section class="wos-workspace-section">
+    <h2 class="wos-section-title">Organization access</h2>
+    <p class="wos-page-description">Membership roles control authorization. Staff position does not grant access.</p>
+    <div class="wos-table-wrap">
+    <table class="table table-hover mb-0">
     <thead>
         <tr>
             <th>User</th>
@@ -102,4 +113,6 @@
         </tr>
     }
     </tbody>
-</table>
+    </table>
+    </div>
+</section>

@@ -86,6 +86,7 @@ public sealed class RepairOrdersController : Controller
             Page = result.Page,
             PageSize = result.PageSize,
             TotalCount = result.TotalCount,
+            HasActiveFilters = HasActiveListFilters(search, status, workshopLocationId, customerId, vehicleId),
             CanManageRepairOrders = canManage,
             LocationOptions = locationOptions,
             RepairOrders = result.Items
@@ -493,4 +494,16 @@ public sealed class RepairOrdersController : Controller
             RepairOrderOperationFailureReason.RepairOrderNotFound => "The repair order could not be found.",
             _ => "The repair order operation could not be completed.",
         };
+
+    private static bool HasActiveListFilters(
+        string? search,
+        RepairOrderStatus? status,
+        Guid? workshopLocationId,
+        Guid? customerId,
+        Guid? vehicleId) =>
+        !string.IsNullOrWhiteSpace(search)
+        || status.HasValue
+        || workshopLocationId.HasValue
+        || customerId.HasValue
+        || vehicleId.HasValue;
 }

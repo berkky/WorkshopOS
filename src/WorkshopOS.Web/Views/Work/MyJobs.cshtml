@@ -3,71 +3,102 @@
     ViewData["Title"] = "My work";
 }
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h1 class="display-6">My work</h1>
-    <a asp-controller="Operations" asp-action="Index" class="btn btn-outline-secondary">Operations board</a>
-</div>
+<header class="wos-page-header">
+    <div>
+        <div class="wos-page-eyebrow">Workshop floor</div>
+        <h1 class="wos-page-title">My work</h1>
+        <p class="wos-page-description">Your assigned repair orders and active technician tasks.</p>
+    </div>
+    <div class="wos-page-actions">
+        <a asp-controller="Operations" asp-action="Index" class="btn btn-outline-secondary">Operations board</a>
+    </div>
+</header>
 
 @if (!Model.HasLinkedTechnicianProfile)
 {
-    <div class="alert alert-light border">
-        Your account is not linked to an active technician staff profile. Contact a workshop manager to link your login to a technician profile.
-    </div>
+    @await Html.PartialAsync("_EmptyState", new EmptyStateViewModel
+    {
+        Title = "Technician profile not linked",
+        Description = "Your account is not linked to an active technician staff profile. Contact a workshop manager to link your login."
+    })
 }
 else if (Model.Items.Count == 0)
 {
-    <div class="alert alert-light border">No active assignments.</div>
+    @await Html.PartialAsync("_EmptyState", new EmptyStateViewModel
+    {
+        Title = "No active assignments",
+        Description = "You have no repair orders assigned to you right now."
+    })
 }
 else
 {
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Repair order</th>
-                <th>Priority</th>
-                <th>Customer</th>
-                <th>Vehicle</th>
-                <th>Location</th>
-                <th>Job status</th>
-                <th>Your work</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
+    <div class="wos-table-wrap wos-desktop-table">
+        <table class="table table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>Repair order</th>
+                    <th>Priority</th>
+                    <th>Customer</th>
+                    <th>Vehicle</th>
+                    <th>Location</th>
+                    <th>Job status</th>
+                    <th>Your work</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var job in Model.Items)
+            {
+                <tr>
+                    <td><a asp-controller="RepairOrders" asp-action="Details" asp-route-repairOrderId="@job.RepairOrderId">@job.Number</a></td>
+                    <td><partial name="_StatusBadge" model="StatusPresentation.ForRepairOrderPriority(job.Priority)" /></td>
+                    <td>@job.CustomerDisplayName</td>
+                    <td>@job.VehicleSummary</td>
+                    <td>@job.WorkshopLocationName</td>
+                    <td><partial name="_StatusBadge" model="StatusPresentation.ForRepairOrder(job.RepairOrderStatus)" /></td>
+                    <td><partial name="_StatusBadge" model="StatusPresentation.ForTechnicianWork(job.TechnicianWorkStatus)" /></td>
+                    <td class="text-end">
+                        @if (job.CanStartWork)
+                        {
+                            <form asp-action="Start" asp-route-repairOrderId="@job.RepairOrderId" method="post" class="d-inline">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-sm btn-wos-primary">Start work</button>
+                            </form>
+                        }
+                        @if (job.CanCompleteWork)
+                        {
+                            <form asp-action="Complete" asp-route-repairOrderId="@job.RepairOrderId" method="post" class="d-inline">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-sm btn-success">Complete</button>
+                            </form>
+                        }
+                        @if (job.LatestInspectionId.HasValue)
+                        {
+                            <a asp-controller="Inspections" asp-action="Details" asp-route-inspectionId="@job.LatestInspectionId" class="btn btn-sm btn-outline-secondary">
+                                @(job.LatestInspectionStatus == WorkshopOS.Domain.Inspections.InspectionStatus.Draft ? "Start inspection" : "Continue inspection")
+                            </a>
+                        }
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="wos-mobile-list">
         @foreach (var job in Model.Items)
         {
-            <tr>
-                <td><a asp-controller="RepairOrders" asp-action="Details" asp-route-repairOrderId="@job.RepairOrderId">@job.Number</a></td>
-                <td>@job.Priority</td>
-                <td>@job.CustomerDisplayName</td>
-                <td>@job.VehicleSummary</td>
-                <td>@job.WorkshopLocationName</td>
-                <td>@job.RepairOrderStatus</td>
-                <td>@job.TechnicianWorkStatus</td>
-                <td>
-                    @if (job.CanStartWork)
-                    {
-                        <form asp-action="Start" asp-route-repairOrderId="@job.RepairOrderId" method="post" class="d-inline">
-                            @Html.AntiForgeryToken()
-                            <button type="submit" class="btn btn-sm btn-primary">Start work</button>
-                        </form>
-                    }
-                    @if (job.CanCompleteWork)
-                    {
-                        <form asp-action="Complete" asp-route-repairOrderId="@job.RepairOrderId" method="post" class="d-inline">
-                            @Html.AntiForgeryToken()
-                            <button type="submit" class="btn btn-sm btn-success">Mark work complete</button>
-                        </form>
-                    }
-                    @if (job.LatestInspectionId.HasValue)
-                    {
-                        <a asp-controller="Inspections" asp-action="Details" asp-route-inspectionId="@job.LatestInspectionId" class="btn btn-sm btn-outline-secondary">
-                            @(job.LatestInspectionStatus == WorkshopOS.Domain.Inspections.InspectionStatus.Draft ? "Start inspection" : "Continue inspection")
-                        </a>
-                    }
-                </td>
-            </tr>
+            <a asp-controller="RepairOrders" asp-action="Details" asp-route-repairOrderId="@job.RepairOrderId" class="wos-list-card">
+                <div class="wos-list-card-title">@job.Number</div>
+                <div class="wos-list-card-meta">
+                    <span>@job.CustomerDisplayName · @job.VehicleSummary</span>
+                    <span>@job.WorkshopLocationName</span>
+                </div>
+                <div class="wos-list-card-footer">
+                    <partial name="_StatusBadge" model="StatusPresentation.ForTechnicianWork(job.TechnicianWorkStatus)" />
+                    <span class="text-muted small">View</span>
+                </div>
+            </a>
         }
-        </tbody>
-    </table>
+    </div>
 }

@@ -3,19 +3,22 @@
     ViewData["Title"] = "Inventory";
 }
 
-<div class="d-flex justify-content-between align-items-center mb-3">
+<header class="wos-page-header">
     <div>
-        <h1 class="display-6">Inventory</h1>
-        <p class="text-muted mb-0">@Model.TotalCount balance row(s)</p>
+        <h1 class="wos-page-title">Inventory</h1>
+        <p class="wos-page-description">@Model.TotalCount balance row(s)</p>
     </div>
     @if (Model.CanAdjustInventory)
     {
-        <a class="btn btn-primary" asp-action="Adjust">Adjust stock</a>
+        <div class="wos-page-actions">
+            <a class="btn btn-wos-primary" asp-action="Adjust">Adjust stock</a>
+        </div>
     }
-</div>
+</header>
 
-<form method="get" class="row g-2 mb-3">
+<form method="get" class="wos-filter-bar row g-3 align-items-end mb-4">
     <div class="col-md-4">
+        <label class="form-label">Location</label>
         <select name="workshopLocationId" class="form-select">
             <option value="">All locations</option>
             @foreach (var location in Model.LocationOptions)
@@ -25,7 +28,7 @@
         </select>
     </div>
     <div class="col-md-3">
-        <div class="form-check mt-2">
+        <div class="form-check mt-4">
             <input class="form-check-input" type="checkbox" name="lowOrZeroStockOnly" value="true" id="lowStock" @(Model.LowOrZeroStockOnly ? "checked" : null) />
             <label class="form-check-label" for="lowStock">Low / zero stock only</label>
         </div>
@@ -37,33 +40,49 @@
 
 @if (Model.Items.Count == 0)
 {
-    <div class="alert alert-light border">No inventory balances match the current filters.</div>
+    @await Html.PartialAsync("_EmptyState", new EmptyStateViewModel { Title = "No inventory balances", Description = "No inventory balances match the current filters." })
 }
 else
 {
-    <table class="table table-striped align-middle">
-        <thead>
-            <tr>
-                <th>SKU</th>
-                <th>Part</th>
-                <th>Location</th>
-                <th>On hand</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
+    <div class="wos-table-wrap wos-desktop-table">
+        <table class="table table-hover mb-0 align-middle">
+            <thead>
+                <tr>
+                    <th>SKU</th>
+                    <th>Part</th>
+                    <th>Location</th>
+                    <th>On hand</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td><code>@item.PartSku</code></td>
+                    <td>@item.PartName @(item.PartIsActive ? "" : "(inactive)")</td>
+                    <td>@item.WorkshopLocationName</td>
+                    <td>@item.QuantityOnHand</td>
+                    <td class="text-end">
+                        <a asp-action="History" asp-route-partCatalogItemId="@item.PartCatalogItemId" asp-route-workshopLocationId="@item.WorkshopLocationId" class="btn btn-sm btn-outline-secondary">History</a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="wos-mobile-list">
         @foreach (var item in Model.Items)
         {
-            <tr>
-                <td><code>@item.PartSku</code></td>
-                <td>@item.PartName @(item.PartIsActive ? "" : "(inactive)")</td>
-                <td>@item.WorkshopLocationName</td>
-                <td>@item.QuantityOnHand</td>
-                <td class="text-end">
-                    <a asp-action="History" asp-route-partCatalogItemId="@item.PartCatalogItemId" asp-route-workshopLocationId="@item.WorkshopLocationId" class="btn btn-sm btn-outline-secondary">History</a>
-                </td>
-            </tr>
+            <a asp-action="History" asp-route-partCatalogItemId="@item.PartCatalogItemId" asp-route-workshopLocationId="@item.WorkshopLocationId" class="wos-list-card">
+                <div class="wos-list-card-title">@item.PartName</div>
+                <div class="wos-list-card-meta">
+                    <span><code>@item.PartSku</code></span>
+                    <span>@item.WorkshopLocationName</span>
+                    <span>On hand: @item.QuantityOnHand</span>
+                </div>
+            </a>
         }
-        </tbody>
-    </table>
+    </div>
 }

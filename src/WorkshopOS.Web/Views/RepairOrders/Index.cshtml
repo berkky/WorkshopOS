@@ -1,24 +1,50 @@
 @model WorkshopOS.Web.Models.RepairOrders.RepairOrderListViewModel
+@using WorkshopOS.Web.Models.Shared
 @{
     ViewData["Title"] = "Repair orders";
+    var paginationRouteValues = new Dictionary<string, string>();
+    if (!string.IsNullOrWhiteSpace(Model.Search))
+    {
+        paginationRouteValues["search"] = Model.Search;
+    }
+    if (Model.Status.HasValue)
+    {
+        paginationRouteValues["status"] = Model.Status.Value.ToString();
+    }
+    if (Model.WorkshopLocationId.HasValue)
+    {
+        paginationRouteValues["workshopLocationId"] = Model.WorkshopLocationId.Value.ToString();
+    }
+    if (Model.CustomerId.HasValue)
+    {
+        paginationRouteValues["customerId"] = Model.CustomerId.Value.ToString();
+    }
+    if (Model.VehicleId.HasValue)
+    {
+        paginationRouteValues["vehicleId"] = Model.VehicleId.Value.ToString();
+    }
 }
 
-<div class="d-flex justify-content-between align-items-center mb-3">
+<header class="wos-page-header">
     <div>
-        <h1 class="display-6">Repair orders</h1>
-        <p class="text-muted mb-0">@Model.TotalCount repair order(s) in current view</p>
+        <h1 class="wos-page-title">Repair orders</h1>
+        <p class="wos-page-description">@Model.TotalCount repair order(s) in current view</p>
     </div>
     @if (Model.CanManageRepairOrders)
     {
-        <a asp-action="Create" class="btn btn-primary">Create repair order</a>
+        <div class="wos-page-actions">
+            <a asp-action="Create" class="btn btn-wos-primary">Create repair order</a>
+        </div>
     }
-</div>
+</header>
 
-<form asp-action="Index" method="get" class="row g-2 mb-3">
+<form asp-action="Index" method="get" class="wos-filter-bar row g-3 align-items-end mb-4">
     <div class="col-md-3">
-        <input name="search" value="@Model.Search" class="form-control" placeholder="Search number, customer, vehicle" />
+        <label class="form-label">Search</label>
+        <input name="search" value="@Model.Search" class="form-control" placeholder="Number, customer, vehicle" />
     </div>
     <div class="col-md-2">
+        <label class="form-label">Location</label>
         <select name="workshopLocationId" class="form-select">
             <option value="">All locations</option>
             @foreach (var location in Model.LocationOptions)
@@ -28,6 +54,7 @@
         </select>
     </div>
     <div class="col-md-2">
+        <label class="form-label">Status</label>
         <select name="status" class="form-select" asp-for="Status" asp-items="Html.GetEnumSelectList<WorkshopOS.Domain.RepairOrders.RepairOrderStatus>()">
             <option value="">All statuses</option>
         </select>
@@ -39,35 +66,72 @@
 
 @if (Model.RepairOrders.Count == 0)
 {
-    <div class="alert alert-light border">No repair orders match the current filters.</div>
+    @await Html.PartialAsync("_EmptyState", new EmptyStateViewModel
+    {
+        Title = Model.HasActiveFilters ? "No matching repair orders" : "No repair orders yet",
+        Description = Model.HasActiveFilters
+            ? "No repair orders match the current filters."
+            : "Create a repair order to start tracking workshop work."
+    })
 }
 else
 {
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Number</th>
-                <th>Opened</th>
-                <th>Location</th>
-                <th>Customer</th>
-                <th>Vehicle</th>
-                <th>Status</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
+    <div class="wos-table-wrap wos-desktop-table">
+        <table class="table table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>Number</th>
+                    <th>Opened</th>
+                    <th>Location</th>
+                    <th>Customer</th>
+                    <th>Vehicle</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var repairOrder in Model.RepairOrders)
+            {
+                <tr>
+                    <td>@repairOrder.Number</td>
+                    <td>@repairOrder.OpenedAtUtc.ToString("u")</td>
+                    <td>@repairOrder.WorkshopLocationName</td>
+                    <td>@repairOrder.CustomerDisplayName</td>
+                    <td>@repairOrder.VehicleSummary</td>
+                    <td><partial name="_StatusBadge" model="StatusPresentation.ForRepairOrder(repairOrder.Status)" /></td>
+                    <td class="text-end">
+                        <a asp-action="Details" asp-route-repairOrderId="@repairOrder.RepairOrderId" class="btn btn-sm btn-outline-primary">View</a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="wos-mobile-list">
         @foreach (var repairOrder in Model.RepairOrders)
         {
-            <tr>
-                <td>@repairOrder.Number</td>
-                <td>@repairOrder.OpenedAtUtc.ToString("u")</td>
-                <td>@repairOrder.WorkshopLocationName</td>
-                <td>@repairOrder.CustomerDisplayName</td>
-                <td>@repairOrder.VehicleSummary</td>
-                <td>@repairOrder.Status</td>
-                <td><a asp-action="Details" asp-route-repairOrderId="@repairOrder.RepairOrderId">Details</a></td>
-            </tr>
+            <a asp-action="Details" asp-route-repairOrderId="@repairOrder.RepairOrderId" class="wos-list-card">
+                <div class="wos-list-card-title">@repairOrder.Number</div>
+                <div class="wos-list-card-meta">
+                    <span>@repairOrder.CustomerDisplayName</span>
+                    <span>@repairOrder.VehicleSummary</span>
+                    <span>@repairOrder.WorkshopLocationName · @repairOrder.OpenedAtUtc.ToString("u")</span>
+                </div>
+                <div class="wos-list-card-footer">
+                    <partial name="_StatusBadge" model="StatusPresentation.ForRepairOrder(repairOrder.Status)" />
+                    <span class="text-muted small">View</span>
+                </div>
+            </a>
         }
-        </tbody>
-    </table>
+    </div>
+
+    @await Html.PartialAsync("_Pagination", new PaginationViewModel
+    {
+        Action = "Index",
+        Page = Model.Page,
+        PageSize = Model.PageSize,
+        TotalCount = Model.TotalCount,
+        RouteValues = paginationRouteValues
+    })
 }

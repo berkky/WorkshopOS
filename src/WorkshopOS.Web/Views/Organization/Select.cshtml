@@ -3,29 +3,41 @@
     ViewData["Title"] = "Select organization";
 }
 
-<h1 class="display-6">Select organization</h1>
-<p class="text-muted">Choose which workshop workspace to use for this session.</p>
+@await Html.PartialAsync("_PageHeader", new PageHeaderViewModel
+{
+    Eyebrow = "Workspace",
+    Title = "Select organization",
+    Description = "Choose which workshop workspace to use for this session."
+})
 
-<form asp-action="Select" asp-controller="Organization" method="post">
+<form asp-action="Select" asp-controller="Organization" method="post" class="wos-form-shell">
+    @Html.AntiForgeryToken()
     <input type="hidden" asp-for="ReturnUrl" />
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <partial name="_FormValidationSummary" />
 
-    @for (var index = 0; index < Model.Organizations.Count; index++)
-    {
-        var organization = Model.Organizations[index];
-        <div class="form-check mb-2">
-            <input class="form-check-input"
-                   type="radio"
-                   name="OrganizationId"
-                   id="organization-@organization.OrganizationId"
-                   value="@organization.OrganizationId"
-                   @(index == 0 ? "checked" : null) />
-            <label class="form-check-label" for="organization-@organization.OrganizationId">
-                @organization.OrganizationName
-                <span class="text-muted">(@organization.MembershipRole)</span>
-            </label>
+    <section class="wos-form-section">
+        <h2 class="wos-form-section-title">Available workspaces</h2>
+        <div class="wos-choice-group">
+            @for (var index = 0; index < Model.Organizations.Count; index++)
+            {
+                var organization = Model.Organizations[index];
+                <div class="form-check">
+                    <input class="form-check-input"
+                           type="radio"
+                           name="OrganizationId"
+                           id="organization-@organization.OrganizationId"
+                           value="@organization.OrganizationId"
+                           @(index == 0 ? "checked" : null) />
+                    <label class="form-check-label" for="organization-@organization.OrganizationId">
+                        @organization.OrganizationName
+                        <span class="text-muted">(@organization.MembershipRole)</span>
+                    </label>
+                </div>
+            }
         </div>
-    }
+    </section>
 
-    <button type="submit" class="btn btn-primary mt-3">Continue</button>
+    <div class="wos-form-actions">
+        <button type="submit" class="btn btn-wos-primary">Continue</button>
+    </div>
 </form>

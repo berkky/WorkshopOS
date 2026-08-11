@@ -80,6 +80,13 @@
             }
         </nav>
         <div class="wos-sidebar-footer">
+            @if (!string.IsNullOrWhiteSpace(User.Identity?.Name))
+            {
+                <div class="wos-sidebar-user">
+                    <div class="wos-sidebar-user-label">Signed in</div>
+                    <div class="wos-sidebar-user-email">@User.Identity!.Name</div>
+                </div>
+            }
             <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
                 @Html.AntiForgeryToken()
                 <button type="submit" class="btn btn-sm btn-wos-quiet px-0">Sign out</button>

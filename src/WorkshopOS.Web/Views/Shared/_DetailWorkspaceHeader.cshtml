@@ -1,0 +1,25 @@
+@model WorkshopOS.Web.Models.Shared.DetailWorkspaceHeaderViewModel
+
+<header class="wos-detail-hero">
+    <div class="wos-detail-hero-inner">
+        <div class="wos-detail-hero-main">
+            @if (!string.IsNullOrWhiteSpace(Model.Eyebrow))
+            {
+                <p class="wos-detail-hero-eyebrow">@Model.Eyebrow</p>
+            }
+            <h1 class="wos-detail-hero-title">@Model.Title</h1>
+            @if (Model.Meta is not null)
+            {
+                <div class="wos-detail-hero-meta">@Model.Meta</div>
+            }
+            @if (Model.StatusBadges is not null)
+            {
+                <div class="wos-detail-hero-badges">@Model.StatusBadges</div>
+            }
+        </div>
+        @if (Model.Actions is not null)
+        {
+            <div class="wos-detail-hero-actions">@Model.Actions</div>
+        }
+    </div>
+</header>

@@ -1,73 +1,90 @@
 @model WorkshopOS.Web.Models.Appointments.AppointmentFormViewModel
 
-<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<partial name="_FormValidationSummary" />
 
-<div class="mb-3">
-    <label asp-for="WorkshopLocationId" class="form-label"></label>
-    <select asp-for="WorkshopLocationId" class="form-select">
-        <option value="">Select location</option>
-        @foreach (var location in Model.LocationOptions)
-        {
-            <option value="@location.WorkshopLocationId">@location.Name</option>
-        }
-    </select>
-    <span asp-validation-for="WorkshopLocationId" class="text-danger"></span>
-</div>
+<section class="wos-form-section">
+    <h2 class="wos-form-section-title">Customer &amp; vehicle</h2>
+    <div class="wos-form-grid">
+        <div class="wos-field">
+            <label asp-for="CustomerId" class="wos-field-label"></label>
+            <select asp-for="CustomerId" class="form-select">
+                <option value="">Select customer</option>
+                @foreach (var customer in Model.CustomerOptions)
+                {
+                    <option value="@customer.CustomerId">@customer.DisplayName</option>
+                }
+            </select>
+            <span asp-validation-for="CustomerId" class="wos-field-error"></span>
+        </div>
+        <div class="wos-field">
+            <label asp-for="VehicleId" class="wos-field-label"></label>
+            <select asp-for="VehicleId" class="form-select">
+                <option value="">Select vehicle</option>
+                @foreach (var vehicle in Model.VehicleOptions)
+                {
+                    <option value="@vehicle.VehicleId">@vehicle.Summary</option>
+                }
+            </select>
+            <span asp-validation-for="VehicleId" class="wos-field-error"></span>
+        </div>
+    </div>
+</section>
 
-<div class="mb-3">
-    <label asp-for="CustomerId" class="form-label"></label>
-    <select asp-for="CustomerId" class="form-select">
-        <option value="">Select customer</option>
-        @foreach (var customer in Model.CustomerOptions)
-        {
-            <option value="@customer.CustomerId">@customer.DisplayName</option>
-        }
-    </select>
-    <span asp-validation-for="CustomerId" class="text-danger"></span>
-</div>
-
-<div class="mb-3">
-    <label asp-for="VehicleId" class="form-label"></label>
-    <select asp-for="VehicleId" class="form-select">
-        <option value="">Select vehicle</option>
-        @foreach (var vehicle in Model.VehicleOptions)
-        {
-            <option value="@vehicle.VehicleId">@vehicle.Summary</option>
-        }
-    </select>
-    <span asp-validation-for="VehicleId" class="text-danger"></span>
-</div>
+<section class="wos-form-section">
+    <h2 class="wos-form-section-title">Workshop location</h2>
+    <div class="wos-field wos-field-full">
+        <label asp-for="WorkshopLocationId" class="wos-field-label"></label>
+        <select asp-for="WorkshopLocationId" class="form-select">
+            <option value="">Select location</option>
+            @foreach (var location in Model.LocationOptions)
+            {
+                <option value="@location.WorkshopLocationId">@location.Name</option>
+            }
+        </select>
+        <span asp-validation-for="WorkshopLocationId" class="wos-field-error"></span>
+    </div>
+</section>
 
 @if (!Model.AppointmentId.HasValue)
 {
-    <div class="mb-3">
-        <label asp-for="LocalDate" class="form-label"></label>
-        <input asp-for="LocalDate" class="form-control" type="date" />
-        <span asp-validation-for="LocalDate" class="text-danger"></span>
-    </div>
-
-    <div class="row">
-        <div class="col-md-6 mb-3">
-            <label asp-for="StartTime" class="form-label"></label>
-            <input asp-for="StartTime" class="form-control" type="time" />
-            <span asp-validation-for="StartTime" class="text-danger"></span>
+    <section class="wos-form-section">
+        <h2 class="wos-form-section-title">Schedule</h2>
+        <div class="wos-form-grid">
+            <div class="wos-field">
+                <label asp-for="LocalDate" class="wos-field-label"></label>
+                <input asp-for="LocalDate" class="form-control" type="date" />
+                <span asp-validation-for="LocalDate" class="wos-field-error"></span>
+            </div>
         </div>
-        <div class="col-md-6 mb-3">
-            <label asp-for="EndTime" class="form-label"></label>
-            <input asp-for="EndTime" class="form-control" type="time" />
-            <span asp-validation-for="EndTime" class="text-danger"></span>
+        <div class="wos-date-time-group mt-3">
+            <div class="wos-field">
+                <label asp-for="StartTime" class="wos-field-label"></label>
+                <input asp-for="StartTime" class="form-control" type="time" />
+                <span asp-validation-for="StartTime" class="wos-field-error"></span>
+            </div>
+            <div class="wos-field">
+                <label asp-for="EndTime" class="wos-field-label"></label>
+                <input asp-for="EndTime" class="form-control" type="time" />
+                <span asp-validation-for="EndTime" class="wos-field-error"></span>
+            </div>
         </div>
-    </div>
+        <p class="wos-field-help mt-3 mb-0">Times use the workshop location timezone. Overlap rules are enforced server-side.</p>
+    </section>
 }
 
-<div class="mb-3">
-    <label asp-for="CustomerConcern" class="form-label"></label>
-    <textarea asp-for="CustomerConcern" class="form-control" rows="3"></textarea>
-    <span asp-validation-for="CustomerConcern" class="text-danger"></span>
-</div>
-
-<div class="mb-3">
-    <label asp-for="InternalNotes" class="form-label"></label>
-    <textarea asp-for="InternalNotes" class="form-control" rows="3"></textarea>
-    <span asp-validation-for="InternalNotes" class="text-danger"></span>
-</div>
+<section class="wos-form-section">
+    <h2 class="wos-form-section-title">Job context</h2>
+    <div class="wos-form-grid">
+        <div class="wos-field wos-field-full">
+            <label asp-for="CustomerConcern" class="wos-field-label"></label>
+            <textarea asp-for="CustomerConcern" class="form-control" rows="3"></textarea>
+            <span asp-validation-for="CustomerConcern" class="wos-field-error"></span>
+        </div>
+        <div class="wos-field wos-field-full">
+            <label asp-for="InternalNotes" class="wos-field-label"></label>
+            <textarea asp-for="InternalNotes" class="form-control" rows="3"></textarea>
+            <span asp-validation-for="InternalNotes" class="wos-field-error"></span>
+            <p class="wos-field-help">Staff-only notes for scheduling and intake context.</p>
+        </div>
+    </div>
+</section>

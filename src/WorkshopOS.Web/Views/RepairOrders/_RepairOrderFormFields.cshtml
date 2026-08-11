@@ -1,48 +1,55 @@
 @model WorkshopOS.Web.Models.RepairOrders.RepairOrderFormViewModel
 
-<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<partial name="_FormValidationSummary" />
 
 @if (!Model.RepairOrderId.HasValue)
 {
-    <div class="mb-3">
-        <label asp-for="WorkshopLocationId" class="form-label"></label>
-        <select asp-for="WorkshopLocationId" class="form-select" asp-items="@(new SelectList(Model.LocationOptions, nameof(WorkshopOS.Application.Team.WorkshopLocationOption.WorkshopLocationId), nameof(WorkshopOS.Application.Team.WorkshopLocationOption.Name)))">
-            <option value="">Select location</option>
-        </select>
-        <span asp-validation-for="WorkshopLocationId" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="CustomerId" class="form-label"></label>
-        <select asp-for="CustomerId" class="form-select" asp-items="@(new SelectList(Model.CustomerOptions, nameof(WorkshopOS.Web.Models.Appointments.CustomerOptionViewModel.CustomerId), nameof(WorkshopOS.Web.Models.Appointments.CustomerOptionViewModel.DisplayName)))">
-            <option value="">Select customer</option>
-        </select>
-        <span asp-validation-for="CustomerId" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="VehicleId" class="form-label"></label>
-        <select asp-for="VehicleId" class="form-select" asp-items="@(new SelectList(Model.VehicleOptions, nameof(WorkshopOS.Web.Models.Appointments.VehicleOptionViewModel.VehicleId), nameof(WorkshopOS.Web.Models.Appointments.VehicleOptionViewModel.Summary)))">
-            <option value="">Select vehicle</option>
-        </select>
-        <span asp-validation-for="VehicleId" class="text-danger"></span>
-    </div>
+    <section class="wos-form-section">
+        <h2 class="wos-form-section-title">Job assignment</h2>
+        <div class="wos-form-grid">
+            <div class="wos-field wos-field-full">
+                <label asp-for="WorkshopLocationId" class="wos-field-label"></label>
+                <select asp-for="WorkshopLocationId" class="form-select" asp-items="@(new SelectList(Model.LocationOptions, nameof(WorkshopOS.Application.Team.WorkshopLocationOption.WorkshopLocationId), nameof(WorkshopOS.Application.Team.WorkshopLocationOption.Name)))">
+                    <option value="">Select location</option>
+                </select>
+                <span asp-validation-for="WorkshopLocationId" class="wos-field-error"></span>
+            </div>
+            <div class="wos-field">
+                <label asp-for="CustomerId" class="wos-field-label"></label>
+                <select asp-for="CustomerId" class="form-select" asp-items="@(new SelectList(Model.CustomerOptions, nameof(WorkshopOS.Web.Models.Appointments.CustomerOptionViewModel.CustomerId), nameof(WorkshopOS.Web.Models.Appointments.CustomerOptionViewModel.DisplayName)))">
+                    <option value="">Select customer</option>
+                </select>
+                <span asp-validation-for="CustomerId" class="wos-field-error"></span>
+            </div>
+            <div class="wos-field">
+                <label asp-for="VehicleId" class="wos-field-label"></label>
+                <select asp-for="VehicleId" class="form-select" asp-items="@(new SelectList(Model.VehicleOptions, nameof(WorkshopOS.Web.Models.Appointments.VehicleOptionViewModel.VehicleId), nameof(WorkshopOS.Web.Models.Appointments.VehicleOptionViewModel.Summary)))">
+                    <option value="">Select vehicle</option>
+                </select>
+                <span asp-validation-for="VehicleId" class="wos-field-error"></span>
+            </div>
+        </div>
+        <p class="wos-field-help mb-0 mt-3">Walk-in intake requires an existing customer and vehicle in CRM.</p>
+    </section>
 }
 
-<div class="mb-3">
-    <label asp-for="CustomerConcern" class="form-label"></label>
-    <textarea asp-for="CustomerConcern" class="form-control" rows="4"></textarea>
-    <span asp-validation-for="CustomerConcern" class="text-danger"></span>
-</div>
-
-<div class="mb-3">
-    <label asp-for="InternalNotes" class="form-label"></label>
-    <textarea asp-for="InternalNotes" class="form-control" rows="4"></textarea>
-    <span asp-validation-for="InternalNotes" class="text-danger"></span>
-</div>
-
-<div class="mb-3">
-    <label asp-for="Odometer" class="form-label"></label>
-    <input asp-for="Odometer" class="form-control" />
-    <span asp-validation-for="Odometer" class="text-danger"></span>
-</div>
+<section class="wos-form-section">
+    <h2 class="wos-form-section-title">Service intake</h2>
+    <div class="wos-form-grid">
+        <div class="wos-field wos-field-full">
+            <label asp-for="CustomerConcern" class="wos-field-label"></label>
+            <textarea asp-for="CustomerConcern" class="form-control" rows="4"></textarea>
+            <span asp-validation-for="CustomerConcern" class="wos-field-error"></span>
+        </div>
+        <div class="wos-field wos-field-full">
+            <label asp-for="InternalNotes" class="wos-field-label"></label>
+            <textarea asp-for="InternalNotes" class="form-control" rows="4"></textarea>
+            <span asp-validation-for="InternalNotes" class="wos-field-error"></span>
+        </div>
+        <div class="wos-field">
+            <label asp-for="Odometer" class="wos-field-label"></label>
+            <input asp-for="Odometer" class="form-control" />
+            <span asp-validation-for="Odometer" class="wos-field-error"></span>
+        </div>
+    </div>
+</section>

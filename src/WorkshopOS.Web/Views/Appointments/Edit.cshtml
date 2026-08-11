@@ -3,11 +3,22 @@
     ViewData["Title"] = "Edit appointment";
 }
 
-<h1 class="display-6">Edit appointment</h1>
+@await Html.PartialAsync("_PageHeader", new PageHeaderViewModel
+{
+    Eyebrow = "Appointments",
+    Title = "Edit appointment",
+    Description = "Update scheduling context and notes for this appointment."
+})
 
-<form asp-action="Edit" asp-route-appointmentId="@Model.AppointmentId" method="post">
+<form asp-action="Edit" asp-route-appointmentId="@Model.AppointmentId" method="post" class="wos-form-shell">
     @Html.AntiForgeryToken()
     <partial name="_AppointmentFormFields" model="Model" />
-    <button type="submit" class="btn btn-primary">Save</button>
-    <a asp-action="Details" asp-route-appointmentId="@Model.AppointmentId" class="btn btn-link">Cancel</a>
+    <div class="wos-form-actions">
+        <button type="submit" class="btn btn-wos-primary">Save changes</button>
+        <a asp-action="Details" asp-route-appointmentId="@Model.AppointmentId" class="btn btn-wos-quiet">Cancel</a>
+    </div>
 </form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

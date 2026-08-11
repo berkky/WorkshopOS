@@ -11,7 +11,10 @@ using WorkshopOS.Infrastructure.Identity;
 using WorkshopOS.Infrastructure.InspectionMedia;
 using WorkshopOS.Infrastructure.Persistence;
 using WorkshopOS.Infrastructure.Tenancy;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using WorkshopOS.Web.Authentication;
+using WorkshopOS.Web.Health;
 using WorkshopOS.Web.Middleware;
 
 namespace WorkshopOS.Web;
@@ -196,6 +199,9 @@ internal static class DependencyInjection
 
         services.AddControllersWithViews();
 
+        services.AddHealthChecks()
+            .AddCheck<PostgreSqlReadinessHealthCheck>("postgresql", tags: ["ready"]);
+
         return services;
     }
 
@@ -214,6 +220,18 @@ internal static class DependencyInjection
         app.UseAuthentication();
         app.UseMiddleware<OrganizationResolutionMiddleware>();
         app.UseAuthorization();
+
+        app.MapHealthChecks("/health/live", new HealthCheckOptions
+        {
+            Predicate = _ => false,
+            ResponseWriter = HealthCheckResponseWriter.WriteMinimalResponseAsync,
+        });
+
+        app.MapHealthChecks("/health/ready", new HealthCheckOptions
+        {
+            Predicate = registration => registration.Tags.Contains("ready"),
+            ResponseWriter = HealthCheckResponseWriter.WriteMinimalResponseAsync,
+        });
 
         app.MapStaticAssets();
         app.MapControllerRoute(

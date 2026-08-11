@@ -3,35 +3,20 @@
     ViewData["Title"] = "Edit part";
 }
 
-<h1 class="display-6">Edit part</h1>
+@await Html.PartialAsync("_PageHeader", new PageHeaderViewModel
+{
+    Eyebrow = "Parts catalog",
+    Title = "Edit part",
+    Description = Model.Name
+})
 
-<form method="post">
+<form method="post" class="wos-form-shell">
     @Html.AntiForgeryToken()
-    <div class="mb-3">
-        <label asp-for="Sku" class="form-label"></label>
-        <input asp-for="Sku" class="form-control" />
+    <partial name="_PartCatalogFormFields" model="Model" />
+    <div class="wos-form-actions">
+        <button type="submit" class="btn btn-wos-primary">Save</button>
+        <a asp-action="Index" class="btn btn-wos-quiet">Cancel</a>
     </div>
-    <div class="mb-3">
-        <label asp-for="Name" class="form-label"></label>
-        <input asp-for="Name" class="form-control" />
-    </div>
-    <div class="mb-3">
-        <label asp-for="Description" class="form-label"></label>
-        <textarea asp-for="Description" class="form-control" rows="3"></textarea>
-    </div>
-    <div class="mb-3">
-        <label asp-for="DefaultUnitPrice" class="form-label"></label>
-        <input asp-for="DefaultUnitPrice" class="form-control" type="number" step="0.01" min="0" />
-        <div class="form-text">Changing the catalog price does not alter existing estimate line items.</div>
-    </div>
-    <div class="form-check mb-3">
-        <input asp-for="IsActive" class="form-check-input" />
-        <label asp-for="IsActive" class="form-check-label"></label>
-        <div class="form-text">Parts with stock on hand cannot be deactivated.</div>
-    </div>
-    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
-    <button type="submit" class="btn btn-primary">Save</button>
-    <a asp-action="Index" class="btn btn-link">Cancel</a>
 </form>
 
 @section Scripts {

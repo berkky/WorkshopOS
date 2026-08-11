@@ -1,54 +1,57 @@
 @model WorkshopOS.Web.Models.Vehicles.VehicleFormViewModel
 
-<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<partial name="_FormValidationSummary" />
 
-<div class="mb-3">
-    <label asp-for="Make" class="form-label"></label>
-    <input asp-for="Make" class="form-control" />
-    <span asp-validation-for="Make" class="text-danger"></span>
-</div>
-
-<div class="mb-3">
-    <label asp-for="Model" class="form-label"></label>
-    <input asp-for="Model" class="form-control" />
-    <span asp-validation-for="Model" class="text-danger"></span>
-</div>
-
-<div class="mb-3">
-    <label asp-for="ModelYear" class="form-label"></label>
-    <input asp-for="ModelYear" class="form-control" type="number" min="1886" />
-    <span asp-validation-for="ModelYear" class="text-danger"></span>
-</div>
-
-<div class="mb-3">
-    <label asp-for="Vin" class="form-label"></label>
-    <input asp-for="Vin" class="form-control" autocomplete="off" />
-    <span asp-validation-for="Vin" class="text-danger"></span>
-</div>
-
-<div class="mb-3">
-    <label asp-for="RegistrationPlate" class="form-label"></label>
-    <input asp-for="RegistrationPlate" class="form-control" autocomplete="off" />
-    <span asp-validation-for="RegistrationPlate" class="text-danger"></span>
-</div>
-
-<div class="mb-3">
-    <label asp-for="Color" class="form-label"></label>
-    <input asp-for="Color" class="form-control" />
-    <span asp-validation-for="Color" class="text-danger"></span>
-</div>
+<section class="wos-form-section">
+    <h2 class="wos-form-section-title">Vehicle identity</h2>
+    <div class="wos-form-grid wos-form-grid-2">
+        <div class="wos-field">
+            <label asp-for="Make" class="wos-field-label"></label>
+            <input asp-for="Make" class="form-control" />
+            <span asp-validation-for="Make" class="wos-field-error"></span>
+        </div>
+        <div class="wos-field">
+            <label asp-for="Model" class="wos-field-label"></label>
+            <input asp-for="Model" class="form-control" />
+            <span asp-validation-for="Model" class="wos-field-error"></span>
+        </div>
+        <div class="wos-field">
+            <label asp-for="ModelYear" class="wos-field-label"></label>
+            <input asp-for="ModelYear" class="form-control" type="number" min="1886" />
+            <span asp-validation-for="ModelYear" class="wos-field-error"></span>
+        </div>
+        <div class="wos-field">
+            <label asp-for="Color" class="wos-field-label"></label>
+            <input asp-for="Color" class="form-control" />
+            <span asp-validation-for="Color" class="wos-field-error"></span>
+        </div>
+        <div class="wos-field">
+            <label asp-for="RegistrationPlate" class="wos-field-label"></label>
+            <input asp-for="RegistrationPlate" class="form-control" autocomplete="off" />
+            <span asp-validation-for="RegistrationPlate" class="wos-field-error"></span>
+        </div>
+        <div class="wos-field">
+            <label asp-for="Vin" class="wos-field-label"></label>
+            <input asp-for="Vin" class="form-control" autocomplete="off" />
+            <span asp-validation-for="Vin" class="wos-field-error"></span>
+        </div>
+    </div>
+</section>
 
 @if (!Model.VehicleId.HasValue)
 {
-    <div class="mb-3">
-        <label asp-for="CurrentCustomerId" class="form-label"></label>
-        <select asp-for="CurrentCustomerId" class="form-select">
-            <option value="">Unassigned</option>
-            @foreach (var customer in Model.CustomerOptions)
-            {
-                <option value="@customer.CustomerId">@customer.DisplayName</option>
-            }
-        </select>
-        <span asp-validation-for="CurrentCustomerId" class="text-danger"></span>
-    </div>
+    <section class="wos-form-section">
+        <h2 class="wos-form-section-title">Customer ownership</h2>
+        <div class="wos-field wos-field-full">
+            <label asp-for="CurrentCustomerId" class="wos-field-label"></label>
+            <select asp-for="CurrentCustomerId" class="form-select">
+                <option value="">Unassigned</option>
+                @foreach (var customer in Model.CustomerOptions)
+                {
+                    <option value="@customer.CustomerId">@customer.DisplayName</option>
+                }
+            </select>
+            <span asp-validation-for="CurrentCustomerId" class="wos-field-error"></span>
+        </div>
+    </section>
 }

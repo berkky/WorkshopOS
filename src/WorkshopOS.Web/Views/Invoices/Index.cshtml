@@ -3,29 +3,35 @@
     ViewData["Title"] = "Invoices";
 }
 
-<div class="d-flex justify-content-between align-items-center mb-3">
+<header class="wos-page-header">
     <div>
-        <h1 class="display-6">Invoices</h1>
-        <p class="text-muted mb-0">@Model.TotalCount invoice(s) in current view</p>
+        <h1 class="wos-page-title">Invoices</h1>
+        <p class="wos-page-description">@Model.TotalCount invoice(s) in current view</p>
     </div>
-    <a asp-controller="RepairOrders" asp-action="Index" class="btn btn-outline-secondary">Repair orders</a>
-</div>
+    <div class="wos-page-actions">
+        <a asp-controller="RepairOrders" asp-action="Index" class="btn btn-outline-secondary">Repair orders</a>
+    </div>
+</header>
 
-<form asp-action="Index" method="get" class="row g-2 mb-3">
+<form asp-action="Index" method="get" class="wos-filter-bar row g-3 align-items-end mb-4">
     <div class="col-md-3">
-        <input name="search" value="@Model.Search" class="form-control" placeholder="Search invoice, repair order, customer" />
+        <label class="form-label">Search</label>
+        <input name="search" value="@Model.Search" class="form-control" placeholder="Invoice, repair order, customer" />
     </div>
     <div class="col-md-2">
+        <label class="form-label">Status</label>
         <select name="status" class="form-select" asp-for="Status" asp-items="Html.GetEnumSelectList<WorkshopOS.Domain.Billing.InvoiceStatus>()">
             <option value="">All statuses</option>
         </select>
     </div>
     <div class="col-md-2">
+        <label class="form-label">Payment</label>
         <select name="paymentState" class="form-select" asp-for="PaymentState" asp-items="Html.GetEnumSelectList<WorkshopOS.Application.Billing.InvoicePaymentState>()">
             <option value="">All payment states</option>
         </select>
     </div>
     <div class="col-md-2">
+        <label class="form-label">Location</label>
         <select name="workshopLocationId" class="form-select">
             <option value="">All locations</option>
             @foreach (var location in Model.LocationOptions)
@@ -41,43 +47,62 @@
 
 @if (Model.Invoices.Count == 0)
 {
-    <div class="alert alert-light border">No invoices match the current filters.</div>
+    @await Html.PartialAsync("_EmptyState", new EmptyStateViewModel { Title = "No invoices", Description = "No invoices match the current filters." })
 }
 else
 {
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Invoice</th>
-                <th>Repair order</th>
-                <th>Customer</th>
-                <th>Vehicle</th>
-                <th>Location</th>
-                <th>Status</th>
-                <th>Payment</th>
-                <th>Total</th>
-                <th>Created</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
+    <div class="wos-table-wrap wos-desktop-table">
+        <table class="table table-hover mb-0">
+            <thead>
+                <tr>
+                    <th>Invoice</th>
+                    <th>Repair order</th>
+                    <th>Customer</th>
+                    <th>Vehicle</th>
+                    <th>Location</th>
+                    <th>Status</th>
+                    <th>Payment</th>
+                    <th>Total</th>
+                    <th>Created</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var invoice in Model.Invoices)
+            {
+                <tr>
+                    <td>@invoice.Number</td>
+                    <td>@invoice.RepairOrderNumber</td>
+                    <td>@invoice.CustomerDisplayName</td>
+                    <td>@invoice.VehicleSummary</td>
+                    <td>@invoice.WorkshopLocationName</td>
+                    <td><partial name="_StatusBadge" model="StatusPresentation.ForInvoice(invoice.Status)" /></td>
+                    <td><partial name="_StatusBadge" model="StatusPresentation.ForPaymentState(invoice.PaymentState)" /></td>
+                    <td>@invoice.Total @invoice.CurrencyCode</td>
+                    <td>@invoice.CreatedAtUtc.ToString("u")</td>
+                    <td class="text-end">
+                        <a asp-action="Details" asp-route-invoiceId="@invoice.InvoiceId" class="btn btn-sm btn-outline-secondary">View</a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="wos-mobile-list">
         @foreach (var invoice in Model.Invoices)
         {
-            <tr>
-                <td>@invoice.Number</td>
-                <td>@invoice.RepairOrderNumber</td>
-                <td>@invoice.CustomerDisplayName</td>
-                <td>@invoice.VehicleSummary</td>
-                <td>@invoice.WorkshopLocationName</td>
-                <td>@invoice.Status</td>
-                <td>@invoice.PaymentState</td>
-                <td>@invoice.Total @invoice.CurrencyCode</td>
-                <td>@invoice.CreatedAtUtc.ToString("u")</td>
-                <td>
-                    <a asp-action="Details" asp-route-invoiceId="@invoice.InvoiceId" class="btn btn-sm btn-outline-secondary">View</a>
-                </td>
-            </tr>
+            <a asp-action="Details" asp-route-invoiceId="@invoice.InvoiceId" class="wos-list-card">
+                <div class="wos-list-card-title">@invoice.Number</div>
+                <div class="wos-list-card-meta">
+                    <span>@invoice.CustomerDisplayName · @invoice.VehicleSummary</span>
+                    <span>@invoice.Total @invoice.CurrencyCode</span>
+                </div>
+                <div class="wos-list-card-footer">
+                    <partial name="_StatusBadge" model="StatusPresentation.ForPaymentState(invoice.PaymentState)" />
+                    <span class="text-muted small">View</span>
+                </div>
+            </a>
         }
-        </tbody>
-    </table>
+    </div>
 }

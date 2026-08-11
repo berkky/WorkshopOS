@@ -1,0 +1,25 @@
+@model WorkshopOS.Web.Models.Shared.PaginationViewModel
+@{
+    var totalPages = (int)Math.Ceiling(Model.TotalCount / (double)Model.PageSize);
+    if (totalPages <= 1)
+    {
+        return;
+    }
+}
+
+<nav class="wos-pagination" aria-label="Pagination">
+    <ul class="pagination mb-0">
+        @for (var pageNumber = 1; pageNumber <= totalPages; pageNumber++)
+        {
+            <li class="page-item @(pageNumber == Model.Page ? "active" : null)">
+                <a class="page-link"
+                   asp-action="@Model.Action"
+                   asp-route-page="@pageNumber"
+                   asp-route-pageSize="@Model.PageSize"
+                   asp-all-route-data="Model.RouteValues">
+                    @pageNumber
+                </a>
+            </li>
+        }
+    </ul>
+</nav>

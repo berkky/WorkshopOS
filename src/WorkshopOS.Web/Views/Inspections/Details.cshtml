@@ -1,28 +1,31 @@
 @model WorkshopOS.Web.Models.Inspections.InspectionDetailsViewModel
+@using Microsoft.AspNetCore.Html
 @{
     ViewData["Title"] = $"Inspection — {Model.RepairOrderNumber}";
     var isCompleted = Model.Status == WorkshopOS.Domain.Inspections.InspectionStatus.Completed;
 }
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <div>
-        <h1 class="display-6">Digital vehicle inspection</h1>
-        <p class="text-muted mb-0">
-            Repair order
-            <a asp-controller="RepairOrders" asp-action="Details" asp-route-repairOrderId="@Model.RepairOrderId">@Model.RepairOrderNumber</a>
-        </p>
-    </div>
-    <div>
-        @if (Model.CanStart && Model.Status == WorkshopOS.Domain.Inspections.InspectionStatus.Draft)
-        {
-            <form asp-action="Start" asp-route-inspectionId="@Model.InspectionId" method="post" class="d-inline">
-                @Html.AntiForgeryToken()
-                <button type="submit" class="btn btn-primary">Start inspection</button>
-            </form>
-        }
-        <a asp-controller="Estimates" asp-action="Index" asp-route-repairOrderId="@Model.RepairOrderId" class="btn btn-link ms-2">Estimates</a>
-        <a asp-action="Index" class="btn btn-link">All inspections</a>
-    </div>
+@await Html.PartialAsync("_DetailWorkspaceHeader", new DetailWorkspaceHeaderViewModel
+{
+    Eyebrow = "Digital vehicle inspection",
+    Title = Model.RepairOrderNumber,
+    Meta = new HtmlString($"""
+        {Model.CustomerDisplayName} · {Model.VehicleSummary} · {Model.WorkshopLocationName}
+        · <a href="{Url.Action("Details", "RepairOrders", new { repairOrderId = Model.RepairOrderId })}">View repair order</a>
+        """),
+    StatusBadges = await Html.PartialAsync("_StatusBadge", StatusPresentation.ForInspection(Model.Status))
+})
+
+<div class="wos-action-cluster mb-4">
+    @if (Model.CanStart && Model.Status == WorkshopOS.Domain.Inspections.InspectionStatus.Draft)
+    {
+        <form asp-action="Start" asp-route-inspectionId="@Model.InspectionId" method="post" class="d-inline">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-wos-primary">Start inspection</button>
+        </form>
+    }
+    <a asp-controller="Estimates" asp-action="Index" asp-route-repairOrderId="@Model.RepairOrderId" class="btn btn-outline-secondary">Estimates</a>
+    <a asp-action="Index" class="btn btn-wos-quiet">All inspections</a>
 </div>
 
 @if (TempData["InspectionError"] is string inspectionError)
@@ -30,49 +33,73 @@
     <div class="alert alert-warning">@inspectionError</div>
 }
 
-<div class="row mb-4">
-    <div class="col-md-6">
-        <h2 class="h5">Job context</h2>
-        <dl class="row">
-            <dt class="col-sm-4">Status</dt>
-            <dd class="col-sm-8">@Model.Status</dd>
-            <dt class="col-sm-4">Customer</dt>
-            <dd class="col-sm-8">@Model.CustomerDisplayName</dd>
-            <dt class="col-sm-4">Vehicle</dt>
-            <dd class="col-sm-8">@Model.VehicleSummary</dd>
-            <dt class="col-sm-4">Location</dt>
-            <dd class="col-sm-8">@Model.WorkshopLocationName</dd>
+<div class="wos-inspection-summary">
+    <div class="wos-inspection-stat">
+        <div class="wos-inspection-stat-label">Total items</div>
+        <div class="wos-inspection-stat-value">@Model.Summary.Total</div>
+    </div>
+    <div class="wos-inspection-stat">
+        <div class="wos-inspection-stat-label">Inspected</div>
+        <div class="wos-inspection-stat-value">@Model.Summary.Inspected</div>
+    </div>
+    <div class="wos-inspection-stat">
+        <div class="wos-inspection-stat-label">Good</div>
+        <div class="wos-inspection-stat-value"><partial name="_StatusBadge" model="StatusPresentation.ForInspectionCondition(WorkshopOS.Domain.Inspections.InspectionCondition.Good)" /> @Model.Summary.Good</div>
+    </div>
+    <div class="wos-inspection-stat">
+        <div class="wos-inspection-stat-label">Monitor</div>
+        <div class="wos-inspection-stat-value"><partial name="_StatusBadge" model="StatusPresentation.ForInspectionCondition(WorkshopOS.Domain.Inspections.InspectionCondition.Monitor)" /> @Model.Summary.Monitor</div>
+    </div>
+    <div class="wos-inspection-stat">
+        <div class="wos-inspection-stat-label">Attention</div>
+        <div class="wos-inspection-stat-value"><partial name="_StatusBadge" model="StatusPresentation.ForInspectionCondition(WorkshopOS.Domain.Inspections.InspectionCondition.Attention)" /> @Model.Summary.Attention</div>
+    </div>
+    <div class="wos-inspection-stat">
+        <div class="wos-inspection-stat-label">Critical</div>
+        <div class="wos-inspection-stat-value"><partial name="_StatusBadge" model="StatusPresentation.ForInspectionCondition(WorkshopOS.Domain.Inspections.InspectionCondition.Critical)" /> @Model.Summary.Critical</div>
+    </div>
+    <div class="wos-inspection-stat">
+        <div class="wos-inspection-stat-label">Photo evidence</div>
+        <div class="wos-inspection-stat-value">@Model.ActivePhotoCount</div>
+    </div>
+</div>
+
+<div class="wos-detail-grid mb-4">
+    <section class="wos-detail-panel">
+        <h2 class="wos-detail-panel-title">Job context</h2>
+        <dl class="wos-dl">
+            <div class="wos-dl-row">
+                <dt>Status</dt>
+                <dd><partial name="_StatusBadge" model="StatusPresentation.ForInspection(Model.Status)" /></dd>
+            </div>
+            <div class="wos-dl-row">
+                <dt>Customer</dt>
+                <dd>@Model.CustomerDisplayName</dd>
+            </div>
+            <div class="wos-dl-row">
+                <dt>Vehicle</dt>
+                <dd>@Model.VehicleSummary</dd>
+            </div>
+            <div class="wos-dl-row">
+                <dt>Location</dt>
+                <dd>@Model.WorkshopLocationName</dd>
+            </div>
             @if (Model.StartedAtUtc.HasValue)
             {
-                <dt class="col-sm-4">Started</dt>
-                <dd class="col-sm-8">@Model.StartedAtUtc.Value.ToString("u")</dd>
+                <div class="wos-dl-row">
+                    <dt>Started</dt>
+                    <dd>@Model.StartedAtUtc.Value.ToString("u")</dd>
+                </div>
             }
             @if (Model.CompletedAtUtc.HasValue)
             {
-                <dt class="col-sm-4">Completed</dt>
-                <dd class="col-sm-8">@Model.CompletedAtUtc.Value.ToString("u")</dd>
+                <div class="wos-dl-row">
+                    <dt>Completed</dt>
+                    <dd>@Model.CompletedAtUtc.Value.ToString("u")</dd>
+                </div>
             }
         </dl>
-    </div>
-    <div class="col-md-6">
-        <h2 class="h5">Result summary</h2>
-        <dl class="row">
-            <dt class="col-sm-4">Total items</dt>
-            <dd class="col-sm-8">@Model.Summary.Total</dd>
-            <dt class="col-sm-4">Inspected</dt>
-            <dd class="col-sm-8">@Model.Summary.Inspected</dd>
-            <dt class="col-sm-4">Good</dt>
-            <dd class="col-sm-8">@Model.Summary.Good</dd>
-            <dt class="col-sm-4">Monitor</dt>
-            <dd class="col-sm-8">@Model.Summary.Monitor</dd>
-            <dt class="col-sm-4">Attention</dt>
-            <dd class="col-sm-8">@Model.Summary.Attention</dd>
-            <dt class="col-sm-4">Critical</dt>
-            <dd class="col-sm-8">@Model.Summary.Critical</dd>
-            <dt class="col-sm-4">Photo evidence</dt>
-            <dd class="col-sm-8">@Model.ActivePhotoCount active photo(s)</dd>
-        </dl>
-    </div>
+    </section>
 </div>
 
 @if (Model.CanUpdateItems)
@@ -84,42 +111,44 @@
         }
         @foreach (var sectionGroup in Model.Sections)
         {
-            <h2 class="h5 mt-4">@sectionGroup.Section</h2>
-            <div class="table-responsive">
-                <table class="table table-bordered align-middle">
-                    <thead>
-                        <tr>
-                            <th>Item</th>
-                            <th>Condition</th>
-                            <th>Notes</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    @foreach (var item in sectionGroup.Items.OrderBy(candidate => candidate.SortOrder))
-                    {
-                        <tr>
-                            <td>@item.Name</td>
-                            <td>
-                                <input type="hidden" name="editableItems[@itemIndex].InspectionItemId" value="@item.InspectionItemId" />
-                                <select name="editableItems[@itemIndex].Condition" class="form-select">
-                                    @foreach (var condition in Enum.GetValues<WorkshopOS.Domain.Inspections.InspectionCondition>())
-                                    {
-                                        <option value="@condition" selected="@(item.Condition == condition)">@condition</option>
-                                    }
-                                </select>
-                            </td>
-                            <td>
-                                <input name="editableItems[@itemIndex].Notes" value="@item.Notes" class="form-control" maxlength="2000" />
-                            </td>
-                        </tr>
-                        itemIndex++;
-                    }
-                    </tbody>
-                </table>
-            </div>
+            <section class="wos-inspection-section">
+                <h2 class="wos-inspection-section-title">@sectionGroup.Section</h2>
+                <div class="wos-table-wrap">
+                    <table class="table table-striped mb-0 align-middle">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Condition</th>
+                                <th>Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var item in sectionGroup.Items.OrderBy(candidate => candidate.SortOrder))
+                        {
+                            <tr>
+                                <td>@item.Name</td>
+                                <td>
+                                    <input type="hidden" name="editableItems[@itemIndex].InspectionItemId" value="@item.InspectionItemId" />
+                                    <select name="editableItems[@itemIndex].Condition" class="form-select" aria-label="Condition for @item.Name">
+                                        @foreach (var condition in Enum.GetValues<WorkshopOS.Domain.Inspections.InspectionCondition>())
+                                        {
+                                            <option value="@condition" selected="@(item.Condition == condition)">@condition</option>
+                                        }
+                                    </select>
+                                </td>
+                                <td>
+                                    <input name="editableItems[@itemIndex].Notes" value="@item.Notes" class="form-control" maxlength="2000" aria-label="Notes for @item.Name" />
+                                </td>
+                            </tr>
+                            itemIndex++;
+                        }
+                        </tbody>
+                    </table>
+                </div>
+            </section>
         }
-        <div class="mb-4">
-            <button type="submit" class="btn btn-primary">Save inspection</button>
+        <div class="mb-4 mt-3">
+            <button type="submit" class="btn btn-wos-primary">Save inspection</button>
         </div>
     </form>
     @if (Model.CanComplete)
@@ -134,30 +163,32 @@ else
 {
     @foreach (var sectionGroup in Model.Sections)
     {
-        <h2 class="h5 mt-4">@sectionGroup.Section</h2>
-        <div class="table-responsive">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Item</th>
-                        <th>Condition</th>
-                        <th>Notes</th>
-                    </tr>
-                </thead>
-                <tbody>
-                @foreach (var item in sectionGroup.Items.OrderBy(candidate => candidate.SortOrder))
-                {
-                    <tr>
-                        <td>@item.Name</td>
-                        <td>
-                            <span class="badge bg-light text-dark border">@item.Condition</span>
-                        </td>
-                        <td>@(string.IsNullOrWhiteSpace(item.Notes) ? "—" : item.Notes)</td>
-                    </tr>
-                }
-                </tbody>
-            </table>
-        </div>
+        <section class="wos-inspection-section">
+            <h2 class="wos-inspection-section-title">@sectionGroup.Section</h2>
+            <div class="wos-table-wrap">
+                <table class="table table-striped mb-0">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Condition</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var item in sectionGroup.Items.OrderBy(candidate => candidate.SortOrder))
+                    {
+                        <tr>
+                            <td>@item.Name</td>
+                            <td>
+                                <partial name="_StatusBadge" model="StatusPresentation.ForInspectionCondition(item.Condition)" />
+                            </td>
+                            <td>@(string.IsNullOrWhiteSpace(item.Notes) ? "—" : item.Notes)</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </section>
     }
 
     @if (isCompleted)
@@ -170,41 +201,43 @@ else
 {
     ViewData["InspectionId"] = Model.InspectionId;
     ViewData["CanRemoveMedia"] = Model.CanRemoveMedia;
-    <h2 class="h5 mt-4">Photo evidence</h2>
-    @foreach (var sectionGroup in Model.Sections)
-    {
-        @foreach (var item in sectionGroup.Items.OrderBy(candidate => candidate.SortOrder))
+    <section class="wos-workspace-section">
+        <h2 class="wos-section-title">Photo evidence</h2>
+        @foreach (var sectionGroup in Model.Sections)
         {
-            <div class="border rounded p-3 mb-3">
-                <div class="fw-semibold">@sectionGroup.Section — @item.Name</div>
-                <div class="small text-muted mb-2">@item.Media.Count photo(s)</div>
-                @if (item.Media.Count > 0)
-                {
-                    @await Html.PartialAsync("_InspectionItemMedia", item)
-                }
-                @if (Model.CanUploadMedia)
-                {
-                    <form asp-action="UploadPhoto"
-                          asp-route-inspectionId="@Model.InspectionId"
-                          asp-route-inspectionItemId="@item.InspectionItemId"
-                          method="post"
-                          enctype="multipart/form-data"
-                          class="row g-2 align-items-end mt-2">
-                        @Html.AntiForgeryToken()
-                        <div class="col-md-5">
-                            <label class="form-label">Photo (JPEG, PNG, WebP, max 8 MB)</label>
-                            <input type="file" name="photo" accept="image/jpeg,image/png,image/webp" class="form-control" required />
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form-label">Caption (optional)</label>
-                            <input type="text" name="caption" class="form-control" maxlength="500" />
-                        </div>
-                        <div class="col-md-3">
-                            <button type="submit" class="btn btn-outline-primary">Upload photo</button>
-                        </div>
-                    </form>
-                }
-            </div>
+            @foreach (var item in sectionGroup.Items.OrderBy(candidate => candidate.SortOrder))
+            {
+                <div class="wos-detail-panel mb-3">
+                    <div class="fw-semibold">@sectionGroup.Section — @item.Name</div>
+                    <div class="small text-muted mb-2">@item.Media.Count photo(s)</div>
+                    @if (item.Media.Count > 0)
+                    {
+                        @await Html.PartialAsync("_InspectionItemMedia", item)
+                    }
+                    @if (Model.CanUploadMedia)
+                    {
+                        <form asp-action="UploadPhoto"
+                              asp-route-inspectionId="@Model.InspectionId"
+                              asp-route-inspectionItemId="@item.InspectionItemId"
+                              method="post"
+                              enctype="multipart/form-data"
+                              class="row g-2 align-items-end mt-2 wos-filter-bar">
+                            @Html.AntiForgeryToken()
+                            <div class="col-md-5">
+                                <label class="form-label">Photo (JPEG, PNG, WebP, max 8 MB)</label>
+                                <input type="file" name="photo" accept="image/jpeg,image/png,image/webp" class="form-control" required />
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Caption (optional)</label>
+                                <input type="text" name="caption" class="form-control" maxlength="500" />
+                            </div>
+                            <div class="col-md-3">
+                                <button type="submit" class="btn btn-outline-primary">Upload photo</button>
+                            </div>
+                        </form>
+                    }
+                </div>
+            }
         }
-    }
+    </section>
 }

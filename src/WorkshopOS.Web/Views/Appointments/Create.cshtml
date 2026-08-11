@@ -3,20 +3,34 @@
     ViewData["Title"] = Model.AppointmentId.HasValue ? "Edit appointment" : "Create appointment";
 }
 
-<h1 class="display-6">@ViewData["Title"]</h1>
+@await Html.PartialAsync("_PageHeader", new PageHeaderViewModel
+{
+    Eyebrow = "Appointments",
+    Title = ViewData["Title"]!.ToString()!,
+    Description = Model.AppointmentId.HasValue
+        ? "Update scheduling context and notes for this appointment."
+        : "Schedule a customer visit with location, date, and time."
+})
 
 <form asp-action="@(Model.AppointmentId.HasValue ? "Edit" : "Create")"
       asp-route-appointmentId="@Model.AppointmentId"
-      method="post">
+      method="post"
+      class="wos-form-shell">
     @Html.AntiForgeryToken()
     <partial name="_AppointmentFormFields" model="Model" />
-    <button type="submit" class="btn btn-primary">Save</button>
-    @if (Model.AppointmentId.HasValue)
-    {
-        <a asp-action="Details" asp-route-appointmentId="@Model.AppointmentId" class="btn btn-link">Cancel</a>
-    }
-    else
-    {
-        <a asp-action="Index" class="btn btn-link">Cancel</a>
-    }
+    <div class="wos-form-actions">
+        <button type="submit" class="btn btn-wos-primary">@(Model.AppointmentId.HasValue ? "Save changes" : "Create appointment")</button>
+        @if (Model.AppointmentId.HasValue)
+        {
+            <a asp-action="Details" asp-route-appointmentId="@Model.AppointmentId" class="btn btn-wos-quiet">Cancel</a>
+        }
+        else
+        {
+            <a asp-action="Index" class="btn btn-wos-quiet">Cancel</a>
+        }
+    </div>
 </form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

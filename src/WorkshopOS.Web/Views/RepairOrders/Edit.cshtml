@@ -3,14 +3,20 @@
     ViewData["Title"] = "Edit service intake";
 }
 
-<h1 class="display-6">Edit service intake</h1>
-<p class="text-muted">Customer, vehicle, and appointment link cannot be changed here.</p>
+@await Html.PartialAsync("_PageHeader", new PageHeaderViewModel
+{
+    Eyebrow = "Repair orders",
+    Title = "Edit service intake",
+    Description = "Customer, vehicle, and appointment link cannot be changed here."
+})
 
-<form asp-action="Edit" asp-route-repairOrderId="@Model.RepairOrderId" method="post">
+<form asp-action="Edit" asp-route-repairOrderId="@Model.RepairOrderId" method="post" class="wos-form-shell">
     @Html.AntiForgeryToken()
     <partial name="_RepairOrderFormFields" model="Model" />
-    <button type="submit" class="btn btn-primary">Save intake</button>
-    <a asp-action="Details" asp-route-repairOrderId="@Model.RepairOrderId" class="btn btn-link">Cancel</a>
+    <div class="wos-form-actions">
+        <button type="submit" class="btn btn-wos-primary">Save intake</button>
+        <a asp-action="Details" asp-route-repairOrderId="@Model.RepairOrderId" class="btn btn-wos-quiet">Cancel</a>
+    </div>
 </form>
 
 @section Scripts {

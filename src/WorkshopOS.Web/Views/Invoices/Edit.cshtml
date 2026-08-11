@@ -3,30 +3,35 @@
     ViewData["Title"] = $"Edit {Model.Number}";
 }
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <div>
-        <h1 class="display-6">Edit invoice</h1>
-        <p class="text-muted mb-0">@Model.Number — draft editing</p>
-    </div>
-    <a asp-action="Details" asp-route-invoiceId="@Model.InvoiceId" class="btn btn-link">View details</a>
-</div>
+@await Html.PartialAsync("_PageHeader", new PageHeaderViewModel
+{
+    Eyebrow = "Invoices",
+    Title = "Edit invoice",
+    Description = $"{Model.Number} — draft editing",
+    Actions = new Microsoft.AspNetCore.Html.HtmlString($"""<a href="{Url.Action("Details", new { invoiceId = Model.InvoiceId })}" class="btn btn-wos-quiet">View details</a>""")
+})
 
 @if (TempData["InvoiceError"] is string invoiceError)
 {
     <div class="alert alert-warning">@invoiceError</div>
 }
 
-<h2 class="h5">Commercial notes</h2>
-<form asp-action="UpdateCommercialNotes" asp-route-invoiceId="@Model.InvoiceId" method="post" class="mb-4">
-    @Html.AntiForgeryToken()
-    <div class="mb-2">
-        <textarea name="CommercialNotes" class="form-control" rows="3" maxlength="2000">@Model.CommercialNotes</textarea>
-    </div>
-    <button type="submit" class="btn btn-outline-secondary btn-sm">Save notes</button>
-</form>
+<section class="wos-form-section mb-4">
+    <h2 class="wos-form-section-title">Commercial notes</h2>
+    <form asp-action="UpdateCommercialNotes" asp-route-invoiceId="@Model.InvoiceId" method="post">
+        @Html.AntiForgeryToken()
+        <div class="wos-field wos-field-full">
+            <textarea name="CommercialNotes" class="form-control" rows="3" maxlength="2000">@Model.CommercialNotes</textarea>
+        </div>
+        <div class="wos-form-actions border-0 pt-3 mt-0">
+            <button type="submit" class="btn btn-outline-secondary btn-sm">Save notes</button>
+        </div>
+    </form>
+</section>
 
-<h2 class="h5">Line items</h2>
-<table class="table table-sm align-middle mb-4">
+<h2 class="wos-section-title">Line items</h2>
+<div class="wos-table-wrap mb-4">
+<table class="table table-striped mb-0 align-middle">
     <thead>
         <tr>
             <th>Type</th>
@@ -79,9 +84,10 @@
         </tr>
     </tfoot>
 </table>
+</div>
 
-<h2 class="h5">Add line item</h2>
-<form asp-action="AddItem" asp-route-invoiceId="@Model.InvoiceId" method="post" class="row g-2 mb-4">
+<h2 class="wos-section-title">Add line item</h2>
+<form asp-action="AddItem" asp-route-invoiceId="@Model.InvoiceId" method="post" class="wos-filter-bar row g-2 mb-4">
     @Html.AntiForgeryToken()
     <div class="col-md-2">
         <select name="Type" class="form-select" asp-items="Html.GetEnumSelectList<WorkshopOS.Domain.Billing.InvoiceItemType>()"></select>

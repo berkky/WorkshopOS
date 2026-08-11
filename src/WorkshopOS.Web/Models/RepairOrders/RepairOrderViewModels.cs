@@ -30,6 +30,8 @@ public sealed class RepairOrderListViewModel
 
     public int TotalCount { get; set; }
 
+    public bool HasActiveFilters { get; set; }
+
     public bool CanManageRepairOrders { get; set; }
 
     public IReadOnlyList<WorkshopLocationOption> LocationOptions { get; set; } =

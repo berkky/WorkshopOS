@@ -3,14 +3,20 @@
     ViewData["Title"] = "Create repair order";
 }
 
-<h1 class="display-6">Create repair order</h1>
-<p class="text-muted">Walk-in or unscheduled intake. Customer and vehicle must already exist in CRM.</p>
+@await Html.PartialAsync("_PageHeader", new PageHeaderViewModel
+{
+    Eyebrow = "Repair orders",
+    Title = "Create repair order",
+    Description = "Walk-in or unscheduled intake. Customer and vehicle must already exist in CRM."
+})
 
-<form asp-action="Create" method="post">
+<form asp-action="Create" method="post" class="wos-form-shell">
     @Html.AntiForgeryToken()
     <partial name="_RepairOrderFormFields" model="Model" />
-    <button type="submit" class="btn btn-primary">Create repair order</button>
-    <a asp-action="Index" class="btn btn-link">Cancel</a>
+    <div class="wos-form-actions">
+        <button type="submit" class="btn btn-wos-primary">Create repair order</button>
+        <a asp-action="Index" class="btn btn-wos-quiet">Cancel</a>
+    </div>
 </form>
 
 @section Scripts {

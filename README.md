@@ -12,7 +12,7 @@ End-to-end workshop operations: customer CRM, appointments, repair orders, techn
 | Production deployment | **Not deployed** — see [deployment runbook](docs/deployment/deployment-runbook.md) |
 | Project license | **Proprietary direction chosen** — final legal instrument **pending** |
 | **Commercial brand** | **WorkshopOS = working name; NOT commercially cleared** — see [brand-governance.md](docs/product/brand-governance.md) |
-| Tests (RC baseline) | 657 pass |
+| Tests (RC baseline) | 684 pass |
 | Migrations | 9 applied schema; startup does not auto-migrate |
 
 ## Quick start
@@ -128,11 +128,18 @@ Guide: [docs/setup/testing.md](docs/setup/testing.md)
 
 ## Cross-platform
 
+Development and build are supported on any modern .NET 10 environment matching `global.json`.
+
 | Platform | Status |
 |----------|--------|
-| macOS | Build, test, publish, runtime smoke verified |
-| Windows source | Path portability verified |
-| Windows native runtime | Not executed in RC verification |
+| macOS | Native build, test, publish, and runtime smoke **verified** (STEP 26) |
+| Windows source | Portable — no OS-specific production dependencies |
+| Windows `win-x64` publish | Framework-dependent cross-publish **verified** from macOS (STEP 26) |
+| Windows native runtime | **Not executed** — external Windows runner required for native proof |
+| Health probes | `/health/live` (liveness) and `/health/ready` (PostgreSQL readiness) |
+| Repair orders list | Server-side pagination (default 20, max 100 per page) |
+
+Platform guides: [macOS](docs/deployment/macos.md) · [Windows](docs/deployment/windows.md)
 
 ## Design
 

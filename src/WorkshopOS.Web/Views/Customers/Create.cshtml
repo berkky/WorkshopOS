@@ -3,12 +3,20 @@
     ViewData["Title"] = "Create customer";
 }
 
-<h1 class="display-6">Create customer</h1>
+@await Html.PartialAsync("_PageHeader", new PageHeaderViewModel
+{
+    Eyebrow = "Customers",
+    Title = "Create customer",
+    Description = "Add a new customer to the workshop CRM."
+})
 
-<form asp-action="Create" method="post">
+<form asp-action="Create" method="post" class="wos-form-shell">
+    @Html.AntiForgeryToken()
     <partial name="_CustomerFormFields" model="Model" />
-    <button type="submit" class="btn btn-primary">Create customer</button>
-    <a asp-action="Index" class="btn btn-link">Cancel</a>
+    <div class="wos-form-actions">
+        <button type="submit" class="btn btn-wos-primary">Create customer</button>
+        <a asp-action="Index" class="btn btn-wos-quiet">Cancel</a>
+    </div>
 </form>
 
 @section Scripts {

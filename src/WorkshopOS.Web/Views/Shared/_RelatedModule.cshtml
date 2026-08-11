@@ -1,0 +1,13 @@
+@model WorkshopOS.Web.Models.Shared.RelatedModuleViewModel
+
+<section class="wos-related-module">
+    <h2 class="wos-related-module-title">@Model.Title</h2>
+    <p class="wos-related-module-summary">@Model.Summary</p>
+    <div class="wos-related-module-links">
+        <a href="@Model.PrimaryLinkUrl" class="btn btn-sm btn-outline-primary">@Model.PrimaryLinkText</a>
+        @if (!string.IsNullOrWhiteSpace(Model.SecondaryLinkText) && !string.IsNullOrWhiteSpace(Model.SecondaryLinkUrl))
+        {
+            <a href="@Model.SecondaryLinkUrl" class="btn btn-sm btn-wos-quiet">@Model.SecondaryLinkText</a>
+        }
+    </div>
+</section>

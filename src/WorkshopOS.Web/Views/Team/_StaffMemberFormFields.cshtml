@@ -1,64 +1,73 @@
 @model WorkshopOS.Web.Models.Team.StaffMemberFormViewModel
 
-<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<partial name="_FormValidationSummary" />
 
-<div class="mb-3">
-    <label asp-for="DisplayName" class="form-label"></label>
-    <input asp-for="DisplayName" class="form-control" />
-    <span asp-validation-for="DisplayName" class="text-danger"></span>
-</div>
+<section class="wos-form-section">
+    <h2 class="wos-form-section-title">Staff profile</h2>
+    <div class="wos-form-grid wos-form-grid-2">
+        <div class="wos-field">
+            <label asp-for="DisplayName" class="wos-field-label"></label>
+            <input asp-for="DisplayName" class="form-control" />
+            <span asp-validation-for="DisplayName" class="wos-field-error"></span>
+        </div>
+        <div class="wos-field">
+            <label asp-for="Position" class="wos-field-label"></label>
+            <select asp-for="Position" class="form-select" asp-items="Html.GetEnumSelectList<WorkshopOS.Domain.Staff.StaffPosition>()"></select>
+        </div>
+        <div class="wos-field">
+            <label asp-for="JobTitle" class="wos-field-label"></label>
+            <input asp-for="JobTitle" class="form-control" />
+        </div>
+        <div class="wos-field">
+            <label asp-for="ContactEmail" class="wos-field-label"></label>
+            <input asp-for="ContactEmail" class="form-control" />
+            <span asp-validation-for="ContactEmail" class="wos-field-error"></span>
+        </div>
+        <div class="wos-field">
+            <label asp-for="PhoneNumber" class="wos-field-label"></label>
+            <input asp-for="PhoneNumber" class="form-control" />
+        </div>
+    </div>
+</section>
 
-<div class="mb-3">
-    <label asp-for="Position" class="form-label"></label>
-    <select asp-for="Position" class="form-select" asp-items="Html.GetEnumSelectList<WorkshopOS.Domain.Staff.StaffPosition>()"></select>
-</div>
-
-<div class="mb-3">
-    <label asp-for="JobTitle" class="form-label"></label>
-    <input asp-for="JobTitle" class="form-control" />
-</div>
-
-<div class="mb-3">
-    <label asp-for="ContactEmail" class="form-label"></label>
-    <input asp-for="ContactEmail" class="form-control" />
-    <span asp-validation-for="ContactEmail" class="text-danger"></span>
-</div>
-
-<div class="mb-3">
-    <label asp-for="PhoneNumber" class="form-label"></label>
-    <input asp-for="PhoneNumber" class="form-control" />
-</div>
-
-<div class="mb-3">
-    <label asp-for="LinkedUserId" class="form-label"></label>
-    <select asp-for="LinkedUserId" class="form-select">
-        <option value="">Not linked</option>
-        @foreach (var user in Model.LinkableUsers)
-        {
-            <option value="@user.UserId">@user.DisplayLabel (@user.MembershipRole)</option>
-        }
-    </select>
-    <div class="form-text">Optional link to an existing organization membership login.</div>
-</div>
+<section class="wos-form-section">
+    <h2 class="wos-form-section-title">Login linkage</h2>
+    <div class="wos-field wos-field-full">
+        <label asp-for="LinkedUserId" class="wos-field-label"></label>
+        <select asp-for="LinkedUserId" class="form-select">
+            <option value="">Not linked</option>
+            @foreach (var user in Model.LinkableUsers)
+            {
+                <option value="@user.UserId">@user.DisplayLabel (@user.MembershipRole)</option>
+            }
+        </select>
+        <p class="wos-field-help">Optional link to an existing organization membership login. Staff position does not grant access.</p>
+    </div>
+</section>
 
 @if (Model.StaffMemberId.HasValue)
 {
-    <div class="mb-3">
-        <label asp-for="Status" class="form-label"></label>
-        <select asp-for="Status" class="form-select" asp-items="Html.GetEnumSelectList<WorkshopOS.Domain.Staff.StaffStatus>()"></select>
-        <div class="form-text">Staff inactivity does not suspend login access.</div>
-    </div>
+    <section class="wos-form-section">
+        <h2 class="wos-form-section-title">Operational status</h2>
+        <div class="wos-field wos-field-full">
+            <label asp-for="Status" class="wos-field-label"></label>
+            <select asp-for="Status" class="form-select" asp-items="Html.GetEnumSelectList<WorkshopOS.Domain.Staff.StaffStatus>()"></select>
+            <p class="wos-field-help">Staff inactivity does not suspend login access.</p>
+        </div>
+    </section>
 }
 
-<div class="mb-3">
-    <label class="form-label">Workshop locations</label>
-    @foreach (var location in Model.WorkshopLocations)
-    {
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" name="SelectedWorkshopLocationIds" value="@location.WorkshopLocationId"
-                   id="location-@location.WorkshopLocationId"
-                   @(Model.SelectedWorkshopLocationIds.Contains(location.WorkshopLocationId) ? "checked" : null) />
-            <label class="form-check-label" for="location-@location.WorkshopLocationId">@location.Name</label>
-        </div>
-    }
-</div>
+<section class="wos-form-section">
+    <h2 class="wos-form-section-title">Workshop locations</h2>
+    <div class="wos-choice-group">
+        @foreach (var location in Model.WorkshopLocations)
+        {
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="SelectedWorkshopLocationIds" value="@location.WorkshopLocationId"
+                       id="location-@location.WorkshopLocationId"
+                       @(Model.SelectedWorkshopLocationIds.Contains(location.WorkshopLocationId) ? "checked" : null) />
+                <label class="form-check-label" for="location-@location.WorkshopLocationId">@location.Name</label>
+            </div>
+        }
+    </div>
+</section>

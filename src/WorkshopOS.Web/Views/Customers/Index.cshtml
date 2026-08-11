@@ -16,8 +16,9 @@
     }
 </header>
 
-<form asp-action="Index" method="get" class="row g-2 mb-4">
+<form asp-action="Index" method="get" class="wos-filter-bar row g-3 align-items-end mb-4">
     <div class="col-md-6">
+        <label class="form-label">Search</label>
         <input name="search" value="@Model.Search" class="form-control" placeholder="Search name, email, or phone" />
     </div>
     <div class="col-md-2">
@@ -59,18 +60,14 @@ else
     </table>
     </div>
 
-    @if ((int)Math.Ceiling(Model.TotalCount / (double)Model.PageSize) > 1)
+    @await Html.PartialAsync("_Pagination", new PaginationViewModel
     {
-        var totalPages = (int)Math.Ceiling(Model.TotalCount / (double)Model.PageSize);
-        <nav>
-            <ul class="pagination">
-                @for (var pageNumber = 1; pageNumber <= totalPages; pageNumber++)
-                {
-                    <li class="page-item @(pageNumber == Model.Page ? "active" : null)">
-                        <a class="page-link" asp-action="Index" asp-route-search="@Model.Search" asp-route-page="@pageNumber" asp-route-pageSize="@Model.PageSize">@pageNumber</a>
-                    </li>
-                }
-            </ul>
-        </nav>
-    }
+        Action = "Index",
+        Page = Model.Page,
+        PageSize = Model.PageSize,
+        TotalCount = Model.TotalCount,
+        RouteValues = !string.IsNullOrWhiteSpace(Model.Search)
+            ? new Dictionary<string, string> { ["search"] = Model.Search }
+            : new Dictionary<string, string>()
+    })
 }

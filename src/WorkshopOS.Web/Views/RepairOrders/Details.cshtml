@@ -1,101 +1,181 @@
 @model WorkshopOS.Web.Models.RepairOrders.RepairOrderDetailsViewModel
+@using Microsoft.AspNetCore.Html
 @{
     ViewData["Title"] = Model.Number;
+    var badgeBuilder = new HtmlContentBuilder();
+    badgeBuilder.AppendHtml(await Html.PartialAsync("_StatusBadge", StatusPresentation.ForRepairOrder(Model.Status)));
+    badgeBuilder.AppendHtml(" ");
+    badgeBuilder.AppendHtml(await Html.PartialAsync("_StatusBadge", StatusPresentation.ForRepairOrderPriority(Model.Priority)));
+    if (Model.TechnicianWorkStatus.HasValue)
+    {
+        badgeBuilder.AppendHtml(" ");
+        badgeBuilder.AppendHtml(await Html.PartialAsync("_StatusBadge", StatusPresentation.ForTechnicianWork(Model.TechnicianWorkStatus.Value)));
+    }
+    if (Model.CommerciallyClosed)
+    {
+        badgeBuilder.AppendHtml(" <span class=\"wos-badge wos-badge-success\">Commercially closed</span>");
+    }
 }
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h1 class="display-6">@Model.Number</h1>
-    <div>
-        @if (Model.CanEditIntake)
-        {
-            <a asp-action="Edit" asp-route-repairOrderId="@Model.RepairOrderId" class="btn btn-outline-secondary">Edit intake</a>
-        }
-        @if (Model.CanStartWork)
-        {
-            <form asp-action="Start" asp-route-repairOrderId="@Model.RepairOrderId" method="post" class="d-inline">
-                @Html.AntiForgeryToken()
-                <button type="submit" class="btn btn-primary">Start work</button>
-            </form>
-        }
-        @if (Model.CanComplete)
-        {
-            <form asp-action="Complete" asp-route-repairOrderId="@Model.RepairOrderId" method="post" class="d-inline">
-                @Html.AntiForgeryToken()
-                <button type="submit" class="btn btn-success">Complete</button>
-            </form>
-        }
-        @if (Model.CanCancel)
-        {
-            <form asp-action="Cancel" asp-route-repairOrderId="@Model.RepairOrderId" method="post" class="d-inline">
-                @Html.AntiForgeryToken()
-                <button type="submit" class="btn btn-outline-warning">Cancel</button>
-            </form>
-        }
-        <a asp-action="Index" class="btn btn-link">Back to list</a>
-    </div>
+@await Html.PartialAsync("_DetailWorkspaceHeader", new DetailWorkspaceHeaderViewModel
+{
+    Eyebrow = "Repair order",
+    Title = Model.Number,
+    Meta = new HtmlString($"""
+        <span>{Model.WorkshopLocationName}</span>
+        · Opened {Model.OpenedAtUtc:u} UTC
+        · <a href="{Url.Action("Details", "Customers", new { customerId = Model.CustomerId })}">{Model.CustomerDisplayName}</a>
+        · <a href="{Url.Action("Details", "Vehicles", new { vehicleId = Model.VehicleId })}">{Model.VehicleSummary}</a>
+        """),
+    StatusBadges = badgeBuilder
+})
+
+<div class="wos-action-cluster mb-4">
+    @if (Model.CanEditIntake)
+    {
+        <a asp-action="Edit" asp-route-repairOrderId="@Model.RepairOrderId" class="btn btn-outline-secondary">Edit intake</a>
+    }
+    @if (Model.CanStartWork)
+    {
+        <form asp-action="Start" asp-route-repairOrderId="@Model.RepairOrderId" method="post" class="d-inline">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-wos-primary">Start work</button>
+        </form>
+    }
+    @if (Model.CanComplete)
+    {
+        <form asp-action="Complete" asp-route-repairOrderId="@Model.RepairOrderId" method="post" class="d-inline">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-success">Complete</button>
+        </form>
+    }
+    @if (Model.CanCancel)
+    {
+        <form asp-action="Cancel" asp-route-repairOrderId="@Model.RepairOrderId" method="post" class="d-inline">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-outline-warning">Cancel</button>
+        </form>
+    }
+    @if (Model.CanStartOwnWork)
+    {
+        <form asp-controller="Work" asp-action="Start" asp-route-repairOrderId="@Model.RepairOrderId" method="post" class="d-inline">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-wos-primary">Start my work</button>
+        </form>
+    }
+    @if (Model.CanCompleteOwnWork)
+    {
+        <form asp-controller="Work" asp-action="Complete" asp-route-repairOrderId="@Model.RepairOrderId" method="post" class="d-inline">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-success">Mark my work complete</button>
+        </form>
+    }
+    <a asp-action="Index" class="btn btn-wos-quiet">Back to list</a>
 </div>
 
-<div class="row">
-    <div class="col-md-6">
-        <h2 class="h5">Job identity</h2>
-        <dl class="row">
-            <dt class="col-sm-4">Status</dt>
-            <dd class="col-sm-8">@Model.Status</dd>
-            <dt class="col-sm-4">Priority</dt>
-            <dd class="col-sm-8">@Model.Priority</dd>
-            <dt class="col-sm-4">Location</dt>
-            <dd class="col-sm-8">@Model.WorkshopLocationName</dd>
-            <dt class="col-sm-4">Opened</dt>
-            <dd class="col-sm-8">@Model.OpenedAtUtc.ToString("u")</dd>
+<div class="wos-detail-grid">
+    <section class="wos-detail-panel">
+        <h2 class="wos-detail-panel-title">Job identity</h2>
+        <dl class="wos-dl">
+            <div class="wos-dl-row">
+                <dt>Status</dt>
+                <dd><partial name="_StatusBadge" model="StatusPresentation.ForRepairOrder(Model.Status)" /></dd>
+            </div>
+            <div class="wos-dl-row">
+                <dt>Priority</dt>
+                <dd><partial name="_StatusBadge" model="StatusPresentation.ForRepairOrderPriority(Model.Priority)" /></dd>
+            </div>
+            <div class="wos-dl-row">
+                <dt>Location</dt>
+                <dd>@Model.WorkshopLocationName</dd>
+            </div>
+            <div class="wos-dl-row">
+                <dt>Opened</dt>
+                <dd>@Model.OpenedAtUtc.ToString("u")</dd>
+            </div>
             @if (Model.CompletedAtUtc.HasValue)
             {
-                <dt class="col-sm-4">Completed</dt>
-                <dd class="col-sm-8">@Model.CompletedAtUtc.Value.ToString("u")</dd>
+                <div class="wos-dl-row">
+                    <dt>Completed</dt>
+                    <dd>@Model.CompletedAtUtc.Value.ToString("u")</dd>
+                </div>
             }
             @if (Model.AppointmentId.HasValue)
             {
-                <dt class="col-sm-4">Appointment</dt>
-                <dd class="col-sm-8">
-                    <a asp-controller="Appointments" asp-action="Details" asp-route-appointmentId="@Model.AppointmentId">View appointment</a>
-                </dd>
+                <div class="wos-dl-row">
+                    <dt>Appointment</dt>
+                    <dd>
+                        <a asp-controller="Appointments" asp-action="Details" asp-route-appointmentId="@Model.AppointmentId">View appointment</a>
+                    </dd>
+                </div>
+            }
+            @if (Model.Odometer.HasValue)
+            {
+                <div class="wos-dl-row">
+                    <dt>Odometer</dt>
+                    <dd>@Model.Odometer.Value</dd>
+                </div>
             }
         </dl>
-    </div>
-    <div class="col-md-6">
-        <h2 class="h5">Customer & vehicle</h2>
-        <dl class="row">
-            <dt class="col-sm-4">Customer</dt>
-            <dd class="col-sm-8">
-                <a asp-controller="Customers" asp-action="Details" asp-route-customerId="@Model.CustomerId">@Model.CustomerDisplayName</a>
-            </dd>
-            <dt class="col-sm-4">Vehicle</dt>
-            <dd class="col-sm-8">
-                <a asp-controller="Vehicles" asp-action="Details" asp-route-vehicleId="@Model.VehicleId">@Model.VehicleSummary</a>
-            </dd>
-            <dt class="col-sm-4">Created</dt>
-            <dd class="col-sm-8">@Model.CreatedAtUtc.ToString("u")</dd>
-            <dt class="col-sm-4">Updated</dt>
-            <dd class="col-sm-8">@Model.UpdatedAtUtc.ToString("u")</dd>
+    </section>
+    <section class="wos-detail-panel">
+        <h2 class="wos-detail-panel-title">Customer &amp; vehicle</h2>
+        <dl class="wos-dl">
+            <div class="wos-dl-row">
+                <dt>Customer</dt>
+                <dd>
+                    <a asp-controller="Customers" asp-action="Details" asp-route-customerId="@Model.CustomerId">@Model.CustomerDisplayName</a>
+                </dd>
+            </div>
+            <div class="wos-dl-row">
+                <dt>Vehicle</dt>
+                <dd>
+                    <a asp-controller="Vehicles" asp-action="Details" asp-route-vehicleId="@Model.VehicleId">@Model.VehicleSummary</a>
+                </dd>
+            </div>
+            <div class="wos-dl-row">
+                <dt>Technician</dt>
+                <dd>
+                    @if (string.IsNullOrWhiteSpace(Model.AssignedTechnicianDisplayName))
+                    {
+                        <span class="text-muted">Unassigned</span>
+                    }
+                    else
+                    {
+                        @Model.AssignedTechnicianDisplayName
+                        @if (Model.AssignedTechnicianIsInactive)
+                        {
+                            <span class="text-muted">(inactive)</span>
+                        }
+                    }
+                </dd>
+            </div>
+            <div class="wos-dl-row">
+                <dt>Created</dt>
+                <dd>@Model.CreatedAtUtc.ToString("u")</dd>
+            </div>
+            <div class="wos-dl-row">
+                <dt>Updated</dt>
+                <dd>@Model.UpdatedAtUtc.ToString("u")</dd>
+            </div>
         </dl>
-    </div>
+    </section>
 </div>
 
 @if (!string.IsNullOrWhiteSpace(Model.CustomerConcern))
 {
-    <h2 class="h5 mt-3">Customer concern</h2>
-    <p class="border rounded p-3 bg-light">@Model.CustomerConcern</p>
+    <section class="wos-workspace-section">
+        <h2 class="wos-section-title">Customer concern</h2>
+        <div class="wos-note-block">@Model.CustomerConcern</div>
+    </section>
 }
 
 @if (!string.IsNullOrWhiteSpace(Model.InternalNotes))
 {
-    <h2 class="h5 mt-3">Internal notes</h2>
-    <p class="border rounded p-3 bg-light">@Model.InternalNotes</p>
-}
-
-@if (Model.Odometer.HasValue)
-{
-    <h2 class="h5 mt-3">Odometer</h2>
-    <p>@Model.Odometer.Value</p>
+    <section class="wos-workspace-section">
+        <h2 class="wos-section-title">Internal notes</h2>
+        <div class="wos-note-block">@Model.InternalNotes</div>
+    </section>
 }
 
 @if (TempData["InspectionError"] is string inspectionError)
@@ -103,328 +183,332 @@
     <div class="alert alert-warning">@inspectionError</div>
 }
 
-<h2 class="h5 mt-4">Digital vehicle inspections</h2>
-<dl class="row">
-    <dt class="col-sm-3">Inspection count</dt>
-    <dd class="col-sm-9">@Model.InspectionCount</dd>
-    @if (Model.LatestInspectionStatus.HasValue)
-    {
-        <dt class="col-sm-3">Latest inspection</dt>
-        <dd class="col-sm-9">
-            @Model.LatestInspectionStatus
-            @if (Model.LatestInspectionId.HasValue)
-            {
-                <a asp-controller="Inspections" asp-action="Details" asp-route-inspectionId="@Model.LatestInspectionId" class="ms-2">View inspection</a>
-            }
-        </dd>
-    }
-</dl>
-
-@if (Model.CanCreateInspection)
-{
-    <form asp-controller="Inspections" asp-action="Create" asp-route-repairOrderId="@Model.RepairOrderId" method="post" class="mb-3">
-        @Html.AntiForgeryToken()
-        <button type="submit" class="btn btn-outline-primary">Create inspection</button>
-    </form>
-}
-
-@if (Model.Inspections.Count > 0)
-{
-    <table class="table table-sm table-striped mb-4">
-        <thead>
-            <tr>
-                <th>Status</th>
-                <th>Progress</th>
-                <th>Created</th>
-                <th>Completed</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-        @foreach (var inspection in Model.Inspections)
+<section class="wos-workspace-section">
+    <h2 class="wos-section-title">Digital vehicle inspections</h2>
+    <dl class="wos-dl mb-3">
+        <div class="wos-dl-row">
+            <dt>Inspection count</dt>
+            <dd>@Model.InspectionCount</dd>
+        </div>
+        @if (Model.LatestInspectionStatus.HasValue)
         {
-            <tr>
-                <td>@inspection.Status</td>
-                <td>@inspection.InspectedItems / @inspection.TotalItems</td>
-                <td>@inspection.CreatedAtUtc.ToString("u")</td>
-                <td>@(inspection.CompletedAtUtc.HasValue ? inspection.CompletedAtUtc.Value.ToString("u") : "—")</td>
-                <td>
-                    <a asp-controller="Inspections" asp-action="Details" asp-route-inspectionId="@inspection.InspectionId" class="btn btn-sm btn-outline-secondary">View</a>
-                </td>
-            </tr>
+            <div class="wos-dl-row">
+                <dt>Latest inspection</dt>
+                <dd>
+                    <partial name="_StatusBadge" model="StatusPresentation.ForInspection(Model.LatestInspectionStatus.Value)" />
+                    @if (Model.LatestInspectionId.HasValue)
+                    {
+                        <a asp-controller="Inspections" asp-action="Details" asp-route-inspectionId="@Model.LatestInspectionId" class="ms-2">View inspection</a>
+                    }
+                </dd>
+            </div>
         }
-        </tbody>
-    </table>
-}
+    </dl>
+
+    @if (Model.CanCreateInspection)
+    {
+        <form asp-controller="Inspections" asp-action="Create" asp-route-repairOrderId="@Model.RepairOrderId" method="post" class="mb-3">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-outline-primary">Create inspection</button>
+        </form>
+    }
+
+    @if (Model.Inspections.Count > 0)
+    {
+        <div class="wos-table-wrap wos-desktop-table">
+            <table class="table table-striped mb-0">
+                <thead>
+                    <tr>
+                        <th>Status</th>
+                        <th>Progress</th>
+                        <th>Created</th>
+                        <th>Completed</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var inspection in Model.Inspections)
+                {
+                    <tr>
+                        <td><partial name="_StatusBadge" model="StatusPresentation.ForInspection(inspection.Status)" /></td>
+                        <td>@inspection.InspectedItems / @inspection.TotalItems</td>
+                        <td>@inspection.CreatedAtUtc.ToString("u")</td>
+                        <td>@(inspection.CompletedAtUtc.HasValue ? inspection.CompletedAtUtc.Value.ToString("u") : "—")</td>
+                        <td class="text-end">
+                            <a asp-controller="Inspections" asp-action="Details" asp-route-inspectionId="@inspection.InspectionId" class="btn btn-sm btn-outline-secondary">View</a>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+        <div class="wos-mobile-list">
+            @foreach (var inspection in Model.Inspections)
+            {
+                <a asp-controller="Inspections" asp-action="Details" asp-route-inspectionId="@inspection.InspectionId" class="wos-list-card">
+                    <div class="wos-list-card-title">Inspection</div>
+                    <div class="wos-list-card-meta">
+                        <span><partial name="_StatusBadge" model="StatusPresentation.ForInspection(inspection.Status)" /></span>
+                        <span>@inspection.InspectedItems / @inspection.TotalItems items</span>
+                        <span>@inspection.CreatedAtUtc.ToString("u")</span>
+                    </div>
+                </a>
+            }
+        </div>
+    }
+</section>
 
 @if (TempData["EstimateError"] is string estimateError)
 {
     <div class="alert alert-warning">@estimateError</div>
 }
 
-<h2 class="h5 mt-4">Estimates</h2>
-<dl class="row">
-    <dt class="col-sm-3">Estimate count</dt>
-    <dd class="col-sm-9">@Model.EstimateCount</dd>
-    @if (Model.LatestEstimateStatus.HasValue)
-    {
-        <dt class="col-sm-3">Latest estimate</dt>
-        <dd class="col-sm-9">
-            @Model.LatestEstimateStatus
-            @if (Model.LatestEstimateTotal.HasValue && !string.IsNullOrWhiteSpace(Model.LatestEstimateCurrencyCode))
-            {
-                <span class="ms-1">@Model.LatestEstimateTotal @Model.LatestEstimateCurrencyCode</span>
-            }
-            @if (Model.LatestEstimateId.HasValue)
-            {
-                <a asp-controller="Estimates" asp-action="Details" asp-route-estimateId="@Model.LatestEstimateId" class="ms-2">View estimate</a>
-            }
-        </dd>
-    }
-</dl>
-
-@if (Model.CanCreateEstimate)
-{
-    <form asp-controller="Estimates" asp-action="Create" asp-route-repairOrderId="@Model.RepairOrderId" method="post" class="mb-3">
-        @Html.AntiForgeryToken()
-        <button type="submit" class="btn btn-outline-primary">Create estimate</button>
-    </form>
-}
-
-<a asp-controller="Estimates" asp-action="Index" asp-route-repairOrderId="@Model.RepairOrderId" class="btn btn-sm btn-outline-secondary mb-4">View all estimates</a>
-
-@if (Model.Estimates.Count > 0)
-{
-    <table class="table table-sm table-striped mb-4">
-        <thead>
-            <tr>
-                <th>Number</th>
-                <th>Status</th>
-                <th>Total</th>
-                <th>Created</th>
-                <th>Presented</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-        @foreach (var estimate in Model.Estimates)
+<section class="wos-workspace-section">
+    <h2 class="wos-section-title">Estimates</h2>
+    <dl class="wos-dl mb-3">
+        <div class="wos-dl-row">
+            <dt>Estimate count</dt>
+            <dd>@Model.EstimateCount</dd>
+        </div>
+        @if (Model.LatestEstimateStatus.HasValue)
         {
-            <tr>
-                <td>@estimate.Number</td>
-                <td>@estimate.Status</td>
-                <td>@estimate.Total @estimate.CurrencyCode</td>
-                <td>@estimate.CreatedAtUtc.ToString("u")</td>
-                <td>@(estimate.SentAtUtc.HasValue ? estimate.SentAtUtc.Value.ToString("u") : "—")</td>
-                <td>
-                    <a asp-controller="Estimates" asp-action="Details" asp-route-estimateId="@estimate.EstimateId" class="btn btn-sm btn-outline-secondary">View</a>
-                </td>
-            </tr>
+            <div class="wos-dl-row">
+                <dt>Latest estimate</dt>
+                <dd>
+                    <partial name="_StatusBadge" model="StatusPresentation.ForEstimate(Model.LatestEstimateStatus.Value)" />
+                    @if (Model.LatestEstimateTotal.HasValue && !string.IsNullOrWhiteSpace(Model.LatestEstimateCurrencyCode))
+                    {
+                        <span class="ms-1">@Model.LatestEstimateTotal @Model.LatestEstimateCurrencyCode</span>
+                    }
+                    @if (Model.LatestEstimateId.HasValue)
+                    {
+                        <a asp-controller="Estimates" asp-action="Details" asp-route-estimateId="@Model.LatestEstimateId" class="ms-2">View estimate</a>
+                    }
+                </dd>
+            </div>
         }
-        </tbody>
-    </table>
-}
+    </dl>
+
+    @if (Model.CanCreateEstimate)
+    {
+        <form asp-controller="Estimates" asp-action="Create" asp-route-repairOrderId="@Model.RepairOrderId" method="post" class="mb-3">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-outline-primary">Create estimate</button>
+        </form>
+    }
+
+    <a asp-controller="Estimates" asp-action="Index" asp-route-repairOrderId="@Model.RepairOrderId" class="btn btn-sm btn-outline-secondary mb-3">View all estimates</a>
+
+    @if (Model.Estimates.Count > 0)
+    {
+        <div class="wos-table-wrap wos-desktop-table">
+            <table class="table table-striped mb-0">
+                <thead>
+                    <tr>
+                        <th>Number</th>
+                        <th>Status</th>
+                        <th>Total</th>
+                        <th>Created</th>
+                        <th>Presented</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var estimate in Model.Estimates)
+                {
+                    <tr>
+                        <td>@estimate.Number</td>
+                        <td><partial name="_StatusBadge" model="StatusPresentation.ForEstimate(estimate.Status)" /></td>
+                        <td>@estimate.Total @estimate.CurrencyCode</td>
+                        <td>@estimate.CreatedAtUtc.ToString("u")</td>
+                        <td>@(estimate.SentAtUtc.HasValue ? estimate.SentAtUtc.Value.ToString("u") : "—")</td>
+                        <td class="text-end">
+                            <a asp-controller="Estimates" asp-action="Details" asp-route-estimateId="@estimate.EstimateId" class="btn btn-sm btn-outline-secondary">View</a>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+</section>
 
 @if (TempData["InvoiceError"] is string invoiceError)
 {
     <div class="alert alert-warning">@invoiceError</div>
 }
 
-<h2 class="h5 mt-4">Billing</h2>
-<dl class="row">
-    @if (Model.CommerciallyClosed)
-    {
-        <dt class="col-sm-3">Commercial status</dt>
-        <dd class="col-sm-9"><span class="badge text-bg-success">Commercially closed</span></dd>
-    }
-    @if (Model.CurrentInvoiceStatus.HasValue)
-    {
-        <dt class="col-sm-3">Current invoice</dt>
-        <dd class="col-sm-9">
-            @Model.CurrentInvoiceNumber — @Model.CurrentInvoiceStatus
-            @if (Model.InvoicePaymentState.HasValue)
-            {
-                <span class="ms-1">(@Model.InvoicePaymentState)</span>
-            }
-            @if (Model.InvoiceTotal.HasValue && Model.CurrentInvoiceId.HasValue)
-            {
-                <span class="ms-1">@Model.InvoiceTotal @Model.InvoiceRemainingBalance remaining</span>
-                <a asp-controller="Invoices" asp-action="Details" asp-route-invoiceId="@Model.CurrentInvoiceId" class="ms-2">View invoice</a>
-            }
-        </dd>
-    }
-</dl>
-
-@if (Model.CanCreateInvoice)
-{
-    <form asp-controller="Invoices" asp-action="Create" asp-route-repairOrderId="@Model.RepairOrderId" method="post" class="mb-3">
-        @Html.AntiForgeryToken()
-        <button type="submit" class="btn btn-outline-primary">Create invoice</button>
-    </form>
-}
-
-@if (Model.CanCloseCommercially)
-{
-    <form asp-controller="Invoices" asp-action="CloseCommercially" asp-route-repairOrderId="@Model.RepairOrderId" method="post" class="mb-3">
-        @Html.AntiForgeryToken()
-        <button type="submit" class="btn btn-success">Close commercially</button>
-    </form>
-}
-
-<a asp-controller="Invoices" asp-action="Index" asp-route-repairOrderId="@Model.RepairOrderId" class="btn btn-sm btn-outline-secondary mb-4">View all invoices</a>
-
-@if (Model.Invoices.Count > 0)
-{
-    <table class="table table-sm table-striped mb-4">
-        <thead>
-            <tr>
-                <th>Number</th>
-                <th>Status</th>
-                <th>Payment</th>
-                <th>Total</th>
-                <th>Created</th>
-                <th>Issued</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-        @foreach (var invoice in Model.Invoices)
+<section class="wos-workspace-section">
+    <h2 class="wos-section-title">Billing</h2>
+    <dl class="wos-dl mb-3">
+        @if (Model.CommerciallyClosed)
         {
-            <tr>
-                <td>@invoice.Number</td>
-                <td>@invoice.Status</td>
-                <td>@invoice.PaymentState</td>
-                <td>@invoice.Total @invoice.CurrencyCode</td>
-                <td>@invoice.CreatedAtUtc.ToString("u")</td>
-                <td>@(invoice.IssuedAtUtc.HasValue ? invoice.IssuedAtUtc.Value.ToString("u") : "—")</td>
-                <td>
-                    <a asp-controller="Invoices" asp-action="Details" asp-route-invoiceId="@invoice.InvoiceId" class="btn btn-sm btn-outline-secondary">View</a>
-                </td>
-            </tr>
-        }
-        </tbody>
-    </table>
-}
-
-<h2 class="h5 mt-4">Workshop operations</h2>
-<dl class="row">
-    <dt class="col-sm-3">Assigned technician</dt>
-    <dd class="col-sm-9">
-        @if (string.IsNullOrWhiteSpace(Model.AssignedTechnicianDisplayName))
-        {
-            <span class="text-muted">Unassigned</span>
-        }
-        else
-        {
-            @Model.AssignedTechnicianDisplayName
-            @if (Model.AssignedTechnicianIsInactive)
-            {
-                <span class="text-muted">(inactive)</span>
-            }
-            @if (Model.TechnicianWorkStatus.HasValue)
-            {
-                <span class="text-muted"> — work: @Model.TechnicianWorkStatus</span>
-            }
-        }
-    </dd>
-</dl>
-
-@if (Model.CanManageOperations)
-{
-    @if (TempData["OperationsError"] is string operationsError)
-    {
-        <div class="alert alert-warning">@operationsError</div>
-    }
-
-    @if (Model.CanChangePriority)
-    {
-        <form asp-controller="Operations" asp-action="ChangePriority" asp-route-repairOrderId="@Model.RepairOrderId" method="post" class="row g-2 align-items-end mb-3">
-            @Html.AntiForgeryToken()
-            <div class="col-auto">
-                <label class="form-label">Priority</label>
-                <select name="priority" class="form-select" asp-for="Priority" asp-items="Html.GetEnumSelectList<WorkshopOS.Domain.RepairOrders.RepairOrderPriority>()"></select>
+            <div class="wos-dl-row">
+                <dt>Commercial status</dt>
+                <dd><span class="wos-badge wos-badge-success">Commercially closed</span></dd>
             </div>
-            <div class="col-auto">
-                <button type="submit" class="btn btn-outline-secondary">Update priority</button>
-            </div>
-        </form>
-    }
-
-    @if (Model.CanAssignTechnician && Model.EligibleTechnicians.Count > 0)
-    {
-        <form asp-controller="Operations" asp-action="Assign" asp-route-repairOrderId="@Model.RepairOrderId" method="post" class="row g-2 align-items-end mb-3">
-            @Html.AntiForgeryToken()
-            <div class="col-auto">
-                <label class="form-label">Assign technician</label>
-                <select name="staffMemberId" class="form-select">
-                    <option value="">Select technician</option>
-                    @foreach (var technician in Model.EligibleTechnicians)
+        }
+        @if (Model.CurrentInvoiceStatus.HasValue)
+        {
+            <div class="wos-dl-row">
+                <dt>Current invoice</dt>
+                <dd>
+                    @Model.CurrentInvoiceNumber —
+                    <partial name="_StatusBadge" model="StatusPresentation.ForInvoice(Model.CurrentInvoiceStatus.Value)" />
+                    @if (Model.InvoicePaymentState.HasValue)
                     {
-                        <option value="@technician.StaffMemberId">@technician.DisplayName</option>
+                        <partial name="_StatusBadge" model="StatusPresentation.ForPaymentState(Model.InvoicePaymentState.Value)" />
                     }
-                </select>
-            </div>
-            <div class="col-auto">
-                <button type="submit" class="btn btn-primary">Assign</button>
-            </div>
-        </form>
-    }
-
-    @if (Model.CanReassignTechnician && Model.EligibleTechnicians.Count > 0)
-    {
-        <form asp-controller="Operations" asp-action="Reassign" asp-route-repairOrderId="@Model.RepairOrderId" method="post" class="row g-2 align-items-end mb-3">
-            @Html.AntiForgeryToken()
-            <div class="col-auto">
-                <label class="form-label">Reassign to</label>
-                <select name="newStaffMemberId" class="form-select">
-                    <option value="">Select technician</option>
-                    @foreach (var technician in Model.EligibleTechnicians)
+                    @if (Model.InvoiceTotal.HasValue && Model.CurrentInvoiceId.HasValue)
                     {
-                        <option value="@technician.StaffMemberId">@technician.DisplayName</option>
+                        <span class="ms-1">@Model.InvoiceTotal @Model.InvoiceRemainingBalance remaining</span>
+                        <a asp-controller="Invoices" asp-action="Details" asp-route-invoiceId="@Model.CurrentInvoiceId" class="ms-2">View invoice</a>
                     }
-                </select>
+                </dd>
             </div>
-            <div class="col-auto">
-                <button type="submit" class="btn btn-outline-secondary">Reassign</button>
-            </div>
-        </form>
-    }
-
-    @if (Model.CanUnassignTechnician)
-    {
-        <form asp-controller="Operations" asp-action="Unassign" asp-route-repairOrderId="@Model.RepairOrderId" method="post" class="mb-3">
-            @Html.AntiForgeryToken()
-            <button type="submit" class="btn btn-outline-warning">Unassign technician</button>
-        </form>
-    }
-}
-
-@if (Model.CanStartOwnWork)
-{
-    <form asp-controller="Work" asp-action="Start" asp-route-repairOrderId="@Model.RepairOrderId" method="post" class="d-inline">
-        @Html.AntiForgeryToken()
-        <button type="submit" class="btn btn-primary">Start my work</button>
-    </form>
-}
-@if (Model.CanCompleteOwnWork)
-{
-    <form asp-controller="Work" asp-action="Complete" asp-route-repairOrderId="@Model.RepairOrderId" method="post" class="d-inline">
-        @Html.AntiForgeryToken()
-        <button type="submit" class="btn btn-success">Mark my work complete</button>
-    </form>
-}
-
-@if (Model.AssignmentHistory.Count > 0)
-{
-    <h3 class="h6 mt-3">Assignment history</h3>
-    <ul class="list-unstyled small">
-        @foreach (var entry in Model.AssignmentHistory)
-        {
-            <li>
-                @entry.TechnicianDisplayName — @entry.WorkStatus
-                @(entry.UnassignedAtUtc.HasValue
-                    ? $" (assigned {entry.AssignedAtUtc:u}, unassigned {entry.UnassignedAtUtc.Value:u})"
-                    : $" (assigned {entry.AssignedAtUtc:u})")
-            </li>
         }
-    </ul>
-}
+    </dl>
+
+    @if (Model.CanCreateInvoice)
+    {
+        <form asp-controller="Invoices" asp-action="Create" asp-route-repairOrderId="@Model.RepairOrderId" method="post" class="mb-3">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-outline-primary">Create invoice</button>
+        </form>
+    }
+
+    @if (Model.CanCloseCommercially)
+    {
+        <form asp-controller="Invoices" asp-action="CloseCommercially" asp-route-repairOrderId="@Model.RepairOrderId" method="post" class="mb-3">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-success">Close commercially</button>
+        </form>
+    }
+
+    <a asp-controller="Invoices" asp-action="Index" asp-route-repairOrderId="@Model.RepairOrderId" class="btn btn-sm btn-outline-secondary mb-3">View all invoices</a>
+
+    @if (Model.Invoices.Count > 0)
+    {
+        <div class="wos-table-wrap wos-desktop-table">
+            <table class="table table-striped mb-0">
+                <thead>
+                    <tr>
+                        <th>Number</th>
+                        <th>Status</th>
+                        <th>Payment</th>
+                        <th>Total</th>
+                        <th>Created</th>
+                        <th>Issued</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var invoice in Model.Invoices)
+                {
+                    <tr>
+                        <td>@invoice.Number</td>
+                        <td><partial name="_StatusBadge" model="StatusPresentation.ForInvoice(invoice.Status)" /></td>
+                        <td><partial name="_StatusBadge" model="StatusPresentation.ForPaymentState(invoice.PaymentState)" /></td>
+                        <td>@invoice.Total @invoice.CurrencyCode</td>
+                        <td>@invoice.CreatedAtUtc.ToString("u")</td>
+                        <td>@(invoice.IssuedAtUtc.HasValue ? invoice.IssuedAtUtc.Value.ToString("u") : "—")</td>
+                        <td class="text-end">
+                            <a asp-controller="Invoices" asp-action="Details" asp-route-invoiceId="@invoice.InvoiceId" class="btn btn-sm btn-outline-secondary">View</a>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+</section>
+
+<section class="wos-workspace-section">
+    <h2 class="wos-section-title">Workshop operations</h2>
+
+    @if (Model.CanManageOperations)
+    {
+        @if (TempData["OperationsError"] is string operationsError)
+        {
+            <div class="alert alert-warning">@operationsError</div>
+        }
+
+        @if (Model.CanChangePriority)
+        {
+            <form asp-controller="Operations" asp-action="ChangePriority" asp-route-repairOrderId="@Model.RepairOrderId" method="post" class="row g-2 align-items-end mb-3 wos-filter-bar">
+                @Html.AntiForgeryToken()
+                <div class="col-auto">
+                    <label class="form-label">Priority</label>
+                    <select name="priority" class="form-select" asp-for="Priority" asp-items="Html.GetEnumSelectList<WorkshopOS.Domain.RepairOrders.RepairOrderPriority>()"></select>
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-outline-secondary">Update priority</button>
+                </div>
+            </form>
+        }
+
+        @if (Model.CanAssignTechnician && Model.EligibleTechnicians.Count > 0)
+        {
+            <form asp-controller="Operations" asp-action="Assign" asp-route-repairOrderId="@Model.RepairOrderId" method="post" class="row g-2 align-items-end mb-3 wos-filter-bar">
+                @Html.AntiForgeryToken()
+                <div class="col-auto">
+                    <label class="form-label">Assign technician</label>
+                    <select name="staffMemberId" class="form-select">
+                        <option value="">Select technician</option>
+                        @foreach (var technician in Model.EligibleTechnicians)
+                        {
+                            <option value="@technician.StaffMemberId">@technician.DisplayName</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-wos-primary">Assign</button>
+                </div>
+            </form>
+        }
+
+        @if (Model.CanReassignTechnician && Model.EligibleTechnicians.Count > 0)
+        {
+            <form asp-controller="Operations" asp-action="Reassign" asp-route-repairOrderId="@Model.RepairOrderId" method="post" class="row g-2 align-items-end mb-3 wos-filter-bar">
+                @Html.AntiForgeryToken()
+                <div class="col-auto">
+                    <label class="form-label">Reassign to</label>
+                    <select name="newStaffMemberId" class="form-select">
+                        <option value="">Select technician</option>
+                        @foreach (var technician in Model.EligibleTechnicians)
+                        {
+                            <option value="@technician.StaffMemberId">@technician.DisplayName</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-outline-secondary">Reassign</button>
+                </div>
+            </form>
+        }
+
+        @if (Model.CanUnassignTechnician)
+        {
+            <form asp-controller="Operations" asp-action="Unassign" asp-route-repairOrderId="@Model.RepairOrderId" method="post" class="mb-3">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-outline-warning">Unassign technician</button>
+            </form>
+        }
+    }
+
+    @if (Model.AssignmentHistory.Count > 0)
+    {
+        <h3 class="h6 mt-3">Assignment history</h3>
+        <ul class="list-unstyled small">
+            @foreach (var entry in Model.AssignmentHistory)
+            {
+                <li>
+                    @entry.TechnicianDisplayName — <partial name="_StatusBadge" model="StatusPresentation.ForTechnicianWork(entry.WorkStatus)" />
+                    @(entry.UnassignedAtUtc.HasValue
+                        ? $" (assigned {entry.AssignedAtUtc:u}, unassigned {entry.UnassignedAtUtc.Value:u})"
+                        : $" (assigned {entry.AssignedAtUtc:u})")
+                </li>
+            }
+        </ul>
+    }
+</section>

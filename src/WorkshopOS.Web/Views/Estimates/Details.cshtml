@@ -1,4 +1,5 @@
 @model WorkshopOS.Web.Models.Estimates.EstimateDetailsViewModel
+@using Microsoft.AspNetCore.Html
 @{
     ViewData["Title"] = Model.Number;
     var isDraft = Model.Status == WorkshopOS.Domain.Estimates.EstimateStatus.Draft;
@@ -7,21 +8,23 @@
         or WorkshopOS.Domain.Estimates.EstimateStatus.Declined;
 }
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <div>
-        <h1 class="display-6">@Model.Number</h1>
-        <p class="text-muted mb-0">
-            Repair order
-            <a asp-controller="RepairOrders" asp-action="Details" asp-route-repairOrderId="@Model.RepairOrderId">@Model.RepairOrderNumber</a>
-        </p>
-    </div>
-    <div>
-        @if (Model.CanEditItems)
-        {
-            <a asp-action="Edit" asp-route-estimateId="@Model.EstimateId" class="btn btn-outline-secondary">Edit draft</a>
-        }
-        <a asp-action="Index" class="btn btn-link">All estimates</a>
-    </div>
+@await Html.PartialAsync("_DetailWorkspaceHeader", new DetailWorkspaceHeaderViewModel
+{
+    Eyebrow = "Estimate",
+    Title = Model.Number,
+    Meta = new HtmlString($"""
+        {Model.CustomerDisplayName} · {Model.VehicleSummary} · {Model.Total} {Model.CurrencyCode}
+        · <a href="{Url.Action("Details", "RepairOrders", new { repairOrderId = Model.RepairOrderId })}">RO {Model.RepairOrderNumber}</a>
+        """),
+    StatusBadges = await Html.PartialAsync("_StatusBadge", StatusPresentation.ForEstimate(Model.Status))
+})
+
+<div class="wos-action-cluster mb-4">
+    @if (Model.CanEditItems)
+    {
+        <a asp-action="Edit" asp-route-estimateId="@Model.EstimateId" class="btn btn-outline-secondary">Edit draft</a>
+    }
+    <a asp-action="Index" class="btn btn-wos-quiet">All estimates</a>
 </div>
 
 @if (TempData["EstimateError"] is string estimateError)
@@ -36,60 +39,78 @@
     </div>
 }
 
-<div class="row mb-4">
-    <div class="col-md-6">
-        <h2 class="h5">Job context</h2>
-        <dl class="row">
-            <dt class="col-sm-4">Status</dt>
-            <dd class="col-sm-8">@Model.Status</dd>
-            <dt class="col-sm-4">Customer</dt>
-            <dd class="col-sm-8">@Model.CustomerDisplayName</dd>
-            <dt class="col-sm-4">Vehicle</dt>
-            <dd class="col-sm-8">@Model.VehicleSummary</dd>
-            <dt class="col-sm-4">Location</dt>
-            <dd class="col-sm-8">@Model.WorkshopLocationName</dd>
-            <dt class="col-sm-4">Currency</dt>
-            <dd class="col-sm-8">@Model.CurrencyCode</dd>
-            <dt class="col-sm-4">Total</dt>
-            <dd class="col-sm-8">@Model.Total @Model.CurrencyCode</dd>
+<div class="wos-detail-grid mb-4">
+    <section class="wos-detail-panel">
+        <h2 class="wos-detail-panel-title">Job context</h2>
+        <dl class="wos-dl">
+            <div class="wos-dl-row">
+                <dt>Status</dt>
+                <dd><partial name="_StatusBadge" model="StatusPresentation.ForEstimate(Model.Status)" /></dd>
+            </div>
+            <div class="wos-dl-row">
+                <dt>Customer</dt>
+                <dd>@Model.CustomerDisplayName</dd>
+            </div>
+            <div class="wos-dl-row">
+                <dt>Vehicle</dt>
+                <dd>@Model.VehicleSummary</dd>
+            </div>
+            <div class="wos-dl-row">
+                <dt>Location</dt>
+                <dd>@Model.WorkshopLocationName</dd>
+            </div>
+            <div class="wos-dl-row">
+                <dt>Currency</dt>
+                <dd>@Model.CurrencyCode</dd>
+            </div>
+            <div class="wos-dl-row">
+                <dt>Total</dt>
+                <dd>@Model.Total @Model.CurrencyCode</dd>
+            </div>
             @if (Model.SentAtUtc.HasValue)
             {
-                <dt class="col-sm-4">Presented</dt>
-                <dd class="col-sm-8">@Model.SentAtUtc.Value.ToString("u")</dd>
+                <div class="wos-dl-row">
+                    <dt>Presented</dt>
+                    <dd>@Model.SentAtUtc.Value.ToString("u")</dd>
+                </div>
             }
             @if (Model.ApprovedAtUtc.HasValue)
             {
-                <dt class="col-sm-4">Approval recorded</dt>
-                <dd class="col-sm-8">
-                    @Model.ApprovedAtUtc.Value.ToString("u")
-                    @if (Model.Share?.PortalDecision == WorkshopOS.Domain.Estimates.EstimateShareDecision.Approved)
-                    {
-                        <span class="text-muted">(customer portal approval)</span>
-                    }
-                    else
-                    {
-                        <span class="text-muted">(approval recorded by workshop staff)</span>
-                    }
-                </dd>
+                <div class="wos-dl-row">
+                    <dt>Approval recorded</dt>
+                    <dd>
+                        @Model.ApprovedAtUtc.Value.ToString("u")
+                        @if (Model.Share?.PortalDecision == WorkshopOS.Domain.Estimates.EstimateShareDecision.Approved)
+                        {
+                            <span class="text-muted">(customer portal approval)</span>
+                        }
+                        else
+                        {
+                            <span class="text-muted">(approval recorded by workshop staff)</span>
+                        }
+                    </dd>
+                </div>
             }
             @if (Model.DeclinedAtUtc.HasValue)
             {
-                <dt class="col-sm-4">Decline recorded</dt>
-                <dd class="col-sm-8">
-                    @Model.DeclinedAtUtc.Value.ToString("u")
-                    @if (Model.Share?.PortalDecision == WorkshopOS.Domain.Estimates.EstimateShareDecision.Declined)
-                    {
-                        <span class="text-muted">(customer portal decline)</span>
-                    }
-                    else
-                    {
-                        <span class="text-muted">(decline recorded by workshop staff)</span>
-                    }
-                </dd>
+                <div class="wos-dl-row">
+                    <dt>Decline recorded</dt>
+                    <dd>
+                        @Model.DeclinedAtUtc.Value.ToString("u")
+                        @if (Model.Share?.PortalDecision == WorkshopOS.Domain.Estimates.EstimateShareDecision.Declined)
+                        {
+                            <span class="text-muted">(customer portal decline)</span>
+                        }
+                        else
+                        {
+                            <span class="text-muted">(decline recorded by workshop staff)</span>
+                        }
+                    </dd>
+                </div>
             }
         </dl>
-    </div>
-    <div class="col-md-6">
+    </section>
+    <section class="wos-detail-panel">
         @if (Model.InspectionFindings.Count > 0 && Model.LatestInspectionId.HasValue)
         {
             <h2 class="h5">Inspection findings (context)</h2>
@@ -113,10 +134,10 @@
         }
         @if (!string.IsNullOrWhiteSpace(Model.CustomerMessage))
         {
-            <h2 class="h5 mt-3">Customer message</h2>
-            <p class="border rounded p-3 bg-light">@Model.CustomerMessage</p>
+            <h2 class="wos-detail-panel-title mt-3">Customer message</h2>
+            <div class="wos-note-block">@Model.CustomerMessage</div>
         }
-    </div>
+    </section>
 </div>
 
 @if (TempData["InvoiceError"] is string invoiceError)
@@ -200,14 +221,15 @@
     </div>
 }
 
-<h2 class="h5">Line items</h2>
+<h2 class="wos-section-title">Line items</h2>
 @if (Model.Items.Count == 0)
 {
-    <p class="text-muted">No line items.</p>
+    @await Html.PartialAsync("_EmptyState", new EmptyStateViewModel { Title = "No line items", Description = "Add line items while this estimate is in draft." })
 }
 else
 {
-    <table class="table table-sm table-striped">
+    <div class="wos-table-wrap">
+    <table class="table table-striped mb-0">
         <thead>
             <tr>
                 <th>Type</th>
@@ -236,6 +258,7 @@ else
             </tr>
         </tfoot>
     </table>
+    </div>
 }
 
 @if (Model.CanRecordApproval || Model.CanRecordDecline)

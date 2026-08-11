@@ -1,81 +1,115 @@
 @model WorkshopOS.Web.Models.Appointments.AppointmentDetailsViewModel
+@using Microsoft.AspNetCore.Html
 @{
     ViewData["Title"] = "Appointment details";
+    var scheduleTitle = $"{Model.ScheduledStartLocal:g} – {Model.ScheduledEndLocal:t}";
 }
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h1 class="display-6">Appointment</h1>
-    <div>
-        @if (Model.CanManageAppointments && Model.Status != WorkshopOS.Domain.Appointments.AppointmentStatus.Cancelled)
-        {
-            <a asp-action="Edit" asp-route-appointmentId="@Model.AppointmentId" class="btn btn-outline-secondary">Edit</a>
-            <a asp-action="Reschedule" asp-route-appointmentId="@Model.AppointmentId" class="btn btn-outline-secondary">Reschedule</a>
-            <form asp-action="Cancel" asp-route-appointmentId="@Model.AppointmentId" method="post" class="d-inline">
-                @Html.AntiForgeryToken()
-                <button type="submit" class="btn btn-outline-warning">Cancel</button>
-            </form>
-        }
-        <a asp-action="Index" class="btn btn-link">Back to list</a>
-    </div>
+@await Html.PartialAsync("_DetailWorkspaceHeader", new DetailWorkspaceHeaderViewModel
+{
+    Eyebrow = "Appointment",
+    Title = scheduleTitle,
+    Meta = new HtmlString($"""
+        {Model.CustomerDisplayName} · {Model.VehicleSummary}
+        · {Model.WorkshopLocationName} ({Model.TimeZoneId})
+        """),
+    StatusBadges = await Html.PartialAsync("_StatusBadge", StatusPresentation.ForAppointment(Model.Status))
+})
+
+<div class="wos-action-cluster mb-4">
+    @if (Model.CanManageAppointments && Model.Status != WorkshopOS.Domain.Appointments.AppointmentStatus.Cancelled)
+    {
+        <a asp-action="Edit" asp-route-appointmentId="@Model.AppointmentId" class="btn btn-outline-secondary">Edit</a>
+        <a asp-action="Reschedule" asp-route-appointmentId="@Model.AppointmentId" class="btn btn-outline-secondary">Reschedule</a>
+        <form asp-action="Cancel" asp-route-appointmentId="@Model.AppointmentId" method="post" class="d-inline">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-outline-warning">Cancel appointment</button>
+        </form>
+    }
+    <a asp-action="Calendar" class="btn btn-outline-secondary">Calendar</a>
+    <a asp-action="Index" class="btn btn-wos-quiet">Back to list</a>
 </div>
 
-<div class="row">
-    <div class="col-md-6">
-        <h2 class="h5">Schedule</h2>
-        <dl class="row">
-            <dt class="col-sm-4">Status</dt>
-            <dd class="col-sm-8">@Model.Status</dd>
-            <dt class="col-sm-4">Start</dt>
-            <dd class="col-sm-8">@Model.ScheduledStartLocal.ToString("g") (@Model.TimeZoneId)</dd>
-            <dt class="col-sm-4">End</dt>
-            <dd class="col-sm-8">@Model.ScheduledEndLocal.ToString("g")</dd>
-            <dt class="col-sm-4">Location</dt>
-            <dd class="col-sm-8">@Model.WorkshopLocationName</dd>
+<div class="wos-detail-grid">
+    <section class="wos-detail-panel">
+        <h2 class="wos-detail-panel-title">Schedule</h2>
+        <dl class="wos-dl">
+            <div class="wos-dl-row">
+                <dt>Status</dt>
+                <dd><partial name="_StatusBadge" model="StatusPresentation.ForAppointment(Model.Status)" /></dd>
+            </div>
+            <div class="wos-dl-row">
+                <dt>Start</dt>
+                <dd>@Model.ScheduledStartLocal.ToString("g") (@Model.TimeZoneId)</dd>
+            </div>
+            <div class="wos-dl-row">
+                <dt>End</dt>
+                <dd>@Model.ScheduledEndLocal.ToString("g")</dd>
+            </div>
+            <div class="wos-dl-row">
+                <dt>Location</dt>
+                <dd>@Model.WorkshopLocationName</dd>
+            </div>
+            <div class="wos-dl-row">
+                <dt>Created</dt>
+                <dd>@Model.CreatedAtUtc.ToString("u")</dd>
+            </div>
+            <div class="wos-dl-row">
+                <dt>Updated</dt>
+                <dd>@Model.UpdatedAtUtc.ToString("u")</dd>
+            </div>
         </dl>
-    </div>
-    <div class="col-md-6">
-        <h2 class="h5">Customer & vehicle</h2>
-        <dl class="row">
-            <dt class="col-sm-4">Customer</dt>
-            <dd class="col-sm-8"><a asp-controller="Customers" asp-action="Details" asp-route-customerId="@Model.CustomerId">@Model.CustomerDisplayName</a></dd>
-            <dt class="col-sm-4">Vehicle</dt>
-            <dd class="col-sm-8"><a asp-controller="Vehicles" asp-action="Details" asp-route-vehicleId="@Model.VehicleId">@Model.VehicleSummary</a></dd>
-            <dt class="col-sm-4">Created</dt>
-            <dd class="col-sm-8">@Model.CreatedAtUtc.ToString("u")</dd>
-            <dt class="col-sm-4">Updated</dt>
-            <dd class="col-sm-8">@Model.UpdatedAtUtc.ToString("u")</dd>
+    </section>
+    <section class="wos-detail-panel">
+        <h2 class="wos-detail-panel-title">Customer &amp; vehicle</h2>
+        <dl class="wos-dl">
+            <div class="wos-dl-row">
+                <dt>Customer</dt>
+                <dd><a asp-controller="Customers" asp-action="Details" asp-route-customerId="@Model.CustomerId">@Model.CustomerDisplayName</a></dd>
+            </div>
+            <div class="wos-dl-row">
+                <dt>Vehicle</dt>
+                <dd><a asp-controller="Vehicles" asp-action="Details" asp-route-vehicleId="@Model.VehicleId">@Model.VehicleSummary</a></dd>
+            </div>
         </dl>
-    </div>
+    </section>
 </div>
 
 @if (!string.IsNullOrWhiteSpace(Model.CustomerConcern))
 {
-    <h2 class="h5 mt-3">Customer concern</h2>
-    <p class="border rounded p-3 bg-light">@Model.CustomerConcern</p>
+    <section class="wos-workspace-section">
+        <h2 class="wos-section-title">Customer concern</h2>
+        <div class="wos-note-block">@Model.CustomerConcern</div>
+    </section>
 }
 
 @if (!string.IsNullOrWhiteSpace(Model.InternalNotes))
 {
-    <h2 class="h5 mt-3">Internal notes</h2>
-    <p class="border rounded p-3 bg-light">@Model.InternalNotes</p>
+    <section class="wos-workspace-section">
+        <h2 class="wos-section-title">Internal notes</h2>
+        <div class="wos-note-block">@Model.InternalNotes</div>
+    </section>
 }
 
-<h2 class="h5 mt-4">Repair order</h2>
-@if (Model.LinkedRepairOrderId.HasValue)
-{
-    <p>
-        Linked repair order:
-        <a asp-controller="RepairOrders" asp-action="Details" asp-route-repairOrderId="@Model.LinkedRepairOrderId">View repair order</a>
-    </p>
-}
-else if (Model.CanManageRepairOrders)
-{
-    <form asp-controller="RepairOrders" asp-action="CreateFromAppointment" asp-route-appointmentId="@Model.AppointmentId" method="post" class="d-inline">
-        @Html.AntiForgeryToken()
-        <button type="submit" class="btn btn-primary">Create repair order</button>
-    </form>
-}
-else
-{
-    <p class="text-muted">No repair order linked yet.</p>
-}
+<section class="wos-workspace-section">
+    <h2 class="wos-section-title">Repair order</h2>
+    @if (Model.LinkedRepairOrderId.HasValue)
+    {
+        <p>
+            Linked repair order:
+            <a asp-controller="RepairOrders" asp-action="Details" asp-route-repairOrderId="@Model.LinkedRepairOrderId" class="btn btn-sm btn-outline-primary ms-2">View repair order</a>
+        </p>
+    }
+    else if (Model.CanManageRepairOrders)
+    {
+        <p class="wos-page-description mb-3">Convert this appointment into a repair order when the customer arrives.</p>
+        <form asp-controller="RepairOrders" asp-action="CreateFromAppointment" asp-route-appointmentId="@Model.AppointmentId" method="post" class="d-inline">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-wos-primary">Create repair order</button>
+        </form>
+    }
+    else
+    {
+        @await Html.PartialAsync("_EmptyState", new EmptyStateViewModel { Title = "No repair order linked", Description = "A repair order has not been created from this appointment yet." })
+    }
+</section>

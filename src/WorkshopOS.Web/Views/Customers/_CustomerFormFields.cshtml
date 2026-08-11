@@ -1,35 +1,53 @@
 @model WorkshopOS.Web.Models.Customers.CustomerFormViewModel
 
-<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<partial name="_FormValidationSummary" />
 
-<div class="mb-3">
-    <label asp-for="DisplayName" class="form-label"></label>
-    <input asp-for="DisplayName" class="form-control" />
-    <span asp-validation-for="DisplayName" class="text-danger"></span>
-</div>
+<section class="wos-form-section">
+    <h2 class="wos-form-section-title">Customer identity</h2>
+    <div class="wos-form-grid">
+        <div class="wos-field wos-field-full">
+            <label asp-for="DisplayName" class="wos-field-label"></label>
+            <input asp-for="DisplayName" class="form-control" />
+            <span asp-validation-for="DisplayName" class="wos-field-error"></span>
+        </div>
+    </div>
+</section>
 
-<div class="mb-3">
-    <label asp-for="Email" class="form-label"></label>
-    <input asp-for="Email" class="form-control" type="email" autocomplete="email" />
-    <span asp-validation-for="Email" class="text-danger"></span>
-</div>
+<section class="wos-form-section">
+    <h2 class="wos-form-section-title">Contact details</h2>
+    <div class="wos-form-grid wos-form-grid-2">
+        <div class="wos-field">
+            <label asp-for="Email" class="wos-field-label"></label>
+            <input asp-for="Email" class="form-control" type="email" autocomplete="email" />
+            <span asp-validation-for="Email" class="wos-field-error"></span>
+        </div>
+        <div class="wos-field">
+            <label asp-for="Phone" class="wos-field-label"></label>
+            <input asp-for="Phone" class="form-control" type="tel" autocomplete="tel" />
+            <span asp-validation-for="Phone" class="wos-field-error"></span>
+        </div>
+    </div>
+</section>
 
-<div class="mb-3">
-    <label asp-for="Phone" class="form-label"></label>
-    <input asp-for="Phone" class="form-control" type="tel" autocomplete="tel" />
-    <span asp-validation-for="Phone" class="text-danger"></span>
-</div>
-
-<div class="mb-3">
-    <label asp-for="Notes" class="form-label"></label>
-    <textarea asp-for="Notes" class="form-control" rows="4"></textarea>
-    <span asp-validation-for="Notes" class="text-danger"></span>
-</div>
+<section class="wos-form-section">
+    <h2 class="wos-form-section-title">Notes</h2>
+    <div class="wos-field wos-field-full">
+        <label asp-for="Notes" class="wos-field-label"></label>
+        <textarea asp-for="Notes" class="form-control" rows="4"></textarea>
+        <span asp-validation-for="Notes" class="wos-field-error"></span>
+        <p class="wos-field-help">Internal notes visible to workshop staff only.</p>
+    </div>
+</section>
 
 @if (Model.CustomerId.HasValue)
 {
-    <div class="mb-3 form-check">
-        <input asp-for="IsActive" class="form-check-input" />
-        <label asp-for="IsActive" class="form-check-label"></label>
-    </div>
+    <section class="wos-form-section">
+        <h2 class="wos-form-section-title">Account status</h2>
+        <div class="wos-choice-group">
+            <div class="form-check">
+                <input asp-for="IsActive" class="form-check-input" />
+                <label asp-for="IsActive" class="form-check-label"></label>
+            </div>
+        </div>
+    </section>
 }

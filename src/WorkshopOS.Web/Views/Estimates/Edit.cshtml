@@ -3,13 +3,13 @@
     ViewData["Title"] = $"Edit {Model.Number}";
 }
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <div>
-        <h1 class="display-6">Edit estimate</h1>
-        <p class="text-muted mb-0">@Model.Number — draft editing</p>
-    </div>
-    <a asp-action="Details" asp-route-estimateId="@Model.EstimateId" class="btn btn-link">View details</a>
-</div>
+@await Html.PartialAsync("_PageHeader", new PageHeaderViewModel
+{
+    Eyebrow = "Estimates",
+    Title = "Edit estimate",
+    Description = $"{Model.Number} — draft editing",
+    Actions = new Microsoft.AspNetCore.Html.HtmlString($"""<a href="{Url.Action("Details", new { estimateId = Model.EstimateId })}" class="btn btn-wos-quiet">View details</a>""")
+})
 
 @if (TempData["EstimateError"] is string estimateError)
 {
@@ -18,29 +18,37 @@
 
 @if (Model.InspectionFindings.Count > 0 && Model.LatestInspectionId.HasValue)
 {
-    <div class="alert alert-light border mb-3">
-        <strong>Inspection findings (read-only context)</strong>
-        <a asp-controller="Inspections" asp-action="Details" asp-route-inspectionId="@Model.LatestInspectionId" class="ms-2">View DVI</a>
-        <ul class="mb-0 mt-2 small">
+    <section class="wos-form-section mb-4">
+        <h2 class="wos-form-section-title">Inspection findings (read-only)</h2>
+        <p class="wos-field-help">
+            Latest inspection
+            <a asp-controller="Inspections" asp-action="Details" asp-route-inspectionId="@Model.LatestInspectionId">View DVI</a>
+        </p>
+        <ul class="mb-0 small">
             @foreach (var finding in Model.InspectionFindings)
             {
                 <li>@finding.Section — @finding.Name: @finding.Condition</li>
             }
         </ul>
-    </div>
+    </section>
 }
 
-<h2 class="h5">Customer message</h2>
-<form asp-action="UpdateCustomerMessage" asp-route-estimateId="@Model.EstimateId" method="post" class="mb-4">
-    @Html.AntiForgeryToken()
-    <div class="mb-2">
-        <textarea name="CustomerMessage" class="form-control" rows="3" maxlength="2000">@Model.CustomerMessage</textarea>
-    </div>
-    <button type="submit" class="btn btn-outline-secondary btn-sm">Save message</button>
-</form>
+<section class="wos-form-section mb-4">
+    <h2 class="wos-form-section-title">Customer message</h2>
+    <form asp-action="UpdateCustomerMessage" asp-route-estimateId="@Model.EstimateId" method="post">
+        @Html.AntiForgeryToken()
+        <div class="wos-field wos-field-full">
+            <textarea name="CustomerMessage" class="form-control" rows="3" maxlength="2000">@Model.CustomerMessage</textarea>
+        </div>
+        <div class="wos-form-actions border-0 pt-3 mt-0">
+            <button type="submit" class="btn btn-outline-secondary btn-sm">Save message</button>
+        </div>
+    </form>
+</section>
 
-<h2 class="h5">Line items</h2>
-<table class="table table-sm align-middle mb-4">
+<h2 class="wos-section-title">Line items</h2>
+<div class="wos-table-wrap mb-4">
+<table class="table table-striped mb-0 align-middle">
     <thead>
         <tr>
             <th>Type</th>
@@ -93,9 +101,10 @@
         </tr>
     </tfoot>
 </table>
+</div>
 
-<h2 class="h5">Add line item</h2>
-<form asp-action="AddItem" asp-route-estimateId="@Model.EstimateId" method="post" class="row g-2 mb-4">
+<h2 class="wos-section-title">Add line item</h2>
+<form asp-action="AddItem" asp-route-estimateId="@Model.EstimateId" method="post" class="wos-filter-bar row g-2 mb-4">
     @Html.AntiForgeryToken()
     <div class="col-md-2">
         <select name="Type" class="form-select" asp-items="Html.GetEnumSelectList<WorkshopOS.Domain.Estimates.EstimateItemType>()"></select>
@@ -114,12 +123,11 @@
     </div>
 </form>
 
-<h2 class="h5 mt-4">Add from catalog</h2>
+<h2 class="wos-section-title">Add from catalog</h2>
 <div class="row g-3 mb-4">
     <div class="col-lg-6">
-        <div class="card">
-            <div class="card-body">
-                <h3 class="h6">Service from catalog</h3>
+        <section class="wos-form-section h-100">
+            <h3 class="wos-form-section-title">Service from catalog</h3>
                 @if (Model.ServiceCatalogOptions.Count == 0)
                 {
                     <p class="text-muted small mb-0">No active services match this estimate currency.</p>
@@ -145,13 +153,11 @@
                         </div>
                     </form>
                 }
-            </div>
-        </div>
+        </section>
     </div>
     <div class="col-lg-6">
-        <div class="card">
-            <div class="card-body">
-                <h3 class="h6">Part from catalog</h3>
+        <section class="wos-form-section h-100">
+            <h3 class="wos-form-section-title">Part from catalog</h3>
                 @if (Model.PartCatalogOptions.Count == 0)
                 {
                     <p class="text-muted small mb-0">No active parts match this estimate currency.</p>
@@ -176,10 +182,9 @@
                             <button type="submit" class="btn btn-outline-primary w-100">Add</button>
                         </div>
                     </form>
-                    <p class="text-muted small mb-0 mt-2">Stock shown for @Model.WorkshopLocationName is informational only.</p>
+                    <p class="wos-field-help mb-0 mt-2">Stock shown for @Model.WorkshopLocationName is informational only.</p>
                 }
-            </div>
-        </div>
+        </section>
     </div>
 </div>
 

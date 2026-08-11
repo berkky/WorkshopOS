@@ -3,12 +3,20 @@
     ViewData["Title"] = "Add staff profile";
 }
 
-<h1 class="display-6">Add staff profile</h1>
+@await Html.PartialAsync("_PageHeader", new PageHeaderViewModel
+{
+    Eyebrow = "Team",
+    Title = "Add staff profile",
+    Description = "Create an operational staff record. Login access is managed separately via organization membership."
+})
 
-<form asp-action="Create" method="post">
+<form asp-action="Create" method="post" class="wos-form-shell wos-form-shell-wide">
+    @Html.AntiForgeryToken()
     <partial name="_StaffMemberFormFields" model="Model" />
-    <button type="submit" class="btn btn-primary">Create staff profile</button>
-    <a asp-action="Index" class="btn btn-link">Cancel</a>
+    <div class="wos-form-actions">
+        <button type="submit" class="btn btn-wos-primary">Create staff profile</button>
+        <a asp-action="Index" class="btn btn-wos-quiet">Cancel</a>
+    </div>
 </form>
 
 @section Scripts {

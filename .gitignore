@@ -22,7 +22,14 @@ mono_crash.*
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
-[Rr]elease/
+# Release/Debug output directories only — must NOT match docs/release/
+**/[Bb]in/[Dd]ebug/
+**/[Bb]in/[Rr]elease/
+**/[Oo]bj/[Dd]ebug/
+**/[Oo]bj/[Rr]elease/
+# Explicit safeguard: release documentation is source, not build output
+!docs/release/
+!docs/release/**
 [Rr]eleases/
 x64/
 x86/
@@ -480,4 +487,7 @@ $RECYCLE.BIN/
 
 # Private inspection media storage (never commit uploaded evidence)
 **/App_Data/inspection-media/
+
+# Visual QA screenshots (local only)
+.visual-qa/
 
